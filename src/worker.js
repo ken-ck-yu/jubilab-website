@@ -2,6 +2,7 @@
 import { EmailMessage } from "cloudflare:email";
 import { onRequestPost } from "./early-access.js";
 import { makeNotifier } from "./notify.js";
+import { serveAsset } from "./messages.js";
 
 const notify = makeNotifier(EmailMessage);
 
@@ -12,6 +13,6 @@ export default {
       if (request.method === "POST") return onRequestPost({ request, env, ctx, notify });
       return new Response("Method not allowed", { status: 405, headers: { Allow: "POST" } });
     }
-    return env.ASSETS.fetch(request);
+    return serveAsset(request, env);
   },
 };

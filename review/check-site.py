@@ -346,6 +346,8 @@ def run():
         pg.goto(BASE + "?error=role#access"); pg.wait_for_timeout(500)
         er = pg.evaluate("(()=>{const m=document.getElementById('form-error');return [m.hidden, m.textContent, m.getAttribute('role'), document.activeElement===m, document.getElementById('role-group').getAttribute('aria-describedby')]})()")
         rec(28, er == [False, "Please choose your role.", "alert", True, "form-error"], f"?error=role message: {er}")
+        pg.goto(BASE + "?error=tracking#access"); pg.wait_for_timeout(300)
+        rec(28, pg.evaluate("(()=>{const m=document.getElementById('form-error');return !m.hidden && m.textContent==='Your comment could not be read. Please remove unusual characters and try again.' && document.querySelectorAll('#form-error').length===1})()"), "?error=tracking message shown once")
         pg.goto(BASE + "?error=bogus#access"); pg.wait_for_timeout(200)
         rec(28, pg.evaluate("document.getElementById('form-error').hidden"), "unknown ?error= value shows nothing")
         ctx.close()

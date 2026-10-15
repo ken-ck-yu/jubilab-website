@@ -39,7 +39,8 @@
       "field-other": "You chose Other for your field but did not say what it is. Please choose your field again and type your answer.",
       "runs-on": "Please choose at least one place where your analysis runs.",
       "runs-on-other": "You chose Other for where your analysis runs but did not say what it is. Please choose again and type your answer.",
-      "human-data": "Please say whether your work involves human or patient-derived data."
+      "human-data": "Please say whether your work involves human or patient-derived data.",
+      tracking: "Your comment could not be read. Please remove unusual characters and try again."
     };
     var m = /(^|[?&])error=([a-z-]+)(&|$)/.exec(location.search);
     if (msg && m && Object.prototype.hasOwnProperty.call(texts, m[2])) {
