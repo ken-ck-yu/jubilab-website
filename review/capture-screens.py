@@ -1,12 +1,14 @@
 #!/usr/bin/env python3
-"""Recapture the two hero crops from the running Jubilab demo (Cohort A, synthetic data).
+"""Recapture the hero images from the running Jubilab demo (Cohort A, synthetic data), per docs/design-spec-v2.1.md section 4.
 
 Usage: capture-screens.py <product-url> <out-dir>
 The product is run separately, on a temp DB seeded with the repo's own `python -m server seed-demo`.
-Crops are plain element/region screenshots at device scale 2. Nothing is recoloured or retouched.
-Output (written to <out-dir>): hero-2x.png, hero-narrow-2x.png and the coordinates (percent) of the three pins.
+Writes <out-dir>/master.png (1280x720 window at device scale 2, lineage graph with the variants_run002.vcf detail
+panel open, page scrolled so the Project lineage panel sits under the top bar) and <out-dir>/narrow.png (358x269
+region of the 'Connected to' card of variants_run002.vcf at a 382 px window, scale 2). Nothing is recoloured or retouched.
+Then export WebP (widths 720, 1120, 1440, 2240 for the master; 358, 716 for the narrow) with the byte budgets of spec section 4.
 """
-import json, os, sys
+import os, sys
 from playwright.sync_api import sync_playwright
 
 url, out = sys.argv[1], sys.argv[2]
@@ -14,32 +16,29 @@ exe = os.path.expanduser("~/.cache/ms-playwright/chromium_headless_shell-1248/ch
 os.makedirs(out, exist_ok=True)
 with sync_playwright() as p:
     b = p.chromium.launch(executable_path=exe, args=["--no-sandbox"])
-    # 1. Wide crop: card title + lineage graph, app window 900 px wide (card is about 674 px wide, so UI text stays 1:1).
-    pg = b.new_page(viewport={"width": 900, "height": 1000}, device_scale_factor=2)
+    pg = b.new_page(viewport={"width": 1280, "height": 720}, device_scale_factor=2)
     pg.goto(url); pg.wait_for_selector("#ovGraph svg, #ovGraph .node, #ovGraph [data-id]", timeout=10000); pg.wait_for_timeout(600)
     pg.click("#ovGraph >> text=variants_run002.vcf"); pg.wait_for_timeout(300)
-    r = pg.evaluate("""() => {
-      const panel = document.querySelector('#ovGraph').closest('.panel').getBoundingClientRect();
-      const g = document.querySelector('#ovGraph').getBoundingClientRect();
-      const nodes = {};
-      for (const t of ['Cohort_A.fastq.gz','Run 002','variants_run002.vcf']) {
-        const el = [...document.querySelectorAll('#ovGraph *')].filter(e => e.children.length === 0 && e.textContent.includes(t))[0];
-        const r = el.closest('button,[class*=node],[class*=nd],div').getBoundingClientRect(); nodes[t] = [r.left, r.top, r.width, r.height];
-      }
-      return {panel:[panel.left, panel.top, panel.width, panel.height], graph:[g.left,g.top,g.width,g.height], nodes};
-    }""")
-    x, y, w, h = r["panel"]; gx, gy, gw, gh = r["graph"]
-    clip = {"x": x, "y": y, "width": w, "height": gy + gh + 18 - y}
-    pg.screenshot(path=os.path.join(out, "hero-2x.png"), clip=clip)
-    pins = {k: [round((v[0] - x) / clip["width"] * 100, 2), round((v[1] - y) / clip["height"] * 100, 2)] for k, v in r["nodes"].items()}
-    print(json.dumps({"clip": clip, "pins_percent_left_top_of_node": pins}))
-    pg.close()
-    # 2. Narrow crop: the "Connected to" card of the output file, app window 340 px wide (card about 316 px).
-    pg = b.new_page(viewport={"width": 340, "height": 900}, device_scale_factor=2)
+    pg.evaluate("window.scrollTo(0, document.querySelector('#ovGraph').closest('.panel').getBoundingClientRect().top + scrollY - 88)")
+    pg.mouse.move(1279, 719); pg.wait_for_timeout(400)
+    pg.screenshot(path=os.path.join(out, "master.png")); pg.close()
+    pg = b.new_page(viewport={"width": 382, "height": 900}, device_scale_factor=2)
     pg.goto(url); pg.wait_for_timeout(800)
     pg.click("#ovGraph >> text=variants_run002.vcf"); pg.wait_for_timeout(300)
     pg.click("text=Open asset and its lineage"); pg.wait_for_timeout(800)
     card = pg.locator(".panel", has_text="Connected to").last
-    box = card.bounding_box(); print("narrow card", box)
-    card.screenshot(path=os.path.join(out, "hero-narrow-2x.png"))
+    card.scroll_into_view_if_needed(); pg.mouse.move(0, 0); pg.wait_for_timeout(300)
+    bb = card.bounding_box()
+    pg.screenshot(path=os.path.join(out, "narrow.png"), full_page=True, clip={"x": bb["x"], "y": bb["y"] + pg.evaluate("scrollY"), "width": 358, "height": 269})
     b.close()
+
+from PIL import Image
+jobs = [("master.png", "hero-720", 720, 50), ("master.png", "hero-1120", 1120, 90), ("master.png", "hero-1440", 1440, 130), ("master.png", "hero-2240", 2240, 220),
+        ("narrow.png", "hero-narrow-358", 358, 30), ("narrow.png", "hero-narrow-716", 716, 60)]
+for src, name, w, cap in jobs:
+    im = Image.open(os.path.join(out, src)).convert("RGB")
+    r = im if w == im.width else im.resize((w, round(im.height * w / im.width)), Image.LANCZOS)
+    for q in range(90, 40, -2):
+        r.save(os.path.join(out, name + ".webp"), "WEBP", quality=q, method=6)
+        if os.path.getsize(os.path.join(out, name + ".webp")) <= cap * 1000: break
+    print(name, r.size, "q", q, os.path.getsize(os.path.join(out, name + ".webp")), "budget", cap * 1000)

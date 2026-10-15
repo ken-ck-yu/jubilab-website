@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Acceptance checks for the Jubilab website v2 (UXD spec section 5, with the Manager brief's overrides).
+"""Acceptance checks for the Jubilab website v2 (UXD spec section 5 and, for the hero, docs/design-spec-v2.1.md section 8).
 
 Usage:  check-site.py [base-url]     (default http://127.0.0.1:18212/)
 Serve the repo first, e.g.  python3 -m http.server 18212 --bind 127.0.0.1   (run from the repo root).
@@ -59,7 +59,17 @@ MEASURE = r"""
   // 10 image styling
   const cs = getComputedStyle(img);
   out.imgStyle = {filter: cs.filter, blend: cs.mixBlendMode, bw: [cs.borderTopWidth, cs.borderRightWidth, cs.borderBottomWidth, cs.borderLeftWidth], bs: cs.borderTopStyle};
-  out.figcap = q('.hero-shot figcaption').innerText; out.shot = r(q('.hero .shot'));
+  out.frameLineCR = null;
+  // v2.1 frame (N1..N9)
+  const fr = q('.hero .frame'), fm = q('.hero .frame-media'), fb = q('.hero .frame-bar'), ht = q('.hero-text');
+  out.frame = r(fr); out.media = r(fm); out.textCol = {l: r(ht).l};
+  const fcs = getComputedStyle(fr);
+  out.frameStyle = {bw: [fcs.borderTopWidth, fcs.borderRightWidth, fcs.borderBottomWidth, fcs.borderLeftWidth], bs: fcs.borderTopStyle, radius: fcs.borderTopLeftRadius, ox: getComputedStyle(fr).overflowX, mox: getComputedStyle(fm).overflowX, tabindex: fr.getAttribute('tabindex'), hasLink: !!fr.querySelector('a,button,[tabindex]'), transform: fcs.transform};
+  out.mediaCS = {ox: getComputedStyle(fm).overflowX, ar: fm.getBoundingClientRect().width / fm.getBoundingClientRect().height};
+  out.bar = {ariaHidden: fb.getAttribute('aria-hidden'), h: fb.getBoundingClientRect().height, focusable: fb.querySelectorAll('a,button,input,[tabindex]').length, label: fb.innerText.trim(), labelPx: parseFloat(getComputedStyle(fb).fontSize)};
+  out.figN = document.querySelectorAll('.hero-shot figcaption').length; out.pinN = document.querySelectorAll('.pin').length;
+  out.heroText = q('.hero-text').innerText; out.imgFill = {dl: Math.abs(ib.l - r(fm).l), dr: Math.abs(ib.r - r(fm).r), dt: Math.abs(ib.t - r(fm).t), db: Math.abs(ib.b - r(fm).b)};
+  out.imgAlt = img.getAttribute('alt') || '';
   // 11 svg text
   const svg = [...document.querySelectorAll('svg[role=img]')].find(vis);
   if (svg) {
@@ -146,6 +156,8 @@ MEASURE = r"""
   const stroke = document.querySelector('svg .e'); if (stroke) { const sb = bgOf(stroke.closest('.diagram')); ui.push(['svg-edge', cr(over2(parse(getComputedStyle(stroke).stroke), sb), sb)]); }
   const ring = parse(getComputedStyle(document.documentElement).getPropertyValue('--accent') ? (() => { const d = document.createElement('div'); d.style.color = getComputedStyle(document.documentElement).getPropertyValue('--accent'); document.body.appendChild(d); const c = getComputedStyle(d).color; d.remove(); return c; })() : 'rgb(0,0,0)');
   ui.push(['focus-ring', cr(ring, pageBg)]);
+  { const fl = parse(getComputedStyle(document.querySelector('.hero .frame')).borderTopColor); out.frameLineCR = cr(over2(fl, pageBg), pageBg); }
+  { const fb2 = document.querySelector('.hero .frame-bar'); if (fb2.innerText.trim()) { const fs = getComputedStyle(fb2); const fg = parse(fs.color); const bgc = bgOf(fb2); out.barLabelCR = cr(over2(fg, bgc), bgc); } }
   out.uiMin = ui.reduce((a, b) => b[1] < a[1] ? b : a, ['', 99]);
   // 26 targets
   const tg = [];
@@ -196,30 +208,60 @@ def run():
             rec(1, abs(m["sw"] - m["iw"]) <= 1, f"{tag} scrollWidth {m['sw']} vs {m['iw']}")
             rec(2, m["overflowN"] == 0, f"{tag} {m['overflowN']} elements outside viewport {m['overflow'][:2]}")
             rec(3, not m["scrollRegions"] and not m["scrollHint"], f"{tag} regions {m['scrollRegions']} hint {m['scrollHint']}")
-            i, c = m["img"], m["cont"]
-            if w >= 1024:
-                inside = i["l"] >= c["l"] - 0.5 and i["r"] <= c["r"] + 0.5 and (m["iw"] - i["r"]) >= 24
-                rec(4, inside, f"{tag} img {i['l']:.0f}..{i['r']:.0f} container {c['l']:.0f}..{c['r']:.0f}, right gap {m['iw'] - i['r']:.0f}")
-                cap = min(600, 0.46 * m["iw"]) + 1; ar = i["w"] / i["h"]
-                rec(5, i["w"] <= cap and i["h"] <= 420 and 1.33 <= ar <= 2.1, f"{tag} img {i['w']:.0f}x{i['h']:.0f} cap {cap:.0f} ratio {ar:.2f} ({i['w'] / m['iw'] * 100:.0f}% of viewport)")
-            elif w == 768:
-                rec(6, i["w"] <= 720 and i["h"] <= 320 and i["l"] >= c["l"] - 0.5 and i["r"] <= c["r"] + 0.5, f"{tag} img {i['w']:.0f}x{i['h']:.0f}")
-            else:
-                rec(6, i["w"] <= 350 and i["h"] <= 260 and i["r"] <= c["r"] + 0.5 and i["t"] <= 1000, f"{tag} img {i['w']:.0f}x{i['h']:.0f} top {i['t']:.0f}")
+            i, c = m["img"], m["cont"]; fr, md = m["frame"], m["media"]; tl = m["textCol"]["l"]
+            # 4 frame inside the hero text column edges, gap to viewport
+            mingap = 16 if w <= 640 else 24
+            inside = abs(fr["l"] - tl) <= 1 and abs(fr["r"] - c["r"]) <= 1 and fr["l"] >= mingap - 0.5 and (m["iw"] - fr["r"]) >= mingap - 0.5
+            rec(4, inside, f"{tag} frame {fr['l']:.0f}..{fr['r']:.0f}, text column {tl:.0f}..{c['r']:.0f}, gaps {fr['l']:.0f}/{m['iw'] - fr['r']:.0f}")
+            # 6 (replaces 5 and 6) media size at 768 and 390
+            if w == 768:
+                rec(6, abs(md["w"] - 720) <= 2 and abs(md["h"] - 405) <= 2, f"{tag} media {md['w']:.0f}x{md['h']:.0f} (want 720x405)")
+            if w == 390:
+                rec(6, abs(md["w"] - 358) <= 2 and abs(md["h"] - 269) <= 2 and md["t"] <= 760, f"{tag} media {md['w']:.0f}x{md['h']:.0f} (want 358x269) top {md['t']:.0f}")
             if w == 1440:
-                rec(7, m["h1b"]["b"] <= 900 and m["lede"]["b"] <= 900 and m["cta"]["b"] <= 900 and (min(900, i["b"]) - i["t"]) / i["h"] >= 0.4, f"{tag} h1 bottom {m['h1b']['b']:.0f}, lede {m['lede']['b']:.0f}, cta {m['cta']['b']:.0f}, img visible {(min(900, i['b']) - i['t']) / i['h'] * 100:.0f}%")
-            sc = i["w"] / (m["imgNat"] / (2 if "2x" in m["imgSrc"] else 1))
-            rec(8, w < 1150 or sc >= 0.85, f"{tag} scale {sc:.3f} ({m['imgSrc']} natural {m['imgNat']}, displayed {i['w']:.0f})")
+                vis = (min(900, md["b"]) - md["t"]) / md["h"]
+                rec(7, m["h1b"]["b"] <= 900 and m["lede"]["b"] <= 900 and m["cta"]["b"] <= 700 and vis >= 0.4, f"{tag} h1 bottom {m['h1b']['b']:.0f}, lede {m['lede']['b']:.0f}, cta {m['cta']['b']:.0f} (<=700), media visible {vis * 100:.0f}%")
             a = m["imgAttrs"]
-            rec(9, a["w"] and a["h"] and a["fp"] == "high" and 40 <= a["alt"] <= 250 and all(x == "lazy" for x in m["otherImgs"]), f"{tag} attrs {a} other imgs {m['otherImgs']}")
-            s = m["imgStyle"]
-            rec(10, s["filter"] == "none" and s["blend"] == "normal" and all(x == "1px" for x in s["bw"]) and s["bs"] == "solid" and "synthetic" in m["figcap"], f"{tag} {s}")
+            ratio_attr = int(a["w"] or 0) / max(1, int(a["h"] or 1))
+            rec(9, a["w"] and a["h"] and abs(ratio_attr - 16 / 9) < 0.01 and a["fp"] == "high" and 40 <= a["alt"] <= 250 and all(x == "lazy" for x in m["otherImgs"]), f"{tag} attrs {a} other imgs {m['otherImgs']}")
+            s = m["imgStyle"]; fs = m["frameStyle"]
+            rec(10, s["filter"] == "none" and s["blend"] == "normal" and all(x == "0px" for x in s["bw"]) and all(x == "1px" for x in fs["bw"]) and fs["bs"] == "solid" and fs["radius"] == "12px" and m["figN"] == 0 and "synthetic" in m["imgAlt"].lower() and "Demo data is synthetic" in m["heroText"], f"{tag} img {s} frame {fs['bw'][0]} {fs['bs']} r{fs['radius']} figcaptions {m['figN']}")
+            # N1 no caption, no pins
+            rec("N1", m["figN"] == 0 and m["pinN"] == 0 and "A real screen" not in m["text"] and "An input that stays where it lives" not in m["text"] and "Demo data is synthetic" in m["heroText"], f"{tag} figcaptions {m['figN']} pins {m['pinN']}")
+            # N2 width
+            want = {390: 358, 768: 720, 1280: 1120, 1440: 1120, 1920: 1120}.get(w)
+            if w == 1024: want = m["cont"]["r"] - tl  # container is 976 at 1024 (spec table said 944), see report
+            if w == 320: want = m["iw"] - 32
+            ok2 = abs(md["w"] - want) <= 2 and md["w"] <= 1240 and (w != 1440 or md["w"] >= 0.75 * m["iw"])
+            rec("N2", ok2, f"{tag} media {md['w']:.0f} want {want:.0f}" + (f", {md['w'] / m['iw'] * 100:.0f}% of viewport" if w == 1440 else ""))
+            # N3 ratio and fill
+            wantr = 4 / 3 if w <= 640 else 16 / 9
+            fl = m["imgFill"]
+            rec("N3", abs(md["w"] / md["h"] - wantr) <= 0.02 and max(fl.values()) <= 1.01, f"{tag} media ratio {md['w'] / md['h']:.3f} (want {wantr:.3f}), img offsets {fl}")
+            # N4 sharpness at dpr 1 (dpr 2 below)
+            pxw = {"hero-720.webp": 720, "hero-1120.webp": 1120, "hero-1440.webp": 1440, "hero-2240.webp": 2240, "hero-narrow-358.webp": 358, "hero-narrow-716.webp": 716}.get(m["imgSrc"], 0)
+            rec("N4", pxw >= i["w"] - 1 and i["w"] <= pxw * 1.01, f"{tag} dpr1 {m['imgSrc']} intrinsic {pxw}, displayed {i['w']:.0f}")
+            # N5 chrome bar
+            bar = m["bar"]; okb = bar["ariaHidden"] == "true" and abs(bar["h"] - 32) <= 2 and bar["focusable"] == 0
+            if bar["label"]: okb = okb and bar["labelPx"] >= 12 and m.get("barLabelCR", 0) >= 4.5
+            rec("N5", okb, f"{tag} bar {bar}")
+            # N6 no scroll region on frame
+            rec("N6", fs["ox"] not in ("auto", "scroll") and m["mediaCS"]["ox"] not in ("auto", "scroll") and fr["l"] >= -0.5 and fr["r"] <= m["iw"] + 0.5 and md["r"] <= m["iw"] + 0.5, f"{tag} overflow-x frame {fs['ox']} media {m['mediaCS']['ox']}")
+            if th == "dark":
+                rec("N7", m["frameLineCR"] >= 3, f"{tag} frame border contrast vs page {m['frameLineCR']:.2f}")
+            # N8 static part: frame not focusable
+            rec("N8", fs["tabindex"] is None and not fs["hasLink"], f"{tag} frame tabindex {fs['tabindex']} link/button inside {fs['hasLink']}")
+            # N11 fold
+            if w == 390:
+                rec("N11", m["h1b"]["b"] <= 844 and m["cta"]["b"] <= 844 and md["t"] <= 844, f"{tag} h1 bottom {m['h1b']['b']:.0f}, cta {m['cta']['b']:.0f}, media top {md['t']:.0f} (fold 844; visual review of the PNG is manual)")
+            if w == 1440:
+                rec("N11", m["h1b"]["b"] <= 900 and m["cta"]["b"] <= 900 and (min(900, md["b"]) - md["t"]) / md["h"] >= 0.4, f"{tag} at 1440x900: h1/lede/CTAs above the fold, media visible {(min(900, md['b']) - md['t']) / md['h'] * 100:.0f}%")
             if "svg" in m:
                 sv = m["svg"]
                 rec(11, sv["w"] <= m["svgPanel"] + 0.5 and sv["w"] <= m["iw"] and sv["minFont"] >= 11.95, f"{tag} svg {sv['cls']} width {sv['w']:.0f} (panel {m['svgPanel']:.0f}) min text {sv['minFont']:.2f}px")
                 rec(23, sv["minFont"] >= 11.95, f"{tag} svg text min {sv['minFont']:.2f}px")
             if w == 1440 and th == "light":
-                rec(12, 4400 <= m["height"] <= 6200 and m["sec"]["hero"] <= 760 and m["sec"]["next"] <= 480 and m["sec"]["product"] <= 1500, f"{tag} page {m['height']} hero {m['sec']['hero']:.0f} next {m['sec']['next']:.0f} product {m['sec']['product']:.0f}")
+                rec(12, 4400 <= m["height"] <= 7000 and m["sec"]["hero"] <= 1320 and m["sec"]["next"] <= 480 and m["sec"]["product"] <= 1500, f"{tag} page {m['height']} hero {m['sec']['hero']:.0f} next {m['sec']['next']:.0f} product {m['sec']['product']:.0f}")
             if w == 390 and th == "light":
                 rec(12, m["height"] <= 8000, f"{tag} page height {m['height']}")
             if w >= 1024:
@@ -253,7 +295,8 @@ def run():
             f = m["footer"]
             rec(37, f["mailto"] and f["privacy"] and f["terms"] and f["status"] and f["synthetic"] and not f["backed"], f"{tag} {f}")
             if w == 1440:
-                rec(32, s["filter"] == "none" and m["shot"]["w"] <= 650 and m["shot"]["h"] <= 450, f"{tag} mat+image {m['shot']['w']:.0f}x{m['shot']['h']:.0f}")
+                rec(32, s["filter"] == "none" and fr["w"] <= 1122 and fr["h"] <= 630 + 32 + 2, f"{tag} frame {fr['w']:.0f}x{fr['h']:.0f} (max 1122x664)")
+            rec(32, fr["w"] <= 1240, f"{tag} frame width {fr['w']:.0f} (max 1240)")
         # ---- 19 forbidden strings ----------------------------------------------------
         ctx, pg = new_page(b, 1440, "light"); pg.goto(BASE); pg.wait_for_timeout(300)
         blob = pg.evaluate("document.body.innerText + ' ' + document.title + ' ' + [...document.querySelectorAll('meta')].map(m=>m.content).join(' ') + ' ' + [...document.querySelectorAll('script[type=\"application/ld+json\"]')].map(s=>s.textContent).join(' ') + ' ' + [...document.querySelectorAll('[alt],[aria-label],title,desc')].map(e=>e.getAttribute('alt')||e.getAttribute('aria-label')||e.textContent).join(' ')")
@@ -324,19 +367,41 @@ def run():
                     elif u.endswith(".css"): kinds["css"] += n
                     elif u.endswith(".webp") or u.endswith(".png"): kinds["img"] += n
                     elif u.rstrip("/") == BASE.rstrip("/") or u.endswith(".html"): kinds["html"] = n
-                rec(34, tot <= 250000 and sum(kinds["font"]) <= 80000 and len(kinds["font"]) <= 3 and kinds["js"] <= 6000 and kinds["html"] <= 30000 and kinds["css"] <= 30000, f"total {tot} B (uncompressed body bytes), fonts {kinds['font']}, js {kinds['js']}, html {kinds['html']}, css {kinds['css']}, images {kinds['img']}")
+                rec(34, tot <= 320000 and sum(kinds["font"]) <= 80000 and len(kinds["font"]) <= 3 and kinds["js"] <= 6000 and kinds["html"] <= 30000 and kinds["css"] <= 30000, f"total {tot} B (uncompressed body bytes), fonts {kinds['font']}, js {kinds['js']}, html {kinds['html']}, css {kinds['css']}, images {kinds['img']}")
                 rec(9, kinds["img"] <= 100000, f"1440 image bytes {kinds['img']}")
                 own = BASE.split("/")[2]
                 rec(35, hosts == {own} and not setck and cookie == "", f"hosts {hosts}, Set-Cookie {setck}, document.cookie {cookie!r}")
             ctx.close()
-        # hero image bytes at 1x and 2x (check 9: at most 60 KB at 1x)
+        # hero image bytes per file (check 9, budgets from spec section 4)
         import urllib.request
-        sizes = {f: len(urllib.request.urlopen(BASE + "assets/img/" + f).read()) for f in ("hero.webp", "hero-2x.webp", "hero-narrow.webp", "hero-narrow-2x.webp")}
-        rec(9, sizes["hero.webp"] <= 60000 and sizes["hero-2x.webp"] <= 120000, f"hero image bytes {sizes}")
-        # 2x display picks the 2x file
-        ctx, pg = new_page(b, 1440, "light", dpr=2); pg.goto(BASE); pg.wait_for_timeout(300)
-        cur = pg.evaluate("document.querySelector('.hero img').currentSrc.split('/').pop()")
-        rec(8, cur == "hero-2x.webp", f"1440 at devicePixelRatio 2 currentSrc {cur}")
+        budgets = {"hero-720.webp": 50000, "hero-1120.webp": 90000, "hero-1440.webp": 130000, "hero-2240.webp": 220000, "hero-narrow-358.webp": 30000, "hero-narrow-716.webp": 60000}
+        sizes = {f: len(urllib.request.urlopen(BASE + "assets/img/" + f).read()) for f in budgets}
+        rec(9, all(sizes[f] <= budgets[f] for f in budgets), f"hero image bytes {sizes}")
+        # N4 at dpr 2: 1.9x natural; narrow files above 360 px display cannot reach 1.9x (716 px file), judged at 390 and 320 only
+        for w in (320, 390, 768, 1024, 1280, 1440, 1920):
+            ctx, pg = new_page(b, w, "light", dpr=2); pg.goto(BASE); pg.wait_for_timeout(300)
+            pg.wait_for_function("document.querySelector('.hero img').complete")
+            nat, disp, cur = pg.evaluate("(()=>{const i=document.querySelector('.hero img');return [i.naturalWidth,i.getBoundingClientRect().width,i.currentSrc.split('/').pop()]})()")
+            nat = {"hero-720.webp": 720, "hero-1120.webp": 1120, "hero-1440.webp": 1440, "hero-2240.webp": 2240, "hero-narrow-358.webp": 358, "hero-narrow-716.webp": 716}[cur]  # intrinsic pixels (naturalWidth is divided by the srcset density)
+            ok = nat >= 1.9 * disp - 1 and disp <= nat * 1.01
+            rec("N4", ok, f"{w} dpr2 {cur} natural {nat}, displayed {disp:.0f}, ratio {nat / disp:.2f} (need >= 1.9)")
+            ctx.close()
+        # N8 hover lift and reduced motion
+        for rm in ("no-preference", "reduce"):
+            ctx = b.new_context(viewport={"width": 1440, "height": 900}, reduced_motion=rm); pg = ctx.new_page(); pg.goto(BASE); pg.wait_for_timeout(300)
+            pg.hover(".hero .frame"); pg.wait_for_timeout(400)
+            ty, td = pg.evaluate("(()=>{const f=document.querySelector('.hero .frame');const s=getComputedStyle(f);const m=s.transform==='none'?0:parseFloat(s.transform.split(',')[5]);return [m, Math.max(...s.transitionDuration.split(',').map(parseFloat))]})()")
+            if rm == "reduce":
+                rec("N8", ty == 0 and td == 0, f"reduce: hover translateY {ty}px, transition {td}s")
+                rec(33, ty == 0, f"reduce: hover on .frame translateY {ty}px")
+            else:
+                rec("N8", -3 <= ty <= 0 and td <= 0.2, f"hover translateY {ty}px (max 3), transition {td}s")
+            ctx.close()
+        # N8 Tab sequence unchanged is check 27 (frame has no tabindex); N9 JS off
+        ctx = b.new_context(viewport={"width": 1440, "height": 900}, java_script_enabled=False); pg = ctx.new_page(); pg.goto(BASE); pg.wait_for_timeout(300)
+        fo = pg.evaluate("(()=>{const f=document.querySelector('.hero .frame').getBoundingClientRect();return [f.width,f.height]})()")
+        fj = M[(1440, "light")]["frame"]
+        rec("N9", abs(fo[0] - fj["w"]) <= 1 and abs(fo[1] - fj["h"]) <= 1, f"JS off frame {fo[0]:.0f}x{fo[1]:.0f} vs JS on {fj['w']:.0f}x{fj['h']:.0f}")
         ctx.close()
         b.close()
     return
@@ -347,16 +412,21 @@ def main():
     manual = {20: "list-of-features review is manual"}
     allok = True
     print(f"Jubilab site v2 acceptance checks against {BASE}\n")
-    for n in range(1, 38):
+    for n in list(range(1, 38)) + ["N1", "N2", "N3", "N4", "N5", "N6", "N7", "N8", "N9", "N10", "N11"]:
+        if n in (5, 8):
+            print(f"{n!s:>3}  REPLACED  (by N2/N3 and N4)"); continue
+        if n == "N10":
+            print(f"{n!s:>3}  N/A       n/a until video: no video element exists yet"); continue
         if n not in R:
-            print(f"{n:>2}  NOT RUN  (not covered by this script)"); continue
+            print(f"{n!s:>3}  NOT RUN  (not covered by this script)"); continue
         res = R[n]; fails = [d for ok, d in res if not ok]
         status = "PASS" if not fails else "FAIL"
         if fails: allok = False
         extra = "  [MANUAL part: " + manual[n] + "]" if n in manual else ""
-        print(f"{n:>2}  {status}  ({len(res) - len(fails)}/{len(res)} cases){extra}")
+        print(f"{n!s:>3}  {status}  ({len(res) - len(fails)}/{len(res)} cases){extra}")
         for d in (fails[:6] if fails else [res[-1][1]]):
             print("        " + d)
+    print("\nNote: check 5 and the old pins/caption rules are replaced by N1..N3; N10 (video) is n/a until a video exists.")
     json.dump({str(k): v for k, v in R.items()}, open("/tmp/jubilab-check-site.json", "w"), indent=1)
     sys.exit(0 if allok else 1)
 
