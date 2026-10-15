@@ -1,0 +1,8 @@
+# PREVIEW: crawling is disallowed until launch. LAUNCH STEP 1 in docs/launch-checklist.md replaces this file's rules.
+User-agent: *
+Disallow: /
+
+# At launch, use instead:
+# User-agent: *
+# Allow: /
+# Sitemap: https://jubilab.io/sitemap.xml
