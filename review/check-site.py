@@ -14,7 +14,9 @@ It never submits the form.
 import json, os, re, sys
 from playwright.sync_api import sync_playwright
 
-BASE = (sys.argv[1] if len(sys.argv) > 1 else "http://127.0.0.1:18212/").rstrip("/") + "/"
+STRICT_NET = "--strict-network" in sys.argv  # expect zero external requests (use when the Google tag is removed)
+_args = [a for a in sys.argv[1:] if not a.startswith("--")]
+BASE = (_args[0] if _args else "http://127.0.0.1:18212/").rstrip("/") + "/"
 EXE = os.path.expanduser("~/.cache/ms-playwright/chromium_headless_shell-1248/chrome-headless-shell-linux64/chrome-headless-shell")
 WIDTHS = [320, 390, 768, 1024, 1280, 1440, 1920]
 THEMES = ["light", "dark"]
@@ -390,14 +392,16 @@ def run():
         # ---- 34 35 36 network and CLS ------------------------------------------------------
         for w in (1440, 390):
             ctx = b.new_context(viewport={"width": w, "height": 900}); pg = ctx.new_page(); resp = []
-            pg.on("response", lambda r: resp.append(r))
+            pg.on("response", lambda r: resp.append(r)); reqs = []; pg.on("request", lambda r: reqs.append(r.url))
             pg.add_init_script("window.__cls=0;new PerformanceObserver(l=>{for(const e of l.getEntries()) if(!e.hadRecentInput) window.__cls+=e.value}).observe({type:'layout-shift',buffered:true})")
             pg.goto(BASE, wait_until="networkidle"); pg.wait_for_timeout(3000)
             cls = pg.evaluate("window.__cls"); cookie = pg.evaluate("document.cookie")
             rec(36, cls <= 0.02, f"{w}px CLS {cls:.4f}")
             if w == 1440:
                 tot = 0; kinds = {"font": [], "js": 0, "html": 0, "css": 0, "img": 0}; hosts = set(); setck = False
+                own = BASE.split("/")[2]
                 for r in resp:
+                    if re.sub(r"^https?://([^/]+)/.*", r"\1", r.url) != own: continue  # external (Google) bodies are not our budget
                     body = r.body(); n = len(body); tot += n; u = r.url; hosts.add(re.sub(r"^https?://([^/]+)/.*", r"\1", u))
                     if "set-cookie" in r.headers: setck = True
                     if u.endswith(".woff2"): kinds["font"].append(n)
@@ -405,10 +409,20 @@ def run():
                     elif u.endswith(".css"): kinds["css"] += n
                     elif u.endswith(".webp") or u.endswith(".png"): kinds["img"] += n
                     elif u.rstrip("/") == BASE.rstrip("/") or u.endswith(".html"): kinds["html"] = n
+                # 34 counts only our own origin bytes: the Google tag is one inline snippet plus one external script and is not ours to budget.
                 rec(34, tot <= 320000 and sum(kinds["font"]) <= 80000 and len(kinds["font"]) <= 3 and kinds["js"] <= 6000 and kinds["html"] <= 30000 and kinds["css"] <= 30000, f"total {tot} B (uncompressed body bytes), fonts {kinds['font']}, js {kinds['js']}, html {kinds['html']}, css {kinds['css']}, images {kinds['img']}")
                 rec(9, kinds["img"] <= 100000, f"1440 image bytes {kinds['img']}")
-                own = BASE.split("/")[2]
-                rec(35, hosts == {own} and not setck and cookie == "", f"hosts {hosts}, Set-Cookie {setck}, document.cookie {cookie!r}")
+                allowed = {"www.googletagmanager.com", "www.google-analytics.com", "region1.google-analytics.com", "static.cloudflareinsights.com", "cloudflareinsights.com"}  # the Cloudflare beacon is injected at the edge: allowed if present, absent locally
+                ok_host = lambda h: h in allowed or h.endswith(".analytics.google.com")
+                req_hosts = {re.sub(r"^https?://([^/:]+).*", r"\1", u) for u in reqs if u.startswith("http")}
+                ext = {h for h in req_hosts if h != own.split(":")[0]}
+                setck = any("set-cookie" in r.headers for r in resp if re.sub(r"^https?://([^/]+)/.*", r"\1", r.url) == own)
+                ck = [c for c in cookie.split("; ") if c]
+                if STRICT_NET:
+                    rec(35, not ext and not setck and cookie == "", f"strict: external hosts {sorted(ext)}, own Set-Cookie {setck}, document.cookie {cookie!r}")
+                else:
+                    # Google requests may succeed or fail (sandbox without network): the page must render either way; only these hosts may be contacted.
+                    rec(35, all(ok_host(h) for h in ext) and not setck and all(c.startswith("_ga") for c in ck), f"external hosts contacted {sorted(ext)} (allowed: Google tag hosts only), own Set-Cookie {setck}, document.cookie names {[c.split('=')[0] for c in ck]}")
             ctx.close()
         # hero image bytes per file (check 9, budgets from spec section 4)
         import urllib.request

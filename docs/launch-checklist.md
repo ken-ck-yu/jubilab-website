@@ -83,17 +83,38 @@ The call-to-action label "Request early access" appears in the header, the hero,
 
 `privacy/index.html` and `terms/index.html` are shells marked Draft with `noindex`. Replace the shell paragraphs with the owner's text, remove the "Draft" notice and the HTML comment, then handle `noindex` as in step 1.
 
-## 7. Analytics (Cloudflare Web Analytics)
+## 7. Analytics (Google Analytics 4 and Cloudflare Web Analytics)
 
-No code is needed. Dashboard > Analytics & Logs > Web Analytics > add the site `jubilab.io` and enable automatic setup (or, for a Worker, copy the one-line snippet Cloudflare gives you into `index.html` and the other pages; if you do, tell me and I will add it). Without one of these, no analytics are collected. It is cookieless. It is the only third-party request the site makes, and `privacy/` already says so. If you turn analytics off, update the privacy text. Check in the browser network panel after deploy that the only extra request is Cloudflare's beacon (and, until you enable analytics, that there is none).
+What is in the code. The Google tag (gtag.js) for measurement id `G-8W2MDQ58PL`, exactly as Google gave it, sits straight after `<head>` on all five pages (`index.html`, `privacy/`, `terms/`, `thanks/`, `404.html`), once per page. The id is public by design. It loads one script from `www.googletagmanager.com` and then sends page views to Google. It sets the cookies `_ga` and `_ga_G-8W2MDQ58PL` immediately on load (no consent step). The early-access form does not go to Google: it posts to our own Worker (`/api/early-access`). `privacy/index.html` describes all of this and carries an `OWNER:` comment. To remove analytics, delete the snippet from the five pages and rewrite the privacy paragraph; `tests/analytics-tag.test.mjs (update it too)` and `review/check-site.py --strict-network` (zero external requests) cover the removed state.
 
-Restore text. `privacy/index.html` currently says the site does not use analytics, with an `OWNER:` comment above that paragraph. If you enable Cloudflare Web Analytics, replace the sentence "It does not currently use analytics or cookies." with the following sentence, and change the "no ... scripts ... from other companies" wording to match:
+Cloudflare Web Analytics (owner chose to use both). Automatic setup, no code or token in the repo: Cloudflare dashboard > Analytics & Logs > Web Analytics > add `jubilab.io` > Automatic setup. Cloudflare then injects its beacon (`static.cloudflareinsights.com/beacon.min.js`, reporting to `cloudflareinsights.com`) into HTML responses at the edge. It sets no cookies. It will not appear on the local server or on `*.workers.dev` previews of unproxied hostnames, and `review/check-site.py` check 35 passes with it absent and allows it if present. We have NOT verified that automatic injection works for a Worker-served custom domain on this account.
+- Verify: view-source of the live page contains `static.cloudflareinsights.com/beacon.min.js`; the Web Analytics dashboard shows visits within a day.
+- Known failure causes: a response marked `Cache-Control: no-transform`; a non-HTML response; a hostname that is not proxied (orange cloud) through Cloudflare.
+- Fallback: manual setup. The dashboard gives a snippet with a token; the owner would have to give it to us and we would place it once per page on all five pages (and update `tests/analytics-tag.test.mjs`, which currently forbids any beacon in the HTML).
 
-> It uses Cloudflare Web Analytics, a privacy-focused service that counts page views, referrers, countries and browser types without cookies and without tracking you across sites or building a profile of you; its small script loads from Cloudflare.
+Verify Google after deploy. Open GA > Reports > Realtime, load the live site, and confirm your visit appears. We cannot verify collection from here, only the tag placement.
 
-Original paragraph, for reference (the site is served from Cloudflare Workers):
+Preview and QA traffic counts too. Visits to `*.workers.dev` previews, localhost and our own testing all land in the same property unless filtered. Recommended: in GA Admin > Data collection and modification > Data streams > Configure tag settings > Define internal traffic (and a data filter), or a hostname filter, to exclude `*.workers.dev` and `localhost`.
 
-> The site is static pages served from Cloudflare Workers. It sets no cookies, runs no advertising trackers, and loads no fonts, scripts or images from other companies. It uses Cloudflare Web Analytics, a privacy-focused service that counts page views, referrers, countries and browser types without cookies and without tracking you across sites or building a profile of you; its small script loads from Cloudflare. The only thing it stores in your browser is your light or dark theme choice (local storage key <code>jubilab-theme</code>), which never leaves your device. Like any web host, the hosting provider (Cloudflare) receives your IP address and basic request details when your browser fetches a page, and handles them under its own privacy statement.
+GA admin settings to review (owner decisions):
+- Data retention: Admin > Data collection and modification > Data retention. Set a period you are willing to state; the privacy text says "a limited period set in our account" and gives no number.
+- Google signals: off, unless you want cross-device reporting (it enables ad-related features).
+- Ad personalisation: off (Data collection > Ad personalisation, or per region).
+- Enhanced measurement: turn off the events you do not need (scrolls, outbound clicks, site search, file downloads, form interactions).
+- IP and geolocation: review the regional data-collection controls; GA4 does not log full IP addresses.
+- Data collection: acknowledge the user-data-collection terms, and review the data-sharing settings (Google products and services, benchmarking, technical support, account specialists).
+
+### Consent (UK/EU rules)
+
+UK and EU rules (PECR, GDPR) generally require consent before non-essential cookies such as analytics cookies are set. The tag as pasted sets cookies immediately, with no banner. The options, with rough effort for us:
+
+- (a) Consent banner plus Google Consent Mode v2 with defaults denied: the tag does not set cookies until the visitor accepts. Needs a snippet change and a banner (visible UI), plus privacy text. About 1 to 2 days including tests.
+- (b) Keep as is and accept the compliance risk: no work, risk is the owner's.
+- (c) Replace GA with a cookieless service such as Cloudflare Web Analytics (no cookies, no banner usually needed): about half a day (snippet swap, privacy text, tests, checks); less detailed data than GA.
+
+The owner handles the legal review; this is not legal advice and we do not claim compliance. We recommend (a) or (c) for a site aimed at UK and EU researchers.
+
+Restore text for the cookieless option: if analytics is replaced with Cloudflare Web Analytics, the privacy paragraph must be rewritten to say it counts page views, referrers, countries and browser types without cookies; and "no cookies" wording may only come back once no Google tag remains.
 
 ## 8. Content to re-confirm before launch
 
@@ -108,5 +129,5 @@ Original paragraph, for reference (the site is served from Cloudflare Workers):
 - Submit the live form once and confirm the record in KV and the redirect to `/thanks/`.
 - Open the page with JavaScript disabled: light theme, all content visible, theme button hidden.
 - Open the page with the system set to dark mode: it must still be light until the visitor presses the toggle.
-- While analytics is not enabled, no request leaves the origin (browser network panel; check 35 in `review/check-site.py` does this). If analytics is enabled, the only extra request is Cloudflare's beacon.
+- The only requests that leave the origin are Google's (`www.googletagmanager.com`, then `www.google-analytics.com` or `*.analytics.google.com`); check 35 in `review/check-site.py` asserts this (`--strict-network` expects none).
 - Run the page through a validator and a contrast checker in both themes.

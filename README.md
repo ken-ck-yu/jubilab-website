@@ -24,7 +24,7 @@ Static HTML and CSS, no build step. A little vanilla JavaScript (`assets/theme.j
 
 - Every claim on the site must be true and verified. No invented testimonials, customer logos, metrics or features that do not exist.
 - Screenshots come from the running product on synthetic demo data and are never edited. Third-party material is never committed here.
-- No third-party requests at runtime (Cloudflare Web Analytics is not enabled; see docs/launch-checklist.md section 7). No trackers. Fonts are self-hosted.
+- The only third-party request at runtime is the Google Analytics 4 tag (gtag.js, measurement id G-8W2MDQ58PL) in the `<head>` of every page; it sets `_ga` cookies and the consent decision is the owner's (docs/launch-checklist.md section 7). Cloudflare Web Analytics is also planned via the dashboard's automatic setup: Cloudflare injects its beacon at the edge, so it is not in this repo's HTML. No other trackers. Fonts are self-hosted.
 - Fast static pages with real HTML text, accessible, readable on a phone.
 
 ## Hosting note

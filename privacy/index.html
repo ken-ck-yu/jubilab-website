@@ -1,6 +1,15 @@
 <!doctype html>
 <html lang="en">
 <head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-8W2MDQ58PL"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-8W2MDQ58PL');
+</script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Privacy (draft) | Jubilab</title>
@@ -68,11 +77,13 @@
   <h1>Privacy</h1>
   <p class="draft-note" role="note">Draft for the owner's review. Not legal advice. Not yet approved for publication.</p>
   <!-- [owner: add a postal address and legal entity name here once they exist. Keep noindex until the owner approves this text.] -->
-  <p>This page describes what the Jubilab website does with information about you. The short version: it does very little.</p>
+  <p>This page describes what the Jubilab website does with information about you. The short version: it counts visits with Google Analytics and Cloudflare Web Analytics, and uses what you send through the early-access form only for early access.</p>
 
   <h2>Browsing this site</h2>
-  <!-- OWNER: if Cloudflare Web Analytics is enabled, replace this sentence with the analytics paragraph (kept in docs/launch-checklist.md) -->
-  <p>The site is static pages served from Cloudflare Workers. It sets no cookies, runs no advertising trackers, and loads no fonts, scripts or images from other companies. It does not currently use analytics or cookies. The only thing it stores in your browser is your light or dark theme choice (local storage key <code>jubilab-theme</code>), which never leaves your device. Like any web host, the hosting provider (Cloudflare) receives your IP address and basic request details when your browser fetches a page, and handles them under its own privacy statement.</p>
+  <!-- OWNER: consent (UK/EU cookie rules), GA data retention, Google signals and ad personalisation settings, data-sharing settings are the owner's to decide; see docs/launch-checklist.md section 7 -->
+  <p>The site is static pages served from Cloudflare Workers. It loads fonts and images from the site itself, not from other companies. The only third-party scripts are the two analytics services described below. Cloudflare Web Analytics does not use cookies; Google Analytics does (<code>_ga</code> and <code>_ga_&lt;container id&gt;</code>, described below). Apart from those Google cookies, the only thing the site stores in your browser is your light or dark theme choice (local storage key <code>jubilab-theme</code>), which never leaves your device. Like any web host, the hosting provider (Cloudflare) receives your IP address and basic request details when your browser fetches a page, and handles them under its own privacy statement.</p>
+  <p>We use Google Analytics, a service from Google, to count visits and see how the site is used. When you open a page, a script from Google collects page views, your approximate location (worked out from your IP address; Google Analytics 4 does not store full IP addresses), your device and browser type, the page that referred you, and how you move through our pages. It sets cookies in your browser named <code>_ga</code> and <code>_ga_&lt;container id&gt;</code> to recognise a returning browser. This data is sent to Google and may be processed outside the UK and the EU. Google keeps it for a limited period set in our account. The early-access form is separate: what you type into it goes only to our own server and is not sent to Google. You can stop Google Analytics collecting data about you with <a href="https://tools.google.com/dlpage/gaoptout" rel="noopener">Google's opt-out browser add-on</a>. More about how Google uses data from sites that use its services is in <a href="https://policies.google.com/technologies/partner-sites" rel="noopener">Google's privacy information</a>.</p>
+  <p>We also use Cloudflare Web Analytics, a service from Cloudflare, our hosting provider. It counts page views, referrers, countries and browser types. It is set up without cookies and without tracking people across sites. The data is processed by Cloudflare under its own privacy statement. Its script is added by Cloudflare when the page is served, not by us.</p>
 
   <h2>The early-access form</h2>
   <p>The form asks for your email address and answers to four short questions, all required, plus one optional free-text answer. We use the answers only to choose early-access labs and to write to you about early access. We do not sell them, share them for marketing, or use them for advertising. Please do not put patient data, personal data about other people, or confidential research details in the free-text fields.</p>
