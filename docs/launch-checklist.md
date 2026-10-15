@@ -47,9 +47,9 @@ The form stores only the fields below plus a UTC time (`received_at`). Missing o
 
 ## 3. Signup notification email
 
-Each signup also emails the owner (`src/notify.js`, Workers `send_email` binding `EMAIL`, sent from `signups@jubilab.io`). The recipient is `NOTIFY_TO`, defined as a plain variable in `wrangler.jsonc` (`vars.NOTIFY_TO` = `hello@jubilab.io`, for production and previews). Do not also create a dashboard variable or Secret with that name.
+Each signup also emails the owner (`src/notify.js`, Workers `send_email` binding `EMAIL`, sent from `signups@jubilab.io`). The recipient is `NOTIFY_TO`, defined as a plain variable in `wrangler.jsonc` (`vars.NOTIFY_TO` = `ken.ckyu@billybiotech.com`, for production and previews; that address is public in the repo, move it to a Secret if that becomes a concern). Do not also create a dashboard variable or Secret with that name.
 
-1. Email Routing must be on for `jubilab.io`, and `hello@jubilab.io` must exist as an Email Routing address that forwards to a real inbox, with the destination verified (Email Routing > Routes and Destination addresses). If it does not, notifications fail quietly; signups are still saved in KV.
+1. The `NOTIFY_TO` address must be a verified destination address (Email Routing > Destination addresses). A routing address such as `hello@jubilab.io` is NOT accepted by the Workers send binding (Workers log: `destination address is not a verified address`). If it is not verified, notifications fail quietly; signups are still saved in KV. Separately, `hello@jubilab.io` (the footer contact) should forward to a real inbox.
 2. To use a personal address instead, either change `NOTIFY_TO` in `wrangler.jsonc` (both `vars` blocks) and redeploy, or delete the `vars.NOTIFY_TO` entries and set a dashboard Secret named `NOTIFY_TO` (Worker > Settings > Variables and Secrets > Add > Secret). Use one of these, never both. The address must be a verified Email Routing destination.
 3. Submit a test entry. An email "New early-access request" should arrive (check spam the first time). If `NOTIFY_TO` or the binding is missing, nothing is sent and the signup still succeeds.
 4. Notification failures never block a signup; the entry is always in KV. A repeat of an address already on the list sends no second email.

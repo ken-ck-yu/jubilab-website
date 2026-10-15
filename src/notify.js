@@ -1,5 +1,5 @@
 // Emails the owner when someone signs up. Uses the Workers send_email binding (env.EMAIL).
-// The recipient comes from the NOTIFY_TO var in wrangler.jsonc (hello@jubilab.io); it must be a verified Email Routing destination.
+// The recipient comes from the NOTIFY_TO var in wrangler.jsonc (the owner's verified inbox); it must be a verified Email Routing destination.
 // Failure here must never block a signup, so callers treat this as best effort.
 
 const FROM = "signups@jubilab.io";
