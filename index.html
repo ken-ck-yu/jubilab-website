@@ -257,12 +257,9 @@ project: p_8hakp36js1 (Cohort A)</pre>
         <h2 id="h-access">Request early access</h2>
         <p>Jubilab is early stage and invite-only. We are choosing a small number of labs and core facilities to learn from real use, starting with genetics researchers. Tell us a little about your work so we can pick well. Only the email address is required.</p>
       </div>
-      <!-- LAUNCH: to activate, (1) set action="https://YOUR-FORM-ENDPOINT" and method="post" on this form,
-           (2) remove the "disabled" attribute from the fieldset and the button, (3) delete the .demo-flag paragraph and replace the
-           privacy note with the owner's text. Collected fields are listed in docs/launch-checklist.md. -->
-      <form class="form" id="early-access-form" aria-labelledby="h-access">
-        <p class="demo-flag" role="note">This form is not active yet. Nothing you type is sent, stored or collected.</p>
-        <fieldset disabled class="flat">
+      <form class="form" id="early-access-form" action="/api/early-access" method="post" aria-labelledby="h-access">
+        <fieldset class="flat">
+          <div class="hp" aria-hidden="true"><label>Leave this field empty <input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>
           <fieldset class="group"><legend>Your role <span class="hint">(optional)</span></legend>
             <label class="opt"><input type="radio" name="role" value="lab-head"> Lab head</label>
             <label class="opt"><input type="radio" name="role" value="researcher-analyst"> Researcher or analyst</label>
@@ -295,10 +292,9 @@ project: p_8hakp36js1 (Cohort A)</pre>
             <input id="email" name="email" type="email" autocomplete="email" required placeholder="you@example.org">
           </div>
           <p class="consent">By sending this form you agree that we may email you about early access.</p>
-          <button class="btn" type="submit" disabled>Request early access</button>
+          <button class="btn" type="submit">Request early access</button>
         </fieldset>
-        <!-- [owner decision: privacy note text, where the form posts, what is kept and for how long, and who can see the answers.] -->
-        <p class="privacy"><b>Draft privacy note.</b> When this form is live, the answers will be used only to choose early-access labs and to write to you about early access. The final notice is yet to be written; see the <a href="privacy/">privacy page</a>.</p>
+        <p class="privacy">Your answers are used only to choose early-access labs and to write to you about early access. They are stored in our Cloudflare account, not shared or sold, and you can ask us to delete them at any time. Details are on the <a href="privacy/">privacy page</a>.</p>
       </form>
     </div>
   </div>

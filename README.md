@@ -1,6 +1,6 @@
 # Jubilab website
 
-Content and code for the public Jubilab website, hosted on GitHub Pages at `jubilab.io`. The product itself lives in a separate, private repository; this repository holds **only** the website.
+Content and code for the public Jubilab website, hosted on Cloudflare Pages at `jubilab.io`. The product itself lives in a separate, private repository; this repository holds **only** the website.
 
 Status: first production version of the site (preview, non-indexable). See `docs/launch-checklist.md` for the steps to launch.
 
@@ -22,9 +22,9 @@ Static HTML and CSS, no build step. A little vanilla JavaScript (`assets/theme.j
 
 - Every claim on the site must be true and verified. No invented testimonials, customer logos, metrics or features that do not exist.
 - Screenshots come from the running product on synthetic demo data and are never edited. Third-party material is never committed here.
-- Zero third-party requests at runtime. No trackers. Fonts are self-hosted.
+- Only third-party request at runtime: Cloudflare Web Analytics (cookieless). No other trackers. Fonts are self-hosted.
 - Fast static pages with real HTML text, accessible, readable on a phone.
 
 ## Hosting note
 
-GitHub Pages on a free account publishes only from **public** repositories. This repository is meant to be public (it contains only website content), while the product repository stays private.
+Cloudflare Pages (the domain is on Cloudflare). The repository can be private or public; it contains only website content. The waitlist form is a Pages Function (`functions/api/early-access.js`) writing to a KV namespace; tests are in `tests/`.
