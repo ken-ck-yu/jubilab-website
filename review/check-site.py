@@ -161,14 +161,21 @@ MEASURE = r"""
   out.uiMin = ui.reduce((a, b) => b[1] < a[1] ? b : a, ['', 99]);
   // 26 targets
   const tg = [];
-  for (const e of document.querySelectorAll('.btn,.theme-toggle,.menu summary,.field input,.field textarea,.more summary,.twin summary,.opt')) { if (!vis(e) || isHp(e)) continue; const b = e.getBoundingClientRect(); if (b.height < 43.5 || (e.tagName !== 'A' && b.width < 43.5)) tg.push(e.tagName + '.' + e.className + ' ' + Math.round(b.width) + 'x' + Math.round(b.height)); }
+  for (const e of document.querySelectorAll('.btn,.theme-toggle,.menu summary,.field input,.field textarea,.twin summary,.opt')) { if (!vis(e) || isHp(e)) continue; const b = e.getBoundingClientRect(); if (b.height < 43.5 || (e.tagName !== 'A' && b.width < 43.5)) tg.push(e.tagName + '.' + e.className + ' ' + Math.round(b.width) + 'x' + Math.round(b.height)); }
   out.targetsBad = tg;
   out.footerLinks = [...document.querySelectorAll('footer a')].map(a => Math.round(a.getBoundingClientRect().height));
   // 28 form
   const form = q('#early-access-form'); const ctrls = [...form.querySelectorAll('input,textarea,select')];
   out.formFirst = ctrls[0] && ctrls[0].id; out.required = ctrls.filter(c => c.required).map(c => c.name);
   out.unlabeled = ctrls.filter(c => !isHp(c) && !(c.labels && c.labels.length)).map(c => c.name);
-  const det = form.querySelector('details.more'); out.moreClosed = det && !det.open; out.moreHas = det ? [...det.querySelectorAll('input,textarea')].map(c => c.name).filter((v, i, a) => a.indexOf(v) === i) : [];
+  out.reqNames = [...new Set(ctrls.filter(c => c.required).map(c => c.name))]; out.noDetails = !form.querySelector('details');
+  out.names = [...new Set(ctrls.filter(c => !isHp(c)).map(c => c.name))];
+  out.groups = [...form.querySelectorAll('fieldset')].map(f => [f.id, !!(f.querySelector('legend') && f.querySelector('legend').textContent.trim())]);
+  const vals = n => [...form.querySelectorAll('input[name="' + n + '"]')].map(c => c.value);
+  out.opts = {role: vals('role'), field: vals('field'), runs: vals('runs-on'), human: vals('human-data')};
+  out.runsLabels = [...form.querySelectorAll('input[name="runs-on"]')].map(c => c.labels[0].textContent.trim());
+  out.otherBoxes = [...form.querySelectorAll('.other input')].map(c => [c.name, c.maxLength, c.labels[0] && /If other, please specify/.test(c.labels[0].textContent)]);
+  out.trackingOptional = !form.querySelector('#tracking').required && form.querySelector('#tracking').maxLength === 300;
   const hp = form.querySelector('.hp input'); const hpb = hp.getBoundingClientRect(); out.hp = {tab: hp.tabIndex, right: hpb.right, visible: hpb.right > 0 && hpb.left < iw};
   // 29 diagram
   out.diag = [...document.querySelectorAll('svg[role=img]')].map(s => [s.getAttribute('role'), !!s.querySelector('title'), !!s.querySelector('desc')]);
@@ -289,7 +296,13 @@ def run():
             rec(25, not m["failContrast"] and m["uiMin"][1] >= 3, f"{tag} min text contrast {m['minContrast']:.2f} ({m['minContrastWhere']}); fails {m['failContrast'][:3]}; weakest UI {m['uiMin'][0]} {m['uiMin'][1]:.2f}")
             if w == 390:
                 rec(26, not m["targetsBad"] and min(m["footerLinks"]) >= 24, f"{tag} small targets {m['targetsBad'][:4]} footer link heights {m['footerLinks']}")
-            rec(28, m["formFirst"] == "email" and m["required"] == ["email"] and not m["unlabeled"] and m["moreClosed"] and not m["hp"]["visible"] and m["hp"]["tab"] == -1 and set(m["moreHas"]) == {"role", "field", "runs-on", "human-data", "tracking"}, f"{tag} first {m['formFirst']} required {m['required']} unlabeled {m['unlabeled']} closed {m['moreClosed']} hp {m['hp']} inside {m['moreHas']}")
+            ok28 = (m["formFirst"] == "email" and set(m["reqNames"]) == {"email", "role", "field", "human-data"} and m["noDetails"] and not m["unlabeled"]
+                    and not m["hp"]["visible"] and m["hp"]["tab"] == -1 and set(m["names"]) == {"email", "role", "role-other", "field", "field-other", "runs-on", "runs-on-other", "human-data", "tracking"}
+                    and all(g[1] for g in m["groups"]) and len(m["groups"]) == 4 and m["trackingOptional"]
+                    and m["runsLabels"] == ["Windows", "macOS", "Linux", "HPC cluster", "AWS", "Azure", "GCP", "Other (specify)"]
+                    and m["opts"]["human"] == ["yes", "no"] and m["opts"]["role"][-1] == "other" and m["opts"]["field"][-1] == "other" and len(m["opts"]["role"]) == 6 and len(m["opts"]["field"]) == 6
+                    and sorted(x[0] for x in m["otherBoxes"]) == ["field-other", "role-other", "runs-on-other"] and all(x[1] == 100 and x[2] for x in m["otherBoxes"]))
+            rec(28, ok28, f"{tag} first {m['formFirst']} required {m['reqNames']} unlabeled {m['unlabeled']} names {m['names']} groups {m['groups']} runs {m['runsLabels']} other {m['otherBoxes']}")
             ok29 = all(x == ["img", True, True] for x in m["diag"]) and m["twin"]["closed"] and m["twin"]["summary"] == "Text version of this diagram" and m["twin"]["items"] >= 4
             rec(29, ok29, f"{tag} {m['diag']} {m['twin']}")
             f = m["footer"]
@@ -321,6 +334,20 @@ def run():
         rec(15, opened, "390 JS off: keyboard Enter on menu summary opens the menu: " + str(opened))
         tv = pg.evaluate("(()=>{const t=document.getElementById('theme-toggle');return [t.hidden, getComputedStyle(t).display, !!document.querySelector('#early-access-form'), getComputedStyle(document.body).backgroundColor]})()")
         rec(31, tv[0] and tv[1] == "none" and tv[2] and tv[3] == "rgb(244, 245, 242)", f"JS off: toggle hidden {tv[0]} display {tv[1]} form {tv[2]} bg {tv[3]}")
+        vis_off = pg.evaluate("[...document.querySelectorAll('#early-access-form .other')].map(e => e.getBoundingClientRect().height > 0)")
+        rec(28, len(vis_off) == 3 and all(vis_off), f"JS off: the three 'If other' boxes are visible: {vis_off}")
+        ctx.close()
+        # form behaviour with JS: Other boxes hidden until chosen, then required
+        ctx = b.new_context(viewport={"width": 390, "height": 800}); pg = ctx.new_page(); pg.goto(BASE); pg.wait_for_timeout(300)
+        st = lambda: pg.evaluate("[...document.querySelectorAll('#early-access-form .other')].map(e => [e.getBoundingClientRect().height > 0, e.querySelector('input').required])")
+        s0 = st(); pg.check('#early-access-form input[name=role][value=other]'); pg.check('#early-access-form input[name=runs-on][value=other]'); s1 = st()
+        pg.check('#early-access-form input[name=role][value=lab-head]'); s2 = st()
+        rec(28, s0 == [[False, False]] * 3 and s1 == [[True, True], [False, False], [True, True]] and s2 == [[False, False], [False, False], [True, True]], f"JS on: other boxes {s0} -> {s1} -> {s2}")
+        pg.goto(BASE + "?error=role#access"); pg.wait_for_timeout(500)
+        er = pg.evaluate("(()=>{const m=document.getElementById('form-error');return [m.hidden, m.textContent, m.getAttribute('role'), document.activeElement===m, document.getElementById('role-group').getAttribute('aria-describedby')]})()")
+        rec(28, er == [False, "Please choose your role.", "alert", True, "form-error"], f"?error=role message: {er}")
+        pg.goto(BASE + "?error=bogus#access"); pg.wait_for_timeout(200)
+        rec(28, pg.evaluate("document.getElementById('form-error').hidden"), "unknown ?error= value shows nothing")
         ctx.close()
         # ---- 30 theme ---------------------------------------------------------------------
         ctx = b.new_context(viewport={"width": 1280, "height": 800}, color_scheme="dark"); pg = ctx.new_page(); pg.goto(BASE); pg.wait_for_timeout(300)
