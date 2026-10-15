@@ -23,7 +23,7 @@ Static HTML and CSS, no build step. A little vanilla JavaScript (`assets/theme.j
 
 - Every claim on the site must be true and verified. No invented testimonials, customer logos, metrics or features that do not exist.
 - Screenshots come from the running product on synthetic demo data and are never edited. Third-party material is never committed here.
-- Only third-party request at runtime: Cloudflare Web Analytics (cookieless). No other trackers. Fonts are self-hosted.
+- No third-party requests at runtime (Cloudflare Web Analytics is not enabled; see docs/launch-checklist.md section 7). No trackers. Fonts are self-hosted.
 - Fast static pages with real HTML text, accessible, readable on a phone.
 
 ## Hosting note

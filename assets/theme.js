@@ -1,6 +1,13 @@
 /* Theme toggle. The stored choice is applied before first paint by a tiny inline script in each page's head.
    Light is the default; dark is only used when the visitor chooses it with the header button. */
 (function () {
+  // The form handler redirects to /?error=email#access when the email is invalid; show the message then.
+  var msg = document.getElementById("form-error");
+  if (msg && /(^|[?&])error=email(&|$)/.test(location.search)) {
+    msg.hidden = false;
+    var email = document.getElementById("email");
+    if (email) email.setAttribute("aria-describedby", "form-error");
+  }
   var btn = document.getElementById("theme-toggle");
   if (!btn) return;
   var root = document.documentElement;

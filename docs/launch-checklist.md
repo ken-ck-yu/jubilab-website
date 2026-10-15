@@ -67,6 +67,14 @@ The call-to-action label "Request early access" appears in the header, the hero,
 
 No code is needed. Dashboard > Analytics & Logs > Web Analytics > add the site `jubilab.io` and enable automatic setup (or, for a Worker, copy the one-line snippet Cloudflare gives you into `index.html` and the other pages; if you do, tell me and I will add it). Without one of these, no analytics are collected. It is cookieless. It is the only third-party request the site makes, and `privacy/` already says so. If you turn analytics off, update the privacy text. Check in the browser network panel after deploy that the only extra request is Cloudflare's beacon.
 
+Restore text. `privacy/index.html` currently says the site does not use analytics, with an `OWNER:` comment above that paragraph. If you enable Cloudflare Web Analytics, replace the sentence "It does not currently use analytics or cookies." with the following sentence, and change the "no ... scripts ... from other companies" wording to match:
+
+> It uses Cloudflare Web Analytics, a privacy-focused service that counts page views, referrers, countries and browser types without cookies and without tracking you across sites or building a profile of you; its small script loads from Cloudflare.
+
+Original paragraph, for reference (it said "Cloudflare Pages"; the site is on Workers):
+
+> The site is static pages served from Cloudflare Pages. It sets no cookies, runs no advertising trackers, and loads no fonts, scripts or images from other companies. It uses Cloudflare Web Analytics, a privacy-focused service that counts page views, referrers, countries and browser types without cookies and without tracking you across sites or building a profile of you; its small script loads from Cloudflare. The only thing it stores in your browser is your light or dark theme choice (local storage key <code>jubilab-theme</code>), which never leaves your device. Like any web host, the hosting provider (Cloudflare) receives your IP address and basic request details when your browser fetches a page, and handles them under its own privacy statement.
+
 ## 8. Content to re-confirm before launch
 
 - Every `[owner decision: ...]` HTML comment in the source (`grep -rn "owner decision" .`).

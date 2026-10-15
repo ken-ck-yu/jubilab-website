@@ -268,3 +268,6 @@ footer p a { min-height: 24px; }
 }
 @media (max-width: 380px) { .brand-name { display: none; } }
 @media (prefers-reduced-motion: reduce) { .btn { transition: none; } html { scroll-behavior: auto; } }
+
+.form-error { margin: 0 0 16px; padding: 10px 12px; color: var(--ink); background: var(--changed-bg); border: 1px solid var(--changed-line); border-left: 4px solid var(--changed); border-radius: 6px; font-weight: 600; }
+.form-error[hidden] { display: none; }
