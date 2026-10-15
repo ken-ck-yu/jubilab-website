@@ -1,0 +1,420 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>Jubilab: from any output, back to its inputs</title>
+<meta name="description" content="Jubilab is a local-first, self-hostable metadata layer for scientific data. It records processing runs with inputs, parameters and versions, and shows lineage.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Jubilab: from any output, back to its inputs">
+<meta property="og:description" content="Jubilab is a local-first, self-hostable metadata layer for scientific data. It records processing runs with inputs, parameters and versions, and shows lineage.">
+<meta name="robots" content="noindex">
+<!-- [placeholder] canonical URL and og:url are omitted until the real domain exists. No og:image: none exists yet.
+     robots noindex is set because this is a design preview; remove for the real site. -->
+<!-- The only external request on this page is the Google Fonts stylesheet below (allowed for the private preview).
+     Fonts must be self-hosted (woff2 files in the repository) before real launch; the product makes no outbound calls and the site should model that. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="style.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Jubilab",
+  "description": "A local-first, self-hostable metadata layer for scientific data. It records processing runs with their inputs, parameters and versions as immutable history, and shows lineage from any output back to its inputs.",
+  "applicationCategory": "DeveloperApplication",
+  "operatingSystem": "Linux"
+}
+</script>
+<!-- [placeholder] operatingSystem "Linux" is only what the demo session ran on; the owner must confirm supported platforms. No offers, rating or review fields on purpose. -->
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="g-verified" viewBox="0 0 28 28"><circle cx="14" cy="14" r="12" fill="currentColor"/><path d="M8.5 14.5l4 4 7-8" stroke="#06241f" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="g-inferred" viewBox="0 0 28 28"><circle cx="14" cy="14" r="11" fill="none" stroke="currentColor" stroke-width="2"/><path d="M14 3a11 11 0 0 0 0 22z" fill="currentColor"/></symbol>
+    <symbol id="g-manual" viewBox="0 0 28 28"><rect x="3" y="3" width="22" height="22" rx="3" fill="none" stroke="currentColor" stroke-width="2"/><path d="M9 19l1-4 8-8 3 3-8 8z" fill="currentColor"/></symbol>
+    <symbol id="g-unknown" viewBox="0 0 28 28"><circle cx="14" cy="14" r="11" fill="none" stroke="currentColor" stroke-width="2" stroke-dasharray="4 3"/><path d="M10.6 11.3a3.5 3.5 0 1 1 5 3.1c-1.1.6-1.6 1.2-1.6 2.3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="14" cy="20" r="1.3" fill="currentColor"/></symbol>
+  </defs>
+</svg>
+<a class="skip" href="#main">Skip to main content</a>
+<div class="strip"><div class="wrap">Design option 4: Systems (preview, not published)</div></div>
+
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="#top" aria-label="Jubilab, back to top">
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="1.5" y="9" width="7" height="6" rx="1.5" fill="none" stroke="#6fd6c2" stroke-width="1.5"/><rect x="15.5" y="2.5" width="7" height="6" rx="1.5" fill="none" stroke="#6b7c86" stroke-width="1.5"/><rect x="15.5" y="15.5" width="7" height="6" rx="1.5" fill="none" stroke="#6b7c86" stroke-width="1.5"/><path d="M8.5 12H12V5.5h3.5M12 12v7h3.5" fill="none" stroke="#6b7c86" stroke-width="1.5"/></svg>
+      jubilab
+    </a>
+    <nav class="site-nav" aria-label="Page sections">
+      <ul>
+        <li class="opt"><a href="#record">Record</a></li>
+        <li class="opt"><a href="#directions">Lineage</a></li>
+        <li class="opt"><a href="#compare">Compare</a></li>
+        <li class="opt"><a href="#offline">Offline</a></li>
+        <li class="opt"><a href="#limits">Limits</a></li>
+        <li><a class="btn small" href="#access">Request early access</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+<div id="top"></div>
+<section class="hero" style="border-top:0;margin-top:0;padding-top:72px" aria-labelledby="h1">
+  <div class="wrap">
+    <p class="cap">Metadata layer for scientific data</p>
+    <h1 id="h1">From any output, back to its inputs.</h1>
+    <div class="hero-row">
+      <p class="hero-lede"><strong>Jubilab is a local-first, self-hostable metadata layer for scientific data.</strong> It links to your data where it lives, records each processing run, and labels every fact verified, inferred, manual or unknown. When the record does not say, it says &lsquo;cannot determine&rsquo;.</p>
+      <div class="cta-row">
+        <a class="btn" href="#access">Request early access</a>
+        <a class="btn ghost" href="#hero-text">Read the diagram as text</a>
+      </div>
+    </div>
+
+    <figure class="panel hero-diagram" style="margin-left:0;margin-right:0;margin-bottom:0">
+      <div class="panel-head"><span class="cap">Lineage &middot; demo project Cohort A (synthetic data)</span><span class="cap" style="color:#f2b24c">&Delta; changed between Run 001 and Run 002</span></div>
+      <div class="diagram-scroll" tabindex="0" role="region" aria-label="Lineage diagram. Scrolls sideways on narrow screens.">
+        <svg viewBox="0 40 1112 380" role="img" aria-labelledby="hero-t hero-d" xmlns="http://www.w3.org/2000/svg" class="draw"><title id="hero-t">Lineage of the demo project Cohort A</title><desc id="hero-d">Cohort_A.fastq.gz is used as input by Run 001 and Run 002. Run 001 generated variants_run001.vcf. Run 002 generated variants_run002.vcf. Run 002 differs from Run 001 in one parameter, threshold 30 instead of 20, marked changed. Run 002 has an unknown container digest.</desc><g><path class="e" d="M256 210 H316 V110 H428"/><path class="e" d="M256 210 H316 V310 H428"/><path class="e" d="M676 110 H848"/><path class="e" d="M676 310 H848"/></g><g class="lbl"><polygon class="arrow" points="436,110 427,105 427,115"/><polygon class="arrow" points="436,310 427,305 427,315"/><polygon class="arrow" points="856,110 847,105 847,115"/><polygon class="arrow" points="856,310 847,305 847,315"/><text class="t-lbl" x="324" y="102">used as input</text><text class="t-lbl" x="324" y="302">used as input</text><text class="t-lbl" text-anchor="middle" x="766" y="102">generated</text><text class="t-lbl" text-anchor="middle" x="766" y="302">generated</text></g><g class="n"><rect class="box" x="16" y="166" width="240" height="88" rx="6"/><text class="t-type" x="32" y="190">DATA ASSET</text><text class="t-name" x="32" y="214">Cohort_A.fastq.gz</text><text class="t-sub" x="32" y="234">S3 · 120 files · v1</text></g><g class="n"><rect class="box" x="436" y="66" width="240" height="88" rx="6"/><text class="t-type" x="452" y="90">RUN</text><text class="t-name" x="452" y="114">Run 001 · Baseline</text><text class="t-sub" x="452" y="134">Nextflow · threshold 20</text></g><g class="n chg"><rect class="box" x="436" y="266" width="240" height="88" rx="6"/><text class="t-type" x="452" y="290">RUN</text><text class="t-name" x="452" y="314">Run 002 · Parameter variant</text><text class="t-sub" x="452" y="334">Nextflow · <tspan class="t-chg" font-weight="500">threshold 30</tspan></text><text class="t-type t-chg" text-anchor="end" x="662" y="290">Δ CHANGED</text></g><g class="n"><rect class="box" x="856" y="66" width="240" height="88" rx="6"/><text class="t-type" x="872" y="90">OUTPUT</text><text class="t-name" x="872" y="114">variants_run001.vcf</text><text class="t-sub" x="872" y="134">HPC · 42,180 variants</text></g><g class="n"><rect class="box" x="856" y="266" width="240" height="88" rx="6"/><text class="t-type" x="872" y="290">OUTPUT</text><text class="t-name" x="872" y="314">variants_run002.vcf</text><text class="t-sub" x="872" y="334">HPC · 36,740 variants</text></g><g class="lbl"><text class="t-note" x="436" y="378" style="fill:#f2b24c">Δ quality_threshold 20 → 30, against Run 001</text><use href="#g-unknown" x="436" y="390" width="16" height="16" color="#8795a0"/><text class="t-note" x="460" y="403">container digest: unknown</text></g></svg>
+      </div>
+      <p class="scroll-hint">Scroll the diagram sideways, or read the text version below.</p>
+      <div class="legend">
+        <span><svg aria-hidden="true"><use href="#g-unknown"/></svg><span class="unk">unknown</span>: the record does not say</span>
+        <span class="chg">&Delta; changed: a value differs between the two runs</span>
+      </div>
+      <div class="twin" id="hero-text">
+        <p class="cap twin-h">Text version</p>
+        <ol>
+          <li><b>Cohort_A.fastq.gz</b> (data asset, S3, 120 files, version v1) was used as input by Run 001 and by Run 002.</li>
+          <li><b>Run 001</b> (Nextflow, <span class="m">quality_threshold = 20</span>) generated <b>variants_run001.vcf</b> (HPC, 42,180 variants).</li>
+          <li><b>Run 002</b> (Nextflow, <span class="m chg">quality_threshold = 30</span>, changed) generated <b>variants_run002.vcf</b> (HPC, 36,740 variants).</li>
+          <li>Run 002&rsquo;s container digest is <b>unknown</b>: it was not captured.</li>
+        </ol>
+      </div>
+    </figure>
+  </div>
+</section>
+
+<section id="record" aria-labelledby="h-record">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="cap">01 / Run record</span>
+      <h2 id="h-record">What a run record is</h2>
+      <p>A record names its inputs, its parameters, its executor and its status. It is written once. A later run is a new record, not an edit of an old one, so history is immutable. The data itself is not in the record, only where it is.</p>
+    </div>
+    <div class="cols">
+      <div class="panel a">
+        <div class="panel-head"><span class="cap">run-002</span><span class="cap">demo data</span></div>
+        <div class="record">
+          <h3 class="grp">From the command-line session</h3>
+          <dl>
+            <dt>id</dt><dd>run-002</dd>
+            <dt>name</dt><dd>Variant calling, threshold 30</dd>
+            <dt>input</dt><dd>fastq-v1</dd>
+            <dt>parameter</dt><dd>quality_threshold = 30</dd>
+            <dt>executor</dt><dd>nextflow</dd>
+            <dt>status</dt><dd>completed</dd>
+          </dl>
+          <h3 class="grp">Shown in the interface for the same run</h3>
+          <dl>
+            <dt>definition</dt><dd>Variant pipeline v1.2</dd>
+            <dt>execution</dt><dd>HPC cluster, 32m 14s</dd>
+            <dt>output</dt><dd>variants_run002.vcf, 36,740 variants</dd>
+            <dt>environment</dt><dd class="unk"><svg class="glyph" aria-hidden="true"><use href="#g-unknown"/></svg>unknown: container digest not captured</dd>
+          </dl>
+        </div>
+      </div>
+      <div class="side">
+        <p><b>Pointers, not data.</b> The input <span class="m">fastq-v1</span> is a registered asset: a name, a location, a type and a version. The files stay where they are.</p>
+        <p><b>Projects are separate.</b> Each project keeps its own assets, runs and history. Nothing is shared between projects.</p>
+        <p><b>Two sources, one demo.</b> The upper group is copied from the arguments of a real <span class="m">jubilab register-run</span> call; the lower group from the running interface. Both are demo data.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="directions" aria-labelledby="h-dir">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="cap">02 / Both directions</span>
+      <h2 id="h-dir">Back to the inputs, forward to what depends on them</h2>
+      <p>Open an output and Jubilab highlights the run that made it and the inputs that run used. Open an input and it highlights every run and output that depends on it. The two views below use the same graph.</p>
+    </div>
+    <div class="pair">
+      <figure class="panel" style="margin:0">
+        <div class="panel-head"><span class="cap">Backward from variants_run002.vcf</span><span class="cap" style="color:#6fd6c2">3 objects, 2 edges</span></div>
+        <div class="diagram-scroll" tabindex="0" role="region" aria-label="Backward lineage diagram. Scrolls sideways on narrow screens."><svg viewBox="0 40 1112 340" role="img" aria-labelledby="back-t back-d" xmlns="http://www.w3.org/2000/svg"><title id="back-t">Backward lineage of variants_run002.vcf</title><desc id="back-d">variants_run002.vcf was generated by Run 002, which used Cohort_A.fastq.gz as input. These three objects and two edges are highlighted; the others are dimmed.</desc><g><path class="e dim" d="M256 210 H316 V110 H428"/><path class="e on" d="M256 210 H316 V310 H428"/><path class="e dim" d="M676 110 H848"/><path class="e on" d="M676 310 H848"/></g><g class="lbl"><polygon class="arrow dim" points="436,110 427,105 427,115"/><polygon class="arrow on" points="436,310 427,305 427,315"/><polygon class="arrow dim" points="856,110 847,105 847,115"/><polygon class="arrow on" points="856,310 847,305 847,315"/><text class="t-lbl" x="324" y="102">used as input</text><text class="t-lbl" x="324" y="302">used as input</text><text class="t-lbl" text-anchor="middle" x="766" y="102">generated</text><text class="t-lbl" text-anchor="middle" x="766" y="302">generated</text></g><g class="n on"><rect class="box" x="16" y="166" width="240" height="88" rx="6"/><text class="t-type" x="32" y="190">DATA ASSET</text><text class="t-name" x="32" y="214">Cohort_A.fastq.gz</text><text class="t-sub" x="32" y="234">S3 · 120 files · v1</text></g><g class="n dim"><rect class="box" x="436" y="66" width="240" height="88" rx="6"/><text class="t-type" x="452" y="90">RUN</text><text class="t-name" x="452" y="114">Run 001 · Baseline</text><text class="t-sub" x="452" y="134">Nextflow · threshold 20</text></g><g class="n on"><rect class="box" x="436" y="266" width="240" height="88" rx="6"/><text class="t-type" x="452" y="290">RUN</text><text class="t-name" x="452" y="314">Run 002 · Parameter variant</text><text class="t-sub" x="452" y="334">Nextflow · threshold 30</text></g><g class="n dim"><rect class="box" x="856" y="66" width="240" height="88" rx="6"/><text class="t-type" x="872" y="90">OUTPUT</text><text class="t-name" x="872" y="114">variants_run001.vcf</text><text class="t-sub" x="872" y="134">HPC · 42,180 variants</text></g><g class="n on"><rect class="box" x="856" y="266" width="240" height="88" rx="6"/><text class="t-type" x="872" y="290">OUTPUT</text><text class="t-name" x="872" y="314">variants_run002.vcf</text><text class="t-sub" x="872" y="334">HPC · 36,740 variants</text></g></svg></div>
+        <p class="twin-line"><b>Text version:</b> <span class="m">variants_run002.vcf</span> was generated by Run 002, which used <span class="m">Cohort_A.fastq.gz</span> as input. Run 001 and its output are not involved.</p>
+      </figure>
+      <figure class="panel" style="margin:0">
+        <div class="panel-head"><span class="cap">Forward from Cohort_A.fastq.gz</span><span class="cap" style="color:#6fd6c2">5 objects, 4 edges</span></div>
+        <div class="diagram-scroll" tabindex="0" role="region" aria-label="Forward lineage diagram. Scrolls sideways on narrow screens."><svg viewBox="0 40 1112 340" role="img" aria-labelledby="fwd-t fwd-d" xmlns="http://www.w3.org/2000/svg"><title id="fwd-t">Forward lineage of Cohort_A.fastq.gz</title><desc id="fwd-d">Run 001 and Run 002 both used Cohort_A.fastq.gz as input. Run 001 generated variants_run001.vcf and Run 002 generated variants_run002.vcf. Everything shown depends on Cohort_A.fastq.gz.</desc><g><path class="e on" d="M256 210 H316 V110 H428"/><path class="e on" d="M256 210 H316 V310 H428"/><path class="e on" d="M676 110 H848"/><path class="e on" d="M676 310 H848"/></g><g class="lbl"><polygon class="arrow on" points="436,110 427,105 427,115"/><polygon class="arrow on" points="436,310 427,305 427,315"/><polygon class="arrow on" points="856,110 847,105 847,115"/><polygon class="arrow on" points="856,310 847,305 847,315"/><text class="t-lbl" x="324" y="102">used as input</text><text class="t-lbl" x="324" y="302">used as input</text><text class="t-lbl" text-anchor="middle" x="766" y="102">generated</text><text class="t-lbl" text-anchor="middle" x="766" y="302">generated</text></g><g class="n on"><rect class="box" x="16" y="166" width="240" height="88" rx="6"/><text class="t-type" x="32" y="190">DATA ASSET</text><text class="t-name" x="32" y="214">Cohort_A.fastq.gz</text><text class="t-sub" x="32" y="234">S3 · 120 files · v1</text></g><g class="n on"><rect class="box" x="436" y="66" width="240" height="88" rx="6"/><text class="t-type" x="452" y="90">RUN</text><text class="t-name" x="452" y="114">Run 001 · Baseline</text><text class="t-sub" x="452" y="134">Nextflow · threshold 20</text></g><g class="n on"><rect class="box" x="436" y="266" width="240" height="88" rx="6"/><text class="t-type" x="452" y="290">RUN</text><text class="t-name" x="452" y="314">Run 002 · Parameter variant</text><text class="t-sub" x="452" y="334">Nextflow · threshold 30</text></g><g class="n on"><rect class="box" x="856" y="66" width="240" height="88" rx="6"/><text class="t-type" x="872" y="90">OUTPUT</text><text class="t-name" x="872" y="114">variants_run001.vcf</text><text class="t-sub" x="872" y="134">HPC · 42,180 variants</text></g><g class="n on"><rect class="box" x="856" y="266" width="240" height="88" rx="6"/><text class="t-type" x="872" y="290">OUTPUT</text><text class="t-name" x="872" y="314">variants_run002.vcf</text><text class="t-sub" x="872" y="334">HPC · 36,740 variants</text></g></svg></div>
+        <p class="twin-line"><b>Text version:</b> Run 001 and Run 002 used <span class="m">Cohort_A.fastq.gz</span>. Run 001 generated <span class="m">variants_run001.vcf</span>; Run 002 generated <span class="m">variants_run002.vcf</span>.</p>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<section id="compare" aria-labelledby="h-cmp">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="cap">03 / Compare</span>
+      <h2 id="h-cmp">Compare two runs. See what changed.</h2>
+      <p>Pick two runs and Jubilab lines up their fields. Differences are marked in amber and with the word &ldquo;changed&rdquo;. It records the difference; it does not say which result is better.</p>
+    </div>
+    <div class="cols">
+      <div class="panel a" style="grid-column:1 / -1">
+        <div class="table-scroll" tabindex="0" role="region" aria-label="Run comparison table. Scrolls sideways on narrow screens.">
+        <table class="cmp">
+          <caption class="cap">Run 002 (parameter variant) against Run 001 (baseline), demo data</caption>
+          <thead><tr><th scope="col">Field</th><th scope="col">Run 001</th><th scope="col">Run 002</th><th scope="col">State</th></tr></thead>
+          <tbody>
+            <tr class="diff"><th scope="row">Quality threshold</th><td>20</td><td>30</td><td><span class="tag">&Delta; changed</span></td></tr>
+            <tr><th scope="row">Pipeline version</th><td>v1.2</td><td>v1.2</td><td><span class="same">same</span></td></tr>
+            <tr><th scope="row">Input dataset</th><td>COHORT-A-v1</td><td>COHORT-A-v1</td><td><span class="same">same</span></td></tr>
+            <tr class="diff"><th scope="row">Variants called</th><td>42,180</td><td>36,740</td><td><span class="tag">&Delta; changed</span></td></tr>
+            <tr class="diff"><th scope="row">Runtime</th><td>29m 08s</td><td>32m 14s</td><td><span class="tag">&Delta; changed</span></td></tr>
+            <tr class="diff"><th scope="row">Environment</th><td>Singularity, image digest recorded</td><td>Container digest not captured (unknown)</td><td><span class="tag">&Delta; changed</span></td></tr>
+            <tr><th scope="row">Status</th><td>completed</td><td>completed</td><td><span class="same">same</span></td></tr>
+          </tbody>
+        </table>
+        </div>
+        <details>
+          <summary>Show the same comparison as the server returned it (real output, demo session)</summary>
+<pre>{
+    "ids": ["run-001", "run-002"],
+    "fields": [
+        {"field": "Executor", "values": {"run-001": "nextflow", "run-002": "nextflow"}, "differs": false},
+        {"field": "quality_threshold", "values": {"run-001": "20", "run-002": "30"}, "differs": true},
+        {"field": "status", "values": {"run-001": "completed", "run-002": "completed"}, "differs": false}
+    ]
+}</pre>
+        </details>
+      </div>
+      <figure class="shot full" style="margin-left:0;margin-right:0">
+        <div class="frame table-scroll" tabindex="0" role="region" aria-label="Screenshot of the run comparison. Scrolls sideways on narrow screens.">
+          <img src="img/compare.webp" width="2000" height="867" loading="lazy" style="min-width:760px"
+            alt="Screenshot of the run comparison in the interface. Highlighted differences: quality threshold 30 versus 20; variants called 36,740 versus 42,180; runtime 32m 14s versus 29m 08s; environment 'Container digest not captured' versus 'Singularity, image digest recorded'. Unchanged: pipeline version v1.2, input dataset COHORT-A-v1, status completed. A note says interpretation remains with the researcher.">
+        </div>
+        <figcaption>The same comparison in the interface (cropped from the running product, demo data). Its note reads: fewer or more results does not automatically mean a better result; interpretation remains with the researcher.</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<section id="states" aria-labelledby="h-states">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="cap">04 / Fact states</span>
+      <h2 id="h-states">Four states of a fact</h2>
+      <p>A complete-looking record can still have gaps. Every fact carries one of four labels, each with a word and a shape, never colour alone. Jubilab does not imply a run is reproducible because it has a record.</p>
+    </div>
+    <!-- [placeholder] The one-line definitions of the four states are written from the owner's brief; the product team must confirm the exact meanings.
+         The real screenshots show "recorded" and "unknown" but not all four labels, so the legend is drawn, not captured. -->
+    <dl class="panel states" style="margin:0">
+      <div>
+        <svg class="t-verified" aria-hidden="true"><use href="#g-verified"/></svg>
+        <dt class="t-verified">verified</dt>
+        <dd>Checked against the source, or captured directly by the tool.</dd>
+      </div>
+      <div>
+        <svg class="t-inferred" aria-hidden="true"><use href="#g-inferred"/></svg>
+        <dt class="t-inferred">inferred</dt>
+        <dd>Worked out from other records, not observed directly.</dd>
+      </div>
+      <div>
+        <svg class="t-manual" aria-hidden="true"><use href="#g-manual"/></svg>
+        <dt class="t-manual">manual</dt>
+        <dd>Entered or annotated by a person.</dd>
+        <dd class="eg"><b>Demo:</b> &ldquo;Run 001 kept as baseline&rdquo; is a researcher annotation.</dd>
+      </div>
+      <div>
+        <svg class="t-unknown" aria-hidden="true"><use href="#g-unknown"/></svg>
+        <dt class="t-unknown">unknown</dt>
+        <dd>The record does not say. Jubilab shows the gap instead of filling it in.</dd>
+        <dd class="eg"><b>Demo:</b> Run 002&rsquo;s container digest was not captured.</dd>
+      </div>
+    </dl>
+  </div>
+</section>
+
+<section id="offline" aria-labelledby="h-off">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="cap">05 / Offline</span>
+      <h2 id="h-off">Record on a node without internet. Sync later.</h2>
+      <p>On an HPC node with no network, the command-line tool writes each record to a spool file. When the server can be reached, <span class="m">jubilab sync</span> sends the file&rsquo;s records to it.</p>
+    </div>
+    <figure class="panel" style="margin:0 0 24px">
+      <div class="panel-head"><span class="cap">Record, spool, sync</span></div>
+      <div class="diagram-scroll" tabindex="0" role="region" aria-label="Offline recording diagram. Scrolls sideways on narrow screens."><svg viewBox="0 0 1112 250" role="img" aria-labelledby="off-t off-d" xmlns="http://www.w3.org/2000/svg">
+<title id="off-t">Offline recording and later sync</title>
+<desc id="off-d">On a node without internet, the jubilab command-line tool writes each record to a spool file named jubilab-spool.p_8hakp36js1.jsonl. Later, jubilab sync sends the spooled records to the Jubilab server, which listens on 127.0.0.1.</desc>
+<rect class="box-o" x="16" y="30" width="330" height="190" rx="6" fill="none" stroke="#6b7c86" stroke-width="1.5" stroke-dasharray="6 5"/>
+<text class="t-box" x="32" y="54">NODE WITHOUT INTERNET</text>
+<g class="n"><rect class="box" x="40" y="84" width="282" height="104" rx="6"/>
+<text class="t-type" x="56" y="108">COMMAND LINE</text>
+<text class="t-name" x="56" y="132">jubilab register-run</text>
+<text class="t-sub" x="56" y="152">--id run-002 --input fastq-v1 …</text>
+<text class="t-sub" x="56" y="170">writes one line per record</text></g>
+<path class="e on" d="M322 136 H396"/><polygon class="arrow on" points="412,136 403,131 403,141"/>
+<g class="n"><rect class="box" x="412" y="84" width="300" height="104" rx="6"/>
+<text class="t-type" x="428" y="108">SPOOL FILE</text>
+<text class="t-name" x="428" y="132" style="font-family:var(--mono);font-size:12px">jubilab-spool.p_8hakp36js1.jsonl</text>
+<text class="t-sub" x="428" y="152">3 records, 0 unsynced (after sync)</text>
+<text class="t-sub" x="428" y="170">a plain file on disk</text></g>
+<path class="e" d="M712 136 H776" stroke-dasharray="6 5"/><polygon class="arrow" points="792,136 783,131 783,141"/>
+<text class="t-lbl" x="728" y="124">jubilab sync, later</text>
+<g class="n"><rect class="box" x="792" y="84" width="304" height="104" rx="6"/>
+<text class="t-type" x="808" y="108">SERVER</text>
+<text class="t-name" x="808" y="132">Jubilab server</text>
+<text class="t-sub" x="808" y="152">listening on 127.0.0.1</text>
+<text class="t-sub" x="808" y="170">applied=3 duplicate=0 error=0</text></g>
+</svg></div>
+      <p class="twin-line" style="padding:14px 20px 18px;border-top:1px solid #223038;color:#93a1a8;font-size:.9375rem;margin:0"><b style="color:#e6ecef;font-weight:500">Text version:</b> the <span class="m">jubilab</span> command on a node without internet writes each record to <span class="m">jubilab-spool.p_8hakp36js1.jsonl</span>. Later, <span class="m">jubilab sync</span> sends the spooled records to the Jubilab server, which reports how many were applied, duplicated or in error.</p>
+    </figure>
+    <figure class="terminal">
+      <pre tabindex="0" aria-label="Terminal excerpt from a real session on demo data"><span class="c">$ jubilab register-run --id run-002 --name "Variant calling, threshold 30" --input fastq-v1 -p quality_threshold=30 --status completed --executor nextflow</span>
+spooled register_run key=ed400327f323beb1c015acf5e7ed1297 -&gt; jubilab-spool.p_8hakp36js1.jsonl
+
+<span class="c">$ jubilab sync</span>
+synced 3 record(s) to http://127.0.0.1:18190/api/projects/p_8hakp36js1/ingest: applied=3 duplicate=0 error=0
+
+<span class="c">$ jubilab status</span>
+spool: jubilab-spool.p_8hakp36js1.jsonl (3 records, 0 unsynced)
+server: http://127.0.0.1:18190 {"projects":{"active":1,"archived":0,"unavailable":0},"status":"ok","version":"0.1.0"}
+project: p_8hakp36js1 (Cohort A)</pre>
+      <figcaption>Excerpt from a real command-line session on demo data; some commands are left out.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<section id="where" aria-labelledby="h-where">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="cap">06 / Where it runs</span>
+      <h2 id="h-where">One command, on your machine, with no calls out</h2>
+      <p>Jubilab starts with one command: <span class="m">python -m server serve --data-dir ./data</span>. The server binds to localhost and makes no outbound network calls. No AI model is required.</p>
+    </div>
+    <figure class="panel" style="margin:0">
+      <div class="panel-head"><span class="cap">Boundary of the server</span></div>
+      <div class="diagram-scroll" tabindex="0" role="region" aria-label="Where Jubilab runs diagram. Scrolls sideways on narrow screens."><svg viewBox="0 0 1112 270" role="img" aria-labelledby="whr-t whr-d" xmlns="http://www.w3.org/2000/svg">
+<title id="whr-t">Where Jubilab runs</title>
+<desc id="whr-d">Inside one boundary, your machine or cluster: a browser talks to the Jubilab server, which listens on localhost and keeps its records in a data directory. Outside the boundary, your data stays where it is; Jubilab records its location and a description. No arrow leaves the boundary.</desc>
+<rect x="16" y="28" width="720" height="226" rx="6" fill="none" stroke="#6fd6c2" stroke-width="1.5"/>
+<text class="t-box" x="32" y="52" style="fill:#6fd6c2">YOUR MACHINE OR CLUSTER</text>
+<g class="n"><rect class="box" x="44" y="94" width="190" height="104" rx="6"/>
+<text class="t-type" x="60" y="118">CLIENT</text><text class="t-name" x="60" y="142">Browser</text>
+<text class="t-sub" x="60" y="162">or the jubilab command</text></g>
+<path class="e on" d="M234 146 H292"/><polygon class="arrow on" points="308,146 299,141 299,151"/>
+<g class="n"><rect class="box" x="308" y="94" width="206" height="104" rx="6"/>
+<text class="t-type" x="324" y="118">SERVER</text><text class="t-name" x="324" y="142">Jubilab server</text>
+<text class="t-sub" x="324" y="162">binds to 127.0.0.1</text><text class="t-sub" x="324" y="178">no outbound network calls</text></g>
+<path class="e on" d="M514 146 H548"/><polygon class="arrow on" points="564,146 555,141 555,151"/>
+<g class="n"><rect class="box" x="564" y="94" width="150" height="104" rx="6"/>
+<text class="t-type" x="580" y="118">RECORDS</text><text class="t-name" x="580" y="142">data-dir</text>
+<text class="t-sub" x="580" y="162">runs, inputs,</text><text class="t-sub" x="580" y="178">versions</text></g>
+<g class="n"><rect class="box" x="800" y="94" width="296" height="104" rx="6" stroke-dasharray="6 5"/>
+<text class="t-type" x="816" y="118">YOUR DATA</text><text class="t-name" x="816" y="142">stays where it is</text>
+<text class="t-sub" x="816" y="162">Jubilab keeps its location,</text><text class="t-sub" x="816" y="178">version and a description</text></g>
+</svg></div>
+      <p class="twin-line" style="padding:14px 20px 18px;border-top:1px solid #223038;color:#93a1a8;font-size:.9375rem;margin:0"><b style="color:#e6ecef;font-weight:500">Text version:</b> a browser or the <span class="m">jubilab</span> command talks to the Jubilab server on <span class="m">127.0.0.1</span>. The server keeps its records in a data directory and makes no outbound network calls. Your data stays where it is; Jubilab records its location, version and a description.</p>
+    </figure>
+  </div>
+</section>
+
+<section id="ask" aria-labelledby="h-ask">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="cap">07 / Questions</span>
+      <h2 id="h-ask">Answers come from recorded evidence, or &ldquo;cannot determine&rdquo;</h2>
+      <p>Questions are answered by retrieving records, not by a language model. The interface says so itself: &ldquo;Deterministic retrieval over structured records. No generative model.&rdquo; Each answer cites its records and lists what is missing.</p>
+    </div>
+    <div class="panel answer">
+      <p class="q">What changed between the two variant runs?</p>
+      <p class="status">Evidence-backed answer &middot; incomplete</p>
+      <p class="body">Differences between RUN-001 and RUN-002: Quality threshold: 20 (RUN-001), 30 (RUN-002); Variants called: 42,180 (RUN-001), 36,740 (RUN-002); Runtime: 29m 08s (RUN-001), 32m 14s (RUN-002); Environment: Singularity &middot; image digest recorded (RUN-001), Container digest not captured (RUN-002). Unchanged: Pipeline version = v1.2; Input dataset = COHORT-A-v1; status = completed. Variants called changed by -5,440 (-12.9%). The system records differences only; it does not establish which result is better. Unknown evidence limits how far these runs can be called reproducible.</p>
+      <p class="miss"><b>Missing / unknown provenance</b>RUN-002 &middot; Environment: Container digest not captured (unknown)</p>
+    </div>
+    <p style="color:#93a1a8;font-size:.875rem;margin:12px 0 0">Answer text copied from the Ask page of the demo project; it cites Run 001, Run 002, variants_run001.vcf and variants_run002.vcf as evidence links.</p>
+  </div>
+</section>
+
+<section id="limits" aria-labelledby="h-limits">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="cap">08 / Limits</span>
+      <h2 id="h-limits">What it is not, and what is not there yet</h2>
+      <p>Jubilab is early-stage software. These are its edges today.</p>
+    </div>
+    <!-- [placeholder] The "Not there yet" list and the statement that the licence is undecided are for the owner to approve before publishing. -->
+    <div class="panel limits">
+      <div>
+        <h3>What it is not</h3>
+        <ul>
+          <li><b>Not a workflow engine.</b> Nextflow, your scheduler or a shell script still run the work. Jubilab records what happened.</li>
+          <li><b>Not storage.</b> It keeps pointers and context, not your files.</li>
+          <li><b>Not a replacement for your tools.</b> It sits beside them.</li>
+          <li><b>Not a promise of reproducibility.</b> It shows what was recorded and what was not.</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Not there yet</h3>
+        <ul>
+          <li><b>No sign-in or access control.</b></li>
+          <li><b>No hosted service.</b> You run it yourself.</li>
+          <li><b>No storage-system connectors.</b></li>
+          <li><b>Licence and terms:</b> not decided yet.</li>
+          <li><b>No performance figures.</b> None are published.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="access" class="access" aria-labelledby="h-access">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="cap">09 / Early access</span>
+      <h2 id="h-access">Request early access</h2>
+      <p>Jubilab is not publicly available yet. Leave an email address to be told when early access opens, and say what kind of data you work with.</p>
+    </div>
+    <div class="cols">
+      <form class="panel form" action="#" aria-labelledby="h-access">
+        <span class="demo-flag">Demo form: nothing is sent or stored</span>
+        <div class="field">
+          <label for="email">Email address</label>
+          <input id="email" type="email" autocomplete="email" placeholder="you@example.org">
+        </div>
+        <div class="field">
+          <label for="work">What do you work on? <span class="hint">(optional)</span></label>
+          <textarea id="work" rows="3" placeholder="For example: variant calling on an HPC cluster"></textarea>
+        </div>
+        <button class="btn" type="button">Request early access</button>
+        <!-- [placeholder] Privacy note text. The real form, where it posts, and what is kept need the owner's decision. -->
+        <p class="privacy"><b>Placeholder privacy note.</b> When this form is live, we will use your email only to write to you about early access, will not share it, and will delete it on request. The final notice is yet to be written.</p>
+      </form>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div>
+      <p><strong style="color:#e6ecef;font-weight:500">Jubilab</strong>. Early-stage software. Demo data in all diagrams and screenshots is synthetic.</p>
+      <p>Design option 4 preview. Not published.</p>
+    </div>
+    <ul aria-label="Footer">
+      <li><a href="#top">Back to top</a></li>
+      <li><a href="#directions">Lineage</a></li>
+      <li><a href="#limits">Limits</a></li>
+      <li><a href="#access">Early access</a></li>
+    </ul>
+  </div>
+</footer>
+</body>
+</html>
