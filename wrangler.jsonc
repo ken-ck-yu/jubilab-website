@@ -1,0 +1,14 @@
+{
+  "name": "jubilab-website",
+  "main": "src/worker.js",
+  "compatibility_date": "2025-09-01",
+  "assets": {
+    "directory": "./",
+    "binding": "ASSETS",
+    "not_found_handling": "404-page",
+    "run_worker_first": ["/api/*"]
+  },
+  // Wrangler creates this KV namespace on first deploy when no id is given.
+  "kv_namespaces": [{ "binding": "WAITLIST" }],
+  "routes": [{ "pattern": "jubilab.io", "custom_domain": true }]
+}

@@ -1,0 +1,12 @@
+# Files in the repo that must not be served as website files
+.assetsignore
+.git
+.gitignore
+.wrangler
+node_modules
+wrangler.jsonc
+src
+tests
+docs
+README.md
+CNAME

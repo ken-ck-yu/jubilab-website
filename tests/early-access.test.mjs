@@ -1,7 +1,7 @@
 // Run: node --test tests/
 import test from "node:test";
 import assert from "node:assert/strict";
-import { onRequestPost, parse } from "../functions/api/early-access.js";
+import { onRequestPost, parse } from "../src/early-access.js";
 
 const mk = (body, headers = {}) =>
   new Request("https://jubilab.io/api/early-access", {

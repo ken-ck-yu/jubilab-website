@@ -1,5 +1,5 @@
-// Cloudflare Pages Function: POST /api/early-access
-// Stores one record per email in the KV namespace bound as WAITLIST (set in the Pages dashboard).
+// POST /api/early-access, called from src/worker.js.
+// Stores one record per email in the KV namespace bound as WAITLIST (see wrangler.jsonc).
 // Stores only the form fields and a UTC timestamp. It does not store IP address or user agent.
 
 const ROLE = ["lab-head", "researcher-analyst", "core-platform", "other"];
@@ -47,8 +47,4 @@ export async function onRequestPost({ request, env }) {
   if (!env.WAITLIST) return new Response("Service not configured", { status: 503 });
   await env.WAITLIST.put("email:" + parsed.record.email, JSON.stringify(parsed.record));
   return back(url, "/thanks/");
-}
-
-export function onRequest() {
-  return new Response("Method not allowed", { status: 405, headers: { Allow: "POST" } });
 }

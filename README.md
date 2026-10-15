@@ -1,6 +1,6 @@
 # Jubilab website
 
-Content and code for the public Jubilab website, hosted on Cloudflare Pages at `jubilab.io`. The product itself lives in a separate, private repository; this repository holds **only** the website.
+Content and code for the public Jubilab website, hosted on Cloudflare at `jubilab.io`. The product itself lives in a separate, private repository; this repository holds **only** the website.
 
 Status: first production version of the site (preview, non-indexable). See `docs/launch-checklist.md` for the steps to launch.
 
@@ -27,4 +27,4 @@ Static HTML and CSS, no build step. A little vanilla JavaScript (`assets/theme.j
 
 ## Hosting note
 
-Cloudflare Pages (the domain is on Cloudflare). The repository can be private or public; it contains only website content. The waitlist form is a Pages Function (`functions/api/early-access.js`) writing to a KV namespace; tests are in `tests/`.
+A Cloudflare Worker with static assets (`wrangler.jsonc`; the domain is on Cloudflare). The repository can be private or public; it contains only website content. The waitlist form is handled by `src/worker.js` and `src/early-access.js`, writing to a KV namespace; tests are in `tests/`.

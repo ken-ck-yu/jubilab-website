@@ -13,26 +13,24 @@ Until this step, every page carries `<meta name="robots" content="noindex">` and
 4. Check every `<link rel="canonical">` and `og:url`: they already point at `https://jubilab.io/` (home), `/privacy/` and `/terms/`. Confirm they match the final live URLs, with or without trailing slash.
 5. Check the Open Graph preview of `https://jubilab.io/` in a link-preview tool after deploy (image: `assets/og/jubilab-og.png`, 1200x630; its source is `assets/og/og-source.html`).
 
-## 2. Hosting (Cloudflare Pages)
+## 2. Hosting and the form (Cloudflare Workers with static assets)
 
-The domain is on Cloudflare, so the site is hosted on Cloudflare Pages. The repository can stay private.
+Cloudflare's "Create an app" flow deploys this repo as a Worker that serves the static files and handles `/api/early-access`. Config is in `wrangler.jsonc`; `.assetsignore` keeps source, docs and tests off the public site. The repository can stay private.
 
-1. Cloudflare dashboard > Workers & Pages > Create > Pages > connect the `jubilab-website` repository, production branch `main` (or the branch chosen at launch). Build command: none. Output directory: `/`.
-2. Add the custom domain `jubilab.io` to the Pages project (Cloudflare creates the DNS record). Delete the `CNAME` file if you like; it is only used by GitHub Pages.
-3. HTTPS is automatic.
-4. `404.html` is served automatically by Pages.
+In the Cloudflare setup screen (connected to `ken-ck-yu/jubilab-website`):
+- Project name: `jubilab-website` (must match `name` in `wrangler.jsonc`).
+- Build command: leave empty.
+- Deploy command: `npx wrangler deploy` (the default).
+- Preview command: `npx wrangler preview` is fine, or leave the default. Enable Preview builds is optional.
+- Production branch: the branch with these files (`main` after the owner merges `site-v1`; until then, choose `site-v1` for a first trial deploy).
 
-## 3. Early-access form (built, needs one setting)
+Then:
+1. The first deploy creates the `WAITLIST` KV namespace automatically (no id in the config) and attaches `jubilab.io` as a custom domain, because the domain is on the same Cloudflare account. If the custom domain step fails, add it in Worker > Settings > Domains & Routes.
+2. HTTPS is automatic. `404.html` is served for unknown paths.
+3. Submit a real test entry on the live site and check it in Storage & Databases > KV > the new namespace (key `email:<address>`, JSON value with email, role, field, tools, human_data, trace, received_at). To delete someone on request, delete their key.
+4. Tests: `node --test tests/` (Node 18 or newer). Local preview of the whole site and the form: `npx wrangler dev`.
 
-The form posts to `/api/early-access`, handled by `functions/api/early-access.js` (Cloudflare Pages Functions). It validates the fields, ignores bots through a hidden field, and stores one record per email.
-
-1. Dashboard > Workers & Pages > KV > Create a namespace, for example `jubilab-waitlist`.
-2. Pages project > Settings > Bindings (Functions) > add a KV namespace binding with the **variable name `WAITLIST`**, for production (and preview if wanted).
-3. Redeploy. Submit a real test entry on the live site, then check it in the KV namespace (key `email:<address>`, value JSON with email, role, field, tools, human_data, trace, received_at).
-4. To read or export the list later: dashboard > KV > the namespace, or `wrangler kv key list` and `wrangler kv key get`. To delete someone on request, delete their key.
-5. Tests: `node --test tests/` (needs Node 18 or newer).
-
-The form stores only the fields below plus a UTC time. It does not store IP address or user agent. If the binding is missing the function returns 503.
+The form stores only the fields below plus a UTC time. It does not store IP address or user agent. If the KV binding is missing the API returns 503.
 
 | Field name | Question | Type | Required |
 |---|---|---|---|
@@ -43,6 +41,8 @@ The form stores only the fields below plus a UTC time. It does not store IP addr
 | `trace` | What would you most want to trace or compare | text, max 300 characters | no |
 | `email` | Email address | email | yes |
 | `website` | Hidden spam trap, must stay empty | text | no |
+
+## 3. (merged into section 2)
 
 ## 4. Button label
 
@@ -58,7 +58,7 @@ The call-to-action label "Request early access" appears in the header, the hero,
 
 ## 7. Analytics (Cloudflare Web Analytics)
 
-No code is needed. Dashboard > Workers & Pages > the Pages project > Metrics > Enable Web Analytics (some dashboards show it under Manage). Cloudflare adds its beacon script on the next deployment. It is cookieless. It is the only third-party request the site makes, and `privacy/` already says so. If you turn analytics off, update the privacy text. Check in the browser network panel after deploy that the only extra request is Cloudflare's beacon.
+No code is needed. Dashboard > Analytics & Logs > Web Analytics > add the site `jubilab.io` and enable automatic setup (or, for a Worker, copy the one-line snippet Cloudflare gives you into `index.html` and the other pages; if you do, tell me and I will add it). Without one of these, no analytics are collected. It is cookieless. It is the only third-party request the site makes, and `privacy/` already says so. If you turn analytics off, update the privacy text. Check in the browser network panel after deploy that the only extra request is Cloudflare's beacon.
 
 ## 8. Content to re-confirm before launch
 
