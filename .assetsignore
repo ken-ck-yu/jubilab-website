@@ -10,3 +10,7 @@ tests
 docs
 README.md
 CNAME
+
+# Dev and QA tooling, kept off the public site
+review
+scripts
