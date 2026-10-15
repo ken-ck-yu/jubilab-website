@@ -3,8 +3,11 @@
 
   python3 scripts/go-public.py                 dry run (default): print the diff, change nothing
   python3 scripts/go-public.py --apply         write the changes
-  --with-legal   also make privacy/ and terms/ indexable (owner must have approved their text)
-  --allow-draft  with --with-legal: proceed even though a page still has its "Draft" notice
+  --with-legal   also make privacy/ and terms/ indexable, each one only if it has no "Draft" notice.
+                 A page that still has its Draft notice (today: terms/) is SKIPPED with a WARNING on stderr:
+                 it keeps noindex and stays out of the sitemap, the other pages still go ahead (exit 0).
+                 Privacy is published (no Draft notice), so --with-legal opens privacy only for now.
+  --allow-draft  with --with-legal: also open pages that still have their "Draft" notice (rehearsal only)
   --root DIR     operate on another copy of the site (default: the repo this script is in)
 
 What it does:
@@ -41,7 +44,7 @@ def lastmod(root, rel):
 
 
 def plan(root, with_legal, allow_draft):
-    changes, notes, errors = {}, [], []
+    changes, notes, errors, warnings = {}, [], [], []
     indexable = []
     for rel in PAGES:
         text = read(root, rel)
@@ -50,7 +53,7 @@ def plan(root, with_legal, allow_draft):
                 notes.append(f"{rel}: keeps noindex (use --with-legal after the owner approves the text)")
                 continue
         if rel in LEGAL and with_legal and 'class="draft-note"' in text and not allow_draft:
-            errors.append(f"{rel} still has its Draft notice; finish the text first or pass --allow-draft")
+            warnings.append(f"{rel} still has its Draft notice: NOT opened (keeps noindex, not in the sitemap). Finish and approve the text, remove the notice, then run again; --allow-draft is for rehearsals only")
             continue
         new = PREVIEW_COMMENT.sub("", text)
         new = NOINDEX.sub("", new)
@@ -74,7 +77,7 @@ def plan(root, with_legal, allow_draft):
     old_sm = read(root, "sitemap.xml")
     if old_sm != sitemap:
         changes["sitemap.xml"] = (old_sm, sitemap)
-    return changes, notes, errors
+    return changes, notes, errors, warnings
 
 
 def main(argv=None):
@@ -86,9 +89,11 @@ def main(argv=None):
     ap.add_argument("--allow-draft", action="store_true")
     ap.add_argument("--root", default=os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
     a = ap.parse_args(argv)
-    changes, notes, errors = plan(a.root, a.with_legal, a.allow_draft)
+    changes, notes, errors, warnings = plan(a.root, a.with_legal, a.allow_draft)
     for e in errors:
         print("ERROR:", e, file=sys.stderr)
+    for w in warnings:
+        print("WARNING:", w, file=sys.stderr)
     if errors:
         return 2
     for rel, (old, new) in changes.items():
