@@ -18,13 +18,13 @@ docs/launch-checklist.md
 review/               check-site.py (acceptance checks), check-seo.py (crawlability, run in preview or launch mode), capture-screens.py (screenshot recapture)
 ```
 
-Static HTML and CSS, no build step. A little vanilla JavaScript (`assets/theme.js`) only for the theme toggle. Preview locally with `python3 -m http.server`.
+Static HTML and CSS, no build step. A little vanilla JavaScript: `assets/theme.js` (theme toggle, form hints) and `assets/consent.js` (cookie notice and Google consent; own JS stays under 6000 bytes). Preview locally with `python3 -m http.server`.
 
 ## Principles
 
 - Every claim on the site must be true and verified. No invented testimonials, customer logos, metrics or features that do not exist.
 - Screenshots come from the running product on synthetic demo data and are never edited. Third-party material is never committed here.
-- The only third-party request at runtime is the Google Analytics 4 tag (gtag.js, measurement id G-8W2MDQ58PL) in the `<head>` of every page; it sets `_ga` cookies and the consent decision is the owner's (docs/launch-checklist.md section 7). Cloudflare Web Analytics is also planned via the dashboard's automatic setup: Cloudflare injects its beacon at the edge, so it is not in this repo's HTML. No other trackers. Fonts are self-hosted.
+- The only third-party request at runtime is Google Analytics 4 (gtag.js, measurement id G-8W2MDQ58PL), and only after the visitor accepts our own cookie notice (`assets/consent.js`, Google Consent Mode v2, Basic mode: every page's `<head>` has only the inline `denied` defaults, no request, no cookie; docs/launch-checklist.md section 7). Cloudflare Web Analytics is also planned via the dashboard's automatic setup: Cloudflare injects its beacon at the edge, so it is not in this repo's HTML. No other trackers. Fonts are self-hosted.
 - Fast static pages with real HTML text, accessible, readable on a phone.
 
 ## Releases (simple workflow)

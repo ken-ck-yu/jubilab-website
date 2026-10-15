@@ -102,20 +102,20 @@ The call-to-action label "Request early access" appears in the header, the hero,
 
 Open points for the owner on the privacy page (moved here from HTML comments; none of them is in the public HTML):
 - Add a postal address and legal entity name to the page once they exist.
-- Consent for analytics cookies (UK/EU rules), GA data retention, Google signals, ad personalisation and data-sharing settings are the owner's decisions; see section 7. The text says Google keeps data "for a limited period set in our account" and names no number.
+- Consent for analytics cookies is implemented (section 7, Basic consent mode, owner decision 2026-10-15); GA data retention, Google signals, ad personalisation and data-sharing settings are the owner's decisions; see section 7. The text says Google keeps data "for a limited period set in our account" and names no number.
 - `hello@jubilab.io` is a placeholder until the mailbox exists (section 5).
 - Update the "Last updated" date whenever the text changes.
 
 ## 7. Analytics (Google Analytics 4 and Cloudflare Web Analytics)
 
-What is in the code. The Google tag (gtag.js) for measurement id `G-8W2MDQ58PL`, exactly as Google gave it, sits straight after `<head>` on all five pages (`index.html`, `privacy/`, `terms/`, `thanks/`, `404.html`), once per page. The id is public by design. It loads one script from `www.googletagmanager.com` and then sends page views to Google. It sets the cookies `_ga` and `_ga_G-8W2MDQ58PL` immediately on load (no consent step). The early-access form does not go to Google: it posts to our own Worker (`/api/early-access`). `privacy/index.html` describes all of this; the open owner decisions are listed in this section and in section 6. To remove analytics, delete the snippet from the five pages and rewrite the privacy paragraph; `tests/analytics-tag.test.mjs (update it too)` and `review/check-site.py --strict-network` (zero external requests) cover the removed state.
+What is in the code. Google Analytics 4 (measurement id `G-8W2MDQ58PL`, public by design) runs only after the visitor accepts our own cookie notice (Google Consent Mode v2, Basic mode; owner decision 2026-10-15). Every page (`index.html`, `privacy/`, `terms/`, `thanks/`, `404.html`) carries one tiny inline script straight after `<head>` that only sets up `dataLayer`, defines `gtag()` and calls `gtag('consent','default',{ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied',analytics_storage:'denied'})`: no network request, no cookie. `assets/consent.js` (first-party, deferred) reads the stored choice (`localStorage` key `jubilab-consent`, value `granted` or `denied` plus a timestamp, expires after 180 days) and shows a small fixed bottom notice when there is none. Accept stores `granted`, sends `gtag('consent','update',{analytics_storage:'granted'})` (the three ad signals stay denied) and only then creates the `<script async src="https://www.googletagmanager.com/gtag/js?id=G-8W2MDQ58PL">` and runs `gtag('js',...)` and `gtag('config',...)`. Decline stores `denied` and loads nothing from Google. Until the visitor accepts, no request goes to Google and no `_ga` cookie exists; without JavaScript the notice does not appear and Google never runs. The footer link "Cookie settings" on every page reopens the notice; Decline there stores `denied`, sends the `denied` update, deletes the `_ga*` cookies for this host, and says that a reload unloads Google's script. Cloudflare Web Analytics (cookieless, injected at the edge) is always on. The early-access form does not go to Google: it posts to our own Worker (`/api/early-access`). `privacy/index.html` describes all of this. To remove analytics entirely, delete the inline default block and `consent.js` from the five pages and rewrite the privacy paragraph; update `tests/analytics-tag.test.mjs`, and `review/check-site.py --strict-network` (zero external requests) covers the removed state.
 
 Cloudflare Web Analytics (owner chose to use both). Automatic setup, no code or token in the repo: Cloudflare dashboard > Analytics & Logs > Web Analytics > add `jubilab.io` > Automatic setup. Cloudflare then injects its beacon (`static.cloudflareinsights.com/beacon.min.js`, reporting to `cloudflareinsights.com`) into HTML responses at the edge. It sets no cookies. It will not appear on the local server or on `*.workers.dev` previews of unproxied hostnames, and `review/check-site.py` check 35 passes with it absent and allows it if present. We have NOT verified that automatic injection works for a Worker-served custom domain on this account.
 - Verify: view-source of the live page contains `static.cloudflareinsights.com/beacon.min.js`; the Web Analytics dashboard shows visits within a day.
 - Known failure causes: a response marked `Cache-Control: no-transform`; a non-HTML response; a hostname that is not proxied (orange cloud) through Cloudflare.
 - Fallback: manual setup. The dashboard gives a snippet with a token; the owner would have to give it to us and we would place it once per page on all five pages (and update `tests/analytics-tag.test.mjs`, which currently forbids any beacon in the HTML).
 
-Verify Google after deploy. Open GA > Reports > Realtime, load the live site, and confirm your visit appears. We cannot verify collection from here, only the tag placement.
+Verify Google after deploy. Open GA > Reports > Realtime, load the live site, click Accept analytics, and confirm your visit appears. A visit that has not accepted does not appear (by design). We cannot verify collection from here, only the code.
 
 QA traffic counts too. Visits to `*.workers.dev` (while a preview URL exists), localhost and our own testing all land in the same property unless filtered. Recommended: in GA Admin > Data collection and modification > Data streams > Configure tag settings > Define internal traffic (and a data filter), or a hostname filter, to exclude `*.workers.dev` and `localhost`.
 
@@ -127,17 +127,17 @@ GA admin settings to review (owner decisions):
 - IP and geolocation: review the regional data-collection controls; GA4 does not log full IP addresses.
 - Data collection: acknowledge the user-data-collection terms, and review the data-sharing settings (Google products and services, benchmarking, technical support, account specialists).
 
-### Consent (UK/EU rules)
+### Consent (UK/EU rules): implemented, Basic consent mode
 
-UK and EU rules (PECR, GDPR) generally require consent before non-essential cookies such as analytics cookies are set. The tag as pasted sets cookies immediately, with no banner. The options, with rough effort for us:
+Status: implemented (option (a) of the earlier plan: our own banner plus Google Consent Mode v2, defaults denied). This is not legal advice and we make no compliance claim; the owner handles the legal review.
 
-- (a) Consent banner plus Google Consent Mode v2 with defaults denied: the tag does not set cookies until the visitor accepts. Needs a snippet change and a banner (visible UI), plus privacy text. About 1 to 2 days including tests.
-- (b) Keep as is and accept the compliance risk: no work, risk is the owner's.
-- (c) Replace GA with a cookieless service such as Cloudflare Web Analytics (no cookies, no banner usually needed): about half a day (snippet swap, privacy text, tests, checks); less detailed data than GA.
-
-The owner handles the legal review; this is not legal advice and we do not claim compliance. We recommend (a) or (c) for a site aimed at UK and EU researchers.
-
-Restore text for the cookieless option: if analytics is replaced with Cloudflare Web Analytics, the privacy paragraph must be rewritten to say it counts page views, referrers, countries and browser types without cookies; and "no cookies" wording may only come back once no Google tag remains.
+- What it does: see "What is in the code" above. In Basic mode Google's script is not even requested before consent, so Google receives nothing from visitors who have not accepted (and nothing from those who decline).
+- What GA will say while nobody has accepted: GA Admin > Data collection may report that consent signals / consent mode are not detected, or that no data is flowing, because in Basic mode Google sees no hit and no consent signal until a visitor accepts. That is expected, not a fault. Realtime shows only visitors who accepted. Reported numbers will therefore be lower than real traffic (Cloudflare Web Analytics, which is always on and cookieless, is the count of all visits).
+- OWNER CHECK after the first release: visit the live site, click Accept analytics, then wait (it can take up to a day) and open GA Admin > Data collection and modification > Data collection (consent mode status). It should report that consent mode is detected after one accepted visit. Realtime should show the visit right away. We cannot verify this from the repo.
+- Switch to Advanced mode (not enabled): in `assets/consent.js` set `LOAD_GOOGLE_BEFORE_CONSENT = true` (the line `var LOAD_GOOGLE_BEFORE_CONSENT=false,...`), update `tests/analytics-tag.test.mjs` (it asserts `false`) and `review/check-site.py` check 35 (which expects zero Google requests before consent), and rewrite the privacy paragraph. Trade-off: Advanced mode loads gtag.js immediately with consent denied, so Google receives consent signals from every visitor and sends cookieless pings, which satisfies Google's consent-mode diagnostic better and allows modelling; but it sends data to Google before the visitor has chosen, which some regulators dislike. The owner chose Basic for a UK/EU researcher audience.
+- Test in a browser: open the site in a private window with DevTools > Network (filter `google`) and Application > Cookies. Before any click: no request to `googletagmanager.com` or `google-analytics.com`, no `_ga` cookie, the notice at the bottom. Decline: still nothing; reload: no notice, still nothing. Clear site data, Accept: `gtag/js?id=G-8W2MDQ58PL` is requested and then `_ga` cookies appear. Footer "Cookie settings" > Decline: `jubilab-consent` becomes `denied`, `_ga*` cookies disappear, the message says to reload. To see the notice again: Application > Local storage > delete `jubilab-consent`, or wait 180 days.
+- Automated: `tests/analytics-tag.test.mjs` (static) and `review/check-site.py` checks 35 and C1 to C11 (real browser; Google requests are blocked in the check so it works offline).
+- Cloudflare Web Analytics is outside this consent: it sets no cookies. If that ever changes, the notice text must change.
 
 ## 8. Content to re-confirm before launch
 
@@ -152,5 +152,5 @@ Restore text for the cookieless option: if analytics is replaced with Cloudflare
 - Submit the live form once and confirm the record in KV and the redirect to `/thanks/`.
 - Open the page with JavaScript disabled: light theme, all content visible, theme button hidden.
 - Open the page with the system set to dark mode: it must still be light until the visitor presses the toggle.
-- The only requests that leave the origin are Google's (`www.googletagmanager.com`, then `www.google-analytics.com` or `*.analytics.google.com`); check 35 in `review/check-site.py` asserts this (`--strict-network` expects none).
+- Before the visitor accepts the cookie notice, no request goes to Google and no `_ga` cookie exists (only Cloudflare's own beacon may appear); after Accept, `www.googletagmanager.com` is requested. Check 35 in `review/check-site.py` asserts this (`--strict-network` expects none at all).
 - Run the page through a validator and a contrast checker in both themes.

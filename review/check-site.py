@@ -14,7 +14,7 @@ It never submits the form.
 import json, os, re, sys
 from playwright.sync_api import sync_playwright
 
-STRICT_NET = "--strict-network" in sys.argv  # expect zero external requests (use when the Google tag is removed)
+STRICT_NET = "--strict-network" in sys.argv  # expect zero external requests (use when Google is removed entirely; the default now allows Google only after Accept)
 _args = [a for a in sys.argv[1:] if not a.startswith("--")]
 BASE = (_args[0] if _args else "http://127.0.0.1:18212/").rstrip("/") + "/"
 EXE = os.path.expanduser("~/.cache/ms-playwright/chromium_headless_shell-1248/chrome-headless-shell-linux64/chrome-headless-shell")
@@ -191,8 +191,19 @@ MEASURE = r"""
 """
 
 
+PRESET = "try{localStorage.getItem('jubilab-consent')||localStorage.setItem('jubilab-consent',JSON.stringify({v:'denied',t:Date.now()}))}catch(e){}"
+
+
+def mk(b, preset=True, **kw):
+    """New browser context. By default a stored consent choice (denied) is preset so the cookie notice does not
+    sit in layout measurements; pass preset=False to see the first-visit state with the notice."""
+    ctx = b.new_context(**kw)
+    if preset: ctx.add_init_script(PRESET)
+    return ctx
+
+
 def new_page(b, w, theme, dpr=1, **kw):
-    ctx = b.new_context(viewport={"width": w, "height": 900}, device_scale_factor=dpr, **kw)
+    ctx = mk(b, viewport={"width": w, "height": 900}, device_scale_factor=dpr, **kw)
     pg = ctx.new_page()
     return ctx, pg
 
@@ -330,7 +341,7 @@ def run():
             rec(27, ok, f"1280/{th} focus order {[x[1] or x[0] for x in seq]} outline widths {[x[2] for x in seq]}")
             ctx.close()
         # menu opens by keyboard, JS off
-        ctx = b.new_context(viewport={"width": 390, "height": 800}, java_script_enabled=False); pg = ctx.new_page(); pg.goto(BASE)
+        ctx = mk(b, viewport={"width": 390, "height": 800}, java_script_enabled=False); pg = ctx.new_page(); pg.goto(BASE)
         pg.focus(".menu summary"); pg.keyboard.press("Enter")
         opened = pg.evaluate("document.querySelector('.menu').open")
         rec(15, opened, "390 JS off: keyboard Enter on menu summary opens the menu: " + str(opened))
@@ -340,7 +351,7 @@ def run():
         rec(28, len(vis_off) == 3 and all(vis_off), f"JS off: the three 'If other' boxes are visible: {vis_off}")
         ctx.close()
         # form behaviour with JS: Other boxes hidden until chosen, then required
-        ctx = b.new_context(viewport={"width": 390, "height": 800}); pg = ctx.new_page(); pg.goto(BASE); pg.wait_for_timeout(300)
+        ctx = mk(b, viewport={"width": 390, "height": 800}); pg = ctx.new_page(); pg.goto(BASE); pg.wait_for_timeout(300)
         st = lambda: pg.evaluate("[...document.querySelectorAll('#early-access-form .other')].map(e => [e.getBoundingClientRect().height > 0, e.querySelector('input').required])")
         s0 = st(); pg.check('#early-access-form input[name=role][value=other]'); pg.check('#early-access-form input[name=runs-on][value=other]'); s1 = st()
         pg.check('#early-access-form input[name=role][value=lab-head]'); s2 = st()
@@ -363,21 +374,21 @@ def run():
         rec(28, pg.evaluate("document.getElementById('form-error').hidden"), "unknown ?error= value shows nothing")
         ctx.close()
         # ---- 30 theme ---------------------------------------------------------------------
-        ctx = b.new_context(viewport={"width": 1280, "height": 800}, color_scheme="dark"); pg = ctx.new_page(); pg.goto(BASE); pg.wait_for_timeout(300)
+        ctx = mk(b, viewport={"width": 1280, "height": 800}, color_scheme="dark"); pg = ctx.new_page(); pg.goto(BASE); pg.wait_for_timeout(300)
         g = lambda: pg.evaluate("[document.documentElement.getAttribute('data-theme'), getComputedStyle(document.body).backgroundColor, document.getElementById('theme-toggle').getAttribute('aria-label')]")
         a0 = g(); pg.click("#theme-toggle"); a1 = g(); pg.reload(); pg.wait_for_timeout(300); a2 = g(); pg.click("#theme-toggle"); a3 = g()
         ok = a0[0] is None and a0[1] == "rgb(244, 245, 242)" and a1[0] == "dark" and a1[1] == "rgb(14, 20, 22)" and a2[0] == "dark" and a1[2] != a0[2] and a3[0] is None and a3[2] == a0[2]
         rec(30, ok, f"dark OS pref, empty storage: {a0} -> click {a1} -> reload {a2} -> click {a3}")
         ctx.close()
         # 31 localStorage throws
-        ctx = b.new_context(viewport={"width": 1280, "height": 800}); ctx.add_init_script("Object.defineProperty(window,'localStorage',{get(){throw new Error('blocked')}})")
+        ctx = mk(b, viewport={"width": 1280, "height": 800}); ctx.add_init_script("Object.defineProperty(window,'localStorage',{get(){throw new Error('blocked')}})")
         pg = ctx.new_page(); errs = []; pg.on("pageerror", lambda e: errs.append(str(e))); pg.goto(BASE); pg.wait_for_timeout(300)
         b0 = pg.evaluate("getComputedStyle(document.body).backgroundColor"); pg.click("#theme-toggle"); b1 = pg.evaluate("getComputedStyle(document.body).backgroundColor")
         rec(31, b0 == "rgb(244, 245, 242)" and b1 == "rgb(14, 20, 22)" and not errs, f"localStorage throws: {b0} -> {b1}, page errors {errs}")
         ctx.close()
         # ---- 33 reduced motion ------------------------------------------------------------
         for rm in ("reduce", "no-preference"):
-            ctx = b.new_context(viewport={"width": 1280, "height": 800}, reduced_motion=rm); pg = ctx.new_page(); pg.goto(BASE); pg.wait_for_timeout(400)
+            ctx = mk(b, viewport={"width": 1280, "height": 800}, reduced_motion=rm); pg = ctx.new_page(); pg.goto(BASE); pg.wait_for_timeout(400)
             n0 = pg.evaluate("document.getAnimations().length")
             for sel in (".hero .btn", ".btn.ghost", ".site-nav a", ".theme-toggle"):
                 pg.hover(sel); pg.focus(sel)
@@ -412,8 +423,8 @@ def run():
                 # 34 counts only our own origin bytes: the Google tag is one inline snippet plus one external script and is not ours to budget.
                 rec(34, tot <= 320000 and sum(kinds["font"]) <= 80000 and len(kinds["font"]) <= 3 and kinds["js"] <= 6000 and kinds["html"] <= 30000 and kinds["css"] <= 30000, f"total {tot} B (uncompressed body bytes), fonts {kinds['font']}, js {kinds['js']}, html {kinds['html']}, css {kinds['css']}, images {kinds['img']}")
                 rec(9, kinds["img"] <= 100000, f"1440 image bytes {kinds['img']}")
-                allowed = {"www.googletagmanager.com", "www.google-analytics.com", "region1.google-analytics.com", "static.cloudflareinsights.com", "cloudflareinsights.com"}  # the Cloudflare beacon is injected at the edge: allowed if present, absent locally
-                ok_host = lambda h: h in allowed or h.endswith(".analytics.google.com")
+                allowed = {"static.cloudflareinsights.com", "cloudflareinsights.com"}  # the Cloudflare beacon is injected at the edge: allowed if present, absent locally. Google hosts are NOT allowed before consent.
+                ok_host = lambda h: h in allowed
                 req_hosts = {re.sub(r"^https?://([^/:]+).*", r"\1", u) for u in reqs if u.startswith("http")}
                 ext = {h for h in req_hosts if h != own.split(":")[0]}
                 setck = any("set-cookie" in r.headers for r in resp if re.sub(r"^https?://([^/]+)/.*", r"\1", r.url) == own)
@@ -422,8 +433,154 @@ def run():
                     rec(35, not ext and not setck and cookie == "", f"strict: external hosts {sorted(ext)}, own Set-Cookie {setck}, document.cookie {cookie!r}")
                 else:
                     # Google requests may succeed or fail (sandbox without network): the page must render either way; only these hosts may be contacted.
-                    rec(35, all(ok_host(h) for h in ext) and not setck and all(c.startswith("_ga") for c in ck), f"external hosts contacted {sorted(ext)} (allowed: Google tag hosts only), own Set-Cookie {setck}, document.cookie names {[c.split('=')[0] for c in ck]}")
+                    rec(35, all(ok_host(h) for h in ext) and not setck and not ck, f"first visit, before consent: external hosts contacted {sorted(ext)} (allowed: Cloudflare analytics hosts only, zero Google), own Set-Cookie {setck}, document.cookie {ck}")
             ctx.close()
+        # ---- C1..C11 + 35 consent: cookie notice and Google consent (Basic mode) ----------------
+        SHOTS = os.environ.get("CONSENT_SHOTS", "")
+        GOOG = lambda u: bool(re.search(r"^https?://[^/]*(googletagmanager\.com|google-analytics\.com|\.analytics\.google\.com|doubleclick\.net)", u))
+        CJS = r"""() => {
+          const lum = c => { const m = c.match(/[\d.]+/g).map(Number); const f = v => { v /= 255; return v <= .03928 ? v / 12.92 : Math.pow((v + .055) / 1.055, 2.4); }; return .2126 * f(m[0]) + .7152 * f(m[1]) + .0722 * f(m[2]); };
+          const cr = (a, b) => { const x = lum(a), y = lum(b); return (Math.max(x, y) + .05) / (Math.min(x, y) + .05); };
+          const B = document.querySelector('.cookie-notice'); if (!B) return {present: false};
+          const r = B.getBoundingClientRect(), s = getComputedStyle(B), bg = s.backgroundColor;
+          const btns = [...B.querySelectorAll('button')].map(e => { const q = e.getBoundingClientRect(), c = getComputedStyle(e); return {w: q.width, h: q.height, t: e.textContent, bg: c.backgroundColor, color: c.color, bw: c.borderTopWidth, bc: c.borderTopColor, fs: c.fontSize, fw: c.fontWeight, crText: cr(c.color, c.backgroundColor), crBorder: cr(c.borderTopColor, bg)}; });
+          const p = B.querySelector('p'), a = B.querySelector('a');
+          return {present: true, hidden: B.hidden || s.display === 'none', role: B.getAttribute('role'), label: B.getAttribute('aria-label'), pos: s.position, l: r.left, t: r.top, r: r.right, b: r.bottom, w: r.width, h: r.height, iw: innerWidth, ih: innerHeight, sw: document.documentElement.scrollWidth,
+            crP: cr(getComputedStyle(p).color, bg), crA: a ? cr(getComputedStyle(a).color, bg) : 0, btns, fs: parseFloat(getComputedStyle(p).fontSize), text: p.textContent,
+            modal: !!B.getAttribute('aria-modal'), overlay: [...document.querySelectorAll('body *')].some(e => e !== B && !B.contains(e) && getComputedStyle(e).position === 'fixed' && e.getBoundingClientRect().width >= innerWidth && e.getBoundingClientRect().height >= innerHeight), anim: s.animationName};
+        }"""
+        OVER = """sels => { const B = document.querySelector('.cookie-notice'); if (!B || B.hidden) return []; const q = B.getBoundingClientRect(); const out = [];
+          for (const sel of sels) for (const e of document.querySelectorAll(sel)) { const x = e.getBoundingClientRect(); if (!x.width || !x.height) continue;
+            const ov = Math.min(q.bottom, x.bottom) - Math.max(q.top, x.top); const ovx = Math.min(q.right, x.right) - Math.max(q.left, x.left); if (ov > 1 && ovx > 1 && x.top < innerHeight && x.bottom > 0) out.push(sel + ' ' + Math.round(ov) + 'px'); } return out; }"""
+        gl = lambda pg: pg.evaluate("JSON.parse(localStorage.getItem('jubilab-consent')||'null')")
+        for w in (390, 768, 1440):
+            for th in THEMES:
+                ctx = mk(b, preset=False, viewport={"width": w, "height": 900}); pg = ctx.new_page()
+                greqs = []; pg.on("request", lambda r: greqs.append(r.url) if GOOG(r.url) else None)
+                pg.goto(BASE); pg.wait_for_function("document.fonts.status === 'loaded'")
+                if th == "dark": pg.click("#theme-toggle")
+                pg.wait_for_timeout(400)
+                c = pg.evaluate(CJS); tag = f"{w}/{th}"
+                bt = c.get("btns", [])
+                rec("C1", c["present"] and not c["hidden"] and c["role"] == "region" and c["label"] == "Cookie notice" and c["pos"] == "fixed" and not c["modal"] and not c["overlay"] and abs(c["b"] - c["ih"]) <= 1 and c["w"] >= c["iw"] - 1,
+                    f"{tag} visible on first visit, role={c['role']}, aria-label={c['label']!r}, position {c['pos']}, aria-modal {c['modal']}, full-screen overlay {c['overlay']}, h {c['h']:.0f}px")
+                rec("C2", c["crP"] >= 4.5 and c["crA"] >= 4.5 and all(x["crText"] >= 4.5 and x["crBorder"] >= 3 for x in bt) and len(bt) == 2, f"{tag} contrast text {c['crP']:.2f}, link {c['crA']:.2f}, buttons text {[round(x['crText'], 2) for x in bt]} border {[round(x['crBorder'], 2) for x in bt]}")
+                rec("C3", len(bt) == 2 and all(x["h"] >= 44 and x["w"] >= 44 for x in bt) and all(bt[0][k] == bt[1][k] for k in ("bg", "color", "bw", "bc", "fs", "fw", "h")) and abs(bt[0]["w"] - bt[1]["w"]) <= 90, f"{tag} buttons {[(x['t'], round(x['w']), round(x['h'])) for x in bt]}, same style bg/border/font/height: {len(bt) == 2 and all(bt[0][k] == bt[1][k] for k in ('bg', 'color', 'bw', 'bc', 'fs', 'fw', 'h'))}")
+                rec("C4", c["sw"] <= c["iw"] + 1 and c["l"] >= -1 and c["r"] <= c["iw"] + 1 and (w != 390 or c["h"] <= 142), f"{tag} scrollWidth {c['sw']} vs {c['iw']}, notice {c['l']:.0f}..{c['r']:.0f} height {c['h']:.0f}px (max 142 at 390)")
+                rec("C4", len(greqs) == 0 and pg.evaluate("document.cookie") == "", f"{tag} no Google request and no cookie while the notice is open: {greqs}")
+                if SHOTS and w in (390, 1440) and ((w == 390 and th == "light") or (w == 1440 and th == "dark")):
+                    pg.screenshot(path=f"{SHOTS}/banner-{w}-{th}.png")
+                    pg.screenshot(path=f"{SHOTS}/banner-{w}-{th}-full.png", full_page=True)
+                ctx.close()
+        # overlap with the main CTA and the form submit button (390 and 1440), banner present
+        for w in (390, 1440):
+            ctx = mk(b, preset=False, viewport={"width": w, "height": 900}); pg = ctx.new_page(); pg.goto(BASE); pg.wait_for_timeout(500)
+            ov0 = pg.evaluate(OVER, [".hero .btn:not(.ghost)"])
+            pg.focus("#early-access-form button[type=submit]"); pg.wait_for_timeout(300)
+            ov1 = pg.evaluate(OVER, ["#early-access-form button[type=submit]", "#early-access-form input", "#early-access-form select", "#early-access-form textarea"])
+            pg.evaluate("document.querySelector('#access').scrollIntoView({block:'end'})"); pg.wait_for_timeout(300)
+            ov2 = pg.evaluate(OVER, ["#early-access-form button[type=submit]"])
+            pg.evaluate("window.scrollTo(0, document.documentElement.scrollHeight)"); pg.wait_for_timeout(200)
+            ov3 = pg.evaluate(OVER, ["footer a", "footer p"])
+            rec("C5", not ov0 and not ov1, f"{w}px banner overlap: hero CTA at top {ov0}; form controls after keyboard focus on submit {ov1}")
+            rec("C5", not ov3, f"{w}px page scrolled to the very end: footer text/links overlapped by the notice {ov3} (body gets bottom padding while it is open)")
+            ctx.close()
+        # keyboard: Tab reaches the notice, focus visible, Enter accepts, Space declines, Escape does not hide it
+        for key in ("Enter", "Space"):
+            ctx = mk(b, preset=False, viewport={"width": 1280, "height": 800}); pg = ctx.new_page(); pg.goto(BASE); pg.wait_for_timeout(400)
+            seen = None
+            for i in range(120):
+                pg.keyboard.press("Tab")
+                seen = pg.evaluate("(()=>{const a=document.activeElement;return a&&a.tagName==='BUTTON'&&a.closest('.cookie-notice')?{t:a.textContent,fv:a.matches(':focus-visible'),o:getComputedStyle(a).outlineStyle,ow:parseFloat(getComputedStyle(a).outlineWidth)}:null})()")
+                if seen: break
+            first = seen
+            pg.keyboard.press("Escape"); pg.wait_for_timeout(100)
+            still = pg.evaluate("!document.querySelector('.cookie-notice').hidden")
+            if key == "Space":
+                pg.keyboard.press("Tab"); seen = pg.evaluate("document.activeElement.textContent")
+            rec("C6", first and first["t"] == "Accept analytics" and first["fv"] and first["o"] != "none" and first["ow"] >= 2 and still, f"{key}: Tab reached {first}, banner still visible after Escape: {still}")
+            pg.keyboard.press(key if key == "Enter" else " "); pg.wait_for_timeout(300)
+            st = gl(pg); hid = pg.evaluate("document.querySelector('.cookie-notice').hidden")
+            want = "granted" if key == "Enter" else "denied"
+            rec("C6", st and st["v"] == want and hid and (key == "Enter" or seen == "Decline"), f"{key} on {'Accept analytics' if key == 'Enter' else seen}: stored {st}, banner hidden {hid}")
+            ctx.close()
+        # reduced motion
+        for rm in ("reduce", "no-preference"):
+            ctx = mk(b, preset=False, viewport={"width": 1280, "height": 800}, reduced_motion=rm); pg = ctx.new_page(); pg.goto(BASE); pg.wait_for_timeout(500)
+            an = pg.evaluate("getComputedStyle(document.querySelector('.cookie-notice')).animationName")
+            rec("C7", (an == "none") if rm == "reduce" else (an == "cookie-in"), f"prefers-reduced-motion {rm}: notice animation {an!r}")
+            ctx.close()
+        # footer link on every page, 44px target, reopens the notice, thanks does not lose content
+        for path in ("", "privacy/", "terms/", "thanks/", "404.html"):
+            ctx = mk(b, viewport={"width": 390, "height": 800}); pg = ctx.new_page(); pg.goto(BASE + path); pg.wait_for_timeout(400)
+            n0 = pg.evaluate("!!document.querySelector('.cookie-notice')")
+            lk = pg.locator("footer a", has_text="Cookie settings")
+            h = lk.bounding_box()["height"] if lk.count() == 1 else 0
+            lk.click(); pg.wait_for_timeout(300)
+            c = pg.evaluate(CJS); foc = pg.evaluate("document.activeElement.closest('.cookie-notice')?document.activeElement.textContent:''")
+            rec("C8", not n0 and lk.count() == 1 and h >= 44 and c["present"] and not c["hidden"] and foc == "Accept analytics", f"/{path}: stored choice -> no notice at load {not n0}, 'Cookie settings' links {lk.count()} height {h:.0f}, click reopens {c.get('present') and not c.get('hidden')}, focus on {foc!r}")
+            if path in ("thanks/", ""):
+                pg.evaluate("window.scrollTo(0,0)")
+                ov = pg.evaluate(OVER, ["main h1", "main p", "main form button", ".site-header a", ".site-header button"]) if path else []
+                rec("C8", not ov, f"/{path or 'home'} (notice open, 390x800, scrolled to top): notice covers {ov}")
+            ctx.close()
+        # 35: Google consent flow in the real browser
+        def flow(action):
+            ctx = mk(b, preset=False, viewport={"width": 1280, "height": 800}); pg = ctx.new_page(); errs = []; pg.on("pageerror", lambda e: errs.append(str(e)))
+            greqs = []; pg.on("request", lambda r: greqs.append(r.url) if GOOG(r.url) else None)
+            pg.route(re.compile(r"https://([^/]*\.)?(googletagmanager\.com|google-analytics\.com|analytics\.google\.com)/.*"), lambda rt: rt.abort())  # sandbox has no network: simulate failure; requests are still recorded
+            pg.goto(BASE); pg.wait_for_timeout(500)
+            before = list(greqs); ck0 = pg.evaluate("document.cookie")
+            return ctx, pg, errs, greqs, before, ck0
+        ctx, pg, errs, greqs, before, ck0 = flow("accept")
+        pg.click(".cookie-notice button:has-text('Accept analytics')"); pg.wait_for_timeout(700)
+        gt = [u for u in greqs if "googletagmanager.com/gtag/js?id=G-8W2MDQ58PL" in u]
+        dl = pg.evaluate("[...window.dataLayer].map(a => [...a])")
+        has = lambda f: any(f(a) for a in dl)
+        okpage = pg.evaluate("document.querySelector('h1').offsetHeight>0") and pg.evaluate("document.querySelector('.cookie-notice').hidden")
+        rec(35, not before and ck0 == "" and gt and okpage and not errs and gl(pg)["v"] == "granted" and has(lambda a: a[:2] == ["consent", "default"] and a[2]["analytics_storage"] == "denied" and a[2]["ad_storage"] == "denied") and has(lambda a: a[:2] == ["consent", "update"] and a[2] == {"analytics_storage": "granted"}) and has(lambda a: a[:2] == ["config", "G-8W2MDQ58PL"]),
+            f"Accept: before {before}, cookies before {ck0!r}; after Accept requests {[u[:70] for u in gt]}, page still renders {okpage}, page errors {errs}, stored {gl(pg)['v']}, dataLayer has default(denied), update(granted), config")
+        if SHOTS: pg.screenshot(path=f"{SHOTS}/accepted-1280.png")
+        pg.reload(); pg.wait_for_timeout(500)
+        rec(35, len([u for u in greqs if "gtag/js" in u]) >= 2 and pg.evaluate("!document.querySelector('.cookie-notice')"), f"reload with stored granted: gtag.js requested again, no notice")
+        pg.click("footer a:has-text('Cookie settings')"); pg.wait_for_timeout(200)
+        pg.click(".cookie-notice button:has-text('Decline')"); pg.wait_for_timeout(300)
+        msg = pg.evaluate("document.querySelector('.cookie-notice p').textContent"); stt = gl(pg)
+        den = pg.evaluate("[...window.dataLayer].some(a => a[0] === 'consent' && a[1] === 'update' && a[2].analytics_storage === 'denied')")
+        rec(35, den, "Withdraw: gtag('consent','update',{analytics_storage:'denied'}) pushed to dataLayer")
+        rec(35, stt["v"] == "denied" and "Reload" in msg, f"Withdraw after Accept: stored {stt['v']}, message {msg!r}")
+        ctx.close()
+        ctx, pg, errs, greqs, before, ck0 = flow("decline")
+        pg.click(".cookie-notice button:has-text('Decline')"); pg.wait_for_timeout(500)
+        st1 = gl(pg); pg.reload(); pg.wait_for_timeout(500)
+        rec(35, st1["v"] == "denied" and not greqs and not pg.evaluate("document.querySelector('.cookie-notice')") and pg.evaluate("document.cookie") == "" and not errs, f"Decline: stored {st1['v']}, Google requests {greqs}, no notice after reload, cookies {pg.evaluate('document.cookie')!r}, errors {errs}")
+        # expiry: a choice older than 180 days shows the notice again; 179 days does not
+        for days, want in ((181, True), (179, False)):
+            ctx2 = mk(b, preset=False, viewport={"width": 1280, "height": 800}); pg2 = ctx2.new_page()
+            pg2.add_init_script("try{localStorage.setItem('jubilab-consent',JSON.stringify({v:'denied',t:Date.now()-%d*864e5}))}catch(e){}" % days); pg2.goto(BASE); pg2.wait_for_timeout(400)
+            shown = pg2.evaluate("!!document.querySelector('.cookie-notice')")
+            rec(35, shown == want, f"stored choice {days} days old: notice shown {shown} (want {want})")
+            ctx2.close()
+        ctx.close()
+        # storage blocked: notice shows, accepting does not throw
+        ctx = mk(b, preset=False, viewport={"width": 1280, "height": 800}); ctx.add_init_script("Object.defineProperty(window,'localStorage',{get(){throw new Error('blocked')}})")
+        pg = ctx.new_page(); errs = []; pg.on("pageerror", lambda e: errs.append(str(e))); pg.route(re.compile(r"https://.*google.*"), lambda rt: rt.abort()); pg.goto(BASE); pg.wait_for_timeout(400)
+        pg.click(".cookie-notice button:has-text('Accept analytics')"); pg.wait_for_timeout(300)
+        rec("C9", not errs, f"localStorage blocked: notice works, page errors {errs}")
+        ctx.close()
+        # without JS: no notice, no Google
+        ctx = mk(b, preset=False, viewport={"width": 390, "height": 800}, java_script_enabled=False); pg = ctx.new_page(); greqs = []; pg.on("request", lambda r: greqs.append(r.url) if GOOG(r.url) else None); pg.goto(BASE); pg.wait_for_timeout(300)
+        rec("C10", not greqs and pg.locator(".cookie-notice").count() == 0, f"no JavaScript: no notice, Google requests {greqs}")
+        ctx.close()
+        # layout checks with the notice present (key ones from the big measurement)
+        for w in (390, 1440):
+            for th in THEMES:
+                ctx = mk(b, preset=False, viewport={"width": w, "height": 900}); pg = ctx.new_page(); pg.goto(BASE); pg.wait_for_timeout(400)
+                if th == "dark": pg.click("#theme-toggle"); pg.wait_for_timeout(100)
+                pg.wait_for_function("document.fonts.status === 'loaded'")
+                m = pg.evaluate(MEASURE); tag = f"{w}/{th} with notice open"
+                rec("C11", abs(m["sw"] - m["iw"]) <= 1 and m["overflowN"] == 0 and not m["failContrast"] and not m["scrollRegions"], f"{tag}: scrollWidth {m['sw']} vs {m['iw']}, outside-viewport {m['overflowN']}, contrast fails {m['failContrast'][:2]}, scroll regions {m['scrollRegions']}")
+                ctx.close()
         # hero image bytes per file (check 9, budgets from spec section 4)
         import urllib.request
         budgets = {"hero-720.webp": 50000, "hero-1120.webp": 90000, "hero-1440.webp": 130000, "hero-2240.webp": 220000, "hero-narrow-358.webp": 30000, "hero-narrow-716.webp": 60000}
@@ -440,7 +597,7 @@ def run():
             ctx.close()
         # N8 hover lift and reduced motion
         for rm in ("no-preference", "reduce"):
-            ctx = b.new_context(viewport={"width": 1440, "height": 900}, reduced_motion=rm); pg = ctx.new_page(); pg.goto(BASE); pg.wait_for_timeout(300)
+            ctx = mk(b, viewport={"width": 1440, "height": 900}, reduced_motion=rm); pg = ctx.new_page(); pg.goto(BASE); pg.wait_for_timeout(300)
             pg.hover(".hero .frame"); pg.wait_for_timeout(400)
             ty, td = pg.evaluate("(()=>{const f=document.querySelector('.hero .frame');const s=getComputedStyle(f);const m=s.transform==='none'?0:parseFloat(s.transform.split(',')[5]);return [m, Math.max(...s.transitionDuration.split(',').map(parseFloat))]})()")
             if rm == "reduce":
@@ -450,7 +607,7 @@ def run():
                 rec("N8", -3 <= ty <= 0 and td <= 0.2, f"hover translateY {ty}px (max 3), transition {td}s")
             ctx.close()
         # N8 Tab sequence unchanged is check 27 (frame has no tabindex); N9 JS off
-        ctx = b.new_context(viewport={"width": 1440, "height": 900}, java_script_enabled=False); pg = ctx.new_page(); pg.goto(BASE); pg.wait_for_timeout(300)
+        ctx = mk(b, viewport={"width": 1440, "height": 900}, java_script_enabled=False); pg = ctx.new_page(); pg.goto(BASE); pg.wait_for_timeout(300)
         fo = pg.evaluate("(()=>{const f=document.querySelector('.hero .frame').getBoundingClientRect();return [f.width,f.height]})()")
         fj = M[(1440, "light")]["frame"]
         rec("N9", abs(fo[0] - fj["w"]) <= 1 and abs(fo[1] - fj["h"]) <= 1, f"JS off frame {fo[0]:.0f}x{fo[1]:.0f} vs JS on {fj['w']:.0f}x{fj['h']:.0f}")
@@ -464,7 +621,7 @@ def main():
     manual = {20: "list-of-features review is manual"}
     allok = True
     print(f"Jubilab site v2 acceptance checks against {BASE}\n")
-    for n in list(range(1, 38)) + ["N1", "N2", "N3", "N4", "N5", "N6", "N7", "N8", "N9", "N10", "N11"]:
+    for n in list(range(1, 38)) + ["C1", "C2", "C3", "C4", "C5", "C6", "C7", "C8", "C9", "C10", "C11"] + ["N1", "N2", "N3", "N4", "N5", "N6", "N7", "N8", "N9", "N10", "N11"]:
         if n in (5, 8):
             print(f"{n!s:>3}  REPLACED  (by N2/N3 and N4)"); continue
         if n == "N10":
