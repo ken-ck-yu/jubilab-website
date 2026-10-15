@@ -28,7 +28,7 @@ Then:
 1. The first deploy creates the `WAITLIST` KV namespace automatically (no id in the config) and attaches `jubilab.io` as a custom domain, because the domain is on the same Cloudflare account. If the custom domain step fails, add it in Worker > Settings > Domains & Routes.
 2. HTTPS is automatic. `404.html` is served for unknown paths.
 3. Submit a real test entry on the live site and check it in Storage & Databases > KV > the new namespace (key `email:<address>`, JSON value with email, role, field, tools, human_data, trace, received_at). To delete someone on request, delete their key.
-4. Tests: `node --test tests/` (Node 18 or newer). Local preview of the whole site and the form: `npx wrangler dev`.
+4. Tests: `node --test` (Node 18 or newer). Local preview of the whole site and the form: `npx wrangler dev`.
 
 The form stores only the fields below plus a UTC time. It does not store IP address or user agent. If the KV binding is missing the API returns 503.
 
