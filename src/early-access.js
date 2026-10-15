@@ -86,6 +86,7 @@ export function parse(form) {
 }
 
 const MAX_BODY = 8192;
+export const HONEYPOT = "q7_note";
 
 // Reads the real body, stopping once it exceeds max bytes. Returns null when too large.
 async function readCapped(request, max) {
@@ -127,8 +128,14 @@ export async function onRequestPost({ request, env, ctx, notify }) {
   } catch {
     return new Response("Bad request", { status: 400 });
   }
-  // Honeypot: real visitors never see or fill this field. Pretend success to bots.
-  if (String(form.get("website") || "") !== "") return back(url, "/thanks/");
+  // Honeypot: real visitors never see or fill the hidden field (HONEYPOT). Pretend success to bots: same 303,
+  // nothing stored, nothing sent. The warning carries no personal data so the owner can spot false trips in logs.
+  // The OLD field name "website" (pre-rename pages still cached in a browser) is NOT a honeypot: browsers
+  // autofill it, so treating it as one would silently drop a real person. It is ignored like any unknown field.
+  if (String(form.get(HONEYPOT) || "") !== "") {
+    console.warn("honeypot tripped", { field: HONEYPOT, length: String(form.get(HONEYPOT)).length });
+    return back(url, "/thanks/");
+  }
   const parsed = parse(form);
   if (parsed.error) return back(url, "/?error=" + parsed.error + "#access");
   if (!env.WAITLIST) return new Response("Service not configured", { status: 503 });

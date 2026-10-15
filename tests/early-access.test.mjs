@@ -102,10 +102,33 @@ test("bad email is not stored", async () => {
   assert.match(r.headers.get("location"), /error=email/);
   assert.equal(WAITLIST.m.size, 0);
 });
-test("honeypot is not stored", async () => {
+test("honeypot (new name) filled: 303 /thanks/, no store, no email, warning without personal data", async () => {
   const WAITLIST = kv();
-  await onRequestPost({ request: mk([...FULL, ["website", "http://spam"]]), env: { WAITLIST } });
+  const warns = []; const orig = console.warn; console.warn = (...a) => warns.push(a);
+  let sent = 0;
+  let r;
+  try { r = await onRequestPost({ request: mk([...FULL, ["q7_note", "spam"]]), env: { WAITLIST }, notify: async () => { sent++; } }); } finally { console.warn = orig; }
+  assert.equal(r.status, 303);
+  assert.equal(new URL(r.headers.get("location")).pathname, "/thanks/");
   assert.equal(WAITLIST.m.size, 0);
+  assert.equal(sent, 0);
+  assert.equal(warns.length, 1);
+  assert.match(String(warns[0][0]), /honeypot tripped/);
+  assert.ok(!JSON.stringify(warns).includes("lab.org") && !JSON.stringify(warns).includes("spam"));
+});
+test("real submission without honeypot is stored and notified", async () => {
+  const WAITLIST = kv(); let sent = 0;
+  await onRequestPost({ request: mk([...FULL, ["q7_note", ""]]), env: { WAITLIST }, notify: async () => { sent++; } });
+  assert.equal(WAITLIST.m.size, 1);
+  assert.equal(sent, 1);
+});
+test("cached old page: website= empty or autofilled is still stored (old name is not a honeypot)", async () => {
+  for (const v of ["", "https://x.example"]) {
+    const { r, WAITLIST } = await post([...FULL, ["website", v]]);
+    assert.equal(new URL(r.headers.get("location")).pathname, "/thanks/");
+    assert.equal(WAITLIST.m.size, 1);
+    assert.ok(!WAITLIST.m.get("email:a@lab.org").includes("x.example"));
+  }
 });
 test("cross-origin, wrong type, missing binding", async () => {
   assert.equal((await onRequestPost({ request: mk(FULL, { origin: "https://evil.example" }), env: { WAITLIST: kv() } })).status, 403);
