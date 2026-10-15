@@ -360,3 +360,57 @@ tr.grp th { font: 500 .75rem/1.3 var(--mono); letter-spacing: .05em; text-transf
   caption { padding: 12px 10px; }
   .compact tbody th[scope="row"] { width: 6.5rem; }
 }
+
+/* pitch layout */
+.big { font-size: clamp(1.5rem, 2.8vw, 2.25rem); line-height: 1.25; letter-spacing: -.015em; font-weight: 500; margin: 0; max-width: 28ch; text-wrap: balance; }
+.statement .two { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 48px; margin-top: 40px; max-width: 920px; }
+.statement .two p { margin: 0; color: var(--muted); }
+.span3 { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-top: 1px solid var(--ink); }
+.span3 li { padding: 22px 24px 8px 0; color: var(--muted); font-size: 1rem; }
+.span3 li + li { padding-left: 24px; border-left: 1px solid var(--border); }
+.span3 b { display: block; color: var(--ink); font-size: 1.125rem; font-weight: 600; margin-bottom: 6px; }
+.principles { margin: 40px 0 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0 24px; }
+.principles > div { border-top: 1px solid var(--border); padding-top: 16px; }
+.principles dt { font-weight: 600; color: var(--ink); margin-bottom: 4px; }
+.principles dd { margin: 0; color: var(--muted); font-size: .9375rem; }
+.outcomes { list-style: none; margin: 0 0 56px; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); border-top: 1px solid var(--ink); }
+.outcomes > li { padding: 24px 32px 28px 0; border-bottom: 1px solid var(--border); counter-increment: o; }
+.outcomes > li:nth-child(even) { padding-left: 32px; padding-right: 0; border-left: 1px solid var(--border); }
+.outcomes { counter-reset: o; }
+.outcomes h3 { margin: 0 0 8px; font-size: 1.25rem; letter-spacing: -.01em; }
+.outcomes h3::before { content: counter(o, decimal-leading-zero); display: block; font: 500 .75rem/1 var(--mono); color: var(--accent-ink); letter-spacing: .06em; margin-bottom: 10px; }
+.outcomes p { margin: 0; color: var(--muted); max-width: 46ch; }
+.chips { list-style: none; display: flex; flex-wrap: wrap; gap: 8px 18px; margin: 14px 0 0; padding: 0; font: 500 .875rem/1 var(--mono); }
+.chips li { display: inline-flex; align-items: center; gap: 6px; }
+.chips svg { width: 16px; height: 16px; }
+.proof { margin-bottom: 64px; }
+.session { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: 24px; align-items: start; }
+.session .txt { grid-column: 1 / span 4; }
+.session .txt h3 { margin: 0 0 8px; font-size: 1.125rem; }
+.session .txt p { margin: 0; color: var(--muted); font-size: .9375rem; }
+.session .terminal { grid-column: 5 / -1; }
+.band { background: var(--surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); margin-top: 112px; padding: 88px 0; }
+.band .sec-head { margin-bottom: 36px; }
+.dir { max-width: 30ch; font-size: clamp(1.6rem, 3.2vw, 2.6rem); }
+.dir-sub { margin: 28px 0 0; max-width: 60ch; color: var(--muted); }
+.access { margin-top: 0; background: transparent; border: 0; padding: 112px 0 96px; }
+.group { border: 0; margin: 0 0 26px; padding: 0; min-width: 0; }
+.group legend { font-weight: 600; font-size: .9375rem; padding: 0; margin-bottom: 8px; }
+.group .hint, .hint { font-weight: 400; color: var(--muted); }
+.opt { display: inline-flex; align-items: center; gap: 8px; margin: 0 18px 6px 0; min-height: 28px; font-size: .9375rem; }
+.opt input { width: 18px; height: 18px; margin: 0; accent-color: var(--accent); }
+.consent { font-size: .875rem; color: var(--muted); margin: 0 0 16px; }
+.form .flat { padding: 0; }
+@media (max-width: 1020px) {
+  .span3, .principles { grid-template-columns: 1fr; }
+  .span3 li + li { padding-left: 0; border-left: 0; border-top: 1px solid var(--border); }
+  .session .txt, .session .terminal { grid-column: 1 / -1; }
+  .session .terminal { margin-top: 20px; }
+}
+@media (max-width: 640px) {
+  .statement .two, .outcomes { grid-template-columns: 1fr; gap: 16px 0; }
+  .outcomes > li, .outcomes > li:nth-child(even) { padding: 22px 0; border-left: 0; }
+  .band { margin-top: 72px; padding: 56px 0; }
+  .access { padding: 72px 0 56px; }
+  .statement .two p + p { margin-top: 16px; }
+}

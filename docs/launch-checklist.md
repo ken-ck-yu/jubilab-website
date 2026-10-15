@@ -23,19 +23,31 @@ Until this step, every page carries `<meta name="robots" content="noindex">` and
 
 ## 3. Enable the early-access form
 
-The form in `index.html` (`#early-access-form`) is inactive: its fields and button are inside `<fieldset disabled>`, it has no `action`, and a visible notice says nothing is sent. To activate it:
+The form in `index.html` (`#early-access-form`) is inactive: all fields and the button are inside `<fieldset disabled>`, it has no `action`, and a visible notice says nothing is sent. To activate it:
 
-1. Choose a backend (owner decision) and note where the addresses are stored and for how long.
+1. Choose a backend (owner decision) and decide where the answers are stored, who can see them and for how long.
 2. On `<form id="early-access-form">` add `action="https://YOUR-ENDPOINT"` and `method="post"`.
-3. Remove the `disabled` attribute from the `<fieldset>` and from the submit `<button>`.
+3. Remove the `disabled` attribute from the outer `<fieldset class="flat">` and from the submit `<button>`.
 4. Delete the `<p class="demo-flag">` paragraph.
-5. Replace the "Draft privacy note" paragraph with the owner's final text and link it to `privacy/`.
-6. Change the section 08 intro paragraph ("When this form is switched on, you will be able to...") to present tense.
-7. Test a real submission end to end and check the backend receives the `email` and `work` fields. If the backend needs a success page, add it as a static page.
+5. Replace the "Draft privacy note" paragraph with the owner's final text, and make `privacy/` list exactly what is collected (below).
+6. Test a real submission end to end and check the backend receives every field name below.
+
+What the form collects (data minimisation: everything is optional except email):
+
+| Field name | Question | Type | Required |
+|---|---|---|---|
+| `role` | Your role: lab head, researcher or analyst, core facility or platform engineer, other | one choice | no |
+| `field` | Your field: genetics or genomics, other life science, other lab science | one choice | no |
+| `tools` | Tools used today: Nextflow, Snakemake, Galaxy, scripts or notebooks, other | any of several | no |
+| `human-data` | Work involves human or patient-derived data: yes, no, prefer not to say | one choice | no |
+| `trace` | What would you most want to trace or compare | text, max 300 characters | no |
+| `email` | Email address | email | yes |
+
+The consent line ("By sending this form you agree that we may email you about early access") is plain text under the fields. If the backend or the privacy text needs an explicit checkbox, add one. Because the answers describe a person's work and may reveal institutional context, the privacy text must say who sees them and how to ask for deletion.
 
 ## 4. Button label
 
-The call-to-action label "Request early access" appears in the header, the hero, the section 08 heading and the form button. To change it, run `grep -rn "Request early access" --include=*.html .` and edit each hit (index.html, privacy, terms, 404 headers share the same header text).
+The call-to-action label "Request early access" appears in the header, the hero, the section 08 heading and the form button. To change it, run `grep -rn "Request early access" --include=*.html .` and edit each hit (the header text is repeated on index, privacy, terms and 404).
 
 ## 5. Contact address
 
@@ -52,10 +64,10 @@ None is included, and the site makes no third-party requests (fonts are self-hos
 ## 8. Content to re-confirm before launch
 
 - Every `[owner decision: ...]` HTML comment in the source (`grep -rn "owner decision" .`).
-- The four fact-label definitions (section 04) against the product team's meanings.
-- The "Not there yet" list (section 07) is still true on launch day: no sign-in or access control, no storage connectors, no hosted service, no published performance figures. The site says nothing about licence or open source; keep it that way until the licence is decided.
-- Screenshots (`assets/img/`) match the current product UI. Re-capture them from the running product on demo data; never edit them.
-- JSON-LD in `index.html` has `Organization` and `SoftwareApplication` with only true facts. `operatingSystem` is deliberately absent until platforms are confirmed.
+- The page is a pitch, not a feature list, on purpose: it names no feature inventory and no "not there yet" list, so it should not go stale. Keep it that way. Re-read the "Where this is going" section (04) and the proof visuals against the product on launch day: the section must stay labelled as direction, and anything shown as proof must still be true.
+- The page makes no statement about licence, open source, customers, logos, testimonials, performance or accounts. Keep it that way until true.
+- The screenshot (`assets/img/lineage.webp`) matches the current product UI. Re-capture it from the running product on demo data; never edit it. The drawn diagram and the terminal excerpt use the same demo data and must be kept consistent with it.
+- JSON-LD in `index.html` has `Organization` and `SoftwareApplication` with only durable true facts. `operatingSystem` is deliberately absent until platforms are confirmed.
 
 ## 9. Final checks
 
