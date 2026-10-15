@@ -414,3 +414,7 @@ tr.grp th { font: 500 .75rem/1.3 var(--mono); letter-spacing: .05em; text-transf
   .access { padding: 72px 0 56px; }
   .statement .two p + p { margin-top: 16px; }
 }
+.page-shell h2 { font-size: 1.25rem; margin: 40px 0 8px; }
+.page-shell ul { max-width: 62ch; color: var(--muted); padding-left: 1.25em; }
+.page-shell li { margin: 6px 0; }
+.page-shell code { font-family: var(--mono); font-size: .9em; }
