@@ -16,7 +16,8 @@
   "vars": { "NOTIFY_TO": "hello@jubilab.io" },
   // Preview builds (npx wrangler preview, non-production branches) need their own bindings block.
   "previews": {
-    "kv_namespaces": [{ "binding": "WAITLIST" }],
+    // Separate namespace so test signups on previews never land in the real waitlist (Previews share KV by id).
+    "kv_namespaces": [{ "binding": "WAITLIST", "id": "3c3f5f8288ff4897af5863ea59e15bc2" }],
     "send_email": [{ "name": "EMAIL" }],
     "vars": { "NOTIFY_TO": "hello@jubilab.io" }
   },
