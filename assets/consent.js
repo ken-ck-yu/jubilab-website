@@ -7,13 +7,13 @@ function put(v){try{localStorage.setItem(K,JSON.stringify({v:v,t:Date.now()}))}c
 function hide(){B.hidden=1}
 function show(){
 if(B)B.remove();
-d.body.insertAdjacentHTML("beforeend",'<div class=cookie-notice role=region aria-label="Cookie notice"><p>We use Google Analytics, which sets cookies, to count visits. It only runs if you accept. Cloudflare\'s cookieless analytics always runs. <a href=/privacy/>Details in the privacy page</a>.</p><div><button>Accept analytics</button><button>Decline</button></div></div>');
+d.body.insertAdjacentHTML("beforeend",'<div class=cookie-notice role=region aria-label="Cookie notice"><p><strong>Cookies on jubilab.io</strong> We use analytics cookies to understand how our site is used and to improve it. They are only set if you accept. We also run cookieless analytics. See our <a href=/privacy/>Privacy Policy</a>.</p><div><button>Accept analytics cookies</button><button>Reject analytics cookies</button></div></div>');
 B=d.body.lastChild;
 var b=B.querySelectorAll("button");
 b[0].onclick=function(){put("granted");up("granted");load();hide()};
 b[1].onclick=function(){if(b[0].hidden)return hide();put("denied");up("denied");
 d.cookie.split(";").forEach(function(c){c=c.split("=")[0].trim();if(!c.indexOf("_ga"))["","domain="+location.hostname].forEach(function(x){d.cookie=c+"=;path=/;max-age=0;"+x})});
-if(L){B.firstChild.textContent="Analytics is off. Reload to unload Google's script.";b[0].hidden=1;b[1].textContent="Close";b[1].focus()}else hide()}}
+if(L){B.firstChild.textContent="Analytics cookies are off. Reload the page to stop Google's script.";b[0].hidden=1;b[1].textContent="Close";b[1].focus()}else hide()}}
 if(LOAD_GOOGLE_BEFORE_CONSENT)load();
 var c;try{c=JSON.parse(localStorage.getItem(K));c=c&&Date.now()-c.t<15552e6&&c.v}catch(e){}
 if(c=="granted"){up(c);load()}else if(c!="denied")show();

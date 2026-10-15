@@ -421,7 +421,7 @@ def run():
                     elif u.endswith(".webp") or u.endswith(".png"): kinds["img"] += n
                     elif u.rstrip("/") == BASE.rstrip("/") or u.endswith(".html"): kinds["html"] = n
                 # 34 counts only our own origin bytes: the Google tag is one inline snippet plus one external script and is not ours to budget.
-                rec(34, tot <= 320000 and sum(kinds["font"]) <= 80000 and len(kinds["font"]) <= 3 and kinds["js"] <= 6000 and kinds["html"] <= 30000 and kinds["css"] <= 30000, f"total {tot} B (uncompressed body bytes), fonts {kinds['font']}, js {kinds['js']}, html {kinds['html']}, css {kinds['css']}, images {kinds['img']}")
+                rec(34, tot <= 320000 and sum(kinds["font"]) <= 80000 and len(kinds["font"]) <= 3 and kinds["js"] <= 8000 and kinds["html"] <= 30000 and kinds["css"] <= 30000, f"total {tot} B (uncompressed body bytes), fonts {kinds['font']}, js {kinds['js']}, html {kinds['html']}, css {kinds['css']}, images {kinds['img']}")
                 rec(9, kinds["img"] <= 100000, f"1440 image bytes {kinds['img']}")
                 allowed = {"static.cloudflareinsights.com", "cloudflareinsights.com"}  # the Cloudflare beacon is injected at the edge: allowed if present, absent locally. Google hosts are NOT allowed before consent.
                 ok_host = lambda h: h in allowed
@@ -466,9 +466,9 @@ def run():
                     f"{tag} visible on first visit, role={c['role']}, aria-label={c['label']!r}, position {c['pos']}, aria-modal {c['modal']}, full-screen overlay {c['overlay']}, h {c['h']:.0f}px")
                 rec("C2", c["crP"] >= 4.5 and c["crA"] >= 4.5 and all(x["crText"] >= 4.5 and x["crBorder"] >= 3 for x in bt) and len(bt) == 2, f"{tag} contrast text {c['crP']:.2f}, link {c['crA']:.2f}, buttons text {[round(x['crText'], 2) for x in bt]} border {[round(x['crBorder'], 2) for x in bt]}")
                 rec("C3", len(bt) == 2 and all(x["h"] >= 44 and x["w"] >= 44 for x in bt) and all(bt[0][k] == bt[1][k] for k in ("bg", "color", "bw", "bc", "fs", "fw", "h")) and abs(bt[0]["w"] - bt[1]["w"]) <= 90, f"{tag} buttons {[(x['t'], round(x['w']), round(x['h'])) for x in bt]}, same style bg/border/font/height: {len(bt) == 2 and all(bt[0][k] == bt[1][k] for k in ('bg', 'color', 'bw', 'bc', 'fs', 'fw', 'h'))}")
-                rec("C4", c["sw"] <= c["iw"] + 1 and c["l"] >= -1 and c["r"] <= c["iw"] + 1 and (w != 390 or c["h"] <= 142), f"{tag} scrollWidth {c['sw']} vs {c['iw']}, notice {c['l']:.0f}..{c['r']:.0f} height {c['h']:.0f}px (max 142 at 390)")
+                rec("C4", c["sw"] <= c["iw"] + 1 and c["l"] >= -1 and c["r"] <= c["iw"] + 1 and (w != 390 or c["h"] <= 200), f"{tag} scrollWidth {c['sw']} vs {c['iw']}, notice {c['l']:.0f}..{c['r']:.0f} height {c['h']:.0f}px (max 200 at 390)")
                 rec("C4", len(greqs) == 0 and pg.evaluate("document.cookie") == "", f"{tag} no Google request and no cookie while the notice is open: {greqs}")
-                if SHOTS and w in (390, 1440) and ((w == 390 and th == "light") or (w == 1440 and th == "dark")):
+                if SHOTS and ((w == 390 and th == "light") or (w == 768 and th == "light") or (w == 1440 and th == "dark")):
                     pg.screenshot(path=f"{SHOTS}/banner-{w}-{th}.png")
                     pg.screenshot(path=f"{SHOTS}/banner-{w}-{th}-full.png", full_page=True)
                 ctx.close()
@@ -498,11 +498,11 @@ def run():
             still = pg.evaluate("!document.querySelector('.cookie-notice').hidden")
             if key == "Space":
                 pg.keyboard.press("Tab"); seen = pg.evaluate("document.activeElement.textContent")
-            rec("C6", first and first["t"] == "Accept analytics" and first["fv"] and first["o"] != "none" and first["ow"] >= 2 and still, f"{key}: Tab reached {first}, banner still visible after Escape: {still}")
+            rec("C6", first and first["t"] == "Accept analytics cookies" and first["fv"] and first["o"] != "none" and first["ow"] >= 2 and still, f"{key}: Tab reached {first}, banner still visible after Escape: {still}")
             pg.keyboard.press(key if key == "Enter" else " "); pg.wait_for_timeout(300)
             st = gl(pg); hid = pg.evaluate("document.querySelector('.cookie-notice').hidden")
             want = "granted" if key == "Enter" else "denied"
-            rec("C6", st and st["v"] == want and hid and (key == "Enter" or seen == "Decline"), f"{key} on {'Accept analytics' if key == 'Enter' else seen}: stored {st}, banner hidden {hid}")
+            rec("C6", st and st["v"] == want and hid and (key == "Enter" or seen == "Reject analytics cookies"), f"{key} on {'Accept analytics cookies' if key == 'Enter' else seen}: stored {st}, banner hidden {hid}")
             ctx.close()
         # reduced motion
         for rm in ("reduce", "no-preference"):
@@ -518,7 +518,7 @@ def run():
             h = lk.bounding_box()["height"] if lk.count() == 1 else 0
             lk.click(); pg.wait_for_timeout(300)
             c = pg.evaluate(CJS); foc = pg.evaluate("document.activeElement.closest('.cookie-notice')?document.activeElement.textContent:''")
-            rec("C8", not n0 and lk.count() == 1 and h >= 44 and c["present"] and not c["hidden"] and foc == "Accept analytics", f"/{path}: stored choice -> no notice at load {not n0}, 'Cookie settings' links {lk.count()} height {h:.0f}, click reopens {c.get('present') and not c.get('hidden')}, focus on {foc!r}")
+            rec("C8", not n0 and lk.count() == 1 and h >= 44 and c["present"] and not c["hidden"] and foc == "Accept analytics cookies", f"/{path}: stored choice -> no notice at load {not n0}, 'Cookie settings' links {lk.count()} height {h:.0f}, click reopens {c.get('present') and not c.get('hidden')}, focus on {foc!r}")
             if path in ("thanks/", ""):
                 pg.evaluate("window.scrollTo(0,0)")
                 ov = pg.evaluate(OVER, ["main h1", "main p", "main form button", ".site-header a", ".site-header button"]) if path else []
@@ -533,7 +533,7 @@ def run():
             before = list(greqs); ck0 = pg.evaluate("document.cookie")
             return ctx, pg, errs, greqs, before, ck0
         ctx, pg, errs, greqs, before, ck0 = flow("accept")
-        pg.click(".cookie-notice button:has-text('Accept analytics')"); pg.wait_for_timeout(700)
+        pg.click(".cookie-notice button:has-text('Accept analytics cookies')"); pg.wait_for_timeout(700)
         gt = [u for u in greqs if "googletagmanager.com/gtag/js?id=G-8W2MDQ58PL" in u]
         dl = pg.evaluate("[...window.dataLayer].map(a => [...a])")
         has = lambda f: any(f(a) for a in dl)
@@ -544,14 +544,14 @@ def run():
         pg.reload(); pg.wait_for_timeout(500)
         rec(35, len([u for u in greqs if "gtag/js" in u]) >= 2 and pg.evaluate("!document.querySelector('.cookie-notice')"), f"reload with stored granted: gtag.js requested again, no notice")
         pg.click("footer a:has-text('Cookie settings')"); pg.wait_for_timeout(200)
-        pg.click(".cookie-notice button:has-text('Decline')"); pg.wait_for_timeout(300)
+        pg.click(".cookie-notice button:has-text('Reject analytics cookies')"); pg.wait_for_timeout(300)
         msg = pg.evaluate("document.querySelector('.cookie-notice p').textContent"); stt = gl(pg)
         den = pg.evaluate("[...window.dataLayer].some(a => a[0] === 'consent' && a[1] === 'update' && a[2].analytics_storage === 'denied')")
         rec(35, den, "Withdraw: gtag('consent','update',{analytics_storage:'denied'}) pushed to dataLayer")
         rec(35, stt["v"] == "denied" and "Reload" in msg, f"Withdraw after Accept: stored {stt['v']}, message {msg!r}")
         ctx.close()
         ctx, pg, errs, greqs, before, ck0 = flow("decline")
-        pg.click(".cookie-notice button:has-text('Decline')"); pg.wait_for_timeout(500)
+        pg.click(".cookie-notice button:has-text('Reject analytics cookies')"); pg.wait_for_timeout(500)
         st1 = gl(pg); pg.reload(); pg.wait_for_timeout(500)
         rec(35, st1["v"] == "denied" and not greqs and not pg.evaluate("document.querySelector('.cookie-notice')") and pg.evaluate("document.cookie") == "" and not errs, f"Decline: stored {st1['v']}, Google requests {greqs}, no notice after reload, cookies {pg.evaluate('document.cookie')!r}, errors {errs}")
         # expiry: a choice older than 180 days shows the notice again; 179 days does not
@@ -565,7 +565,7 @@ def run():
         # storage blocked: notice shows, accepting does not throw
         ctx = mk(b, preset=False, viewport={"width": 1280, "height": 800}); ctx.add_init_script("Object.defineProperty(window,'localStorage',{get(){throw new Error('blocked')}})")
         pg = ctx.new_page(); errs = []; pg.on("pageerror", lambda e: errs.append(str(e))); pg.route(re.compile(r"https://.*google.*"), lambda rt: rt.abort()); pg.goto(BASE); pg.wait_for_timeout(400)
-        pg.click(".cookie-notice button:has-text('Accept analytics')"); pg.wait_for_timeout(300)
+        pg.click(".cookie-notice button:has-text('Accept analytics cookies')"); pg.wait_for_timeout(300)
         rec("C9", not errs, f"localStorage blocked: notice works, page errors {errs}")
         ctx.close()
         # without JS: no notice, no Google

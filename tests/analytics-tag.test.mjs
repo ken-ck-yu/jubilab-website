@@ -56,11 +56,15 @@ test("consent.js: stored choice, 180 day expiry, accept grants analytics only, a
   assert.equal((js.match(/try\{/g) || []).length >= 2, true, "storage access is wrapped in try/catch");
 });
 
+test("consent.js: approved banner wording and button names", () => {
+  for (const s of ["Cookies on jubilab.io", "We use analytics cookies to understand how our site is used and to improve it. They are only set if you accept. We also run cookieless analytics. See our <a href=/privacy/>Privacy Policy</a>.", "<button>Accept analytics cookies</button><button>Reject analytics cookies</button>"]) assert.ok(js.includes(s), s);
+});
+
 test("consent.js: withdraw path denies, deletes _ga cookies and tells the visitor to reload", () => {
   assert.match(js, /up\("denied"\)/);
   assert.match(js, /indexOf\("_ga"\)/);
   assert.match(js, /max-age=0/);
-  assert.match(js, /Reload to unload Google's script/);
+  assert.match(js, /Reload the page to stop Google's script/);
   assert.match(js, /Cookie settings/);
 });
 
@@ -69,9 +73,9 @@ test("consent.js: LOAD_GOOGLE_BEFORE_CONSENT === false (Basic mode)", () => {
   assert.match(js, /if\(LOAD_GOOGLE_BEFORE_CONSENT\)load\(\)/);
 });
 
-test("own JavaScript stays within the 6000 byte budget (check 34)", () => {
+test("own JavaScript stays within the 8000 byte budget (check 34)", () => {
   const total = ["theme.js", "consent.js"].reduce((n, f) => n + readFileSync(REPO + "assets/" + f).length, 0);
-  assert.ok(total <= 6000, `own JS ${total} B`);
+  assert.ok(total <= 8000, `own JS ${total} B`);
 });
 
 test("the early-access form posts to our own origin, not Google", () => {

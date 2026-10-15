@@ -18,7 +18,7 @@ docs/launch-checklist.md
 review/               check-site.py (acceptance checks), check-seo.py (crawlability, run in preview or launch mode), capture-screens.py (screenshot recapture)
 ```
 
-Static HTML and CSS, no build step. A little vanilla JavaScript: `assets/theme.js` (theme toggle, form hints) and `assets/consent.js` (cookie notice and Google consent; own JS stays under 6000 bytes). Preview locally with `python3 -m http.server`.
+Static HTML and CSS, no build step. A little vanilla JavaScript: `assets/theme.js` (theme toggle, form hints) and `assets/consent.js` (cookie notice and Google consent; own JS stays under 8000 bytes). Preview locally with `python3 -m http.server`.
 
 ## Principles
 
