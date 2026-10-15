@@ -90,3 +90,25 @@ test("notification body lists the new answers and not the old ones", () => {
   assert.match(raw, /How they keep track of how a result was made today:/);
   assert.ok(!/Tools:/.test(raw));
 });
+
+test("malformed multipart body gives 400, not an unhandled error", async () => {
+  const r = await onRequestPost({ request: new Request("https://jubilab.io/api/early-access", { method: "POST", headers: { "content-type": "multipart/form-data; boundary=xyz" }, body: "garbage not multipart" }), env: { WAITLIST: kv() } });
+  assert.equal(r.status, 400);
+});
+test("chunked body over 8 KB is rejected with 413 without a content-length", async () => {
+  const WAITLIST = kv();
+  const big = "email=a%40b.co&tracking=" + "x".repeat(9000);
+  const stream = new ReadableStream({ start(c) { const e = new TextEncoder().encode(big); c.enqueue(e.slice(0, 4000)); c.enqueue(e.slice(4000)); c.close(); } });
+  const request = new Request("https://jubilab.io/api/early-access", { method: "POST", headers: { "content-type": "application/x-www-form-urlencoded" }, body: stream, duplex: "half" });
+  assert.equal(request.headers.get("content-length"), null);
+  const r = await onRequestPost({ request, env: { WAITLIST } });
+  assert.equal(r.status, 413);
+  assert.equal(WAITLIST.m.size, 0);
+});
+test("email with invalid UTF-8 is treated as an invalid email", async () => {
+  const WAITLIST = kv();
+  const r = await onRequestPost({ request: new Request("https://jubilab.io/api/early-access", { method: "POST", headers: { "content-type": "application/x-www-form-urlencoded" }, body: "email=%FF%FE@b.co" }), env: { WAITLIST } });
+  assert.equal(r.status, 303);
+  assert.match(r.headers.get("location"), /error=email/);
+  assert.equal(WAITLIST.m.size, 0);
+});

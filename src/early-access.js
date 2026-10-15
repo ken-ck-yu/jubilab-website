@@ -13,7 +13,8 @@ const one = (v, allowed) => (typeof v === "string" && allowed.includes(v) ? v : 
 
 export function parse(form) {
   const email = String(form.get("email") || "").trim().toLowerCase();
-  if (email.length > 254 || !EMAIL_RE.test(email)) return { error: "email" };
+  // U+FFFD means the submitted bytes were not valid UTF-8; real addresses never contain it.
+  if (email.length > 254 || email.includes("\uFFFD") || !EMAIL_RE.test(email)) return { error: "email" };
   return {
     record: {
       email,
@@ -27,6 +28,27 @@ export function parse(form) {
   };
 }
 
+const MAX_BODY = 8192;
+
+// Reads the real body, stopping once it exceeds max bytes. Returns null when too large.
+async function readCapped(request, max) {
+  if (!request.body) return new Uint8Array(0);
+  const reader = request.body.getReader();
+  const chunks = [];
+  let total = 0;
+  for (;;) {
+    const { done, value } = await reader.read();
+    if (done) break;
+    total += value.byteLength;
+    if (total > max) { await reader.cancel().catch(() => {}); return null; }
+    chunks.push(value);
+  }
+  const out = new Uint8Array(total);
+  let o = 0;
+  for (const c of chunks) { out.set(c, o); o += c.byteLength; }
+  return out;
+}
+
 const back = (url, q) => Response.redirect(new URL(q, url).toString(), 303);
 
 export async function onRequestPost({ request, env, ctx, notify }) {
@@ -37,10 +59,17 @@ export async function onRequestPost({ request, env, ctx, notify }) {
   if (!type.includes("application/x-www-form-urlencoded") && !type.includes("multipart/form-data")) {
     return new Response("Unsupported media type", { status: 415 });
   }
-  if (Number(request.headers.get("content-length") || 0) > 8192) {
+  if (Number(request.headers.get("content-length") || 0) > MAX_BODY) {
     return new Response("Payload too large", { status: 413 });
   }
-  const form = await request.formData();
+  let form;
+  try {
+    const bytes = await readCapped(request, MAX_BODY);
+    if (!bytes) return new Response("Payload too large", { status: 413 });
+    form = await new Response(bytes, { headers: { "content-type": type } }).formData();
+  } catch {
+    return new Response("Bad request", { status: 400 });
+  }
   // Honeypot: real visitors never see or fill this field. Pretend success to bots.
   if (String(form.get("website") || "") !== "") return back(url, "/thanks/");
   const parsed = parse(form);
