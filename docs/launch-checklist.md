@@ -27,10 +27,10 @@ In the Cloudflare setup screen (connected to `ken-ck-yu/jubilab-website`):
 Then:
 1. The first deploy creates the `WAITLIST` KV namespace automatically (no id in the config) and attaches `jubilab.io` as a custom domain, because the domain is on the same Cloudflare account. If the custom domain step fails, add it in Worker > Settings > Domains & Routes.
 2. HTTPS is automatic. `404.html` is served for unknown paths.
-3. Submit a real test entry on the live site and check it in Storage & Databases > KV > the new namespace (key `email:<address>`, JSON value with email, role, role_other, field, field_other, runs_on, runs_on_other, human_data, tracking, received_at). To delete someone on request, delete their key.
+3. Submit a real test entry on the live site and check it in Storage & Databases > KV > the new namespace (key `email:<address>`, JSON value with email, role, role_other, field, field_other, runs_on, runs_on_other, human_data, tracking, received_at). To delete someone on request, delete their key. A repeat submission with the same address keeps the first record (it is not overwritten and sends no second notification); to change someone's answers, edit or delete their key by hand when they email `hello@jubilab.io`. The visitor sees the same thank-you page either way.
 4. Tests: `node --test` (Node 18 or newer). Local preview of the whole site and the form: `npx wrangler dev`.
 
-The form stores only the fields below plus a UTC time (`received_at`). Missing or invalid required answers are rejected by the Worker too (redirect to `/?error=<field>#access` with a message naming the field); nothing is stored then. It does not store IP address or user agent. If the KV binding is missing the API returns 503.
+The form stores only the fields below plus a UTC time (`received_at`). Missing or invalid required answers are rejected by the Worker too (redirect to `/?error=<field>#access`; the Worker serves the home page with the message already visible, so it shows with JavaScript off too; a bad comment gives `error=tracking`); nothing is stored then. It does not store IP address or user agent. If the KV binding is missing the API returns 503.
 
 | Field name (form) | Stored as | Question | Type | Required |
 |---|---|---|---|---|
@@ -42,17 +42,18 @@ The form stores only the fields below plus a UTC time (`received_at`). Missing o
 | `runs-on` | `runs_on` | Where does your analysis run? (windows, macos, linux, hpc-cluster, aws, azure, gcp, other) | any of several, at least one | yes |
 | `runs-on-other` | `runs_on_other` | If other, please specify | text, max 100 characters | only when runs-on includes other (otherwise null) |
 | `human-data` | `human_data` | Work involves human or patient-derived data (yes, no) | one choice | yes |
-| `tracking` | `tracking` | How do you keep track of how a result was made today? | text, max 300 characters | no (the only optional question) |
+| `tracking` | `tracking` | How do you keep track of how a result was made today? | text, max 300 characters; must be valid UTF-8, control characters other than newline are removed | no (the only optional question) |
 | `website` | not stored | Hidden spam trap, must stay empty | text | no |
 
 ## 3. Signup notification email
 
-Each signup also emails the owner (`src/notify.js`, Workers `send_email` binding `EMAIL`, sent from `signups@jubilab.io`). The recipient is the secret `NOTIFY_TO`, so no personal address is in the public repo.
+Each signup also emails the owner (`src/notify.js`, Workers `send_email` binding `EMAIL`, sent from `signups@jubilab.io`). The recipient is `NOTIFY_TO`, defined as a plain variable in `wrangler.jsonc` (`vars.NOTIFY_TO` = `hello@jubilab.io`, for production and previews). Do not also create a dashboard variable or Secret with that name.
 
-1. Email Routing must be on for `jubilab.io`, and the recipient must be a **verified destination address** (Email Routing > Destination addresses).
-2. Worker > Settings > Variables and Secrets > Add > type **Secret**, name `NOTIFY_TO`, value your address. Redeploy if asked.
+1. Email Routing must be on for `jubilab.io`, and `hello@jubilab.io` must exist as an Email Routing address that forwards to a real inbox, with the destination verified (Email Routing > Routes and Destination addresses). If it does not, notifications fail quietly; signups are still saved in KV.
+2. To use a personal address instead, either change `NOTIFY_TO` in `wrangler.jsonc` (both `vars` blocks) and redeploy, or delete the `vars.NOTIFY_TO` entries and set a dashboard Secret named `NOTIFY_TO` (Worker > Settings > Variables and Secrets > Add > Secret). Use one of these, never both. The address must be a verified Email Routing destination.
 3. Submit a test entry. An email "New early-access request" should arrive (check spam the first time). If `NOTIFY_TO` or the binding is missing, nothing is sent and the signup still succeeds.
-4. Notification failures never block a signup; the entry is always in KV.
+4. Notification failures never block a signup; the entry is always in KV. A repeat of an address already on the list sends no second email.
+5. Spam protection: there is a hidden honeypot field, but no rate limit. Recommended owner step: in the Cloudflare dashboard, add a rate-limiting rule (Security > WAF > Rate limiting rules) for requests to `/api/early-access`. This is not configured by the repo.
 
 ## 4. Button label
 
