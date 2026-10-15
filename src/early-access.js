@@ -49,7 +49,7 @@ export async function onRequestPost({ request, env, ctx, notify }) {
   await env.WAITLIST.put("email:" + parsed.record.email, JSON.stringify(parsed.record));
   if (notify) {
     // Best effort: a failed notification must never fail the signup.
-    const job = Promise.resolve().then(() => notify(parsed.record, env)).catch(() => {});
+    const job = Promise.resolve().then(() => notify(parsed.record, env)).catch((e) => console.error("notify failed:", e && e.message));
     if (ctx && ctx.waitUntil) ctx.waitUntil(job);
   }
   return back(url, "/thanks/");

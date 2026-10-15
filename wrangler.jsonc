@@ -10,7 +10,15 @@
   },
   // Wrangler creates this KV namespace on first deploy when no id is given.
   "kv_namespaces": [{ "binding": "WAITLIST" }],
-  // Sends the signup notification. Recipient = secret NOTIFY_TO (dashboard), must be a verified Email Routing destination.
+  // Sends the signup notification to NOTIFY_TO. The address must be a verified Email Routing destination.
+  // If hello@ is refused, change NOTIFY_TO to a personal verified address and make it a dashboard Secret instead.
   "send_email": [{ "name": "EMAIL" }],
+  "vars": { "NOTIFY_TO": "hello@jubilab.io" },
+  // Preview builds (npx wrangler preview, non-production branches) need their own bindings block.
+  "previews": {
+    "send_email": [{ "name": "EMAIL" }],
+    "vars": { "NOTIFY_TO": "hello@jubilab.io" }
+  },
+  "observability": { "enabled": true },
   "routes": [{ "pattern": "jubilab.io", "custom_domain": true }]
 }
