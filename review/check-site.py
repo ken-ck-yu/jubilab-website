@@ -176,7 +176,7 @@ MEASURE = r"""
   out.runsLabels = [...form.querySelectorAll('input[name="runs-on"]')].map(c => c.labels[0].textContent.trim());
   out.otherBoxes = [...form.querySelectorAll('.other input')].map(c => [c.name, c.maxLength, c.labels[0] && /If other, please specify/.test(c.labels[0].textContent)]);
   out.trackingOptional = !form.querySelector('#tracking').required && form.querySelector('#tracking').maxLength === 300;
-  const hp = form.querySelector('.hp input'); const hpb = hp.getBoundingClientRect(); out.hp = {tab: hp.tabIndex, right: hpb.right, visible: hpb.right > 0 && hpb.left < iw};
+  const hp = form.querySelector('.hp input'); const hpb = hp.getBoundingClientRect(); out.hp = {name: hp.name, ac: hp.getAttribute('autocomplete'), lp: hp.getAttribute('data-lpignore'), op: hp.hasAttribute('data-1p-ignore'), tab: hp.tabIndex, right: hpb.right, visible: hpb.right > 0 && hpb.left < iw};
   // 29 diagram
   out.diag = [...document.querySelectorAll('svg[role=img]')].map(s => [s.getAttribute('role'), !!s.querySelector('title'), !!s.querySelector('desc')]);
   const tw = q('details.twin'); out.twin = {closed: !tw.open, summary: tw.querySelector('summary').textContent.trim(), items: tw.querySelectorAll('li').length};
@@ -297,7 +297,7 @@ def run():
             if w == 390:
                 rec(26, not m["targetsBad"] and min(m["footerLinks"]) >= 24, f"{tag} small targets {m['targetsBad'][:4]} footer link heights {m['footerLinks']}")
             ok28 = (m["formFirst"] == "email" and set(m["reqNames"]) == {"email", "role", "field", "human-data"} and m["noDetails"] and not m["unlabeled"]
-                    and not m["hp"]["visible"] and m["hp"]["tab"] == -1 and set(m["names"]) == {"email", "role", "role-other", "field", "field-other", "runs-on", "runs-on-other", "human-data", "tracking"}
+                    and not m["hp"]["visible"] and m["hp"]["tab"] == -1 and m["hp"]["name"] == "q7_note" and m["hp"]["ac"] == "off" and m["hp"]["lp"] == "true" and m["hp"]["op"] and set(m["names"]) == {"email", "role", "role-other", "field", "field-other", "runs-on", "runs-on-other", "human-data", "tracking"}
                     and all(g[1] for g in m["groups"]) and len(m["groups"]) == 4 and m["trackingOptional"]
                     and m["runsLabels"] == ["Windows", "macOS", "Linux", "HPC cluster", "AWS", "Azure", "GCP", "Other (specify)"]
                     and m["opts"]["human"] == ["yes", "no"] and m["opts"]["role"][-1] == "other" and m["opts"]["field"][-1] == "other" and len(m["opts"]["role"]) == 6 and len(m["opts"]["field"]) == 6

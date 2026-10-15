@@ -43,7 +43,8 @@ The form stores only the fields below plus a UTC time (`received_at`). Missing o
 | `runs-on-other` | `runs_on_other` | If other, please specify | text, max 100 characters | only when runs-on includes other (otherwise null) |
 | `human-data` | `human_data` | Work involves human or patient-derived data (yes, no) | one choice | yes |
 | `tracking` | `tracking` | How do you keep track of how a result was made today? | text, max 300 characters; must be valid UTF-8, control characters other than newline are removed | no (the only optional question) |
-| `website` | not stored | Hidden spam trap, must stay empty | text | no |
+| `q7_note` | not stored | Hidden spam trap, must stay empty. Neutral name so browsers and password managers do not autofill it. If filled, the Worker answers the usual 303 to /thanks/, stores and sends nothing, and logs `honeypot tripped` (no personal data) | text | no |
+| `website` (old name) | ignored | Pre-rename pages cached in a browser may still post it. It is deliberately NOT a honeypot, so an autofilled value never drops a real signup | text | no |
 
 ## 3. Signup notification email
 
@@ -53,7 +54,7 @@ Each signup also emails the owner (`src/notify.js`, Workers `send_email` binding
 2. To use a personal address instead, either change `NOTIFY_TO` in `wrangler.jsonc` (both `vars` blocks) and redeploy, or delete the `vars.NOTIFY_TO` entries and set a dashboard Secret named `NOTIFY_TO` (Worker > Settings > Variables and Secrets > Add > Secret). Use one of these, never both. The address must be a verified Email Routing destination.
 3. Submit a test entry. An email "New early-access request" should arrive (check spam the first time). If `NOTIFY_TO` or the binding is missing, nothing is sent and the signup still succeeds.
 4. Notification failures never block a signup; the entry is always in KV. A repeat of an address already on the list sends no second email.
-5. Spam protection: there is a hidden honeypot field, but no rate limit. Recommended owner step: in the Cloudflare dashboard, add a rate-limiting rule (Security > WAF > Rate limiting rules) for requests to `/api/early-access`. This is not configured by the repo.
+5. Spam protection: there is a hidden honeypot field (`q7_note`; check Worker logs for `honeypot tripped` if signups seem missing), but no rate limit. Recommended owner step: in the Cloudflare dashboard, add a rate-limiting rule (Security > WAF > Rate limiting rules) for requests to `/api/early-access`. This is not configured by the repo.
 
 ## 4. Button label
 
