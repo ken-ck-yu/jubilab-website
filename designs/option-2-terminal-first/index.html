@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Jubilab: local-first metadata for scientific pipelines (early access)</title>
+<meta name="description" content="Jubilab is a local-first, self-hostable metadata layer for scientific data. It records processing runs with their inputs, parameters and versions, and shows lineage from any output back to its inputs.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Jubilab: local-first metadata for scientific pipelines">
+<meta property="og:description" content="Jubilab is a local-first, self-hostable metadata layer for scientific data. It records processing runs with their inputs, parameters and versions, and shows lineage from any output back to its inputs.">
+<meta name="robots" content="noindex">
+<!-- [placeholder] canonical URL, og:url and og:image omitted on purpose: no public URL and no og image exist yet. -->
+<!-- Fonts: Google Fonts stylesheet is allowed ONLY for the private preview. Self-host the woff2 files (Inter, JetBrains Mono, Latin subset) before real launch. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="style.css">
+<!-- [placeholder] applicationCategory and operatingSystem need the owner's confirmation. No offers, ratings or reviews on purpose. -->
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Jubilab","description":"A local-first, self-hostable metadata layer for scientific data. It records processing runs with their inputs, parameters and versions, and shows lineage from any output back to its inputs and forward to what depends on it.","applicationCategory":"DeveloperApplication","operatingSystem":"Runs locally with Docker Compose or Python"}
+</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to main content</a>
+<div class="strip">Design option 2: Terminal First (preview, not published)</div>
+
+<header class="site">
+ <div class="wrap bar">
+  <a class="brand" href="#top" id="top">jubilab<i>_</i></a>
+  <nav aria-label="Page sections">
+   <ul>
+    <li><a href="#run-it">Run it</a></li>
+    <li><a href="#record">Record a run</a></li>
+    <li><a href="#offline">Offline</a></li>
+    <li><a href="#limits">Limits</a></li>
+    <li><a href="#early-access">Early access</a></li>
+   </ul>
+  </nav>
+ </div>
+</header>
+
+<main id="main">
+ <div class="wrap">
+  <section class="hero" aria-labelledby="h1">
+   <div>
+    <p class="eyebrow">Local-first metadata for scientific pipelines</p>
+    <h1 id="h1"><span>Record the run.</span><span>Keep the lineage.</span><span>Leave the data where it is.</span></h1>
+    <p class="lede">Jubilab is a local-first, self-hostable metadata layer for scientific data. It stores pointers and context, not your data. It runs on localhost and the server makes no outbound network calls.</p>
+    <p class="lede sub">It records processing runs with their inputs, parameters and versions, and shows lineage from any output back to its inputs.</p>
+    <div class="actions">
+     <a class="btn" href="#early-access">Request early access</a>
+     <a class="link2" href="#record">See the commands</a>
+    </div>
+   </div>
+   <figure>
+    <div class="term" role="group" aria-label="Terminal session on demo data">
+     <div class="cap"><span>real session, demo data</span><span>2026-10-15</span></div>
+<pre tabindex="0"><span class="p">$ </span><span class="c">python -m server serve --data-dir ./data</span>
+jubilab: listening on http://127.0.0.1:18190 data-dir=./data
+
+<span class="p">$ </span><span class="c">jubilab project create --name "Cohort A"</span>
+created project p_8hakp36js1 (Cohort A)
+export JUBILAB_PROJECT=p_8hakp36js1
+
+<span class="m">[ three register commands omitted here, shown in full below ]</span>
+
+<span class="p">$ </span><span class="c">jubilab sync</span>
+synced 3 record(s) to http://127.0.0.1:18190/api/projects/p_8hakp36js1/ingest: applied=3 duplicate=0 error=0
+
+<span class="p">$ </span><span class="c">jubilab status</span>
+spool: jubilab-spool.p_8hakp36js1.jsonl (3 records, 0 unsynced)
+<span class="p">$ </span><span class="cursor" aria-hidden="true"></span></pre>
+    </div>
+    <figcaption class="fcap">Captured from a real run on demo data (a made-up "Cohort A"). Only the install path and temporary directory were shortened for display. In this session the server and the CLI talk to 127.0.0.1.</figcaption>
+   </figure>
+  </section>
+ </div>
+
+ <div class="wrap page">
+  <nav class="toc" aria-label="Contents">
+   <p>Contents</p>
+   <ol>
+    <li><a href="#run-it">Run it</a></li>
+    <li><a href="#record">Record a run</a></li>
+    <li><a href="#lineage">Lineage</a></li>
+    <li><a href="#compare">Compare two runs</a></li>
+    <li><a href="#offline">No internet</a></li>
+    <li><a href="#facts">What is a fact</a></li>
+    <li><a href="#ask">Ask</a></li>
+    <li><a href="#limits">Limits</a></li>
+    <li><a href="#early-access">Early access</a></li>
+   </ol>
+  </nav>
+
+  <div class="col">
+   <section class="s" id="run-it" aria-labelledby="h-run">
+    <span class="n">01</span>
+    <h2 id="h-run">Run it</h2>
+    <p>One command starts the server, either with Docker Compose or with Python. It binds to localhost, makes no outbound network calls, and needs no AI model. Work is organised in projects, and nothing is shared between projects.</p>
+    <!-- [placeholder] the exact Docker Compose command is not in the real transcript; add it from the product's own docs before launch. Only the Python command is shown, copied from the real session. -->
+    <div class="term"><div class="cap"><span>python</span></div>
+<pre tabindex="0"><span class="p">$ </span><span class="c">python -m server serve --data-dir ./data</span>
+jubilab: listening on http://127.0.0.1:18190 data-dir=./data</pre></div>
+   </section>
+
+   <section class="s" id="record" aria-labelledby="h-record">
+    <span class="n">02</span>
+    <h2 id="h-record">Record a run</h2>
+    <p>Register a data asset, then a run that names it as an input, with its parameters and status. A run is history: a changed setting is a new run. Both commands below write to a local spool file.</p>
+    <div class="term"><div class="cap"><span>register-asset, register-run</span><span>real session</span></div>
+<pre tabindex="0"><span class="p">$ </span><span class="c">jubilab register-asset --id fastq-v1 --name "Cohort_A.fastq.gz" --location s3://lab-cohort-a/fastq/ --type "FASTQ collection" --version v1</span>
+spooled register_asset key=7e094854d38fcc6ea6cc87ccae08500d -&gt; jubilab-spool.p_8hakp36js1.jsonl
+
+<span class="p">$ </span><span class="c">jubilab register-run --id run-001 --name "Variant calling, threshold 20" --input fastq-v1 -p quality_threshold=20 --status completed --executor nextflow</span>
+spooled register_run key=a685bbb34a2ad0952f877768ca06baf3 -&gt; jubilab-spool.p_8hakp36js1.jsonl
+
+<span class="p">$ </span><span class="c">jubilab register-run --id run-002 --name "Variant calling, threshold 30" --input fastq-v1 -p quality_threshold=30 --status completed --executor nextflow</span>
+spooled register_run key=ed400327f323beb1c015acf5e7ed1297 -&gt; jubilab-spool.p_8hakp36js1.jsonl</pre></div>
+    <p class="fcap">The <code class="i">--location</code> value is a pointer that Jubilab records. It does not connect to S3 or read the data; connectors are not built yet.</p>
+   </section>
+
+   <section class="s" id="lineage" aria-labelledby="h-lineage">
+    <span class="n">03</span>
+    <h2 id="h-lineage">Lineage, backward and forward</h2>
+    <p>From an output, Jubilab shows the run and the inputs that produced it, and from an input, what depends on it. Today lineage is read in the web interface; the screenshot is the demo project served by the session above.</p>
+    <figure class="shot">
+     <img src="img/lineage.webp" width="1300" height="463" alt="Product screenshot, Lineage tab of the demo project: data asset Cohort_A.fastq.gz, used as input by Run 002 (Nextflow, threshold 30), which generated the output variants_run002.vcf.">
+    </figure>
+    <p class="fcap">Web interface, demo data. The location shown is a recorded pointer.</p>
+   </section>
+
+   <section class="s" id="compare" aria-labelledby="h-compare">
+    <span class="n">04</span>
+    <h2 id="h-compare">Compare two runs</h2>
+    <p>The compare endpoint returns each field with both values and a <code class="i">differs</code> flag. This is the real response for the two runs above.</p>
+    <div class="term"><div class="cap"><span>curl, compare</span><span>real session</span></div>
+<pre tabindex="0"><span class="p">$ </span><span class="c">curl -s "$JUBILAB_URL/api/projects/$JUBILAB_PROJECT/compare?ids=run-001,run-002"</span>
+{
+    "ids": [
+        "run-001",
+        "run-002"
+    ],
+    "fields": [
+        {
+            "field": "Executor",
+            "values": {
+                "run-001": "nextflow",
+                "run-002": "nextflow"
+            },
+            "differs": false
+        },
+        {
+            "field": "quality_threshold",
+            "values": {
+                "run-001": "20",
+                "run-002": "30"
+            },
+            <span class="hi">"differs": true</span>
+        },
+        {
+            "field": "status",
+            "values": {
+                "run-001": "completed",
+                "run-002": "completed"
+            },
+            "differs": false
+        }
+    ]
+}</pre></div>
+    <div class="term"><div class="cap"><span>the same result as a diff</span><span>our formatting, not command output</span></div>
+<pre tabindex="0"><span class="m">  Executor           nextflow</span>
+<span class="hi">- quality_threshold  20</span>
+<span class="hi">+ quality_threshold  30</span>
+<span class="m">  status             completed</span>
+<span class="m">1 of 3 fields differ</span></pre></div>
+    <!-- [placeholder] the diff view is rendered by us from the real JSON above, not produced by a CLI command. Replace with real output if a diff command ships. -->
+   </section>
+
+   <section class="s" id="offline" aria-labelledby="h-offline">
+    <span class="n">05</span>
+    <h2 id="h-offline">On a node without internet</h2>
+    <p>The CLI does not need the server to record. Each command appends to a spool file (<code class="i">jubilab-spool.&lt;project&gt;.jsonl</code>) and returns. Later, <code class="i">jubilab sync</code> sends the records, and <code class="i">jubilab status</code> tells you how many are still unsynced. The <code class="i">spooled ...</code> lines above are exactly what you see offline.</p>
+    <div class="term"><div class="cap"><span>sync, status</span><span>real session</span></div>
+<pre tabindex="0"><span class="p">$ </span><span class="c">jubilab sync</span>
+synced 3 record(s) to http://127.0.0.1:18190/api/projects/p_8hakp36js1/ingest: applied=3 duplicate=0 error=0
+
+<span class="p">$ </span><span class="c">jubilab status</span>
+spool: jubilab-spool.p_8hakp36js1.jsonl (3 records, 0 unsynced)
+server: http://127.0.0.1:18190 {"projects":{"active":1,"archived":0,"unavailable":0},"status":"ok","version":"0.1.0"}
+project: p_8hakp36js1 (Cohort A)</pre></div>
+   </section>
+
+   <section class="s" id="facts" aria-labelledby="h-facts">
+    <span class="n">06</span>
+    <h2 id="h-facts">What is a fact</h2>
+    <p>Jubilab marks each fact with one of four labels instead of implying that everything is reproducible. Each is a word and a shape, not just a colour.</p>
+    <!-- [placeholder] one-line definitions are our wording; owner to confirm against the product's semantics. -->
+    <ul class="facts">
+     <li><span class="w v">verified</span><span>Confirmed against the thing itself.</span></li>
+     <li><span class="w i">inferred</span><span>Worked out from other records, not observed directly.</span></li>
+     <li><span class="w m">manual</span><span>Entered by a person.</span></li>
+     <li><span class="w u">unknown</span><span>Not captured, and shown as unknown. The demo project has one: "Container digest not captured".</span></li>
+    </ul>
+   </section>
+
+   <section class="s" id="ask" aria-labelledby="h-ask">
+    <span class="n">07</span>
+    <h2 id="h-ask">Ask, and get "cannot determine"</h2>
+    <p>Questions are answered only from recorded evidence, with the records cited. When the records do not contain an answer, Jubilab says "cannot determine". No AI model is involved or required.</p>
+   </section>
+
+   <section class="s" id="limits" aria-labelledby="h-limits">
+    <span class="n">08</span>
+    <h2 id="h-limits">Limits</h2>
+    <p>Jubilab is early-stage software with no customers yet.</p>
+    <ul class="limits">
+     <li><b>Not a workflow engine.</b> It does not run or schedule pipelines. It records runs.</li>
+     <li><b>Not storage.</b> It holds pointers and context, never your data.</li>
+     <li><b>Not a replacement for your tools.</b> It sits next to them.</li>
+     <li><b>No authentication yet.</b></li>
+     <li><b>No connectors yet</b> for S3 or other stores.</li>
+     <li><b>No hosted service.</b> You run it yourself.</li>
+     <li><b>Licence not decided.</b> The product is not published.</li>
+    </ul>
+   </section>
+
+   <section class="s" id="early-access" aria-labelledby="h-access">
+    <span class="n">09</span>
+    <h2 id="h-access">Request early access</h2>
+    <p>Early access is by request. Tell us what you run and we will write back.</p>
+    <form onsubmit="return false" aria-labelledby="h-access">
+     <span class="demo">Demo form: nothing is sent or stored</span>
+     <label for="e-mail">Email</label>
+     <input id="e-mail" type="email" autocomplete="email">
+     <label for="e-work">What pipelines do you record?</label>
+     <textarea id="e-work" rows="3"></textarea>
+     <button class="btn" type="button">Request early access</button>
+    </form>
+    <!-- [placeholder] privacy note wording and process need the owner's decision. -->
+    <p class="priv">Privacy note (placeholder): when this form is live we will use your email only to reply about early access, and will not share it or add trackers to this site.</p>
+   </section>
+  </div>
+ </div>
+</main>
+
+<footer>
+ <div class="wrap cols">
+  <div>
+   <p><b>jubilab</b></p>
+   <p>Local-first metadata for scientific pipelines. Early stage, version 0.1.0.</p>
+  </div>
+  <div>
+   <!-- [placeholder] contact address and privacy statement link to be provided by the owner. -->
+   <p><b>Contact</b></p>
+   <p>Contact address: to be added.</p>
+   <p>Privacy statement: to be added.</p>
+  </div>
+ </div>
+</footer>
+</body>
+</html>

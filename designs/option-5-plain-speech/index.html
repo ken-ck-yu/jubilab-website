@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Jubilab: know how every result was made (early access)</title>
+<meta name="description" content="Jubilab is a local-first, self-hostable metadata layer for scientific data. It records processing runs with their inputs, parameters and versions, and shows lineage from any output back to its inputs.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Jubilab: know how every result was made">
+<meta property="og:description" content="Jubilab is a local-first, self-hostable metadata layer for scientific data. It records processing runs with their inputs, parameters and versions, and shows lineage from any output back to its inputs.">
+<meta name="robots" content="noindex">
+<!-- [placeholder] canonical URL, og:url and og:image omitted on purpose: no public URL and no og image exist yet. -->
+<!-- Fonts: Google Fonts stylesheet is allowed ONLY for the private preview. Self-host the woff2 files (Young Serif, Instrument Sans, IBM Plex Mono, Latin subset) before real launch. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Instrument+Sans:wght@400;500;600&family=Young+Serif&display=swap">
+<link rel="stylesheet" href="style.css">
+<!-- [placeholder] applicationCategory and operatingSystem need the owner's confirmation. No offers, ratings or reviews on purpose. -->
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Jubilab","description":"A local-first, self-hostable metadata layer for scientific data. It records processing runs with their inputs, parameters and versions, and shows lineage from any output back to its inputs and forward to what depends on it.","applicationCategory":"DeveloperApplication","operatingSystem":"Runs locally with Docker Compose or Python"}
+</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to main content</a>
+<div class="strip">Design option 5: Plain Speech (preview, not published)</div>
+
+<header class="wrap">
+ <div class="top">
+  <a class="brand" href="#top" id="top">jubilab</a>
+  <nav aria-label="Page sections">
+   <ul>
+    <li><a href="#keeps">What it keeps</a></li>
+    <li><a href="#follow">Following a result</a></li>
+    <li><a href="#machine">On your machine</a></li>
+    <li><a href="#not-yet">What it does not do</a></li>
+    <li><a href="#early-access">Early access</a></li>
+   </ul>
+  </nav>
+ </div>
+</header>
+
+<main id="main">
+ <div class="wrap">
+  <section class="hero" aria-labelledby="h1">
+   <h1 id="h1">Know how every result was made.</h1>
+   <p class="lead">Jubilab is a small tool for keeping the history of scientific analyses: what went in, what settings were used, what came out, and how sure the record is. It runs on your own machine.</p>
+   <p class="def">More exactly: a local-first, self-hostable metadata layer. It links to your data where it lives and keeps pointers and context, not the data.</p>
+   <div class="actions">
+    <a class="btn" href="#early-access">Request early access</a>
+    <a href="#not-yet">What it does not do yet</a>
+   </div>
+  </section>
+
+  <section class="sc" id="problem" aria-labelledby="h-problem">
+   <!-- [placeholder] the problem paragraph is our wording; the owner should check it rings true. -->
+   <h2 id="h-problem">A result is a file. What made it is somewhere else.</h2>
+   <p class="big">It may be in a shell history, a notebook, an email. Months later, or when the analysis changes hands, the file is still there and the explanation is not.</p>
+  </section>
+
+  <section class="sc" id="keeps" aria-labelledby="h-keeps">
+   <h2 id="h-keeps">What Jubilab keeps: the inputs, the parameters, the versions. Never your data.</h2>
+   <p class="big">Each processing run is written down once, with what it read, what settings it was given and which versions were involved, and then left alone. A changed setting is a new run. Work is kept in projects, and nothing is shared between projects.</p>
+  </section>
+
+  <section class="sc" id="sure" aria-labelledby="h-sure">
+   <h2 id="h-sure">How sure the record is, said plainly.</h2>
+   <p>Every fact carries one of four labels. Jubilab does not say a result is reproducible, because a record cannot promise that.</p>
+   <!-- [placeholder] one-line definitions are our wording; owner to confirm against the product's semantics. -->
+   <ul class="sure">
+    <li><span class="w v">verified</span><span>Confirmed against the thing itself.</span></li>
+    <li><span class="w i">inferred</span><span>Worked out from other records, not observed directly.</span></li>
+    <li><span class="w m">manual</span><span>Entered by a person.</span></li>
+    <li><span class="w u">unknown</span><span>Not captured. Shown as unknown, never guessed.</span></li>
+   </ul>
+  </section>
+
+  <section class="sc" id="follow" aria-labelledby="h-follow">
+   <h2 id="h-follow">Following a result back, and forward.</h2>
+   <p class="sentence"><span class="mono">variants_run002.vcf</span> <span class="ar">&larr;</span> from run 002 <span class="ar">&larr;</span> from one input, <span class="mono">Cohort_A.fastq.gz</span>, and one setting, a quality threshold of 30.</p>
+   <p>Start at any output and read back to what produced it. Start at an input and read forward to everything that depends on it.</p>
+   <figure class="shot">
+    <img src="img/lineage.webp" width="1100" height="667" alt="Product screenshot of the project lineage view in a demo project: the data asset Cohort_A.fastq.gz feeds two runs, Run 001 and Run 002, each of which generated one output file, variants_run001.vcf and variants_run002.vcf.">
+    <figcaption>The lineage view in the running product, on a made-up demo project. The location under the asset is a pointer that Jubilab records; it does not connect to your storage.</figcaption>
+   </figure>
+  </section>
+
+  <section class="sc" id="compare" aria-labelledby="h-compare">
+   <h2 id="h-compare">Comparing two runs.</h2>
+   <p class="sentence">Run 002 used a quality threshold of <mark>30</mark> instead of <mark>20</mark>. It called <mark>36,740</mark> variants instead of <mark>42,180</mark>. Executor, pipeline version and status are the same.</p>
+   <p>The changed words are marked. Jubilab records what differs. It does not say which result is better.</p>
+  </section>
+ </div>
+
+ <section class="band" id="machine" aria-labelledby="h-machine">
+  <div class="wrap">
+   <h2 id="h-machine">It runs on your machine.</h2>
+   <ul>
+    <li><b>One command</b> starts it, with Docker Compose or with Python: <span class="mono">python -m server serve --data-dir ./data</span></li>
+    <li><b>The server binds to localhost</b> and makes no outbound network calls.</li>
+    <li><b>No AI model</b> is needed or used.</li>
+    <li><b>Works offline.</b> On a compute node with no internet, the command-line tool writes records to a file and sends them later.</li>
+   </ul>
+   <p class="fine">The command above is copied from a real session on demo data.</p>
+  </div>
+ </section>
+
+ <div class="wrap">
+  <section class="sc" id="ask" aria-labelledby="h-ask">
+   <h2 id="h-ask">Answers come from the record, or not at all.</h2>
+   <p class="big">You can ask a project a question. The answer is built only from what was recorded, and it points to the records it used. When the records do not hold the answer, Jubilab says it cannot determine it.</p>
+   <div class="quote">
+    <p>"Container digest not captured (unknown)."</p>
+    <cite>From the product's answer in the demo project: it lists what is missing instead of filling it in.</cite>
+   </div>
+  </section>
+
+  <section class="sc" id="not-yet" aria-labelledby="h-not">
+   <h2 id="h-not">What it does not do yet.</h2>
+   <ul class="not">
+    <li><b>It is not a workflow engine.</b>It does not run or schedule pipelines. It records runs.</li>
+    <li><b>It is not storage.</b>Your files stay where they are.</li>
+    <li><b>It does not replace your tools.</b>It sits next to them.</li>
+    <li><b>There is no authentication yet.</b>And no connectors for S3 or other stores, and no hosted service.</li>
+    <li><b>The licence is not decided.</b>The product is early-stage and not published, and it has no customers yet.</li>
+   </ul>
+  </section>
+
+  <section class="sc" id="faq" aria-labelledby="h-faq">
+   <h2 id="h-faq">Short answers.</h2>
+   <dl class="faq">
+    <dt>Does it copy my data?</dt><dd>No. It stores pointers and context about your data, not the data.</dd>
+    <dt>Does it need the internet?</dt><dd>No. The server makes no outbound network calls, and the command-line tool can record offline and send records later.</dd>
+    <dt>Does it use an AI model?</dt><dd>No model is needed or used.</dd>
+    <dt>Can I try it?</dt><dd>Early access is by request. Use the form below.</dd>
+   </dl>
+  </section>
+
+  <!-- [placeholder] "A note from the builder" is intentionally left out: it would need the owner's decision on who signs it and what it may say about a team. -->
+
+  <section class="sc" id="early-access" aria-labelledby="h-access">
+   <h2 id="h-access">Request early access.</h2>
+   <p class="big">Tell us what you analyse, and we will write back.</p>
+   <form onsubmit="return false" aria-labelledby="h-access">
+    <span class="demo">Demo form: nothing is sent or stored</span>
+    <label for="e-mail">Email</label>
+    <input id="e-mail" type="email" autocomplete="email">
+    <label for="e-work">What do you analyse?</label>
+    <textarea id="e-work" rows="3"></textarea>
+    <button class="btn" type="button">Request early access</button>
+   </form>
+   <!-- [placeholder] privacy note wording and process need the owner's decision. -->
+   <p class="priv">Privacy note (placeholder): when this form is live we will use your email only to reply about early access, and will not share it or add trackers to this site.</p>
+  </section>
+ </div>
+</main>
+
+<footer>
+ <div class="wrap row">
+  <div>
+   <a class="brand" href="#top">jubilab</a>
+   <p>Early stage, version 0.1.0.</p>
+  </div>
+  <div>
+   <!-- [placeholder] contact address and privacy statement link to be provided by the owner. -->
+   <p>Contact address: to be added.</p>
+   <p>Privacy statement: to be added.</p>
+  </div>
+ </div>
+</footer>
+</body>
+</html>
