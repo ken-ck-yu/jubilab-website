@@ -4,14 +4,18 @@
 Usage:  check-seo.py <base-url> [--mode preview|launch]
   preview (default): the current state. Every page must be noindex; robots.txt must disallow all.
   launch: the state after scripts/go-public.py --apply [--with-legal]. Home must be indexable; thanks and 404 noindex;
-          privacy and terms must be indexable if listed in the sitemap, otherwise noindex; robots.txt must allow all.
+          privacy and terms must be indexable if listed in the sitemap, otherwise noindex (with --with-legal: both MUST be
+          indexable and in the sitemap, as after go-public.py --with-legal); robots.txt allows ordinary crawlers and the
+          search/answer bots and blocks the training bots GPTBot, ClaudeBot, Google-Extended, CCBot.
 Serve the repo (or the go-public copy) first, e.g.  python3 -m http.server 18151 --bind 127.0.0.1
 Prints PASS, FAIL or WARN per check; exit code 1 on any FAIL. It reports state; it does not rank or promise anything.
 Note: the canonical and sitemap URLs name https://jubilab.io, so they are compared by path against the base URL.
 """
 import json, re, sys, urllib.request, urllib.error, urllib.parse
 from html.parser import HTMLParser
+from urllib.robotparser import RobotFileParser
 
+TRAINING_BOTS = ("GPTBot", "ClaudeBot", "Google-Extended", "CCBot")
 PAGES = ["/", "/privacy/", "/terms/", "/thanks/", "/404.html"]
 PUBLIC_ORIGIN = "https://jubilab.io"
 RESULTS = []
@@ -101,18 +105,25 @@ def main():
     if not args or mode not in ("preview", "launch"):
         print(__doc__)
         return 2
+    with_legal = "--with-legal" in sys.argv
     base = args[0].rstrip("/")
     print(f"check-seo: {base} mode={mode}")
 
     st, robots, _ = get(base + "/robots.txt")
     rec("PASS" if st == 200 else "FAIL", "robots.txt returns 200", str(st))
-    disallow_all = bool(re.search(r"^\s*Disallow:\s*/\s*$", robots, re.M))
-    allows = bool(re.search(r"^\s*Allow:\s*/\s*$", robots, re.M)) and not disallow_all
+    _rp = RobotFileParser(); _rp.parse(robots.splitlines())
+    disallow_all = not _rp.can_fetch("*", "/")
+    allows = _rp.can_fetch("*", "/")
     print(f"INFO robots.txt state: {'disallows all crawling' if disallow_all else 'allows crawling' if allows else 'no blanket rule'}; Sitemap line: {'yes' if re.search(r'^Sitemap:', robots, re.M | re.I) else 'no'}")
     if mode == "preview":
         rec("PASS" if disallow_all else "FAIL", "preview: robots.txt disallows all")
     else:
-        rec("PASS" if allows else "FAIL", "launch: robots.txt allows all and has no blanket Disallow")
+        rp = RobotFileParser(); rp.parse(robots.splitlines())
+        rec("PASS" if rp.can_fetch("*", "/") and rp.can_fetch("Googlebot", "/") and rp.can_fetch("Bingbot", "/") else "FAIL", "launch: robots.txt allows ordinary crawlers (*, Googlebot, Bingbot) on /")
+        for bot in ("OAI-SearchBot", "ChatGPT-User", "PerplexityBot", "Claude-SearchBot", "Claude-User"):
+            rec("PASS" if rp.can_fetch(bot, "/") else "FAIL", f"launch: robots.txt allows search/answer bot {bot}")
+        for bot in TRAINING_BOTS:
+            rec("PASS" if not rp.can_fetch(bot, "/") and not rp.can_fetch(bot, "/privacy/") else "FAIL", f"launch: robots.txt blocks training bot {bot} (owner decision 2026-10-16)")
         rec("PASS" if re.search(r"^Sitemap:\s*" + re.escape(PUBLIC_ORIGIN) + "/sitemap.xml", robots, re.M | re.I) else "FAIL", "launch: robots.txt names the sitemap")
 
     st, sm, _ = get(base + "/sitemap.xml")
@@ -145,7 +156,7 @@ def main():
         if mode == "preview":
             want_noindex = True
         else:
-            want_noindex = path in ("/thanks/", "/404.html") or (path in ("/privacy/", "/terms/") and not in_sitemap)
+            want_noindex = path in ("/thanks/", "/404.html") or (path in ("/privacy/", "/terms/") and not in_sitemap and not with_legal)
         rec("PASS" if is_noindex == want_noindex else "FAIL", f"{path} robots meta: {'noindex' if is_noindex else 'indexable'} (expected {'noindex' if want_noindex else 'indexable'})")
         if "noindex" in (hdr.get("X-Robots-Tag") or "").lower() and not want_noindex:
             rec("FAIL", f"{path} X-Robots-Tag noindex header")

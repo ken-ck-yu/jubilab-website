@@ -9,8 +9,8 @@ Status: v2.1.0 line, live and non-indexable until the owner runs the launch swit
 ```text
 index.html            the single-page site (light by default, optional dark theme)
 style.css             all styles; colours are tokens on :root and :root[data-theme="dark"]
-privacy/              published privacy text (noindex until launch); terms/ is still a draft shell (noindex)
-404.html, CNAME, robots.txt, robots.launch.txt, sitemap.xml, llms.txt
+privacy/, terms/      published legal texts (noindex until the launch switch)
+404.html, CNAME, robots.txt (Disallow all until launch), robots.launch.txt (launch rules: allows search/answer bots, blocks the training bots GPTBot, ClaudeBot, Google-Extended, CCBot; owner decision 2026-10-16), sitemap.xml, llms.txt
 scripts/go-public.py  the launch switch (dry run by default); see docs/launch-checklist.md step 1
 assets/               img/ (product screenshots, WebP), fonts/ (self-hosted woff2 + OFL licences),
                       og/ (social image and its source), theme.js, favicon.svg

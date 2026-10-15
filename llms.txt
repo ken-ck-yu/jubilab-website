@@ -13,7 +13,7 @@
 ## Optional
 
 - [Privacy](https://jubilab.io/privacy/): what the website and the early-access form collect, including the Cloudflare Web Analytics service the site always uses and Google Analytics, which runs only if the visitor accepts the cookie notice
-- [Terms](https://jubilab.io/terms/): terms for using the website and requesting early access (draft text)
+- [Terms](https://jubilab.io/terms/): terms for using the website and requesting early access
 
 ## Contact
 

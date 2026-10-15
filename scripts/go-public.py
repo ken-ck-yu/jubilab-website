@@ -4,28 +4,37 @@
   python3 scripts/go-public.py                 dry run (default): print the diff, change nothing
   python3 scripts/go-public.py --apply         write the changes
   --with-legal   also make privacy/ and terms/ indexable, each one only if it has no "Draft" notice.
-                 A page that still has its Draft notice (today: terms/) is SKIPPED with a WARNING on stderr:
-                 it keeps noindex and stays out of the sitemap, the other pages still go ahead (exit 0).
-                 Privacy is published (no Draft notice), so --with-legal opens privacy only for now.
+                 A page that still has its Draft notice is SKIPPED with a WARNING on stderr: it keeps noindex and
+                 stays out of the sitemap, the other pages still go ahead (exit 0).
+                 Privacy and terms are both published (no Draft notice), so --with-legal opens both.
   --allow-draft  with --with-legal: also open pages that still have their "Draft" notice (rehearsal only)
   --root DIR     operate on another copy of the site (default: the repo this script is in)
 
 What it does:
   1. removes <meta name="robots" content="noindex"> (and the PREVIEW comment above it) from index.html,
      and from privacy/ and terms/ with --with-legal. thanks/ and 404.html always keep noindex.
-  2. replaces robots.txt with robots.launch.txt.
+  2. replaces robots.txt with robots.launch.txt (allows search crawlers and answer bots, blocks the training
+     bots GPTBot, ClaudeBot, Google-Extended and CCBot: owner decision 2026-10-16).
   3. rewrites sitemap.xml to list exactly the indexable pages (home, plus privacy/terms once indexable),
      with lastmod from the last git commit touching each page (today's date when git is unavailable).
 Running it twice changes nothing the second time. Standard library only.
 """
 import argparse, datetime, difflib, os, re, subprocess, sys
+from urllib.robotparser import RobotFileParser
 
 PAGES = {"index.html": "https://jubilab.io/", "privacy/index.html": "https://jubilab.io/privacy/", "terms/index.html": "https://jubilab.io/terms/"}
 LEGAL = ("privacy/index.html", "terms/index.html")
 ALWAYS_NOINDEX = ("thanks/index.html", "404.html")
 NOINDEX = re.compile(r'(?:[ \t]*<!--[^\n]*?noindex[^\n]*?-->[ \t]*\n)?[ \t]*<meta\s+name="robots"\s+content="[^"]*noindex[^"]*"\s*/?>[ \t]*\n?', re.I)
 PREVIEW_COMMENT = re.compile(r'[ \t]*<!-- PREVIEW: noindex on every page\.[^\n]*-->[ \t]*\n')
-ACTIVE_DISALLOW_ALL = re.compile(r'^\s*Disallow:\s*/\s*$', re.M)
+TRAINING_BOTS = ("GPTBot", "ClaudeBot", "Google-Extended", "CCBot")
+
+
+def launch_robots_ok(text):
+    """The launch file must allow ordinary crawlers on / and name the sitemap; blocking only named bots is fine."""
+    rp = RobotFileParser()
+    rp.parse(text.splitlines())
+    return all(rp.can_fetch(b, "/") for b in ("*", "Googlebot", "Bingbot")) and bool(re.search(r"^Sitemap:\s*https://", text, re.M))
 
 
 def read(root, rel):
@@ -67,8 +76,8 @@ def plan(root, with_legal, allow_draft):
         if not re.search(r'name="robots"[^>]*noindex', read(root, rel), re.I):
             errors.append(f"{rel} must keep noindex but has none")
     launch = read(root, "robots.launch.txt")
-    if ACTIVE_DISALLOW_ALL.search(launch) or not re.search(r"^User-agent:\s*\*", launch, re.M) or not re.search(r"^Sitemap:\s*https://", launch, re.M):
-        errors.append("robots.launch.txt is not a valid allow-all launch file with a Sitemap line")
+    if not re.search(r"^User-agent:\s*\*", launch, re.M) or not launch_robots_ok(launch):
+        errors.append("robots.launch.txt does not allow ordinary crawlers (*, Googlebot, Bingbot) or has no Sitemap line")
     old_robots = read(root, "robots.txt")
     if old_robots != launch:
         changes["robots.txt"] = (old_robots, launch)

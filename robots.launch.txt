@@ -1,34 +1,27 @@
 # Launch rules for jubilab.io. Source: robots.launch.txt, copied over robots.txt by scripts/go-public.py (docs/launch-checklist.md step 1).
+#
+# AI crawler policy, decided by the owner on 2026-10-16:
+#   ALLOW search and answer bots (OAI-SearchBot, ChatGPT-User, PerplexityBot, Claude-SearchBot, Claude-User)
+#   and ordinary search crawlers. They fetch pages so that an assistant or search engine can show and cite
+#   them to a person who asked.
+#   BLOCK the training bots GPTBot, ClaudeBot, Google-Extended and CCBot.
+# Robots rules are requests, not enforcement: well-behaved crawlers honour them, others may not.
+# Names are the published user-agent tokens; check each vendor's documentation before changing them.
+#   Training bots (blocked below):
+#     GPTBot           OpenAI model training
+#     ClaudeBot        Anthropic model training
+#     Google-Extended  controls use of pages for Google's Gemini training and grounding (does not affect Google Search ranking)
+#     CCBot            Common Crawl, whose dataset many models train on
+# Every named group is separate: a crawler uses the most specific group that names it, so the groups
+# below do not affect anyone else, and "User-agent: *" is the fallback for all other crawlers.
+
+User-agent: GPTBot
+User-agent: ClaudeBot
+User-agent: Google-Extended
+User-agent: CCBot
+Disallow: /
 
 User-agent: *
 Allow: /
 
 Sitemap: https://jubilab.io/sitemap.xml
-
-# ---------------------------------------------------------------------------------------------
-# OPTIONAL: AI crawlers. Everything below is commented out, so the rules above (allow all) apply.
-# Names are the published user-agent tokens; check each vendor's documentation before relying on them.
-#
-# Recommendation: ALLOW search and answer bots. They fetch pages so that an assistant can show and
-# cite them to a person who asked. Training bots collect pages to train models; whether to allow
-# them is an OWNER DECISION (nothing here depends on it). Robots rules are requests, not enforcement.
-#
-# To block the training bots only, uncomment this block:
-#
-# User-agent: GPTBot
-# User-agent: ClaudeBot
-# User-agent: Google-Extended
-# User-agent: CCBot
-# Disallow: /
-#
-# Search and answer bots (keep these allowed; listed only so an explicit rule is easy to add):
-#   OAI-SearchBot    OpenAI search index
-#   ChatGPT-User     fetches a page when a ChatGPT user asks for it
-#   PerplexityBot    Perplexity search index
-#   Claude-SearchBot Anthropic search index
-#   Claude-User      fetches a page when a Claude user asks for it
-# Training bots:
-#   GPTBot           OpenAI model training
-#   ClaudeBot        Anthropic model training
-#   Google-Extended  controls use of pages for Google's Gemini training and grounding (does not affect Google Search ranking)
-#   CCBot            Common Crawl, whose dataset many models train on
