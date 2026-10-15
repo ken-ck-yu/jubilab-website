@@ -15,7 +15,7 @@
   --border: #dde2dd; --line-strong: #7d8a84; --stroke: #6e7f78; --node-fill: #f4f5f2;
   --verified: #0f766e; --inferred: #6b4fa3; --manual: #1f5f99; --unknown: #55625b;
   --term-bg: #17201c; --term-ink: #e4ebe7; --term-cmd: #8fd5c9;
-  --mat: #ffffff; --mat-pad: 0px;
+  --mat: #ffffff; --bar: #f0f2ef; --dot: #c3cbc6; --frame-line: #dde2dd;
   --sans: "Hanken Grotesk", "Hanken Fallback", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   --mono: "IBM Plex Mono", "Plex Mono Fallback", ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
   --gutter: 24px; --max: 1120px;
@@ -30,7 +30,7 @@
   --verified: #5fcfbd; --inferred: #c9a0ff; --manual: #8fc1ee; --unknown: #9aa9b0;
   --term-bg: #0a0f11; --term-ink: #d7dfe3; --term-cmd: #8fe3d2;
   /* The product UI is light. In dark theme its screenshots sit on a light mat, unaltered. */
-  --mat: #eef1f3; --mat-pad: 8px;
+  --mat: #eef1f3; --bar: #e1e6e8; --dot: #aab5ba; --frame-line: #6b7c86;
 }
 
 *, *::before, *::after { box-sizing: border-box; }
@@ -91,20 +91,26 @@ section { padding: 96px 0 0; }
 .hero { padding-top: 48px; }
 
 /* hero */
-.hero-grid { display: grid; grid-template-columns: minmax(0, 1fr) calc(min(600px, 46vw) + 2 * var(--mat-pad)); column-gap: 48px; align-items: start; }
+.hero-grid { display: block; }
+.hero-text { max-width: 760px; }
 .eyebrow { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; font: 500 .8125rem/1.3 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--accent-ink); margin: 0 0 20px; }
 .eyebrow .stage { color: var(--muted); border: 1px solid var(--border); border-radius: 999px; padding: 4px 10px; letter-spacing: .03em; text-transform: none; }
 .hero-lede { font-size: 1.125rem; line-height: 1.55; color: var(--muted); margin: 24px 0 0; max-width: 52ch; }
 .hero-lede strong { color: var(--ink); font-weight: 600; }
 .cta-row { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
 .trust { font-size: .875rem; line-height: 1.5; color: var(--muted); margin: 16px 0 0; max-width: 52ch; }
-.hero-shot { margin: 0; }
-.shot { padding: var(--mat-pad); background: var(--mat); border-radius: 8px; }
-.shot-inner { position: relative; }
-.shot img { width: 100%; border: 1px solid var(--border); border-radius: 8px; background: #fff; }
-.pin { position: absolute; width: 24px; height: 24px; margin: -12px 0 0 -12px; display: grid; place-items: center; border-radius: 50%; background: #ffffff; color: #0b5a54; border: 1.5px solid #0f766e; font: 500 .75rem/1 var(--mono); }
+.hero-shot { margin: 48px 0 0; }
+.frame { border: 1px solid var(--frame-line); border-radius: 12px; background: var(--mat); overflow: hidden; box-shadow: 0 1px 2px rgba(23,32,28,.10), 0 12px 32px -8px rgba(23,32,28,.10); }
+.frame-bar { display: flex; align-items: center; gap: 6px; height: 32px; padding: 0 12px; background: var(--bar); border-bottom: 1px solid var(--border); }
+.frame-bar i { width: 10px; height: 10px; border-radius: 50%; background: var(--dot); }
+.frame-media { aspect-ratio: 16 / 9; overflow: hidden; background: var(--mat); }
+.frame-media picture, .frame-media img { display: block; width: 100%; height: 100%; object-fit: cover; }
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .frame { transition: transform .2s ease, box-shadow .2s ease; }
+  .frame:hover { transform: translateY(-2px); box-shadow: 0 1px 2px rgba(23,32,28,.10), 0 16px 36px -8px rgba(23,32,28,.18); }
+}
+
 figcaption { font-size: .875rem; line-height: 1.5; color: var(--muted); margin-top: 12px; max-width: 60ch; }
-.cap-narrow { display: none; }
 
 /* problem, how */
 .two { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 48px; margin-top: 32px; max-width: 920px; }
@@ -222,8 +228,6 @@ footer p a { min-height: 24px; }
 
 /* responsive */
 @media (max-width: 1023px) {
-  .hero-grid { grid-template-columns: minmax(0, 1fr); row-gap: 40px; }
-  .hero-shot { max-width: calc(636px + 2 * var(--mat-pad)); }
   .next-grid { grid-template-columns: minmax(0, 1fr); row-gap: 24px; }
   .access .left, .form { grid-column: 1 / -1; }
   .form { margin-top: 32px; }
@@ -257,13 +261,9 @@ footer p a { min-height: 24px; }
   .access { padding: 56px 0; }
   .band { margin-top: 56px; padding: 48px 0; }
   .hero { padding-top: 28px; }
-  .hero-grid { row-gap: 28px; }
+  .hero-shot { margin-top: 32px; }
+  .frame-media { aspect-ratio: 4 / 3; }
   .cta-row .btn { flex: 1 1 100%; }
-  .shot { width: fit-content; max-width: 100%; }
-  .shot img { max-width: 316px; aspect-ratio: 316 / 253; }
-  .pin { display: none; }
-  .cap-wide { display: none; }
-  .cap-narrow { display: inline; }
   .form { padding: 20px; }
 }
 @media (max-width: 380px) { .brand-name { display: none; } }

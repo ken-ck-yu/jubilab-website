@@ -109,17 +109,17 @@
       <p class="trust">Runs on your own machine. The server makes no outbound network calls. Demo data is synthetic.</p>
     </div>
     <figure class="hero-shot">
-      <div class="shot">
-        <div class="shot-inner">
+      <div class="frame">
+        <div class="frame-bar" aria-hidden="true"><i></i><i></i><i></i></div>
+        <div class="frame-media">
+          <!-- Video later: a <video muted loop playsinline preload="metadata" poster="assets/img/hero-1440.webp"> goes here, same box, object-fit: cover; no autoplay attribute. Spec: docs/design-spec-v2.1.md section 7. -->
           <picture>
-            <source media="(max-width: 640px)" srcset="assets/img/hero-narrow.webp 1x, assets/img/hero-narrow-2x.webp 2x" width="316" height="253">
-            <img src="assets/img/hero.webp" srcset="assets/img/hero.webp 1x, assets/img/hero-2x.webp 2x" width="674" height="336" fetchpriority="high"
-              alt="Real screen from the demo project Cohort A (synthetic data). The lineage graph traces the output variants_run002.vcf back to Run 002, a Nextflow run with threshold 30, which used the data asset Cohort_A.fastq.gz.">
+            <source media="(max-width: 640px)" srcset="assets/img/hero-narrow-358.webp 358w, assets/img/hero-narrow-716.webp 716w" sizes="calc(100vw - 32px)" width="358" height="269">
+            <img src="assets/img/hero-1120.webp" srcset="assets/img/hero-720.webp 720w, assets/img/hero-1120.webp 1120w, assets/img/hero-1440.webp 1440w, assets/img/hero-2240.webp 2240w" sizes="(min-width: 1280px) 1120px, (min-width: 641px) calc(100vw - 48px), calc(100vw - 32px)" width="1120" height="630" fetchpriority="high"
+              alt="Demo project Cohort A, synthetic data. The lineage graph traces the output variants_run002.vcf back to Run 002, a Nextflow run with threshold 30, which used the data asset Cohort_A.fastq.gz.">
           </picture>
-          <span class="pin" style="left:6.23%;top:48.69%" aria-hidden="true">1</span><span class="pin" style="left:38.28%;top:63.71%" aria-hidden="true">2</span><span class="pin" style="left:70.33%;top:63.71%" aria-hidden="true">3</span>
         </div>
       </div>
-      <figcaption><span class="cap-wide">A real screen from the running product, cropped to the lineage graph. 1 An input that stays where it lives. 2 The run. 3 The output you opened. </span><span class="cap-narrow">A real screen from the running product, cropped to one card: the run behind an output file. </span>Cohort A is synthetic demo data.</figcaption>
     </figure>
   </div>
 </section>
