@@ -27,19 +27,19 @@ In the Cloudflare setup screen (connected to `ken-ck-yu/jubilab-website`):
 Then:
 1. The first deploy creates the `WAITLIST` KV namespace automatically (no id in the config) and attaches `jubilab.io` as a custom domain, because the domain is on the same Cloudflare account. If the custom domain step fails, add it in Worker > Settings > Domains & Routes.
 2. HTTPS is automatic. `404.html` is served for unknown paths.
-3. Submit a real test entry on the live site and check it in Storage & Databases > KV > the new namespace (key `email:<address>`, JSON value with email, role, field, tools, human_data, trace, received_at). To delete someone on request, delete their key.
+3. Submit a real test entry on the live site and check it in Storage & Databases > KV > the new namespace (key `email:<address>`, JSON value with email, role, field, runs_on, human_data, tracking, received_at). To delete someone on request, delete their key.
 4. Tests: `node --test tests/` (Node 18 or newer). Local preview of the whole site and the form: `npx wrangler dev`.
 
 The form stores only the fields below plus a UTC time. It does not store IP address or user agent. If the KV binding is missing the API returns 503.
 
 | Field name | Question | Type | Required |
 |---|---|---|---|
-| `role` | Your role | one choice | no |
-| `field` | Your field | one choice | no |
-| `tools` | Tools used today | any of several | no |
-| `human-data` | Work involves human or patient-derived data | one choice | no |
-| `trace` | What would you most want to trace or compare | text, max 300 characters | no |
 | `email` | Email address | email | yes |
+| `role` | Your role (inside "Help us choose (optional)") | one choice | no |
+| `field` | Your field | one choice | no |
+| `runs-on` | Where does your analysis run? (laptop-workstation, hpc-cluster, cloud, other) | any of several | no |
+| `human-data` | Work involves human or patient-derived data | one choice | no |
+| `tracking` | How do you keep track of how a result was made today? | text, max 300 characters | no |
 | `website` | Hidden spam trap, must stay empty | text | no |
 
 ## 3. Signup notification email
@@ -53,7 +53,7 @@ Each signup also emails the owner (`src/notify.js`, Workers `send_email` binding
 
 ## 4. Button label
 
-The call-to-action label "Request early access" appears in the header, the hero, the section 08 heading and the form button. To change it, run `grep -rn "Request early access" --include=*.html .` and edit each hit (the header text is repeated on index, privacy, terms and 404).
+The call-to-action label "Request early access" appears in the header, the hero, the access heading and the form button. To change it, run `grep -rn "Request early access" --include=*.html .` and edit each hit (the header text is repeated on index, privacy, terms and 404).
 
 ## 5. Contact address
 
@@ -70,9 +70,9 @@ No code is needed. Dashboard > Analytics & Logs > Web Analytics > add the site `
 ## 8. Content to re-confirm before launch
 
 - Every `[owner decision: ...]` HTML comment in the source (`grep -rn "owner decision" .`).
-- The page is a pitch, not a feature list, on purpose: it names no feature inventory and no "not there yet" list, so it should not go stale. Keep it that way. Re-read the "Where this is going" section (04) and the proof visuals against the product on launch day: the section must stay labelled as direction, and anything shown as proof must still be true.
+- The page is a pitch, not a feature list, on purpose: it names no feature inventory and no "not there yet" list, so it should not go stale. Keep it that way. Re-read the "Where this is going" section (id `next`, nav label "What's next") and the proof visuals against the product on launch day: the section must stay labelled as direction, and anything shown as proof must still be true.
 - The page makes no statement about licence, open source, customers, logos, testimonials, performance or accounts. Keep it that way until true.
-- The screenshot (`assets/img/lineage.webp`) matches the current product UI. Re-capture it from the running product on demo data; never edit it. The drawn diagram and the terminal excerpt use the same demo data and must be kept consistent with it.
+- The screenshot (`assets/img/hero*.webp` (recapture with `review/capture-screens.py`)) matches the current product UI. Re-capture it from the running product on demo data; never edit it. The drawn diagram and the terminal excerpt use the same demo data and must be kept consistent with it.
 - JSON-LD in `index.html` has `Organization` and `SoftwareApplication` with only durable true facts. `operatingSystem` is deliberately absent until platforms are confirmed.
 
 ## 9. Final checks

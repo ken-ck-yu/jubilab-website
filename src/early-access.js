@@ -1,10 +1,11 @@
 // POST /api/early-access, called from src/worker.js.
 // Stores one record per email in the KV namespace bound as WAITLIST (see wrangler.jsonc).
-// Stores only the form fields and a UTC timestamp. It does not store IP address or user agent.
+// Stores only the form fields (email, role, field, runs_on, human_data, tracking) and a UTC timestamp.
+// Old field names (tools, trace) from the previous form are ignored, not stored. It does not store IP address or user agent.
 
 const ROLE = ["lab-head", "researcher-analyst", "core-platform", "other"];
 const FIELD = ["genetics-genomics", "other-life-science", "other-lab-science"];
-const TOOLS = ["nextflow", "snakemake", "galaxy", "scripts-notebooks", "other"];
+const RUNS_ON = ["laptop-workstation", "hpc-cluster", "cloud", "other"];
 const HUMAN = ["yes", "no", "prefer-not-to-say"];
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -18,9 +19,9 @@ export function parse(form) {
       email,
       role: one(form.get("role"), ROLE),
       field: one(form.get("field"), FIELD),
-      tools: form.getAll("tools").filter((t) => TOOLS.includes(t)),
+      runs_on: [...new Set(form.getAll("runs-on").filter((t) => RUNS_ON.includes(t)))],
       human_data: one(form.get("human-data"), HUMAN),
-      trace: String(form.get("trace") || "").trim().slice(0, 300),
+      tracking: String(form.get("tracking") || "").trim().slice(0, 300),
       received_at: new Date().toISOString(),
     },
   };
