@@ -252,7 +252,7 @@ project: p_8hakp36js1 (Cohort A)</pre>
     <div class="grid">
       <div class="left">
         <h2 id="h-access">Request early access</h2>
-        <p>Jubilab is invite-only. We are choosing labs to learn from real use, starting with genetics researchers. Only the email address is required; the questions are there to help us choose well.</p>
+        <p>Jubilab is invite-only. We are choosing labs to learn from real use, starting with genetics researchers. Every question is required except the last one, a short free-text answer. The answers help us choose well.</p>
       </div>
       <form class="form" id="early-access-form" action="/api/early-access" method="post" aria-labelledby="h-access">
         <p class="form-error" id="form-error" role="alert" tabindex="-1" hidden>That email address does not look right. Please check it and send the form again.</p>
@@ -261,37 +261,52 @@ project: p_8hakp36js1 (Cohort A)</pre>
           <input id="email" name="email" type="email" autocomplete="email" required placeholder="you@example.org">
         </div>
         <div class="hp" aria-hidden="true"><label>Leave this field empty <input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>
-        <details class="more">
-          <summary>Help us choose (optional)</summary>
-          <div class="more-body">
-            <fieldset class="group"><legend>Your role</legend>
-              <label class="opt"><input type="radio" name="role" value="lab-head">Lab head</label>
-              <label class="opt"><input type="radio" name="role" value="researcher-analyst">Researcher or analyst</label>
-              <label class="opt"><input type="radio" name="role" value="core-platform">Core facility or platform engineer</label>
-              <label class="opt"><input type="radio" name="role" value="other">Other</label>
-            </fieldset>
-            <fieldset class="group"><legend>Your field</legend>
-              <label class="opt"><input type="radio" name="field" value="genetics-genomics">Genetics or genomics</label>
-              <label class="opt"><input type="radio" name="field" value="other-life-science">Other life science</label>
-              <label class="opt"><input type="radio" name="field" value="other-lab-science">Other lab science</label>
-            </fieldset>
-            <fieldset class="group"><legend>Where does your analysis run? <span class="hint">(choose any)</span></legend>
-              <label class="opt chk"><input type="checkbox" name="runs-on" value="laptop-workstation">Laptop or workstation</label>
-              <label class="opt chk"><input type="checkbox" name="runs-on" value="hpc-cluster">HPC cluster</label>
-              <label class="opt chk"><input type="checkbox" name="runs-on" value="cloud">Cloud</label>
-              <label class="opt chk"><input type="checkbox" name="runs-on" value="other">Other</label>
-            </fieldset>
-            <fieldset class="group"><legend>Does your work involve human or patient-derived data?</legend>
-              <label class="opt"><input type="radio" name="human-data" value="yes">Yes</label>
-              <label class="opt"><input type="radio" name="human-data" value="no">No</label>
-              <label class="opt"><input type="radio" name="human-data" value="prefer-not-to-say">Prefer not to say</label>
-            </fieldset>
-            <div class="field">
-              <label for="tracking">How do you keep track of how a result was made today? <span class="hint">(up to 300 characters)</span></label>
-              <textarea id="tracking" name="tracking" rows="3" maxlength="300"></textarea>
-            </div>
+        <fieldset class="group" id="role-group"><legend>Your role <span class="hint">(required)</span></legend>
+          <label class="opt"><input type="radio" name="role" value="lab-head" required>Principal investigator or lab head</label>
+          <label class="opt"><input type="radio" name="role" value="postdoc-scientist" required>Postdoc or research scientist</label>
+          <label class="opt"><input type="radio" name="role" value="grad-student" required>Graduate student</label>
+          <label class="opt"><input type="radio" name="role" value="bioinformatician-analyst" required>Bioinformatician or data analyst</label>
+          <label class="opt"><input type="radio" name="role" value="core-rse" required>Core facility or research-software engineer</label>
+          <label class="opt"><input type="radio" name="role" value="other" required>Other (specify)</label>
+          <div class="field other" data-other-for="role">
+            <label for="role-other">If other, please specify <span class="hint">(up to 100 characters)</span></label>
+            <input id="role-other" name="role-other" type="text" maxlength="100" autocomplete="off">
           </div>
-        </details>
+        </fieldset>
+        <fieldset class="group" id="field-group"><legend>Your field <span class="hint">(required)</span></legend>
+          <label class="opt"><input type="radio" name="field" value="genetics-genomics" required>Genetics or genomics</label>
+          <label class="opt"><input type="radio" name="field" value="bioinformatics-comp-bio" required>Bioinformatics or computational biology</label>
+          <label class="opt"><input type="radio" name="field" value="molecular-cell-biology" required>Molecular or cell biology</label>
+          <label class="opt"><input type="radio" name="field" value="other-life-science" required>Other life science</label>
+          <label class="opt"><input type="radio" name="field" value="other-lab-science" required>Other lab science (chemistry, physics, materials)</label>
+          <label class="opt"><input type="radio" name="field" value="other" required>Other (specify)</label>
+          <div class="field other" data-other-for="field">
+            <label for="field-other">If other, please specify <span class="hint">(up to 100 characters)</span></label>
+            <input id="field-other" name="field-other" type="text" maxlength="100" autocomplete="off">
+          </div>
+        </fieldset>
+        <fieldset class="group" id="runs-on-group"><legend>Where does your analysis run? <span class="hint">(required, choose any)</span></legend>
+          <label class="opt chk"><input type="checkbox" name="runs-on" value="windows">Windows</label>
+          <label class="opt chk"><input type="checkbox" name="runs-on" value="macos">macOS</label>
+          <label class="opt chk"><input type="checkbox" name="runs-on" value="linux">Linux</label>
+          <label class="opt chk"><input type="checkbox" name="runs-on" value="hpc-cluster">HPC cluster</label>
+          <label class="opt chk"><input type="checkbox" name="runs-on" value="aws">AWS</label>
+          <label class="opt chk"><input type="checkbox" name="runs-on" value="azure">Azure</label>
+          <label class="opt chk"><input type="checkbox" name="runs-on" value="gcp">GCP</label>
+          <label class="opt chk"><input type="checkbox" name="runs-on" value="other">Other (specify)</label>
+          <div class="field other" data-other-for="runs-on">
+            <label for="runs-on-other">If other, please specify <span class="hint">(up to 100 characters)</span></label>
+            <input id="runs-on-other" name="runs-on-other" type="text" maxlength="100" autocomplete="off">
+          </div>
+        </fieldset>
+        <fieldset class="group" id="human-data-group"><legend>Does your work involve human or patient-derived data? <span class="hint">(required)</span></legend>
+          <label class="opt"><input type="radio" name="human-data" value="yes" required>Yes</label>
+          <label class="opt"><input type="radio" name="human-data" value="no" required>No</label>
+        </fieldset>
+        <div class="field">
+          <label for="tracking">How do you keep track of how a result was made today? <span class="hint">(optional, up to 300 characters)</span></label>
+          <textarea id="tracking" name="tracking" rows="3" maxlength="300"></textarea>
+        </div>
         <p class="consent">By sending this form you agree that we may email you about early access.</p>
         <button class="btn" type="submit">Request early access</button>
         <p class="privacy">Your answers are used only to choose early-access labs and to write to you about early access. They are stored in our Cloudflare account, not shared or sold, and you can ask us to delete them at any time. Details are on the <a href="privacy/">privacy page</a>.</p>

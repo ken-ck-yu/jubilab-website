@@ -192,11 +192,10 @@ svg .g-unknown { color: var(--unknown); }
 .hint { font-weight: 400; color: var(--muted); }
 .field input, .field textarea { width: 100%; font: 400 1rem/1.4 var(--sans); color: var(--ink); background: var(--page); border: 1px solid var(--line-strong); border-radius: 8px; padding: 11px 12px; min-height: 44px; }
 .field input::placeholder, .field textarea::placeholder { color: var(--muted); opacity: 1; }
-.more { margin: 0 0 18px; border: 1px solid var(--border); border-radius: 8px; }
-.more summary { cursor: pointer; min-height: 44px; display: flex; align-items: center; padding: 0 14px; font-weight: 600; font-size: .9375rem; }
-.more-body { padding: 4px 14px 14px; }
 .group { border: 0; margin: 0 0 20px; padding: 0; min-width: 0; }
 .group legend { font-weight: 600; font-size: .9375rem; padding: 0; margin-bottom: 8px; }
+.group .other { margin: 4px 0 0; }
+.group .other[hidden] { display: none; }
 .opt { position: relative; display: inline-flex; align-items: center; gap: 10px; min-height: 44px; padding: 0 14px; margin: 0 8px 8px 0; border: 1px solid var(--line-strong); border-radius: 8px; background: var(--surface); font-size: .9375rem; cursor: pointer; }
 .opt input { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: pointer; }
 .opt::before { content: ""; width: 18px; height: 18px; border: 2px solid var(--line-strong); border-radius: 50%; flex: none; }
@@ -271,3 +270,9 @@ footer p a { min-height: 24px; }
 
 .form-error { margin: 0 0 16px; padding: 10px 12px; color: var(--ink); background: var(--changed-bg); border: 1px solid var(--changed-line); border-left: 4px solid var(--changed); border-radius: 6px; font-weight: 600; }
 .form-error[hidden] { display: none; }
+
+/* field table on the privacy page */
+.page-shell table { width: 100%; border-collapse: collapse; margin: 0 0 20px; font-size: .9375rem; }
+.page-shell th, .page-shell td { text-align: left; vertical-align: top; padding: 8px 10px; border-bottom: 1px solid var(--border); overflow-wrap: anywhere; }
+.page-shell thead th { font-weight: 600; border-bottom-color: var(--line-strong); }
+.page-shell tbody th { font-weight: 400; }
