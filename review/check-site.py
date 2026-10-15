@@ -343,6 +343,15 @@ def run():
         s0 = st(); pg.check('#early-access-form input[name=role][value=other]'); pg.check('#early-access-form input[name=runs-on][value=other]'); s1 = st()
         pg.check('#early-access-form input[name=role][value=lab-head]'); s2 = st()
         rec(28, s0 == [[False, False]] * 3 and s1 == [[True, True], [False, False], [True, True]] and s2 == [[False, False], [False, False], [True, True]], f"JS on: other boxes {s0} -> {s1} -> {s2}")
+        # Deployed routing: the home page must go through the Worker or the server-side ?error message never shows.
+        try:
+            import json as _j, re as _r
+            _w = open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "wrangler.jsonc"), encoding="utf-8").read()
+            _w = _r.sub(r'"(?:[^"\\]|\\.)*"|//[^\n]*|/\*[\s\S]*?\*/', lambda m: m.group(0) if m.group(0).startswith('"') else "", _w)
+            _rwf = _j.loads(_w)["assets"]["run_worker_first"]
+        except Exception as _e:
+            _rwf = f"unreadable: {_e}"
+        rec(28, sorted(_rwf) == ["/", "/api/*", "/index.html"] if isinstance(_rwf, list) else False, f"wrangler run_worker_first: {_rwf}")
         pg.goto(BASE + "?error=role#access"); pg.wait_for_timeout(500)
         er = pg.evaluate("(()=>{const m=document.getElementById('form-error');return [m.hidden, m.textContent, m.getAttribute('role'), document.activeElement===m, document.getElementById('role-group').getAttribute('aria-describedby')]})()")
         rec(28, er == [False, "Please choose your role.", "alert", True, "form-error"], f"?error=role message: {er}")

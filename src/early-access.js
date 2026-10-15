@@ -107,26 +107,35 @@ async function readCapped(request, max) {
   return out;
 }
 
+const SORRY = "We could not send your request. Please go back and try again, or email hello@jubilab.io.";
+const sorry = (status) => new Response(SORRY, { status, headers: { "content-type": "text/plain; charset=utf-8" } });
+
 const back = (url, q) => Response.redirect(new URL(q, url).toString(), 303);
 
 export async function onRequestPost({ request, env, ctx, notify }) {
   const url = new URL(request.url);
   const origin = request.headers.get("origin");
-  if (origin && origin !== url.origin) return new Response("Forbidden", { status: 403 });
+  // Absent Origin: allowed. Same origin: allowed. The string "null" (no-referrer policy, privacy extensions,
+  // some redirects): allowed only when the browser says Sec-Fetch-Site: same-origin, which pages cannot forge.
+  const sameSite = request.headers.get("sec-fetch-site") === "same-origin";
+  if (origin && origin !== url.origin && !(origin === "null" && sameSite)) {
+    console.warn("origin rejected", { origin: origin.slice(0, 200) });
+    return sorry(403);
+  }
   const type = request.headers.get("content-type") || "";
   if (!type.includes("application/x-www-form-urlencoded") && !type.includes("multipart/form-data")) {
-    return new Response("Unsupported media type", { status: 415 });
+    return sorry(415);
   }
   if (Number(request.headers.get("content-length") || 0) > MAX_BODY) {
-    return new Response("Payload too large", { status: 413 });
+    return sorry(413);
   }
   let form;
   try {
     const bytes = await readCapped(request, MAX_BODY);
-    if (!bytes) return new Response("Payload too large", { status: 413 });
+    if (!bytes) return sorry(413);
     form = await new Response(bytes, { headers: { "content-type": type } }).formData();
   } catch {
-    return new Response("Bad request", { status: 400 });
+    return sorry(400);
   }
   // Honeypot: real visitors never see or fill the hidden field (HONEYPOT). Pretend success to bots: same 303,
   // nothing stored, nothing sent. The warning carries no personal data so the owner can spot false trips in logs.
@@ -138,12 +147,18 @@ export async function onRequestPost({ request, env, ctx, notify }) {
   }
   const parsed = parse(form);
   if (parsed.error) return back(url, "/?error=" + parsed.error + "#access");
-  if (!env.WAITLIST) return new Response("Service not configured", { status: 503 });
+  if (!env.WAITLIST) {
+    console.error("WAITLIST binding missing: signup not stored");
+    return sorry(503);
+  }
   // Keep the FIRST record for an address: never overwrite, never notify twice. The visitor gets the same
   // redirect either way, so nobody can probe whether an address is already on the list. KV is not
   // transactional, so two simultaneous first submissions could both pass this check; that race is accepted.
   const key = "email:" + parsed.record.email;
-  if ((await env.WAITLIST.get(key)) !== null) return back(url, "/thanks/");
+  if ((await env.WAITLIST.get(key)) !== null) {
+    console.warn("duplicate signup ignored");
+    return back(url, "/thanks/");
+  }
   await env.WAITLIST.put(key, JSON.stringify(parsed.record));
   if (notify) {
     // Best effort: a failed notification must never fail the signup.

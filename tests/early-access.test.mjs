@@ -1,4 +1,4 @@
-// Run: node --test tests/
+// Run: node --test
 import test from "node:test";
 import assert from "node:assert/strict";
 import { onRequestPost, parse, validEmail } from "../src/early-access.js";
@@ -130,11 +130,70 @@ test("cached old page: website= empty or autofilled is still stored (old name is
     assert.ok(!WAITLIST.m.get("email:a@lab.org").includes("x.example"));
   }
 });
-test("cross-origin, wrong type, missing binding", async () => {
-  assert.equal((await onRequestPost({ request: mk(FULL, { origin: "https://evil.example" }), env: { WAITLIST: kv() } })).status, 403);
+const SORRY = "We could not send your request. Please go back and try again, or email hello@jubilab.io.";
+const capture = async (fn) => {
+  const logs = []; const w = console.warn, e = console.error;
+  console.warn = (...a) => logs.push(["warn", ...a]); console.error = (...a) => logs.push(["error", ...a]);
+  try { return { r: await fn(), logs }; } finally { console.warn = w; console.error = e; }
+};
+const SAME = { origin: "null", "sec-fetch-site": "same-origin" };
+test("cross-origin, wrong type, missing binding: friendly plain-text sentence", async () => {
+  const { r: a } = await capture(() => onRequestPost({ request: mk(FULL, { origin: "https://evil.example" }), env: { WAITLIST: kv() } }));
   const j = new Request("https://jubilab.io/api/early-access", { method: "POST", headers: { "content-type": "application/json" }, body: "{}" });
-  assert.equal((await onRequestPost({ request: j, env: {} })).status, 415);
-  assert.equal((await onRequestPost({ request: mk(FULL), env: {} })).status, 503);
+  const { r: b } = await capture(() => onRequestPost({ request: j, env: {} }));
+  const { r: c } = await capture(() => onRequestPost({ request: mk(FULL), env: {} }));
+  for (const [r, st] of [[a, 403], [b, 415], [c, 503]]) {
+    assert.equal(r.status, st);
+    assert.match(r.headers.get("content-type"), /^text\/plain/);
+    assert.equal(await r.text(), SORRY);
+  }
+});
+test("413 and 400 use the same sentence", async () => {
+  const big = await onRequestPost({ request: mk(FULL, { "content-length": "99999" }), env: { WAITLIST: kv() } });
+  assert.equal(big.status, 413); assert.equal(await big.text(), SORRY);
+  assert.match(big.headers.get("content-type"), /^text\/plain/);
+  const bad = new Request("https://jubilab.io/api/early-access", { method: "POST", headers: { "content-type": "multipart/form-data; boundary=x" }, body: "garbage" });
+  const r = await onRequestPost({ request: bad, env: { WAITLIST: kv() } });
+  assert.equal(r.status, 400); assert.equal(await r.text(), SORRY);
+});
+test("Origin: absent allowed, same origin allowed, foreign rejected", async () => {
+  for (const h of [{}, { origin: "https://jubilab.io" }]) {
+    const WAITLIST = kv();
+    const r = await onRequestPost({ request: mk(FULL, h), env: { WAITLIST } });
+    assert.equal(r.status, 303); assert.equal(WAITLIST.m.size, 1);
+  }
+  const WAITLIST = kv();
+  const { r } = await capture(() => onRequestPost({ request: mk(FULL, { origin: "https://evil.example", "sec-fetch-site": "same-origin" }), env: { WAITLIST } }));
+  assert.equal(r.status, 403); assert.equal(WAITLIST.m.size, 0);
+});
+test("Origin null: allowed and stored only with Sec-Fetch-Site same-origin", async () => {
+  const WAITLIST = kv();
+  const r = await onRequestPost({ request: mk(FULL, SAME), env: { WAITLIST } });
+  assert.equal(r.status, 303);
+  assert.equal(new URL(r.headers.get("location")).pathname, "/thanks/");
+  assert.equal(WAITLIST.m.size, 1);
+  for (const extra of [{}, { "sec-fetch-site": "cross-site" }, { "sec-fetch-site": "same-site" }, { "sec-fetch-site": "none" }]) {
+    const W = kv();
+    const { r: x } = await capture(() => onRequestPost({ request: mk(FULL, { origin: "null", ...extra }), env: { WAITLIST: W } }));
+    assert.equal(x.status, 403, JSON.stringify(extra)); assert.equal(W.m.size, 0);
+  }
+});
+test("silent-failure log lines: present, and none contain the email or other values", async () => {
+  const WAITLIST = kv();
+  await onRequestPost({ request: mk(FULL), env: { WAITLIST } });
+  const dup = await capture(() => onRequestPost({ request: mk(FULL), env: { WAITLIST } }));
+  assert.equal(dup.r.status, 303);
+  assert.deepEqual(dup.logs.map((l) => [l[0], l[1]]), [["warn", "duplicate signup ignored"]]);
+  const org = await capture(() => onRequestPost({ request: mk(FULL, { origin: "https://evil.example" }), env: { WAITLIST } }));
+  assert.equal(org.logs.length, 1);
+  assert.equal(org.logs[0][0], "warn"); assert.equal(org.logs[0][1], "origin rejected");
+  assert.deepEqual(org.logs[0][2], { origin: "https://evil.example" });
+  const nobind = await capture(() => onRequestPost({ request: mk(FULL), env: {} }));
+  assert.equal(nobind.logs.length, 1); assert.equal(nobind.logs[0][0], "error");
+  for (const l of [...dup.logs, ...org.logs, ...nobind.logs]) {
+    const t = JSON.stringify(l);
+    assert.ok(!t.includes("lab.org") && !t.includes("lab-head") && !t.includes("genetics"), t);
+  }
 });
 test("parse rejects overlong email", () => {
   assert.ok(parse(new URLSearchParams({ email: "a".repeat(250) + "@b.org" })).error);
