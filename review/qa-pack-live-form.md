@@ -43,7 +43,7 @@
 - Cannot rank H1 over H2/H5 without the owner's evidence below. If the owner did see the thank-you page and the address is new, H1 is the leading explanation by elimination.
 
 ## 7. Highest-risk checks the Manager should re-run first
-1. Honeypot fake success and its indistinguishability from success (uses one more live test address; use claude-qa-5, the unused one):
+1. Honeypot field reachability (read-only, no submission; the fake-success result is in the saved honeypot.json vs typed.json, re-running it would need claude-qa-5):
    `cd /home/ken/biligene/jubilab-website-qa && LD_LIBRARY_PATH=/home/ken/biligene/.browser-libs /tmp/engsite/venv/bin/python review/live-form-qa.py inspect` (field attributes, no submission) and read `honeypot.json`/`typed.json` in the scratchpad `qa/` folder.
 2. Error page claim (read-only, no submission): `LD_LIBRARY_PATH=/home/ken/biligene/.browser-libs /tmp/engsite/venv/bin/python review/live-error-page.py` expects `js=False ... visible=False` for every code, and `curl -s 'https://jubilab.io/?error=email' | grep -n 'form-error'` shows `hidden`.
 3. Origin null reproduction without touching the live site: `export PATH=$HOME/.local/node/bin:$PATH; node -e 'import("./src/early-access.js").then(async m=>{const r=await m.onRequestPost({request:new Request("https://jubilab.io/api/early-access",{method:"POST",headers:{origin:"null","content-type":"application/x-www-form-urlencoded"},body:"email=a%40lab.org"}),env:{},ctx:null,notify:null});console.log(r.status)})'` expects 403.
