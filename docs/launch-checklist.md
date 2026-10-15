@@ -1,6 +1,23 @@
 # Launch checklist
 
-The site is a static preview. It is non-indexable on purpose. Do these steps, in order, when the owner decides to launch. Everything is a file edit; there is no build step.
+## 0. Release workflow (simple; owner decision 2026-10-15)
+
+- `main` is the live site. It is Cloudflare's production branch; every push to `main` is a production build. There is no staging.
+- Every release is an annotated tag `vMAJOR.MINOR.PATCH` on `main` (`v2.1.0` is the first one under this workflow; earlier tags: `v1.0.0`, `v2.0.0`, `v2.0.1`). Stable versions are tags, nothing else.
+- Work happens on short-lived LOCAL branches or git worktrees. Test locally, then the Manager merges to `main` (fast-forward or a merge commit) and tags. No long-lived feature branches are pushed.
+- Local tests before any merge to `main`:
+  1. `node --test` (Node 22.15 or newer)
+  2. `python3 review/check-site.py http://127.0.0.1:PORT` (serve the files with `python3 -m http.server PORT`)
+  3. `python3 review/check-seo.py http://127.0.0.1:PORT --mode preview` (until launch; `--mode launch` after the switch)
+  4. `node review/dev-worker-server.mjs PORT`, then `python3 review/smoke-site.py http://127.0.0.1:PORT` (local stand-in for the Worker, covers the form)
+- Release (Manager only): `git switch main && git merge --ff-only <branch>` (or `git merge --no-ff <branch>`), `git tag -a v2.1.0 -m "v2.1.0"`, then `git push origin main v2.1.0`. Cloudflare builds production from `main`.
+- Post-deploy check, right after the production build finishes: `python3 review/smoke-site.py https://jubilab.io`. Then submit nothing real; the smoke script is the check.
+- Rollback, either: Cloudflare dashboard > Worker > Deployments > pick the previous deployment > Roll back (fast, but `main` and the live site now differ until fixed in git); or `git revert <bad commit>` on `main` plus a new patch tag (for example `v2.1.1`), which is the durable fix.
+- What is live: `git describe --tags` on `main` (prints the tag, or tag-plus-commits if `main` is ahead), `git tag -l 'v*'`, `git log --oneline origin/main -5`. The Cloudflare Deployments tab shows the deployed commit hash.
+- Stale branches: `git branch --merged main` lists local branches already in `main`; delete with `git branch -d <name>` (`-D` only if you are sure the work is dropped). Remote: `git branch -r --merged origin/main`, then `git push origin --delete <name>`. Check `git worktree list` and run `git worktree remove <path>` for finished worktrees.
+- Owner dashboard step, once: Worker `jubilab-website` > Settings > Build > Branch control, untick "Enable Preview Builds" (and on Settings > Domains & Routes turn off the Preview URL). With that off, no preview or `*.workers.dev` staging exists. The `previews` block in `wrangler.jsonc` and its separate preview KV namespace (the `id` under `previews.kv_namespaces`) become unused; they are left in place for now and can be removed later.
+
+The site is live but non-indexable on purpose until the owner runs the launch switch. How releases work is in section 0; the launch steps below are done in order when the owner decides to launch. Everything is a file edit; there is no build step.
 
 ## 1. Make the site indexable (the single switch)
 
@@ -8,7 +25,7 @@ Until this step, every page carries `<meta name="robots" content="noindex">` and
 
 1. Dry run (the default; prints the diff, changes nothing): `python3 scripts/go-public.py`
 2. Apply: `python3 scripts/go-public.py --apply`. It removes `noindex` (and the PREVIEW comment) from `index.html`, copies `robots.launch.txt` over `robots.txt`, and rewrites `sitemap.xml` to list exactly the indexable pages with `lastmod` from the last git commit of each page. `thanks/` and `404.html` always keep `noindex`. Running it again changes nothing.
-3. Legal pages: once the owner has approved the text of `privacy/` and `terms/` and removed their "Draft" notice, run it with `--with-legal`. It refuses while the Draft notice is still there (`--allow-draft` overrides, only for a rehearsal). Also remove "(draft)" from their `<title>` and rewrite their description if needed; `review/check-seo.py` warns about this.
+3. Legal pages: once the owner has approved the text of `privacy/` and `terms/` and removed their "Draft" notice, run it with `--with-legal`. It refuses while the Draft notice is still there (`--allow-draft` overrides, only for a rehearsal). Also remove "(draft)" from their `<title>` and rewrite their description if needed; `review/check-seo.py` warns about this. `privacy/` has been published (no Draft notice, still noindex), so `--with-legal` opens privacy now. `terms/` is still a draft: `--with-legal` skips it with a WARNING (it keeps noindex and stays out of the sitemap) until its Draft notice is removed; `--allow-draft` opens it anyway, rehearsal only.
 4. Check the result against a local server of the changed files: `python3 review/check-seo.py http://127.0.0.1:PORT --mode launch`. Before the switch, `--mode preview` must pass (all noindex, robots disallows all).
 5. Check every `<link rel="canonical">` and `og:url` against the final live URLs (trailing slash matters). Check the Open Graph preview of `https://jubilab.io/` in a link-preview tool after deploy (image `assets/og/jubilab-og.png`, 1200x630, source `assets/og/og-source.html`).
 6. Optional AI-crawler rules: see the commented block in `robots.launch.txt` (recommendation: allow search and answer bots; blocking training bots is the owner's decision) and the Cloudflare note below. `llms.txt` is already in the repo; it is served from the first deploy and, until the switch, covered by the robots Disallow.
@@ -33,8 +50,8 @@ In the Cloudflare setup screen (connected to `ken-ck-yu/jubilab-website`):
 - Project name: `jubilab-website` (must match `name` in `wrangler.jsonc`).
 - Build command: leave empty.
 - Deploy command: `npx wrangler deploy` (the default).
-- Preview command: `npx wrangler preview` is fine, or leave the default. Enable Preview builds is optional.
-- Production branch: the branch with these files (`main` after the owner merges `site-v1`; until then, choose `site-v1` for a first trial deploy).
+- Preview builds: disabled (section 0). Leave the preview command at its default; it is not used.
+- Production branch: `main`.
 
 Then:
 1. The first deploy creates the `WAITLIST` KV namespace automatically (no id in the config) and attaches `jubilab.io` as a custom domain, because the domain is on the same Cloudflare account. If the custom domain step fails, add it in Worker > Settings > Domains & Routes.
@@ -81,11 +98,17 @@ The call-to-action label "Request early access" appears in the header, the hero,
 
 ## 6. Legal pages
 
-`privacy/index.html` and `terms/index.html` are shells marked Draft with `noindex`. Replace the shell paragraphs with the owner's text, remove the "Draft" notice and the HTML comment, then handle `noindex` as in step 1.
+`privacy/index.html` is published text (no Draft notice, title "Privacy") but keeps `noindex` until the launch switch. `terms/index.html` is still a shell marked Draft with `noindex`: replace its paragraphs with the owner's text, remove the "Draft" notice and any HTML comment, then handle `noindex` as in step 1.
+
+Open points for the owner on the privacy page (moved here from HTML comments; none of them is in the public HTML):
+- Add a postal address and legal entity name to the page once they exist.
+- Consent for analytics cookies (UK/EU rules), GA data retention, Google signals, ad personalisation and data-sharing settings are the owner's decisions; see section 7. The text says Google keeps data "for a limited period set in our account" and names no number.
+- `hello@jubilab.io` is a placeholder until the mailbox exists (section 5).
+- Update the "Last updated" date whenever the text changes.
 
 ## 7. Analytics (Google Analytics 4 and Cloudflare Web Analytics)
 
-What is in the code. The Google tag (gtag.js) for measurement id `G-8W2MDQ58PL`, exactly as Google gave it, sits straight after `<head>` on all five pages (`index.html`, `privacy/`, `terms/`, `thanks/`, `404.html`), once per page. The id is public by design. It loads one script from `www.googletagmanager.com` and then sends page views to Google. It sets the cookies `_ga` and `_ga_G-8W2MDQ58PL` immediately on load (no consent step). The early-access form does not go to Google: it posts to our own Worker (`/api/early-access`). `privacy/index.html` describes all of this and carries an `OWNER:` comment. To remove analytics, delete the snippet from the five pages and rewrite the privacy paragraph; `tests/analytics-tag.test.mjs (update it too)` and `review/check-site.py --strict-network` (zero external requests) cover the removed state.
+What is in the code. The Google tag (gtag.js) for measurement id `G-8W2MDQ58PL`, exactly as Google gave it, sits straight after `<head>` on all five pages (`index.html`, `privacy/`, `terms/`, `thanks/`, `404.html`), once per page. The id is public by design. It loads one script from `www.googletagmanager.com` and then sends page views to Google. It sets the cookies `_ga` and `_ga_G-8W2MDQ58PL` immediately on load (no consent step). The early-access form does not go to Google: it posts to our own Worker (`/api/early-access`). `privacy/index.html` describes all of this; the open owner decisions are listed in this section and in section 6. To remove analytics, delete the snippet from the five pages and rewrite the privacy paragraph; `tests/analytics-tag.test.mjs (update it too)` and `review/check-site.py --strict-network` (zero external requests) cover the removed state.
 
 Cloudflare Web Analytics (owner chose to use both). Automatic setup, no code or token in the repo: Cloudflare dashboard > Analytics & Logs > Web Analytics > add `jubilab.io` > Automatic setup. Cloudflare then injects its beacon (`static.cloudflareinsights.com/beacon.min.js`, reporting to `cloudflareinsights.com`) into HTML responses at the edge. It sets no cookies. It will not appear on the local server or on `*.workers.dev` previews of unproxied hostnames, and `review/check-site.py` check 35 passes with it absent and allows it if present. We have NOT verified that automatic injection works for a Worker-served custom domain on this account.
 - Verify: view-source of the live page contains `static.cloudflareinsights.com/beacon.min.js`; the Web Analytics dashboard shows visits within a day.
@@ -94,7 +117,7 @@ Cloudflare Web Analytics (owner chose to use both). Automatic setup, no code or 
 
 Verify Google after deploy. Open GA > Reports > Realtime, load the live site, and confirm your visit appears. We cannot verify collection from here, only the tag placement.
 
-Preview and QA traffic counts too. Visits to `*.workers.dev` previews, localhost and our own testing all land in the same property unless filtered. Recommended: in GA Admin > Data collection and modification > Data streams > Configure tag settings > Define internal traffic (and a data filter), or a hostname filter, to exclude `*.workers.dev` and `localhost`.
+QA traffic counts too. Visits to `*.workers.dev` (while a preview URL exists), localhost and our own testing all land in the same property unless filtered. Recommended: in GA Admin > Data collection and modification > Data streams > Configure tag settings > Define internal traffic (and a data filter), or a hostname filter, to exclude `*.workers.dev` and `localhost`.
 
 GA admin settings to review (owner decisions):
 - Data retention: Admin > Data collection and modification > Data retention. Set a period you are willing to state; the privacy text says "a limited period set in our account" and gives no number.
