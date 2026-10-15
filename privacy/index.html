@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Privacy (draft) | Jubilab</title>
+<meta name="description" content="Draft privacy page for Jubilab (not yet approved).">
+<!-- PREVIEW: noindex on every page. LAUNCH STEP 1 in docs/launch-checklist.md removes it (and the Disallow in robots.txt). -->
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#f4f5f2">
+<link rel="canonical" href="https://jubilab.io/privacy/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Jubilab">
+<meta property="og:title" content="Privacy (draft) | Jubilab">
+<meta property="og:description" content="Draft privacy page for Jubilab (not yet approved).">
+<meta property="og:url" content="https://jubilab.io/privacy/">
+<meta property="og:image" content="https://jubilab.io/assets/og/jubilab-og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Jubilab: know how every result was made. A lineage graph from an input file through a run to an output file.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Privacy (draft) | Jubilab">
+<meta name="twitter:description" content="Draft privacy page for Jubilab (not yet approved).">
+<meta name="twitter:image" content="https://jubilab.io/assets/og/jubilab-og.png">
+<meta name="twitter:image:alt" content="Jubilab: know how every result was made. A lineage graph from an input file through a run to an output file.">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="preload" href="../assets/fonts/hanken-grotesk-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="../assets/fonts/ibm-plex-mono-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<script>try{if(localStorage.getItem("jubilab-theme")==="dark")document.documentElement.setAttribute("data-theme","dark")}catch(e){}</script>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to main content</a>
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="../" aria-label="Jubilab, home">
+      <svg viewBox="0 0 26 26" aria-hidden="true" focusable="false"><circle class="b-fill" cx="5" cy="13" r="3.2"/><circle class="b-line" cx="21" cy="6" r="3.2"/><circle class="b-line" cx="21" cy="20" r="3.2"/><path class="b-line" d="M8 12 L18 7 M8 14 L18 19"/></svg>
+      Jubilab
+    </a>
+    <nav class="site-nav" aria-label="Page sections">
+      <ul>
+        <li class="opt"><a href="../#problem">Problem</a></li>
+        <li class="opt"><a href="../#idea">Idea</a></li>
+        <li class="opt"><a href="../#practice">In practice</a></li>
+        <li class="opt"><a href="../#direction">Direction</a></li>
+        <li class="tools">
+          <button type="button" class="theme-toggle" id="theme-toggle" aria-label="Switch to dark theme" title="Switch to dark theme" hidden>
+            <svg class="i-moon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg>
+            <svg class="i-sun" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+          </button>
+          <!-- CTA label "Request early access" appears in: header, hero, section 08 heading and form. See docs/launch-checklist.md. -->
+          <a class="btn small" href="../#access">Request early access</a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+<div id="top"></div>
+<div class="wrap page-shell">
+  <h1>Privacy</h1>
+  <p class="draft-note" role="note">Draft for the owner's review. Not legal advice. Not yet approved for publication.</p>
+  <!-- [owner: add a postal address and legal entity name here once they exist. Keep noindex until the owner approves this text.] -->
+  <p>This page describes what the Jubilab website does with information about you. The short version: it does very little.</p>
+
+  <h2>Browsing this site</h2>
+  <p>The site is static pages served from Cloudflare Pages. It sets no cookies, runs no advertising trackers, and loads no fonts, scripts or images from other companies. It uses Cloudflare Web Analytics, a privacy-focused service that counts page views, referrers, countries and browser types without cookies and without tracking you across sites or building a profile of you; its small script loads from Cloudflare. The only thing it stores in your browser is your light or dark theme choice (local storage key <code>jubilab-theme</code>), which never leaves your device. Like any web host, the hosting provider (Cloudflare) receives your IP address and basic request details when your browser fetches a page, and handles them under its own privacy statement.</p>
+
+  <h2>The early-access form</h2>
+  <p>The form asks for your email address (required) and, optionally, your role, your field, the tools you use, whether your work involves human data, and one short free-text answer about what you want to trace. We use the answers only to choose early-access labs and to write to you about early access. We do not sell them, share them for marketing, or use them for advertising. Please do not put patient data, personal data about other people, or confidential research details in the free-text field.</p>
+    <ul>
+    <li><strong>Lawful basis:</strong> your consent, given by sending the form. You can withdraw it at any time.</li>
+    <li><strong>Who sees the answers:</strong> the Jubilab team, and Cloudflare as our hosting and storage provider.</li>
+    <li><strong>How long we keep them:</strong> until early access decisions are made and for up to six months afterwards, or until you ask us to delete them, whichever is sooner.</li>
+    <li><strong>Where they are stored:</strong> Cloudflare Workers KV, which stores data across Cloudflare's global network.</li>
+  </ul>
+  <p>The form stores your answers and the time you sent them. It does not store your IP address or browser details.</p>
+
+  <h2>Your rights</h2>
+  <p>You can ask us what we hold about you, to correct it, or to delete it, and you can object to or withdraw consent for our use of it. Email the address below. If you are in the EU, UK or a similar jurisdiction you may also complain to your local data-protection authority.</p>
+
+  <h2>The Jubilab product</h2>
+  <p>This page covers the website only. The Jubilab software runs on your own machine or server and, as designed, makes no outbound network calls. Its data stays with you. Any terms for the software itself come with early access.</p>
+
+  <h2>Changes and contact</h2>
+  <p>If this page changes in a way that matters, the date below changes. Questions: <a href="mailto:hello@jubilab.io">hello@jubilab.io</a>.</p>
+  <p>Last updated: 15 October 2026 (draft).</p>
+</div>
+</main>
+<footer>
+  <div class="wrap">
+    <div>
+      <p><strong>Jubilab</strong> is early-stage software, available by invitation only. Screenshots and diagrams on this site use synthetic demo data.</p>
+      <!-- [placeholder] hello@jubilab.io is NOT set up yet. Create the mailbox or replace the address before launch (docs/launch-checklist.md). -->
+      <p>Contact: <a href="mailto:hello@jubilab.io">hello@jubilab.io</a></p>
+    </div>
+    <ul aria-label="Footer">
+      <li><a href="../privacy/">Privacy</a></li>
+      <li><a href="../terms/">Terms</a></li>
+      <li><a href="../#top">Back to top</a></li>
+    </ul>
+  </div>
+</footer>
+<script src="../assets/theme.js" defer></script>
+</body>
+</html>
