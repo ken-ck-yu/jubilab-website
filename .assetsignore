@@ -10,3 +10,8 @@ tests
 docs
 README.md
 CNAME
+
+# SEO and launch tooling, kept off the public site
+scripts
+review
+robots.launch.txt

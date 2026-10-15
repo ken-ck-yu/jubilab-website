@@ -10,11 +10,12 @@ Status: first production version of the site (preview, non-indexable). See `docs
 index.html            the single-page site (light by default, optional dark theme)
 style.css             all styles; colours are tokens on :root and :root[data-theme="dark"]
 privacy/, terms/      draft shells (noindex), content to be added by the owner
-404.html, CNAME, robots.txt, sitemap.xml
+404.html, CNAME, robots.txt, robots.launch.txt, sitemap.xml, llms.txt
+scripts/go-public.py  the launch switch (dry run by default); see docs/launch-checklist.md step 1
 assets/               img/ (product screenshots, WebP), fonts/ (self-hosted woff2 + OFL licences),
                       og/ (social image and its source), theme.js, favicon.svg
 docs/launch-checklist.md
-review/               check-site.py (acceptance checks), capture-screens.py (screenshot recapture)
+review/               check-site.py (acceptance checks), check-seo.py (crawlability, run in preview or launch mode), capture-screens.py (screenshot recapture)
 ```
 
 Static HTML and CSS, no build step. A little vanilla JavaScript (`assets/theme.js`) only for the theme toggle. Preview locally with `python3 -m http.server`.

@@ -1,0 +1,34 @@
+# Launch rules for jubilab.io. Source: robots.launch.txt, copied over robots.txt by scripts/go-public.py (docs/launch-checklist.md step 1).
+
+User-agent: *
+Allow: /
+
+Sitemap: https://jubilab.io/sitemap.xml
+
+# ---------------------------------------------------------------------------------------------
+# OPTIONAL: AI crawlers. Everything below is commented out, so the rules above (allow all) apply.
+# Names are the published user-agent tokens; check each vendor's documentation before relying on them.
+#
+# Recommendation: ALLOW search and answer bots. They fetch pages so that an assistant can show and
+# cite them to a person who asked. Training bots collect pages to train models; whether to allow
+# them is an OWNER DECISION (nothing here depends on it). Robots rules are requests, not enforcement.
+#
+# To block the training bots only, uncomment this block:
+#
+# User-agent: GPTBot
+# User-agent: ClaudeBot
+# User-agent: Google-Extended
+# User-agent: CCBot
+# Disallow: /
+#
+# Search and answer bots (keep these allowed; listed only so an explicit rule is easy to add):
+#   OAI-SearchBot    OpenAI search index
+#   ChatGPT-User     fetches a page when a ChatGPT user asks for it
+#   PerplexityBot    Perplexity search index
+#   Claude-SearchBot Anthropic search index
+#   Claude-User      fetches a page when a Claude user asks for it
+# Training bots:
+#   GPTBot           OpenAI model training
+#   ClaudeBot        Anthropic model training
+#   Google-Extended  controls use of pages for Google's Gemini training and grounding (does not affect Google Search ranking)
+#   CCBot            Common Crawl, whose dataset many models train on

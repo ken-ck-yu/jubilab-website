@@ -4,14 +4,26 @@ The site is a static preview. It is non-indexable on purpose. Do these steps, in
 
 ## 1. Make the site indexable (the single switch)
 
-Until this step, every page carries `<meta name="robots" content="noindex">` and `robots.txt` disallows everything.
+Until this step, every page carries `<meta name="robots" content="noindex">` and `robots.txt` disallows everything. The switch is one script, `scripts/go-public.py` (Python 3, standard library only; tested by `tests/go-public.test.mjs` on a copy of the repo).
 
-1. Remove the line `<meta name="robots" content="noindex">` from `index.html`, `404.html` (keep it on 404 if preferred), and, only once the owner has approved their text, from `privacy/index.html` and `terms/index.html`.
-   - Find them: `grep -rn 'name="robots"' --include=*.html .`
-2. Replace the contents of `robots.txt` with the launch rules written at the bottom of that file (commented): `User-agent: *`, `Allow: /`, and the `Sitemap:` line.
-3. Leave `/thanks/` out of the sitemap and keep `noindex` on it. Check `sitemap.xml`: it lists only `https://jubilab.io/`. Add `https://jubilab.io/privacy/` and `https://jubilab.io/terms/` after step 1 is done for those pages.
-4. Check every `<link rel="canonical">` and `og:url`: they already point at `https://jubilab.io/` (home), `/privacy/` and `/terms/`. Confirm they match the final live URLs, with or without trailing slash.
-5. Check the Open Graph preview of `https://jubilab.io/` in a link-preview tool after deploy (image: `assets/og/jubilab-og.png`, 1200x630; its source is `assets/og/og-source.html`).
+1. Dry run (the default; prints the diff, changes nothing): `python3 scripts/go-public.py`
+2. Apply: `python3 scripts/go-public.py --apply`. It removes `noindex` (and the PREVIEW comment) from `index.html`, copies `robots.launch.txt` over `robots.txt`, and rewrites `sitemap.xml` to list exactly the indexable pages with `lastmod` from the last git commit of each page. `thanks/` and `404.html` always keep `noindex`. Running it again changes nothing.
+3. Legal pages: once the owner has approved the text of `privacy/` and `terms/` and removed their "Draft" notice, run it with `--with-legal`. It refuses while the Draft notice is still there (`--allow-draft` overrides, only for a rehearsal). Also remove "(draft)" from their `<title>` and rewrite their description if needed; `review/check-seo.py` warns about this.
+4. Check the result against a local server of the changed files: `python3 review/check-seo.py http://127.0.0.1:PORT --mode launch`. Before the switch, `--mode preview` must pass (all noindex, robots disallows all).
+5. Check every `<link rel="canonical">` and `og:url` against the final live URLs (trailing slash matters). Check the Open Graph preview of `https://jubilab.io/` in a link-preview tool after deploy (image `assets/og/jubilab-og.png`, 1200x630, source `assets/og/og-source.html`).
+6. Optional AI-crawler rules: see the commented block in `robots.launch.txt` (recommendation: allow search and answer bots; blocking training bots is the owner's decision) and the Cloudflare note below. `llms.txt` is already in the repo; it is served from the first deploy and, until the switch, covered by the robots Disallow.
+
+Do not push or deploy from the script; those stay separate owner steps.
+
+### SEO setup after launch (owner steps; none of this can be done from the repo)
+
+- **Google Search Console**: add `jubilab.io` as a Domain property and verify with the DNS TXT record Google shows (Cloudflare DNS, add as a TXT record at the apex). Or, for a URL-prefix property, give us the `<meta name="google-site-verification" content="...">` tag and it goes in the `<head>` of `index.html` only. Then Sitemaps > submit `https://jubilab.io/sitemap.xml`.
+- **Bing Webmaster Tools**: add the site (it can import from Search Console), verify by DNS TXT or the `msvalidate.01` meta tag the owner supplies, submit the same sitemap. Bing data also feeds some assistants' search.
+- **IndexNow (optional)**: lets Bing and some other engines hear about changed URLs. It needs a key file at the site root; not set up. Not needed for a five-page site.
+- **After launch, check**: URL Inspection in Search Console on `https://jubilab.io/` (should say "URL is on Google" once indexed; "Request indexing" is available); `site:jubilab.io` in Google and Bing; that `thanks/` and `404` do not appear; that the page the search engine shows as canonical is the one you expect.
+- **How long**: indexing a new site usually takes from a few days to a few weeks and is not guaranteed; nothing in this repo can speed it up or promise a ranking, an indexing date or any citation by an AI assistant.
+- **Cloudflare can block AI crawlers**: Cloudflare offers "Block AI bots" and AI Crawl Control (Security > Bots, and AI Crawl Control in the dashboard), and can add its own managed robots.txt content. New Cloudflare zones may have AI-crawler blocking on by default. We have NOT verified this account's setting. Before launch, open those pages and make sure the search and answer bots (OAI-SearchBot, ChatGPT-User, PerplexityBot, Claude-SearchBot, Claude-User) are allowed, and decide on training bots (GPTBot, ClaudeBot, Google-Extended, CCBot). Also check Security > Bots does not challenge Googlebot and Bingbot (verified bots are normally allowed).
+- **Keep it true**: `index.html` JSON-LD (`Organization`, `WebSite`, `SoftwareApplication`) and `llms.txt` repeat facts from the page. When the page copy changes, change them too, and re-run `review/check-seo.py`. `operatingSystem`, `offers`, ratings, reviews and a logo are deliberately absent until true and confirmed.
 
 ## 2. Hosting and the form (Cloudflare Workers with static assets)
 
@@ -89,7 +101,7 @@ Original paragraph, for reference (the site is served from Cloudflare Workers):
 - The page is a pitch, not a feature list, on purpose: it names no feature inventory and no "not there yet" list, so it should not go stale. Keep it that way. Re-read the "Where this is going" section (id `next`, nav label "What's next") and the proof visuals against the product on launch day: the section must stay labelled as direction, and anything shown as proof must still be true.
 - The page makes no statement about licence, open source, customers, logos, testimonials, performance or accounts. Keep it that way until true.
 - The screenshot (`assets/img/hero-*.webp`, recapture and export with `review/capture-screens.py`: 1280x720 window at scale 2, see `docs/design-spec-v2.1.md` section 4) matches the current product UI. Re-capture it from the running product on demo data; never edit it. The drawn diagram and the terminal excerpt use the same demo data and must be kept consistent with it.
-- JSON-LD in `index.html` has `Organization` and `SoftwareApplication` with only durable true facts. `operatingSystem` is deliberately absent until platforms are confirmed.
+- JSON-LD in `index.html` has `Organization` (with a contactPoint for hello@jubilab.io, which must be a working mailbox), `WebSite` and `SoftwareApplication` with only durable true facts. `operatingSystem` is deliberately absent until platforms are confirmed.
 
 ## 9. Final checks
 

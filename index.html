@@ -3,24 +3,24 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Jubilab: a record of how every result was made</title>
-<meta name="description" content="Jubilab keeps a record of how every scientific result was made: the run, inputs and parameters behind it, and what the record does not know. Invite-only early access.">
+<title>Jubilab: local-first record of how a result was made</title>
+<meta name="description" content="Jubilab is a local-first record of how a scientific result was made: trace it to the run, inputs and parameters, and compare two runs. Invite-only early access.">
 <!-- PREVIEW: noindex on every page. LAUNCH STEP 1 in docs/launch-checklist.md removes it (and the Disallow in robots.txt). -->
 <meta name="robots" content="noindex">
 <meta name="theme-color" content="#f4f5f2">
 <link rel="canonical" href="https://jubilab.io/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Jubilab">
-<meta property="og:title" content="Jubilab: a record of how every result was made">
-<meta property="og:description" content="Jubilab keeps a record of how every scientific result was made: the run, inputs and parameters behind it, and what the record does not know. Invite-only early access.">
+<meta property="og:title" content="Jubilab: local-first record of how a result was made">
+<meta property="og:description" content="Jubilab is a local-first record of how a scientific result was made: trace it to the run, inputs and parameters, and compare two runs. Invite-only early access.">
 <meta property="og:url" content="https://jubilab.io/">
 <meta property="og:image" content="https://jubilab.io/assets/og/jubilab-og.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="Jubilab: a record of how every result was made. A lineage graph from an input file through a run to an output file.">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Jubilab: a record of how every result was made">
-<meta name="twitter:description" content="Jubilab keeps a record of how every scientific result was made: the run, inputs and parameters behind it, and what the record does not know. Invite-only early access.">
+<meta name="twitter:title" content="Jubilab: local-first record of how a result was made">
+<meta name="twitter:description" content="Jubilab is a local-first record of how a scientific result was made: trace it to the run, inputs and parameters, and compare two runs. Invite-only early access.">
 <meta name="twitter:image" content="https://jubilab.io/assets/og/jubilab-og.png">
 <meta name="twitter:image:alt" content="Jubilab: a record of how every result was made. A lineage graph from an input file through a run to an output file.">
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
@@ -36,14 +36,28 @@
       "@type": "Organization",
       "@id": "https://jubilab.io/#organization",
       "name": "Jubilab",
-      "url": "https://jubilab.io/"
+      "url": "https://jubilab.io/",
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "contactType": "customer support",
+        "email": "hello@jubilab.io",
+        "availableLanguage": "en"
+      }
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://jubilab.io/#website",
+      "name": "Jubilab",
+      "url": "https://jubilab.io/",
+      "inLanguage": "en",
+      "publisher": {"@id": "https://jubilab.io/#organization"}
     },
     {
       "@type": "SoftwareApplication",
       "@id": "https://jubilab.io/#software",
       "name": "Jubilab",
       "url": "https://jubilab.io/",
-      "description": "A local-first, self-hostable record of how scientific results were made. It links to data where it lives, keeps each run as a record, and shows lineage and what changed between runs.",
+      "description": "Jubilab keeps the record of how a scientific result was made. Trace a result to the run, inputs and parameters behind it. Compare two runs. See what the record does not know.",
       "applicationCategory": "DeveloperApplication",
       "publisher": {"@id": "https://jubilab.io/#organization"}
     }
