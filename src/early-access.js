@@ -8,7 +8,21 @@ const ROLE = ["lab-head", "postdoc-scientist", "grad-student", "bioinformatician
 const FIELD = ["genetics-genomics", "bioinformatics-comp-bio", "molecular-cell-biology", "other-life-science", "other-lab-science", "other"];
 const RUNS_ON = ["windows", "macos", "linux", "hpc-cluster", "aws", "azure", "gcp", "other"];
 const HUMAN = ["yes", "no"];
-const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+// Strict address check. Unicode letters are allowed; whitespace, control characters and % < > , ; quotes
+// and backslash are not. One "@", local part up to 64, whole address up to 254, domain with a dot and
+// non-empty labels that do not start or end with a hyphen.
+const BAD_CHARS = /[\s\p{Cc}%<>,;"'`\\]/u;
+export function validEmail(e) {
+  if (typeof e !== "string" || e.length > 254 || e.includes("\uFFFD") || BAD_CHARS.test(e)) return false;
+  const parts = e.split("@");
+  if (parts.length !== 2) return false;
+  const [local, domain] = parts;
+  if (!local || local.length > 64) return false;
+  const labels = domain.split(".");
+  if (labels.length < 2) return false;
+  return labels.every((l) => l && !l.startsWith("-") && !l.endsWith("-"));
+}
 
 const one = (v, allowed) => (typeof v === "string" && allowed.includes(v) ? v : null);
 
@@ -27,10 +41,17 @@ function other(form, name, chosen) {
   return v ? { value: v } : { error: name };
 }
 
+// Optional comment: invalid UTF-8 returns null (rejected); control characters other than newline are dropped,
+// CRLF becomes LF, capped at 300 characters.
+const comment = (v) => {
+  const s = String(v || "");
+  if (s.includes("\uFFFD")) return null;
+  return [...s.replace(/\r\n?/g, "\n").replace(/[^\P{Cc}\n]/gu, "").trim()].slice(0, 300).join("").trim();
+};
+
 export function parse(form) {
   const email = String(form.get("email") || "").trim().toLowerCase();
-  // U+FFFD means the submitted bytes were not valid UTF-8; real addresses never contain it.
-  if (email.length > 254 || email.includes("\uFFFD") || !EMAIL_RE.test(email)) return { error: "email" };
+  if (!validEmail(email)) return { error: "email" };
   const role = one(form.get("role"), ROLE);
   if (!role) return { error: "role" };
   const roleOther = other(form, "role-other", role === "other");
@@ -46,6 +67,8 @@ export function parse(form) {
   if (runsOther.error) return { error: runsOther.error };
   const human = one(form.get("human-data"), HUMAN);
   if (!human) return { error: "human-data" };
+  const tracking = comment(form.get("tracking"));
+  if (tracking === null) return { error: "tracking" };
   return {
     record: {
       email,
@@ -56,7 +79,7 @@ export function parse(form) {
       runs_on: runsOn,
       runs_on_other: runsOther.value,
       human_data: human,
-      tracking: String(form.get("tracking") || "").trim().slice(0, 300),
+      tracking,
       received_at: new Date().toISOString(),
     },
   };
@@ -109,7 +132,12 @@ export async function onRequestPost({ request, env, ctx, notify }) {
   const parsed = parse(form);
   if (parsed.error) return back(url, "/?error=" + parsed.error + "#access");
   if (!env.WAITLIST) return new Response("Service not configured", { status: 503 });
-  await env.WAITLIST.put("email:" + parsed.record.email, JSON.stringify(parsed.record));
+  // Keep the FIRST record for an address: never overwrite, never notify twice. The visitor gets the same
+  // redirect either way, so nobody can probe whether an address is already on the list. KV is not
+  // transactional, so two simultaneous first submissions could both pass this check; that race is accepted.
+  const key = "email:" + parsed.record.email;
+  if ((await env.WAITLIST.get(key)) !== null) return back(url, "/thanks/");
+  await env.WAITLIST.put(key, JSON.stringify(parsed.record));
   if (notify) {
     // Best effort: a failed notification must never fail the signup.
     const job = Promise.resolve().then(() => notify(parsed.record, env)).catch((e) => console.error("notify failed:", e && e.message));

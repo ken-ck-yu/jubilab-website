@@ -17,7 +17,7 @@ export function buildRaw(record, to, from = FROM, now = new Date(), id = crypto.
     "Received: " + clean(record.received_at),
     "",
     "How they keep track of how a result was made today:",
-    String(record.tracking || "-").replace(/\r/g, ""),
+    String(record.tracking || "-").replace(/\r/g, "").replace(/\n/g, "\r\n"),
     "",
     "Stored in Cloudflare KV (namespace WAITLIST), key email:" + clean(record.email),
   ];

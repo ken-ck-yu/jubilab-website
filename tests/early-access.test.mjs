@@ -1,7 +1,9 @@
 // Run: node --test tests/
 import test from "node:test";
 import assert from "node:assert/strict";
-import { onRequestPost, parse } from "../src/early-access.js";
+import { onRequestPost, parse, validEmail } from "../src/early-access.js";
+import { MESSAGES, withError, serveAsset } from "../src/messages.js";
+import { readFileSync } from "node:fs";
 
 const mk = (body, headers = {}) =>
   new Request("https://jubilab.io/api/early-access", {
@@ -9,7 +11,7 @@ const mk = (body, headers = {}) =>
     headers: { "content-type": "application/x-www-form-urlencoded", ...headers },
     body: new URLSearchParams(body).toString(),
   });
-const kv = () => { const m = new Map(); return { m, put: async (k, v) => m.set(k, v) }; };
+const kv = () => { const m = new Map(); return { m, put: async (k, v) => m.set(k, v), get: async (k) => (m.has(k) ? m.get(k) : null) }; };
 
 const FULL = [["email", "a@lab.org"], ["role", "lab-head"], ["field", "genetics-genomics"], ["runs-on", "linux"], ["human-data", "yes"]];
 const without = (name) => FULL.filter(([k]) => k !== name);
@@ -168,4 +170,80 @@ test("email with invalid UTF-8 is treated as an invalid email", async () => {
   assert.equal(r.status, 303);
   assert.match(r.headers.get("location"), /error=email/);
   assert.equal(WAITLIST.m.size, 0);
+});
+
+// D4
+test("email validation rejects each bad class and keeps good ones", () => {
+  const bad = ["a b@lab.org", "a\tb@lab.org", "a\u0001@lab.org", "a%40b@lab.org", "<a>@lab.org", "a,b@lab.org", "a;b@lab.org", 'a"b@lab.org', "a'b@lab.org", "a\\b@lab.org",
+    "a@b@lab.org", "a@@lab.org", "nope", "@lab.org", "a@lab", "a@.lab.org", "a@lab..org", "a@lab.org.", "a@-lab.org", "a@lab-.org", "a@lab.-org",
+    "a".repeat(65) + "@lab.org", "a@" + "b".repeat(250) + ".org"];
+  for (const e of bad) assert.equal(validEmail(e), false, JSON.stringify(e));
+  for (const e of ["josé@lab.org", "a+b@lab.org", "a.b-c_d@sub.lab.co.uk", "a".repeat(64) + "@lab.org", "a@x-y.org"]) assert.equal(validEmail(e), true, e);
+  assert.equal(validEmail("a".repeat(64) + "@" + "b".repeat(63) + "." + "c".repeat(63) + "." + "d".repeat(62)), false); // 255 chars
+});
+test("josé@lab.org and a+b@lab.org are accepted end to end", async () => {
+  for (const e of ["josé@lab.org", "a+b@lab.org"]) {
+    const { r, WAITLIST } = await post(swap("email", e));
+    assert.equal(new URL(r.headers.get("location")).pathname, "/thanks/");
+    assert.equal(WAITLIST.m.size, 1);
+  }
+});
+// D5
+test("tracking: invalid UTF-8 rejected, control chars stripped, newline kept, 300 cap", async () => {
+  const WAITLIST = kv();
+  const raw = (t) => new Request("https://jubilab.io/api/early-access", { method: "POST", headers: { "content-type": "application/x-www-form-urlencoded" }, body: new URLSearchParams(FULL).toString() + "&tracking=" + t });
+  const r = await onRequestPost({ request: raw("ok%FF%FE"), env: { WAITLIST } });
+  assert.equal(errOf(r), "tracking");
+  assert.equal(WAITLIST.m.size, 0);
+  const ok = await post([...FULL, ["tracking", "a\u0000b\u0007c\r\nline2\u001b[31m"]]);
+  assert.equal(ok.rec("a@lab.org").tracking, "abc\nline2[31m");
+  const long = await post([...FULL, ["tracking", "é".repeat(400)]]);
+  assert.equal([...long.rec("a@lab.org").tracking].length, 300);
+});
+// D2
+test("duplicate email keeps the first record, sends no second notification, redirects identically", async () => {
+  const WAITLIST = kv(); const sent = [];
+  const env = { WAITLIST };
+  const send = (pairs) => onRequestPost({ request: mk(pairs), env, ctx: { waitUntil: (p) => p }, notify: async (rc) => { sent.push(rc.role); } });
+  const r1 = await send(FULL);
+  await new Promise((r) => setTimeout(r, 5));
+  const r2 = await send(swap("role", "grad-student").map(([k, v]) => (k === "email" ? [k, " A@LAB.org "] : [k, v])));
+  await new Promise((r) => setTimeout(r, 5));
+  assert.equal(r1.headers.get("location"), r2.headers.get("location"));
+  assert.equal(r2.status, r1.status);
+  assert.equal(WAITLIST.m.size, 1);
+  assert.equal(JSON.parse(WAITLIST.m.get("email:a@lab.org")).role, "lab-head");
+  assert.deepEqual(sent, ["lab-head"]);
+});
+// D1
+const PAGE = readFileSync(new URL("../index.html", import.meta.url), "utf8");
+test("withError shows the right message for each known code without JS and leaves unknown codes alone", () => {
+  assert.equal(Object.keys(MESSAGES).length, 9);
+  for (const [code, msg] of Object.entries(MESSAGES)) {
+    const out = withError(PAGE, code);
+    const m = /<p class="form-error" id="form-error"([^>]*)>([^<]*)<\/p>/.exec(out);
+    assert.ok(m && !/\bhidden\b/.test(m[1]), code);
+    assert.equal(m[2].replace(/&amp;/g, "&").replace(/&quot;/g, '"'), msg);
+  }
+  for (const code of ["bogus", "constructor", "__proto__", "", "<script>"]) assert.equal(withError(PAGE, code), PAGE);
+  assert.equal((withError(PAGE, "role").match(/id="form-error"/g) || []).length, 1);
+});
+test("withError escapes message text", () => {
+  const html = '<p class="form-error" id="form-error" role="alert" tabindex="-1" hidden>x</p>';
+  MESSAGES.__t = '<b>"&</b>';
+  try { assert.match(withError(html, "__t"), />&lt;b&gt;&quot;&amp;&lt;\/b&gt;</); } finally { delete MESSAGES.__t; }
+});
+test("theme.js message copy matches src/messages.js", () => {
+  const js = readFileSync(new URL("../assets/theme.js", import.meta.url), "utf8");
+  for (const [code, msg] of Object.entries(MESSAGES)) assert.ok(js.includes(JSON.stringify(msg)), code);
+});
+test("serveAsset rewrites / with a known error only, passes everything else through", async () => {
+  const env = { ASSETS: { fetch: async () => new Response(PAGE, { headers: { "content-type": "text/html", etag: "x" } }) } };
+  const get = (path, method = "GET") => serveAsset(new Request("https://jubilab.io" + path, { method }), env);
+  const hit = await get("/?error=role-other#access");
+  assert.match(await hit.text(), /id="form-error"[^>]*>You chose Other for your role/);
+  assert.equal(hit.headers.get("cache-control"), "no-store");
+  assert.equal(await (await get("/?error=bogus")).text(), PAGE);
+  assert.equal(await (await get("/")).text(), PAGE);
+  assert.equal(await (await get("/privacy/?error=role")).text(), PAGE);
 });
