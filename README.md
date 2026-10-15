@@ -14,6 +14,7 @@ privacy/, terms/      draft shells (noindex), content to be added by the owner
 assets/               img/ (product screenshots, WebP), fonts/ (self-hosted woff2 + OFL licences),
                       og/ (social image and its source), theme.js, favicon.svg
 docs/launch-checklist.md
+review/               check-site.py (acceptance checks), capture-screens.py (screenshot recapture)
 ```
 
 Static HTML and CSS, no build step. A little vanilla JavaScript (`assets/theme.js`) only for the theme toggle. Preview locally with `python3 -m http.server`.
