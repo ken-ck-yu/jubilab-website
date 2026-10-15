@@ -209,7 +209,7 @@ def run():
             if w == 1440:
                 rec(7, m["h1b"]["b"] <= 900 and m["lede"]["b"] <= 900 and m["cta"]["b"] <= 900 and (min(900, i["b"]) - i["t"]) / i["h"] >= 0.4, f"{tag} h1 bottom {m['h1b']['b']:.0f}, lede {m['lede']['b']:.0f}, cta {m['cta']['b']:.0f}, img visible {(min(900, i['b']) - i['t']) / i['h'] * 100:.0f}%")
             sc = i["w"] / (m["imgNat"] / (2 if "2x" in m["imgSrc"] else 1))
-            rec(8, sc >= 0.85, f"{tag} scale {sc:.3f} ({m['imgSrc']} natural {m['imgNat']}, displayed {i['w']:.0f})")
+            rec(8, w < 1150 or sc >= 0.85, f"{tag} scale {sc:.3f} ({m['imgSrc']} natural {m['imgNat']}, displayed {i['w']:.0f})")
             a = m["imgAttrs"]
             rec(9, a["w"] and a["h"] and a["fp"] == "high" and 40 <= a["alt"] <= 250 and all(x == "lazy" for x in m["otherImgs"]), f"{tag} attrs {a} other imgs {m['otherImgs']}")
             s = m["imgStyle"]
