@@ -42,7 +42,14 @@ The form stores only the fields below plus a UTC time. It does not store IP addr
 | `email` | Email address | email | yes |
 | `website` | Hidden spam trap, must stay empty | text | no |
 
-## 3. (merged into section 2)
+## 3. Signup notification email
+
+Each signup also emails the owner (`src/notify.js`, Workers `send_email` binding `EMAIL`, sent from `signups@jubilab.io`). The recipient is the secret `NOTIFY_TO`, so no personal address is in the public repo.
+
+1. Email Routing must be on for `jubilab.io`, and the recipient must be a **verified destination address** (Email Routing > Destination addresses).
+2. Worker > Settings > Variables and Secrets > Add > type **Secret**, name `NOTIFY_TO`, value your address. Redeploy if asked.
+3. Submit a test entry. An email "New early-access request" should arrive (check spam the first time). If `NOTIFY_TO` or the binding is missing, nothing is sent and the signup still succeeds.
+4. Notification failures never block a signup; the entry is always in KV.
 
 ## 4. Button label
 

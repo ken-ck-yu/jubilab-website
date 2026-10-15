@@ -10,5 +10,7 @@
   },
   // Wrangler creates this KV namespace on first deploy when no id is given.
   "kv_namespaces": [{ "binding": "WAITLIST" }],
+  // Sends the signup notification. Recipient = secret NOTIFY_TO (dashboard), must be a verified Email Routing destination.
+  "send_email": [{ "name": "EMAIL" }],
   "routes": [{ "pattern": "jubilab.io", "custom_domain": true }]
 }

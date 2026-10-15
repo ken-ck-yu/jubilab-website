@@ -43,3 +43,26 @@ test("cross-origin, wrong type, missing binding", async () => {
 test("parse rejects overlong email", () => {
   assert.ok(parse(new URLSearchParams({ email: "a".repeat(250) + "@b.org" })).error);
 });
+
+import { buildRaw, makeNotifier } from "../src/notify.js";
+const rec = { email: "a@lab.org", role: "lab-head", field: null, tools: ["nextflow"], human_data: null, trace: "line1\r\nBcc: evil@x.org", received_at: "2026-10-15T00:00:00.000Z" };
+
+test("notification mime has fixed subject and no header injection", () => {
+  const raw = buildRaw({ ...rec, email: "a@lab.org\r\nBcc: evil@x.org" }, "me@example.org\r\nBcc: x@y.z");
+  const [head] = raw.split("\r\n\r\n");
+  assert.ok(!/^Bcc:/mi.test(head));
+  assert.match(head, /^Subject: New early-access request$/m);
+  assert.match(head, /^To: me@example.org Bcc: x@y.z$/m);
+});
+test("notifier sends only when configured and signup survives a send failure", async () => {
+  const sent = [];
+  class Msg { constructor(f, t, r) { Object.assign(this, { f, t, r }); } }
+  const notify = makeNotifier(Msg);
+  assert.equal(await notify(rec, {}), false);
+  assert.equal(await notify(rec, { EMAIL: { send: async (m) => sent.push(m) }, NOTIFY_TO: "me@example.org" }), true);
+  assert.equal(sent[0].t, "me@example.org");
+  const WAITLIST = kv(); const tasks = [];
+  const r = await onRequestPost({ request: mk({ email: "b@lab.org" }), env: { WAITLIST }, ctx: { waitUntil: (p) => tasks.push(p) }, notify: async () => { throw new Error("mail down"); } });
+  await Promise.all(tasks);
+  assert.equal(r.status, 303); assert.equal(WAITLIST.m.size, 1);
+});

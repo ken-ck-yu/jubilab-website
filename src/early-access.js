@@ -28,7 +28,7 @@ export function parse(form) {
 
 const back = (url, q) => Response.redirect(new URL(q, url).toString(), 303);
 
-export async function onRequestPost({ request, env }) {
+export async function onRequestPost({ request, env, ctx, notify }) {
   const url = new URL(request.url);
   const origin = request.headers.get("origin");
   if (origin && origin !== url.origin) return new Response("Forbidden", { status: 403 });
@@ -46,5 +46,10 @@ export async function onRequestPost({ request, env }) {
   if (parsed.error) return back(url, "/?error=email#access");
   if (!env.WAITLIST) return new Response("Service not configured", { status: 503 });
   await env.WAITLIST.put("email:" + parsed.record.email, JSON.stringify(parsed.record));
+  if (notify) {
+    // Best effort: a failed notification must never fail the signup.
+    const job = Promise.resolve().then(() => notify(parsed.record, env)).catch(() => {});
+    if (ctx && ctx.waitUntil) ctx.waitUntil(job);
+  }
   return back(url, "/thanks/");
 }
