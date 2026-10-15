@@ -75,14 +75,29 @@
   <p>The site is static pages served from Cloudflare Workers. It sets no cookies, runs no advertising trackers, and loads no fonts, scripts or images from other companies. It does not currently use analytics or cookies. The only thing it stores in your browser is your light or dark theme choice (local storage key <code>jubilab-theme</code>), which never leaves your device. Like any web host, the hosting provider (Cloudflare) receives your IP address and basic request details when your browser fetches a page, and handles them under its own privacy statement.</p>
 
   <h2>The early-access form</h2>
-  <p>The form asks for your email address (required) and, optionally, your role, your field, where your analysis runs (laptop or workstation, HPC cluster, cloud, other), whether your work involves human or patient-derived data, and one short free-text answer about how you keep track of how a result was made today. We use the answers only to choose early-access labs and to write to you about early access. We do not sell them, share them for marketing, or use them for advertising. Please do not put patient data, personal data about other people, or confidential research details in the free-text field.</p>
+  <p>The form asks for your email address and answers to four short questions, all required, plus one optional free-text answer. We use the answers only to choose early-access labs and to write to you about early access. We do not sell them, share them for marketing, or use them for advertising. Please do not put patient data, personal data about other people, or confidential research details in the free-text fields.</p>
+  <table>
+    <thead><tr><th scope="col">Stored field</th><th scope="col">What it is</th><th scope="col">Required</th></tr></thead>
+    <tbody>
+      <tr><th scope="row"><code>email</code></th><td>Your email address</td><td>Yes</td></tr>
+      <tr><th scope="row"><code>role</code></th><td>Your role (one choice)</td><td>Yes</td></tr>
+      <tr><th scope="row"><code>role_other</code></th><td>Your own words, up to 100 characters, if you chose Other for role</td><td>Only if you chose Other</td></tr>
+      <tr><th scope="row"><code>field</code></th><td>Your field (one choice)</td><td>Yes</td></tr>
+      <tr><th scope="row"><code>field_other</code></th><td>Your own words, up to 100 characters, if you chose Other for field</td><td>Only if you chose Other</td></tr>
+      <tr><th scope="row"><code>runs_on</code></th><td>Where your analysis runs (Windows, macOS, Linux, HPC cluster, AWS, Azure, GCP, Other; choose any)</td><td>Yes, at least one</td></tr>
+      <tr><th scope="row"><code>runs_on_other</code></th><td>Your own words, up to 100 characters, if you chose Other for where your analysis runs</td><td>Only if you chose Other</td></tr>
+      <tr><th scope="row"><code>human_data</code></th><td>Whether your work involves human or patient-derived data (Yes or No)</td><td>Yes</td></tr>
+      <tr><th scope="row"><code>tracking</code></th><td>Free text, up to 300 characters: how you keep track of how a result was made today</td><td>No, optional</td></tr>
+      <tr><th scope="row"><code>received_at</code></th><td>The time (UTC) you sent the form</td><td>Set automatically</td></tr>
+    </tbody>
+  </table>
     <ul>
     <li><strong>Lawful basis:</strong> your consent, given by sending the form. You can withdraw it at any time.</li>
     <li><strong>Who sees the answers:</strong> the Jubilab team, and Cloudflare as our hosting, storage and email provider. Each new request is also emailed to the Jubilab team as a notification.</li>
     <li><strong>How long we keep them:</strong> until early access decisions are made and for up to six months afterwards, or until you ask us to delete them, whichever is sooner.</li>
     <li><strong>Where they are stored:</strong> Cloudflare Workers KV, which stores data across Cloudflare's global network.</li>
   </ul>
-  <p>The form stores your answers and the time you sent them. It does not store your IP address or browser details.</p>
+  <p>The form stores exactly the fields in the table above. It does not store your IP address or browser details.</p>
 
   <h2>Your rights</h2>
   <p>You can ask us what we hold about you, to correct it, or to delete it, and you can object to or withdraw consent for our use of it. Email the address below. If you are in the EU, UK or a similar jurisdiction you may also complain to your local data-protection authority.</p>

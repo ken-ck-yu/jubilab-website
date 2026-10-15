@@ -27,20 +27,23 @@ In the Cloudflare setup screen (connected to `ken-ck-yu/jubilab-website`):
 Then:
 1. The first deploy creates the `WAITLIST` KV namespace automatically (no id in the config) and attaches `jubilab.io` as a custom domain, because the domain is on the same Cloudflare account. If the custom domain step fails, add it in Worker > Settings > Domains & Routes.
 2. HTTPS is automatic. `404.html` is served for unknown paths.
-3. Submit a real test entry on the live site and check it in Storage & Databases > KV > the new namespace (key `email:<address>`, JSON value with email, role, field, runs_on, human_data, tracking, received_at). To delete someone on request, delete their key.
+3. Submit a real test entry on the live site and check it in Storage & Databases > KV > the new namespace (key `email:<address>`, JSON value with email, role, role_other, field, field_other, runs_on, runs_on_other, human_data, tracking, received_at). To delete someone on request, delete their key.
 4. Tests: `node --test` (Node 18 or newer). Local preview of the whole site and the form: `npx wrangler dev`.
 
-The form stores only the fields below plus a UTC time. It does not store IP address or user agent. If the KV binding is missing the API returns 503.
+The form stores only the fields below plus a UTC time (`received_at`). Missing or invalid required answers are rejected by the Worker too (redirect to `/?error=<field>#access` with a message naming the field); nothing is stored then. It does not store IP address or user agent. If the KV binding is missing the API returns 503.
 
-| Field name | Question | Type | Required |
-|---|---|---|---|
-| `email` | Email address | email | yes |
-| `role` | Your role (inside "Help us choose (optional)") | one choice | no |
-| `field` | Your field | one choice | no |
-| `runs-on` | Where does your analysis run? (laptop-workstation, hpc-cluster, cloud, other) | any of several | no |
-| `human-data` | Work involves human or patient-derived data | one choice | no |
-| `tracking` | How do you keep track of how a result was made today? | text, max 300 characters | no |
-| `website` | Hidden spam trap, must stay empty | text | no |
+| Field name (form) | Stored as | Question | Type | Required |
+|---|---|---|---|---|
+| `email` | `email` | Email address | email, lower-cased | yes |
+| `role` | `role` | Your role (lab-head, postdoc-scientist, grad-student, bioinformatician-analyst, core-rse, other) | one choice | yes |
+| `role-other` | `role_other` | If other, please specify | text, max 100 characters | only when role is other (otherwise stored as null) |
+| `field` | `field` | Your field (genetics-genomics, bioinformatics-comp-bio, molecular-cell-biology, other-life-science, other-lab-science, other) | one choice | yes |
+| `field-other` | `field_other` | If other, please specify | text, max 100 characters | only when field is other (otherwise null) |
+| `runs-on` | `runs_on` | Where does your analysis run? (windows, macos, linux, hpc-cluster, aws, azure, gcp, other) | any of several, at least one | yes |
+| `runs-on-other` | `runs_on_other` | If other, please specify | text, max 100 characters | only when runs-on includes other (otherwise null) |
+| `human-data` | `human_data` | Work involves human or patient-derived data (yes, no) | one choice | yes |
+| `tracking` | `tracking` | How do you keep track of how a result was made today? | text, max 300 characters | no (the only optional question) |
+| `website` | not stored | Hidden spam trap, must stay empty | text | no |
 
 ## 3. Signup notification email
 

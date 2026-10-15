@@ -28,4 +28,4 @@ Static HTML and CSS, no build step. A little vanilla JavaScript (`assets/theme.j
 
 ## Hosting note
 
-A Cloudflare Worker with static assets (`wrangler.jsonc`; the domain is on Cloudflare). The repository can be private or public; it contains only website content. The waitlist form is handled by `src/worker.js` and `src/early-access.js`, writing to a KV namespace; tests are in `tests/`.
+A Cloudflare Worker with static assets (`wrangler.jsonc`; the domain is on Cloudflare). The repository can be private or public; it contains only website content. The waitlist form is handled by `src/worker.js` and `src/early-access.js`, writing to a KV namespace (every question is required except the free-text comment; each "Other" option has its own required text box; see the field table in `docs/launch-checklist.md`); tests are in `tests/`.
