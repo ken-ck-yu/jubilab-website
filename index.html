@@ -114,8 +114,9 @@
   <div class="wrap hero-grid">
     <div class="hero-text">
       <p class="eyebrow">A record for scientific data <span class="stage">Invite-only early access</span></p>
-      <h1 id="h1">A record of how every result was made.</h1>
-      <p class="hero-lede"><strong>Jubilab keeps the record of how a scientific result was made.</strong> Trace a result to the run, inputs and parameters behind it. Compare two runs. See what the record does not know. Built first for genetics and genomics teams.</p>
+      <h1 id="h1">More science and less data and admin headache.</h1>
+      <p class="hero-sub">Every sample, variant, and analysis, connected.</p>
+      <p class="hero-lede"><strong>Jubilab keeps the record of how a scientific result was made.</strong> Trace a result to the run, inputs and parameters behind it. Compare two runs. See what the record does not know.</p>
       <div class="cta-row">
         <a class="btn" href="#access">Request early access</a>
         <a class="btn ghost" href="#product">See it on a demo project</a>
@@ -141,12 +142,13 @@
 <section id="problem" aria-labelledby="h-problem">
   <span id="problem-alias" class="anchor"></span>
   <div class="wrap">
-    <h2 id="h-problem">A result is a file. How it was made is somewhere else.</h2>
-    <p class="lede">It lives in a shell history, a notebook, a workflow run, an email, a colleague&rsquo;s memory.</p>
-    <div class="two">
-      <p>Months later, or after a handover, the file is still there and the explanation is gone. Comparing two analyses means opening two folders and reading parameters by eye.</p>
-      <p>The usual defence is discipline: a README, a folder naming scheme, a careful person. It works until that person leaves, or the pipeline runs on a cluster you cannot reach from outside.</p>
-    </div>
+    <h2 id="h-problem">Genetic discovery without the data chaos.</h2>
+    <ul class="qs" aria-label="Questions that take days to answer">
+      <li>Which samples went into this callset?</li>
+      <li>Was it built on GRCh37 or GRCh38?</li>
+      <li>Why did we drop those three samples?</li>
+    </ul>
+    <p class="after-qs">One mislabelled sample can quietly cost a lot of work. When the analyst leaves, the answers leave too.</p>
   </div>
 </section>
 
@@ -154,10 +156,10 @@
   <span id="idea" class="anchor"></span>
   <div class="wrap">
     <h2 id="h-how">One record, kept beside the pipelines you already use.</h2>
-    <ol class="steps" aria-label="How it works">
-      <li><h3>Link</h3><p>Point Jubilab at your data. It keeps a pointer, not a copy. The data stays where it lives.</p></li>
-      <li><h3>Record</h3><p>Each run is kept as history: inputs, parameters, versions. A new run is a new record, and Jubilab does not let you edit or delete one.</p></li>
-      <li><h3>Ask</h3><p>Trace a result back, compare two runs, and see what the record cannot say. When it does not know, it says so.</p></li>
+    <ol class="steps" aria-label="What Jubilab does">
+      <li><h3>Trace</h3><span class="tag tag-today">Today</span><p>Follow any result back to the run and inputs behind it. Compare two runs. See what the record does not know.</p></li>
+      <li><h3>Connect</h3><span class="tag tag-building">Building</span><p>Link every sample to its files, runs and results, straight from the cluster, without moving your data.</p></li>
+      <li><h3>Catch</h3><span class="tag tag-building">Building</span><p>Flag sample swaps and reference-build mismatches before they reach a paper.</p></li>
     </ol>
     <p class="beside">Jubilab sits beside your pipeline engine. It does not replace it, and it does not store your data.</p>
   </div>
@@ -253,10 +255,13 @@ project: p_8hakp36js1 (Cohort A)</pre>
     <h2 id="h-next">Where this is going</h2>
     <div class="next-grid">
       <div>
-        <p class="statement">We are building toward one record of how a result was made, from the sample to the decision, across the tools a lab already uses.</p>
-        <p class="span">Before the pipeline: samples, experiment context, references. Around it: Nextflow, Snakemake, scripts, notebooks and the manual steps in between. After it: results, the analysis that follows and the decisions made from it.</p>
+        <p class="statement">Accelerate the genetics discovery loop.</p>
+        <p class="span">Labs will use AI to propose and test ideas. That only works with trusted context about the lab&rsquo;s own work. Jubilab is building that record, so each experiment cycle can get faster.</p>
       </div>
-      <p class="aud">Genetics and genomics researchers come first, because they re-run analyses often and often cannot move their data. For them we are building sample sheets linked to files and runs, reference-genome versions on every result, and releases you can freeze with a reason. We will widen only where the same problem shows up. Jubilab does not replace your pipelines and does not store your data.</p>
+      <div class="aud">
+        <p>Jubilab does not replace your pipelines and does not store your data.</p>
+        <p>We are starting with computational genomics teams at biotechs and with genomics core facilities. Invite-only early access.</p>
+      </div>
     </div>
   </div>
 </section>
@@ -266,6 +271,7 @@ project: p_8hakp36js1 (Cohort A)</pre>
     <div class="grid">
       <div class="left">
         <h2 id="h-access">Request early access</h2>
+        <p class="goal"><strong>Our goal: become the record of how genetic discoveries are made.</strong></p>
         <p>Jubilab is invite-only. We are choosing labs to learn from real use, starting with genetics researchers. Every question is required except the last one, a short free-text answer. The answers help us choose well.</p>
       </div>
       <form class="form" id="early-access-form" action="/api/early-access" method="post" aria-labelledby="h-access">

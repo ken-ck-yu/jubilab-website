@@ -1,13 +1,13 @@
 # Jubilab
 
-> Jubilab is early-stage software that keeps a local record of how a scientific result was made: the run, inputs and parameters behind it. You can trace a result back, compare two runs, and see what the record does not know. It runs on your own machine, and its server makes no outbound network calls. It links to your data where it lives instead of copying it, and it does not replace your pipelines. Access is by invitation only. Self-hosted installs have per-user accounts and an audit log. The demo project on the website uses synthetic data.
+> Every sample, variant, and analysis, connected. Today, Jubilab is early-stage software that keeps a local record of how a scientific result was made: the run, inputs and parameters behind it. You can trace a result back, compare two runs, and see what the record does not know. It runs on your own machine, and its server makes no outbound network calls. It links to your data where it lives instead of copying it, and it does not replace your pipelines. Access is by invitation only. Self-hosted installs have per-user accounts and an audit log. The demo project on the website uses synthetic data.
 
 ## Pages
 
-- [Jubilab home page](https://jubilab.io/): what Jubilab is, how it works (link, record, ask), a demo project on synthetic data, and the early-access request form
-- [How it works](https://jubilab.io/#how): the three steps, link your data, record each run, ask what made a result
+- [Jubilab home page](https://jubilab.io/): what Jubilab is, what it does today (trace) and what is being built (connect, catch), a demo project on synthetic data, and the early-access request form
+- [How it works](https://jubilab.io/#how): trace a result today; connecting samples and catching sample swaps and reference-build mismatches are being built
 - [See it on a demo project](https://jubilab.io/#product): trace a result, compare two runs, and how each fact is marked verified, inferred, manual or unknown
-- [Where this is going](https://jubilab.io/#next): planned direction, labelled on the page as not in the product today
+- [Where this is going](https://jubilab.io/#next): our goal of speeding up the genetics discovery loop, labelled on the page as not in the product today
 - [Request early access](https://jubilab.io/#access): the invitation-only early-access form
 
 ## Optional
