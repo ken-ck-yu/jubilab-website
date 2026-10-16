@@ -1,6 +1,6 @@
 # Jubilab
 
-> Jubilab is early-stage software that keeps a local record of how a scientific result was made: the run, inputs and parameters behind it. You can trace a result back, compare two runs, and see what the record does not know. It runs on your own machine, and its server makes no outbound network calls. It links to your data where it lives instead of copying it, and it does not replace your pipelines. Access is by invitation only, and there are no user accounts yet. The demo project on the website uses synthetic data.
+> Jubilab is early-stage software that keeps a local record of how a scientific result was made: the run, inputs and parameters behind it. You can trace a result back, compare two runs, and see what the record does not know. It runs on your own machine, and its server makes no outbound network calls. It links to your data where it lives instead of copying it, and it does not replace your pipelines. Access is by invitation only. Self-hosted installs have per-user accounts and an audit log. The demo project on the website uses synthetic data.
 
 ## Pages
 
