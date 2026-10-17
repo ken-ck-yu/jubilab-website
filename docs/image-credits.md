@@ -19,7 +19,7 @@ Direct download URL pattern for Unsplash: `https://images.unsplash.com/photo-<id
 
 ---
 
-## 1. card-trace (files: card-trace-1600.webp, card-trace-800.webp)
+## 1. card-trace [NOT USED, files removed] (files: card-trace-1600.webp, card-trace-800.webp)
 
 - Source page: https://unsplash.com/photos/cmrcu5Gb9ko
 - Direct download: https://images.unsplash.com/photo-1719948397945-eb7fb043832d
@@ -31,7 +31,7 @@ Direct download URL pattern for Unsplash: `https://images.unsplash.com/photo-<id
 - Risk: none (no people, no text or logos). It is a metaphor, not lab equipment.
 - Fallback: `fb-trace2` (https://unsplash.com/photos/a9X7rBh-A5Y, direct https://images.unsplash.com/photo-1627312846352-b967c34030ed, photographer Edrin Spahiu, 2021-07-26, grayscale chain links). Export: `scratchpad/imgwork/out/fb-trace2-1600.webp`. Second fallback: nothing else verified.
 
-## 2. card-compare (files: card-compare-1600.webp, card-compare-800.webp) - replaced 2026-10-17
+## 2. card-compare [NOT USED, files removed] (files: card-compare-1600.webp, card-compare-800.webp)
 
 - Source page: https://www.pexels.com/photo/close-up-photograph-of-petri-dishes-with-different-colors-4031366/
 - Direct download: https://images.pexels.com/photos/4031366/pexels-photo-4031366.jpeg?auto=compress&cs=tinysrgb&w=2000
@@ -43,7 +43,7 @@ Direct download URL pattern for Unsplash: `https://images.unsplash.com/photo-<id
 - Risk: no people, no text, no brand. Shows three items rather than exactly two; the contrasting dishes read as "compare".
 - Fallback: none verified that is better. Rejected the earlier NIH 1980s photo (identifiable people).
 
-## 3. card-connect (files: card-connect-1600.webp, card-connect-800.webp)
+## 3. card-connect [NOT USED, files removed] (files: card-connect-1600.webp, card-connect-800.webp)
 
 - Source page: https://unsplash.com/photos/QHBtGNo580Y
 - Direct download: https://images.unsplash.com/photo-1748263582756-082fe4adaa5b
@@ -55,7 +55,7 @@ Direct download URL pattern for Unsplash: `https://images.unsplash.com/photo-<id
 - Risk: none. Handwritten labels are illegible (no readable sample IDs).
 - Fallback: `fb-connect2` (Testalize.me, https://unsplash.com/photos/0jE8ynV4mis, direct https://images.unsplash.com/photo-1606206591513-adbfbdd7a177, 2020-11-24, racks of colour-capped blood-collection tubes). Export: `scratchpad/imgwork/out/fb-connect2-1600.webp`. Risk: tube barcodes visible but not readable.
 
-## 4. card-catch (files: card-catch-1600.webp, card-catch-800.webp)
+## 4. card-catch [NOT USED, files removed] (files: card-catch-1600.webp, card-catch-800.webp)
 
 - Source page: https://unsplash.com/photos/JcsYP0IJvnI
 - Direct download: https://images.unsplash.com/photo-1634872583967-6417a8638a59
@@ -67,7 +67,7 @@ Direct download URL pattern for Unsplash: `https://images.unsplash.com/photo-<id
 - Risk: none (no face, no logos). It does not show a single odd-one-out sample; it fits "catch" only loosely.
 - Fallback: `fb-catch2` (Daniel Dan, https://unsplash.com/photos/yJn0zZdFIwU, direct https://images.unsplash.com/photo-1655210913810-33acfa96d1e6, 2022-06-14, rack of purple-cap blood tubes beside an analyser). Export: `scratchpad/imgwork/out/fb-catch2-1600.webp`. Risk: small barcodes on tubes, not readable.
 
-## 5. vision-agent (files: vision-agent-1600.webp, vision-agent-800.webp) - replaced 2026-10-17
+## 5. vision-agent [NOT USED, files removed] (files: vision-agent-1600.webp, vision-agent-800.webp)
 
 - Source page: https://www.pexels.com/photo/close-up-of-cables-17072947/
 - Direct download: https://images.pexels.com/photos/17072947/pexels-photo-17072947.jpeg?auto=compress&cs=tinysrgb&w=2000
@@ -79,7 +79,7 @@ Direct download URL pattern for Unsplash: `https://images.unsplash.com/photo-<id
 - Risk: none (no people, no screens, no readable text or brand). It is a metaphor, not a literal AI or genetics scene, and not CGI (a real photograph).
 - Fallback: Pexels 17194838 (Suki Lee, glowing fibre-optic strands, https://www.pexels.com/photo/a-flashing-light-in-the-dark-17194838/), exported as `scratchpad/imgwork/out/n-agent2-1600.webp`; photographer name from the page caption search only, page not opened.
 
-## 6. who-biotech (files: who-biotech-1600.webp, who-biotech-800.webp) - replaced 2026-10-17
+## 6. who-biotech [NOT USED, files removed] (files: who-biotech-1600.webp, who-biotech-800.webp)
 
 - Source page: https://www.pexels.com/photo/a-researcher-working-on-a-chemical-formula-8533085/
 - Direct download: https://images.pexels.com/photos/8533085/pexels-photo-8533085.jpeg?auto=compress&cs=tinysrgb&w=2000
@@ -91,7 +91,7 @@ Direct download URL pattern for Unsplash: `https://images.unsplash.com/photo-<id
 - Risk: face not visible (a sliver of glasses and cheek at most), no readable brand or nameplate. The laptop shows a chemical structure diagram (chemistry, not genomics) which is readable but not data about people. One person, not a team, and a staged-looking scene. The very faint laptop-hinge lettering is not legible.
 - Fallback: Pexels 8533135 (Artem Podrez, https://www.pexels.com/photo/hands-wearing-blue-surgical-gloves-typing-on-a-laptop-8533135/): gloved hands typing on a laptop, periodic table on screen, exported as `scratchpad/imgwork/out/n-biotech2-1600.webp` (not viewed closely in a final check; the dark green crop looks stronger on mood than on subject).
 
-## 7. who-core (files: who-core-1600.webp, who-core-800.webp)
+## 7. who-core [NOT USED, files removed] (files: who-core-1600.webp, who-core-800.webp)
 
 - Source page: https://unsplash.com/photos/to8o0bqOA6Q
 - Direct download: https://images.unsplash.com/photo-1578496479530-799fd6d0803a

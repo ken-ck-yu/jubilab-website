@@ -99,7 +99,7 @@ MEASURE = r"""
   const main0 = document.querySelector('main'); const nh = [...document.querySelectorAll('h2')].find(h => /accelerate the genetics discovery loop/i.test(h.textContent)); out.nextH2 = nh ? nh.textContent.trim() : null;
   out.chipEls = document.querySelectorAll('main [class*="chip-"], main .tag, main .tag-today, main .tag-building, main .chip-intent').length;
   out.statusWords = (main0.innerText.match(/\b(today|exploring|building|planned|coming soon|beta)\b/gi) || []).filter((w, i, a) => true);
-  out.statusCtx = [...main0.innerText.matchAll(/.{0,12}\b(today|exploring|building|planned|coming soon|beta)\b.{0,12}/gi)].map(x => x[0]).filter(t => !/we are building|made today/i.test(t));
+  out.statusCtx = [...main0.innerText.matchAll(/.{0,12}\b(today|exploring|building|planned|coming soon|beta)\b.{0,12}/gi)].map(x => x[0]).filter(t => !/(we are|is|are) building|made today/i.test(t));
   const ctas = [...document.querySelectorAll('header .btn, .hero .btn:not(.ghost), form button[type=submit]')]; out.ctas = ctas.map(a => a.textContent.trim()); out.heroPrimary = q('.hero .btn').getAttribute('href');
   const main = q('main'); out.words = main.innerText.trim().split(/\s+/).length;
   // 21 22 23 typography
@@ -185,7 +185,7 @@ MEASURE = r"""
   out.diag = [...document.querySelectorAll('svg[role=img]')].map(s => [s.getAttribute('role'), !!s.querySelector('title'), !!s.querySelector('desc')]);
   const tw = q('details.twin'); out.twin = {closed: !tw.open, summary: tw.querySelector('summary').textContent.trim(), items: tw.querySelectorAll('li').length};
   // 37 footer
-  const ft = q('footer'); out.footer = {mailto: !!ft.querySelector('a[href^="mailto:"]'), privacy: !!ft.querySelector('a[href$="privacy/"]'), terms: !!ft.querySelector('a[href$="terms/"]'), status: /Early-stage software/.test(ft.innerText), synthetic: /synthetic demo data/.test(ft.innerText), backed: /Backed by/i.test(ft.innerText)};
+  const ft = q('footer'); out.footer = {mailto: !!ft.querySelector('a[href^="mailto:"]'), privacy: !!ft.querySelector('a[href$="privacy/"]'), terms: !!ft.querySelector('a[href$="terms/"]'), status: /first labs shaping Jubilab/.test(ft.innerText), synthetic: /synthetic demo data/.test(ft.innerText), backed: /Backed by/i.test(ft.innerText)};
   // bg for 30
   out.bg = getComputedStyle(document.body).backgroundColor; out.dataTheme = document.documentElement.getAttribute('data-theme');
   return out;

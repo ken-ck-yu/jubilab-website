@@ -1,6 +1,6 @@
 # Jubilab
 
-> Every sample, variant, and analysis, connected. Today, Jubilab is early-stage software that keeps a local record of how a scientific result was made: the run, inputs and parameters behind it. You can trace a result back, compare two runs, and see what the record does not know. It runs on your own machine, and its server makes no outbound network calls. It links to your data where it lives instead of copying it, and it does not replace your pipelines. Access is by invitation only. Self-hosted installs have per-user accounts and an audit log. The demo project on the website uses synthetic data.
+> Every sample, variant, and analysis, connected. Jubilab is building the record of how every scientific result was made, across the tools a lab already uses, so teams spend more time on science and less on data and admin. Today it runs on your own machine, keeps each run as history that cannot be edited, and lets you trace a result back to the run, inputs and parameters behind it, compare two runs, and see what the record does not know. It records Nextflow runs, Snakemake runs and shell commands, links to your data where it lives instead of copying it, and its server makes no outbound network calls. We are building sample linking, mismatch checks and AI-agent access. Early access is open to a small group of labs, starting with genetics researchers. Self-hosted installs have per-user accounts and an audit log. The demo project on the website uses synthetic data.
 
 ## Pages
 
@@ -8,8 +8,8 @@
 - [How it works](https://jubilab.io/#how): trace a result today; connecting samples and catching sample swaps and reference-build mismatches are being built
 - [Integrations](https://jubilab.io/#fits): available now are Nextflow, Snakemake and native bash scripts; Seqera, NVIDIA Parabricks and BioNeMo, DeepMind models, AI agents over MCP, notebooks and GitHub are listed as where we are heading, not as available
 - [See it on a demo project](https://jubilab.io/#product): trace a result, compare two runs, and how each fact is marked verified, inferred, manual or unknown
-- [Where this is going](https://jubilab.io/#next): our goal of speeding up the genetics discovery loop, labelled on the page as not in the product today
-- [Request early access](https://jubilab.io/#access): the invitation-only early-access form
+- [Where this is going](https://jubilab.io/#next): our goal of speeding up the genetics discovery loop, described on the page as what we are building toward
+- [Request early access](https://jubilab.io/#access): the early-access form for joining the first labs shaping Jubilab
 
 ## Optional
 
