@@ -185,7 +185,7 @@ MEASURE = r"""
   out.diag = [...document.querySelectorAll('svg[role=img]')].map(s => [s.getAttribute('role'), !!s.querySelector('title'), !!s.querySelector('desc')]);
   const tw = q('details.twin'); out.twin = {closed: !tw.open, summary: tw.querySelector('summary').textContent.trim(), items: tw.querySelectorAll('li').length};
   // 37 footer
-  const ft = q('footer'); out.footer = {mailto: !!ft.querySelector('a[href^="mailto:"]'), privacy: !!ft.querySelector('a[href$="privacy/"]'), terms: !!ft.querySelector('a[href$="terms/"]'), status: /first labs shaping Jubilab/.test(ft.innerText), synthetic: /synthetic demo data/.test(ft.innerText), backed: /Backed by/i.test(ft.innerText)};
+  const ft = q('footer'); out.footer = {mailto: !!ft.querySelector('a[href^="mailto:"]'), privacy: !!ft.querySelector('a[href$="privacy/"]'), terms: !!ft.querySelector('a[href$="terms/"]'), status: /Be among the first labs shaping Jubilab/.test(ft.innerText), synthetic: /synthetic demo data/.test(ft.innerText), backed: /Backed by/i.test(ft.innerText)};
   // bg for 30
   out.bg = getComputedStyle(document.body).backgroundColor; out.dataTheme = document.documentElement.getAttribute('data-theme');
   return out;
