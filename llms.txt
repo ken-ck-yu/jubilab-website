@@ -6,6 +6,7 @@
 
 - [Jubilab home page](https://jubilab.io/): what Jubilab is, what it does today (trace) and what is being built (connect, catch), a demo project on synthetic data, and the early-access request form
 - [How it works](https://jubilab.io/#how): trace a result today; connecting samples and catching sample swaps and reference-build mismatches are being built
+- [Integrations](https://jubilab.io/#fits): available now are Nextflow, Snakemake and native bash scripts; Seqera, NVIDIA Parabricks and BioNeMo, DeepMind models, AI agents over MCP, notebooks and GitHub are listed as where we are heading, not as available
 - [See it on a demo project](https://jubilab.io/#product): trace a result, compare two runs, and how each fact is marked verified, inferred, manual or unknown
 - [Where this is going](https://jubilab.io/#next): our goal of speeding up the genetics discovery loop, labelled on the page as not in the product today
 - [Request early access](https://jubilab.io/#access): the invitation-only early-access form

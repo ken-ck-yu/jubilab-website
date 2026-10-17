@@ -80,18 +80,18 @@
       <svg viewBox="0 0 26 26" aria-hidden="true" focusable="false"><circle class="b-fill" cx="5" cy="13" r="3.2"/><circle class="b-line" cx="21" cy="6" r="3.2"/><circle class="b-line" cx="21" cy="20" r="3.2"/><path class="b-line" d="M8 12 L18 7 M8 14 L18 19"/></svg>
       <span class="brand-name">Jubilab</span>
     </a>
-    <nav class="site-nav" aria-label="Page sections">
+    <nav class="site-nav" aria-label="Main">
       <ul class="links">
-        <li><a href="#how">How it works</a></li>
-        <li><a href="#product">See it</a></li>
-        <li><a href="#next">What&rsquo;s next</a></li>
+        <li><a href="#how">What it does</a></li>
+        <li><a href="#fits">Integrations</a></li>
+        <li><a href="#product">Demo</a></li>
       </ul>
       <details class="menu">
         <summary aria-label="Menu"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 7h16M4 12h16M4 17h16"/></svg></summary>
         <ul>
-          <li><a href="#how">How it works</a></li>
-          <li><a href="#product">See it</a></li>
-          <li><a href="#next">What&rsquo;s next</a></li>
+          <li><a href="#how">What it does</a></li>
+          <li><a href="#fits">Integrations</a></li>
+          <li><a href="#product">Demo</a></li>
         </ul>
       </details>
     </nav>
@@ -105,6 +105,11 @@
     </div>
   </div>
 </header>
+<nav class="subnav" aria-label="Page sections">
+  <div class="wrap">
+    <a href="#how">What it does</a><a href="#fits">Integrations</a><a href="#next">Where this is going</a><a href="#who">Who it is for</a><a href="#product">Demo project</a><a href="#access">Get started</a>
+  </div>
+</nav>
 
 <main id="main">
 <div id="top"></div>
@@ -137,37 +142,85 @@
   </div>
 </section>
 
-<section id="problem" aria-labelledby="h-problem">
-  <span id="problem-alias" class="anchor"></span>
+<section id="how" aria-labelledby="h-how">
+  <span id="problem" class="anchor"></span><span id="problem-alias" class="anchor"></span><span id="idea" class="anchor"></span><span id="build" class="anchor"></span>
   <div class="wrap">
-    <h2 id="h-problem">Genetic discovery without the data chaos.</h2>
+    <h2 id="h-how">Genetic discovery without the data chaos.</h2>
     <ul class="qs" aria-label="Questions that take days to answer">
       <li>Which samples went into this callset?</li>
       <li>Was it built on GRCh37 or GRCh38?</li>
       <li>Why did we drop those three samples?</li>
     </ul>
     <p class="after-qs">One mislabelled sample can quietly cost a lot of work. When the analyst leaves, the answers leave too.</p>
+    <ul class="cards" aria-label="What Jubilab does">
+        <li class="card"><div class="ph"><img src="assets/img/card-trace-800.webp" srcset="assets/img/card-trace-800.webp 800w, assets/img/card-trace-1600.webp 1600w" sizes="(min-width: 1100px) 262px, (min-width: 640px) 46vw, calc(100vw - 32px)" width="1600" height="900" alt="" loading="lazy" decoding="async"></div><div class="cb"><h3 class="ct">Trace</h3><p class="cp">Follow any result back to the run and inputs behind it. Each run is kept as history that cannot be edited, and the record says what it does not know.</p><a class="cl" href="#product">See a trace &rarr;</a></div></li>
+        <li class="card"><div class="ph"><img src="assets/img/card-compare-800.webp" srcset="assets/img/card-compare-800.webp 800w, assets/img/card-compare-1600.webp 1600w" sizes="(min-width: 1100px) 262px, (min-width: 640px) 46vw, calc(100vw - 32px)" width="1600" height="900" alt="" loading="lazy" decoding="async"></div><div class="cb"><h3 class="ct">Compare</h3><p class="cp">Line up two runs and see which parameters, versions or results differ.</p><a class="cl" href="#product">See a comparison &rarr;</a></div></li>
+        <li class="card"><div class="ph"><img src="assets/img/card-connect-800.webp" srcset="assets/img/card-connect-800.webp 800w, assets/img/card-connect-1600.webp 1600w" sizes="(min-width: 1100px) 262px, (min-width: 640px) 46vw, calc(100vw - 32px)" width="1600" height="900" alt="" loading="lazy" decoding="async"></div><div class="cb"><h3 class="ct">Connect</h3><p class="cp">We are building the link from every sample to its files, runs and results, straight from the cluster, without moving your data.</p></div></li>
+        <li class="card"><div class="ph"><img src="assets/img/card-catch-800.webp" srcset="assets/img/card-catch-800.webp 800w, assets/img/card-catch-1600.webp 1600w" sizes="(min-width: 1100px) 262px, (min-width: 640px) 46vw, calc(100vw - 32px)" width="1600" height="900" alt="" loading="lazy" decoding="async"></div><div class="cb"><h3 class="ct">Catch</h3><p class="cp">We are building checks that flag sample swaps and reference-build mismatches before they reach a paper.</p></div></li>
+    </ul>
   </div>
 </section>
 
-<section id="how" aria-labelledby="h-how">
-  <span id="idea" class="anchor"></span>
+<section id="fits" class="band-dark on-dark" aria-labelledby="h-fits">
+  <span id="integrations" class="anchor"></span>
   <div class="wrap">
-    <h2 id="h-how">One record, kept beside the pipelines you already use.</h2>
-    <ol class="steps" aria-label="What Jubilab does">
-      <li><h3>Trace</h3><span class="tag tag-today">Today</span><p>Follow any result back to the run and inputs behind it. Compare two runs. Each run is kept as history that cannot be edited, and the record says what it does not know.</p></li>
-      <li><h3>Connect</h3><span class="tag tag-building">Building</span><p>Link every sample to its files, runs and results, straight from the cluster, without moving your data.</p></li>
-      <li><h3>Catch</h3><span class="tag tag-building">Building</span><p>Flag sample swaps and reference-build mismatches before they reach a paper.</p></li>
-    </ol>
-    <p class="beside">Jubilab sits beside your pipeline engine. It does not replace it, and it does not store your data.</p>
+    <h2 id="h-fits">One record across your whole toolchain.</h2>
+    <p class="lede-d">Jubilab sits beside your pipelines. It does not replace them, and it does not store your data.</p>
+
+    <h3 class="rowh">Available now</h3>
+    <p class="rowp">These three are built and shipped. They do not all record the same things, and what Jubilab infers is marked as inferred.</p>
+    <ul class="cards fit-row">
+        <li class="cd"><div class="cb"><h4 class="ct">Nextflow</h4><p class="take"><span class="take-l">What we take from it</span>The tasks, inputs, outputs, parameters and versions of each run, recorded as it happens or imported from a finished run.</p></div></li>
+        <li class="cd"><div class="cb"><h4 class="ct">Snakemake</h4><p class="take"><span class="take-l">What we take from it</span>The rules, the commands (kept as hashes), and the inputs and outputs Snakemake left on disk, imported from its own metadata.</p></div></li>
+        <li class="cd"><div class="cb"><h4 class="ct">Native bash</h4><p class="take"><span class="take-l">What we take from it</span>The command, its arguments (redacted), times, exit code and the files you declare, when you run it with <span class="mono-inline">jubilab run</span>.</p></div></li>
+    </ul>
+
+    <h3 class="rowh">Where we are heading</h3>
+    <p class="rowp">None of these is in the product yet. This is what we are building toward.</p>
+    <ul class="cards fit-row">
+        <li class="cd cd-next"><div class="cb"><h4 class="ct">Seqera</h4><p class="take"><span class="take-l">What we take from it</span>We will take the runs launched through Seqera Platform.</p></div></li>
+        <li class="cd cd-next"><div class="cb"><h4 class="ct">NVIDIA Parabricks</h4><p class="take"><span class="take-l">What we take from it</span>We will take which GPU-accelerated alignment and variant-calling steps ran, and with what versions and references.</p></div></li>
+        <li class="cd cd-next"><div class="cb"><h4 class="ct">NVIDIA BioNeMo</h4><p class="take"><span class="take-l">What we take from it</span>We will take which model and version produced a result, and from which inputs.</p></div></li>
+        <li class="cd cd-next"><div class="cb"><h4 class="ct">DeepMind models</h4><p class="take"><span class="take-l">What we take from it</span>We will take which model and version produced a result, and from which inputs.</p></div></li>
+        <li class="cd cd-next"><div class="cb"><h4 class="ct">MCP to AI agents</h4><p class="take"><span class="take-l">What we take from it</span>We are building toward letting an agent ask the record which samples, which build and which run. Read-only.</p></div></li>
+        <li class="cd cd-next"><div class="cb"><h4 class="ct">Notebooks</h4><p class="take"><span class="take-l">What we take from it</span>We will take the analysis steps and files behind a notebook result.</p></div></li>
+        <li class="cd cd-next"><div class="cb"><h4 class="ct">GitHub</h4><p class="take"><span class="take-l">What we take from it</span>We will take the exact code commit behind a result.</p></div></li>
+    </ul>
+    <p class="fit-cta"><a class="btn" href="#access">Request early access</a></p>
+    <p class="note">Product names belong to their owners. Jubilab is not affiliated with or endorsed by them.</p>
   </div>
 </section>
 
-<section id="product" aria-labelledby="h-product">
-  <span id="practice" class="anchor"></span>
+<section id="next" aria-labelledby="h-next">
+  <span id="direction" class="anchor"></span>
+  <div class="wrap vision">
+    <div class="vision-text">
+      <div class="bar"></div>
+      <h2 id="h-next">Accelerate the genetics discovery loop.</h2>
+      <p class="span">Labs will use AI to propose and test ideas. That only works with trusted context about the lab&rsquo;s own work. Jubilab is building that record, so each experiment cycle can get faster.</p>
+      <p><a class="btn" href="#access">Request early access</a></p>
+    </div>
+    <div class="ph vision-img"><img src="assets/img/vision-agent-800.webp" srcset="assets/img/vision-agent-800.webp 800w, assets/img/vision-agent-1600.webp 1600w" sizes="(min-width: 900px) 520px, calc(100vw - 32px)" width="1600" height="900" alt="" loading="lazy" decoding="async"></div>
+  </div>
+</section>
+
+<section id="who" aria-labelledby="h-who">
   <div class="wrap">
+    <h2 id="h-who">Who we are starting with</h2>
+    <p class="lede-l">Invite-only early access, for teams that already run their own pipelines.</p>
+    <ul class="cards cards2" aria-label="Who we are starting with">
+      <li class="card"><div class="ph"><img src="assets/img/who-biotech-800.webp" srcset="assets/img/who-biotech-800.webp 800w, assets/img/who-biotech-1600.webp 1600w" sizes="(min-width: 900px) 540px, calc(100vw - 32px)" width="1600" height="900" alt="" loading="lazy" decoding="async"></div><div class="cb"><h3 class="ct">Computational genomics teams at biotechs</h3><ul class="tick"><li>Keep pipelines and data where they are</li><li>Answer &ldquo;how was this made?&rdquo; without the analyst</li><li>Compare runs and see what changed</li></ul></div></li>
+      <li class="card"><div class="ph"><img src="assets/img/who-core-800.webp" srcset="assets/img/who-core-800.webp 800w, assets/img/who-core-1600.webp 1600w" sizes="(min-width: 900px) 540px, calc(100vw - 32px)" width="1600" height="900" alt="" loading="lazy" decoding="async"></div><div class="cb"><h3 class="ct">Genomics core facilities</h3><ul class="tick"><li>One record across many projects</li><li>Handover that survives staff changes</li><li>Gaps shown as gaps</li></ul></div></li>
+    </ul>
+  </div>
+</section>
+
+<section id="product" class="band-dark" aria-labelledby="h-product">
+  <span id="practice" class="anchor"></span><span id="demo" class="anchor"></span>
+  <div class="wrap">
+    <div class="on-dark">
     <h2 id="h-product">See it on a demo project.</h2>
-    <p class="lede">Real screens and a real command session, on synthetic data.</p>
+    <p class="lede-d">Real screens and a real command session, on synthetic data.</p>
     <ol class="outcomes">
       <li><h3>Trace a result</h3><p>Start at any output and follow it back to the run that made it and the inputs that run used. Start at an input and see everything that depends on it.</p></li>
       <li><h3>See what changed</h3><p>Line up two runs and see which parameters, versions or results differ. Jubilab records the difference. It does not decide which result is better.</p></li>
@@ -179,6 +232,7 @@
           <li class="t-unknown"><svg aria-hidden="true"><use href="#g-unknown"/></svg>unknown</li>
         </ul></li>
     </ol>
+    </div>
 
     <figure class="panel proof">
       <div class="panel-head"><span>What changed between these two runs? &middot; demo project Cohort A (synthetic data)</span><span class="chg">&Delta; changed between Run 001 and Run 002</span></div>
@@ -222,7 +276,7 @@
     </figure>
 
     <div class="session">
-      <div class="txt">
+      <div class="txt on-dark">
         <h3>From the command line</h3>
         <p>On a cluster node with no internet, a record is written to a file and sent to the server later. This is a real session on the demo project, trimmed to four commands.</p>
       </div>
@@ -246,31 +300,15 @@ project: p_8hakp36js1 (Cohort A)</pre>
   </div>
 </section>
 
-<section id="next" class="band" aria-labelledby="h-next">
-  <span id="direction" class="anchor"></span>
-  <div class="wrap">
-    <p class="intent"><span class="chip-intent">Planned, not in the product today</span></p>
-    <h2 id="h-next">Where this is going</h2>
-    <div class="next-grid">
-      <div>
-        <p class="statement">Accelerate the genetics discovery loop.</p>
-        <p class="span">Labs will use AI to propose and test ideas. That only works with trusted context about the lab&rsquo;s own work. Jubilab is building that record, so each experiment cycle can get faster.</p>
-      </div>
-      <div class="aud">
-        <p>Jubilab does not replace your pipelines and does not store your data.</p>
-        <p>We are starting with computational genomics teams at biotechs and with genomics core facilities. Invite-only early access.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
 <section id="access" class="access" aria-labelledby="h-access">
+  <span id="start" class="anchor"></span>
   <div class="wrap">
     <div class="grid">
       <div class="left">
         <h2 id="h-access">Request early access</h2>
         <p class="goal"><strong>Our goal: become the record of how genetic discoveries are made.</strong></p>
         <p>Jubilab is invite-only. We are choosing labs to learn from real use, starting with genetics researchers. Every question is required except the last one, a short free-text answer. The answers help us choose well.</p>
+        <p class="look"><a href="#product">Or look first: see it on a demo project &rarr;</a></p>
       </div>
       <form class="form" id="early-access-form" action="/api/early-access" method="post" aria-labelledby="h-access">
         <p class="form-error" id="form-error" role="alert" tabindex="-1" hidden>That email address does not look right. Please check it and send the form again.</p>
@@ -336,6 +374,7 @@ project: p_8hakp36js1 (Cohort A)</pre>
 <footer>
   <div class="wrap">
     <div>
+      <p class="foot-brand">Jubilab</p>
       <p>Early-stage software, available by invitation only. Screenshots and diagrams on this site use synthetic demo data.</p>
       <p>Contact: <a href="mailto:hello@jubilab.io">hello@jubilab.io</a></p>
     </div>
