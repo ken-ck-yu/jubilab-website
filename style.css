@@ -100,6 +100,7 @@ section[id] { scroll-margin-top: 56px; }
 .btn.ghost { background: transparent; color: var(--accent-ink); border-color: var(--line-strong); }
 .btn.ghost:hover { background: var(--accent-soft); color: var(--accent-ink); }
 .btn.small { padding: 0 14px; font-size: .9rem; }
+.btn.small .short { display: none; }
 
 /* type */
 h1 { font-weight: 800; font-size: clamp(2.25rem, 4.2vw, 3.5rem); line-height: 1.08; letter-spacing: -.02em; margin: 0; text-wrap: balance; }
@@ -273,7 +274,8 @@ footer p a { min-height: 24px; }
   .cta-row .btn { flex: 1 1 100%; }
   .form { padding: 20px; }
 }
-@media (max-width: 380px) { .btn.small { max-width: 92px; padding: 0 8px; } }
+/* header CTA: single short label on phones */
+@media (max-width: 640px) { .btn.small .full { display: none; } .btn.small .short { display: inline; } .btn.small { padding: 0 12px; white-space: nowrap; max-width: none; } }
 @media (max-width: 340px) { .brand-name { display: none; } }
 @media (prefers-reduced-motion: reduce) { .btn { transition: none; } html { scroll-behavior: auto; } }
 

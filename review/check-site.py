@@ -100,7 +100,7 @@ MEASURE = r"""
   out.chipEls = document.querySelectorAll('main [class*="chip-"], main .tag, main .tag-today, main .tag-building, main .chip-intent').length;
   out.statusWords = (main0.innerText.match(/\b(today|exploring|building|planned|coming soon|beta)\b/gi) || []).filter((w, i, a) => true);
   out.statusCtx = [...main0.innerText.matchAll(/.{0,12}\b(today|exploring|building|planned|coming soon|beta)\b.{0,12}/gi)].map(x => x[0]).filter(t => !/(we are|is|are) building|made today/i.test(t));
-  const ctas = [...document.querySelectorAll('header .btn, .hero .btn:not(.ghost), form button[type=submit]')]; out.ctas = ctas.map(a => a.textContent.trim()); out.heroPrimary = q('.hero .btn').getAttribute('href');
+  const ctas = [...document.querySelectorAll('header .btn, .hero .btn:not(.ghost), form button[type=submit]')]; out.ctas = ctas.map(a => (a.getAttribute('aria-label') || a.textContent).trim()); out.heroPrimary = q('.hero .btn').getAttribute('href');
   const main = q('main'); out.words = main.innerText.trim().split(/\s+/).length;
   // 21 22 23 typography
   const px = e => parseFloat(getComputedStyle(e).fontSize), lh = e => { const s = getComputedStyle(e); return s.lineHeight === 'normal' ? px(e) * 1.2 : parseFloat(s.lineHeight); };
