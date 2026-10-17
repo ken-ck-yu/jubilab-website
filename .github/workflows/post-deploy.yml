@@ -1,0 +1,47 @@
+name: Live site check
+
+# Cloudflare builds and deploys main by itself after a push. This waits until the live page shows the new
+# headline and stylesheet, then runs the smoke checks against https://jubilab.io. A red run means the live
+# site needs attention (roll back in the Cloudflare dashboard, or revert and tag a patch release).
+on:
+  push:
+    branches: [main]
+    paths-ignore: ["docs/**", "review/**", "scripts/**", "tests/**", "**/*.md", ".github/**"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: live-check
+  cancel-in-progress: true
+
+jobs:
+  live:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - name: Wait for the deployment (up to 10 minutes)
+        run: |
+          want_css="$(sha256sum style.css | cut -d' ' -f1)"
+          want_h1="$(python3 - <<'PY'
+          import re
+          s = open("index.html", encoding="utf-8").read()
+          m = re.search(r'<h1[^>]*>(.*?)</h1>', s, re.S)
+          print(re.sub(r'\s+', ' ', m.group(1)).strip() if m else "")
+          PY
+          )"
+          echo "waiting for h1: $want_h1"
+          for i in $(seq 1 40); do
+            live_css="$(curl -s "https://jubilab.io/style.css?cb=$RANDOM" | sha256sum | cut -d' ' -f1)"
+            live_h1="$(curl -s "https://jubilab.io/?cb=$RANDOM" | tr '\n' ' ' | grep -c -F -- "$want_h1" || true)"
+            if [ "$live_css" = "$want_css" ] && [ "$live_h1" != "0" ]; then echo "live after attempt $i"; exit 0; fi
+            sleep 15
+          done
+          echo "the live site did not show this commit within 10 minutes"; exit 1
+      - name: Smoke checks against the live site
+        run: python review/smoke-site.py https://jubilab.io
