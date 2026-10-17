@@ -20,7 +20,9 @@ Status: built on branch `feat/redesign-industry-layout`, 2026-10-17, website Eng
 ## Checks changed (review/check-site.py), with reasons
 - 14, 15, 16: header nav is now What it does / Integrations / Demo; h2 section order is how, fits, next, who, product, access. The layout changed on purpose.
 - 17: was "Where this is going" heading with a "Planned, not in the product today" chip; the owner removed all status words, so it now asserts the vision heading exists and that no Today/Building/Exploring/Planned label exists in `main`.
-- 12, 20, 34, 9: page is longer and richer by design: height cap 9500 (1440) and 13500 (390), main words 1500 (was 1000), own-origin bytes 520 KB (was 320), html 40 KB (was 30), css 32 KB (was 30), image bytes 400 KB (was 100, now includes lazy images near the fold). The tests for Today/Building tags did not exist in `tests/`.
+- Validator round 1 follow-ups: `<main>` has `tabindex=-1` so the skip link moves focus; one navigation (the header holds brand, theme toggle and CTA; the sticky strip is the nav from 900 px; below 900 px the header menu lists the same six links; checks 14, 15, 33 now test those); check 17 asserts no chip element and no standalone Today, Exploring, Building, Planned, Coming soon or Beta in `main` (the sentence form "We are building" and the form question "made today" are allowed; the vision paragraph now reads "We are building that record"); the sentence "None of these is in the product yet" was removed.
+- Budgets, tightened to measured values plus headroom (measured: own-origin total 299 KB, images 168 KB, html 34.5 KB, css 26.6 KB, page height 8082 px at 1440 and 12184 px at 390): total 400 KB (was 320 before the redesign), images 260 KB, html 36 KB, css 28 KB, height 9000 at 1440 and 13000 at 390. Other loosened limits: main words 1500 (was 1000).
+- (superseded numbers, kept for history) 12, 20, 34, 9: page is longer and richer by design: height cap 9500 (1440) and 13500 (390), main words 1500 (was 1000), own-origin bytes 520 KB (was 320), html 40 KB (was 30), css 32 KB (was 30), image bytes 400 KB (was 100, now includes lazy images near the fold). The tests for Today/Building tags did not exist in `tests/`.
 
 ## Copy table (new claims and evidence)
 | Copy | Evidence |
@@ -29,7 +31,7 @@ Status: built on branch `feat/redesign-industry-layout`, 2026-10-17, website Eng
 | Snakemake: rules, commands kept as hashes, inputs and outputs left on disk, imported from its metadata | docs/releases/v0.6.0.md (INT-02, sha256 of shellcmd, rule names, file references) |
 | Native bash: command, redacted arguments, times, exit code, declared files, with `jubilab run` | v0.6.0 notes (INT-03) |
 | Row note: "They do not all record the same things, and what Jubilab infers is marked as inferred" | v0.6.0 notes: Snakemake run boundaries inferred, parameters not recorded; wrapper declared files manual or inferred |
-| Seqera, Parabricks, BioNeMo, DeepMind, MCP agents, notebooks, GitHub ("will", "we are building toward"; "None of these is in the product yet") | ambition; owner brief |
+| Seqera, Parabricks, BioNeMo, DeepMind, MCP agents, notebooks, GitHub ("will", "we are building toward"; row note "This is what we are building toward") | ambition; owner brief |
 | "Jubilab sits beside your pipelines. It does not replace them, and it does not store your data." | existing site copy and README ("links to your data where it lives") |
 | Trace, Compare card text | existing site copy; shipped (demo) |
 | Connect, Catch: "We are building ..." | existing site copy ("Building"), now in future tense |

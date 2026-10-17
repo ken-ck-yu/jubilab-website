@@ -20,6 +20,7 @@ BASE = (_args[0] if _args else "http://127.0.0.1:18212/").rstrip("/") + "/"
 EXE = os.path.expanduser("~/.cache/ms-playwright/chromium_headless_shell-1248/chrome-headless-shell-linux64/chrome-headless-shell")
 WIDTHS = [320, 390, 768, 1024, 1280, 1440, 1920]
 THEMES = ["light", "dark"]
+SIX = ["What it does", "Integrations", "Where this is going", "Who it is for", "Demo project", "Get started"]
 R = {}  # check number -> list of (ok, detail)
 
 
@@ -84,7 +85,7 @@ MEASURE = r"""
   const sh = id => { const e = document.getElementById(id); return e ? e.getBoundingClientRect().height : -1; };
   out.sec = {hero: q('.hero').getBoundingClientRect().height, next: sh('next'), product: sh('product')};
   // 13..18 content
-  const navLinks = [...document.querySelectorAll('.site-nav a')].filter(vis);
+  const navLinks = [...document.querySelectorAll('.subnav a')].filter(vis);
   out.navLinks = navLinks.map(a => [a.textContent.trim(), a.getAttribute('href'), !!document.querySelector(a.getAttribute('href'))]);
   const menu = q('.menu'); out.menuVisible = vis(menu); const ms = q('.menu summary'); out.menuBtn = r(ms);
   out.menuLinks = [...menu.querySelectorAll('a')].map(a => a.textContent.trim());
@@ -95,9 +96,10 @@ MEASURE = r"""
   out.ids = ['problem', 'how', 'fits', 'next', 'who', 'product', 'access'].map(i => !!document.getElementById(i));
   out.text = document.body.innerText;
   out.direction = /direction/i.test(document.body.innerText) || [...document.querySelectorAll('h1,h2,h3,nav a,.eyebrow')].some(e => /direction/i.test(e.textContent));
-  const nh = [...document.querySelectorAll('h2')].find(h => /accelerate the genetics discovery loop/i.test(h.textContent)); out.nextH2 = nh ? nh.textContent.trim() : null;
-  out.statusWords = [...document.querySelectorAll('main *')].filter(e => e.children.length === 0 && /^(today|building|exploring|planned[^.]*)$/i.test(e.textContent.trim())).map(e => e.textContent.trim());
-  out.chipDist = nh ? 0 : null;
+  const main0 = document.querySelector('main'); const nh = [...document.querySelectorAll('h2')].find(h => /accelerate the genetics discovery loop/i.test(h.textContent)); out.nextH2 = nh ? nh.textContent.trim() : null;
+  out.chipEls = document.querySelectorAll('main [class*="chip-"], main .tag, main .tag-today, main .tag-building, main .chip-intent').length;
+  out.statusWords = (main0.innerText.match(/\b(today|exploring|building|planned|coming soon|beta)\b/gi) || []).filter((w, i, a) => true);
+  out.statusCtx = [...main0.innerText.matchAll(/.{0,12}\b(today|exploring|building|planned|coming soon|beta)\b.{0,12}/gi)].map(x => x[0]).filter(t => !/we are building|made today/i.test(t));
   const ctas = [...document.querySelectorAll('header .btn, .hero .btn:not(.ghost), form button[type=submit]')]; out.ctas = ctas.map(a => a.textContent.trim()); out.heroPrimary = q('.hero .btn').getAttribute('href');
   const main = q('main'); out.words = main.innerText.trim().split(/\s+/).length;
   // 21 22 23 typography
@@ -281,17 +283,17 @@ def run():
                 rec(11, sv["w"] <= m["svgPanel"] + 0.5 and sv["w"] <= m["iw"] and sv["minFont"] >= 11.95, f"{tag} svg {sv['cls']} width {sv['w']:.0f} (panel {m['svgPanel']:.0f}) min text {sv['minFont']:.2f}px")
                 rec(23, sv["minFont"] >= 11.95, f"{tag} svg text min {sv['minFont']:.2f}px")
             if w == 1440 and th == "light":
-                rec(12, 4400 <= m["height"] <= 9500 and m["sec"]["hero"] <= 1320 and m["sec"]["next"] <= 700 and m["sec"]["product"] <= 1700, f"{tag} page {m['height']} hero {m['sec']['hero']:.0f} next {m['sec']['next']:.0f} product {m['sec']['product']:.0f}")
+                rec(12, 4400 <= m["height"] <= 9000 and m["sec"]["hero"] <= 1320 and m["sec"]["next"] <= 700 and m["sec"]["product"] <= 1700, f"{tag} page {m['height']} hero {m['sec']['hero']:.0f} next {m['sec']['next']:.0f} product {m['sec']['product']:.0f}")
             if w == 390 and th == "light":
-                rec(12, m["height"] <= 13500, f"{tag} page height {m['height']}")
-            if w >= 1024:
+                rec(12, m["height"] <= 13000, f"{tag} page height {m['height']}")
+            if w >= 1024:  # one navigation on desktop: the sticky strip (the header holds only brand, theme toggle and CTA; its menu is shown below 900 px)
                 labs = [x[0] for x in m["navLinks"]]
-                rec(14, labs == ["What it does", "Integrations", "Demo"] and all(x[2] for x in m["navLinks"]) and [x[1] for x in m["navLinks"]] == ["#how", "#fits", "#product"], f"{tag} nav {m['navLinks']}")
+                rec(14, labs == SIX and all(x[2] for x in m["navLinks"]) and [x[1] for x in m["navLinks"]] == ["#how", "#fits", "#next", "#who", "#product", "#access"], f"{tag} nav {m['navLinks']}")
             if w < 640:
-                rec(15, m["menuVisible"] and m["menuBtn"]["w"] >= 44 and m["menuBtn"]["h"] >= 44 and m["menuLinks"] == ["What it does", "Integrations", "Demo"], f"{tag} menu {m['menuBtn']['w']:.0f}x{m['menuBtn']['h']:.0f} links {m['menuLinks']}")
+                rec(15, m["menuVisible"] and m["menuBtn"]["w"] >= 44 and m["menuBtn"]["h"] >= 44 and m["menuLinks"] == SIX, f"{tag} menu {m['menuBtn']['w']:.0f}x{m['menuBtn']['h']:.0f} links {m['menuLinks']}")
             rec(13, not m["direction"], f"{tag} 'Direction' present: {m['direction']}")
             rec(16, m["h1n"] == 1 and [x[1] for x in m["h2s"]] == ["how", "fits", "next", "who", "product", "access"] and not m["h2OutsideMain"] and not m["headingSkip"] and all(m["ids"]), f"{tag} h1 {m['h1n']} h2 {m['h2s']} skip {m['headingSkip']} ids {m['ids']}")
-            rec(17, m["nextH2"] == "Accelerate the genetics discovery loop." and m["chipDist"] is not None and not m["statusWords"], f"{tag} h2 {m['nextH2']!r} chip distance {m['chipDist']}")
+            rec(17, m["nextH2"] == "Accelerate the genetics discovery loop." and m["chipEls"] == 0 and not m["statusCtx"], f"{tag} h2 {m['nextH2']!r}, chip elements {m['chipEls']}, status words {m['statusCtx']}")
             rec(18, m["ctas"] == ["Request early access"] * 3 and m["heroPrimary"] == "#access", f"{tag} {m['ctas']} href {m['heroPrimary']}")
             rec(20, m["words"] <= 1500, f"{tag} {m['words']} words in main")
             if w in (320, 390, 768, 1024, 1280, 1440, 1920):
@@ -390,7 +392,7 @@ def run():
         for rm in ("reduce", "no-preference"):
             ctx = mk(b, viewport={"width": 1280, "height": 800}, reduced_motion=rm); pg = ctx.new_page(); pg.goto(BASE); pg.wait_for_timeout(400)
             n0 = pg.evaluate("document.getAnimations().length")
-            for sel in (".hero .btn", ".btn.ghost", ".site-nav a", ".theme-toggle"):
+            for sel in (".hero .btn", ".btn.ghost", ".subnav a", ".theme-toggle"):
                 pg.hover(sel); pg.focus(sel)
             n1 = pg.evaluate("document.getAnimations().length")
             mx = pg.evaluate("Math.max(...[...document.querySelectorAll('*')].map(e=>Math.max(...getComputedStyle(e).transitionDuration.split(',').map(parseFloat))))")
@@ -421,8 +423,8 @@ def run():
                     elif u.endswith(".webp") or u.endswith(".png"): kinds["img"] += n
                     elif u.rstrip("/") == BASE.rstrip("/") or u.endswith(".html"): kinds["html"] = n
                 # 34 counts only our own origin bytes: the Google tag is one inline snippet plus one external script and is not ours to budget.
-                rec(34, tot <= 520000 and sum(kinds["font"]) <= 80000 and len(kinds["font"]) <= 3 and kinds["js"] <= 8000 and kinds["html"] <= 40000 and kinds["css"] <= 32000, f"total {tot} B (uncompressed body bytes), fonts {kinds['font']}, js {kinds['js']}, html {kinds['html']}, css {kinds['css']}, images {kinds['img']}")
-                rec(9, kinds["img"] <= 400000, f"1440 image bytes {kinds['img']}")
+                rec(34, tot <= 400000 and sum(kinds["font"]) <= 80000 and len(kinds["font"]) <= 3 and kinds["js"] <= 8000 and kinds["html"] <= 36000 and kinds["css"] <= 28000, f"total {tot} B (uncompressed body bytes), fonts {kinds['font']}, js {kinds['js']}, html {kinds['html']}, css {kinds['css']}, images {kinds['img']}")
+                rec(9, kinds["img"] <= 260000, f"1440 image bytes {kinds['img']}")
                 allowed = {"static.cloudflareinsights.com", "cloudflareinsights.com"}  # the Cloudflare beacon is injected at the edge: allowed if present, absent locally. Google hosts are NOT allowed before consent.
                 ok_host = lambda h: h in allowed
                 req_hosts = {re.sub(r"^https?://([^/:]+).*", r"\1", u) for u in reqs if u.startswith("http")}
