@@ -1,6 +1,8 @@
 # Image credits and licence log
 
-Accessed 2026-10-17 by the Image Researcher. Originals were downloaded to a scratch directory outside the repo; only the cropped WebP exports are in `assets/img/`. All exports are 16:9 (1600x900 and 800x450), WebP, no EXIF/XMP/GPS/ICC data (checked with Pillow). Not committed.
+**Current state (2026-10-17): no third-party photo ships on the website.** Every image on the home page other than the product screenshots (`hero-*.webp`, from the real product on synthetic data) is an original SVG illustration drawn for Jubilab: `card-trace.svg`, `card-compare.svg`, `card-connect.svg`, `card-catch.svg` and `vision-agent.svg` (friendly flat style, no text, own background, no external references). Nothing below needs crediting. The rest of this file is a historical log of the stock photos the Image Researcher evaluated and the owner decided not to use; their WebP files were removed from `assets/img/`. Licence quotes are kept in case any photo is used later.
+
+Historical log. Accessed 2026-10-17 by the Image Researcher. Originals were downloaded to a scratch directory outside the repo.
 
 Licence texts actually read:
 
@@ -14,7 +16,6 @@ Notes that apply to all Unsplash items: Unsplash does not grant model or propert
 Direct download URL pattern for Unsplash: `https://images.unsplash.com/photo-<id>?fm=jpg&q=85&w=2400&fit=max` (the `<id>` is given per item).
 
 
-> **2026-10-17 update (website Engineer, owner feedback):** the photos for items 1 to 4 (card-trace, card-compare, card-connect, card-catch) are NO LONGER USED and their WebP files were removed from `assets/img/`. Those four cards now use original SVG illustrations drawn for Jubilab (`assets/img/card-trace.svg`, `card-compare.svg`, `card-connect.svg`, `card-catch.svg`): no stock, no third-party logos, no real data, every one marked "synthetic data". Nothing in items 1 to 4 below needs crediting. Likewise `vision-agent` and `who-biotech` were replaced by original SVG illustrations (`vision-agent.svg`, `who-biotech.svg`) at the owner's request, and their WebP files were removed; their items below are no longer used either. Only who-core is still a licensed photo.
 
 ---
 

@@ -20,7 +20,7 @@ BASE = (_args[0] if _args else "http://127.0.0.1:18212/").rstrip("/") + "/"
 EXE = os.path.expanduser("~/.cache/ms-playwright/chromium_headless_shell-1248/chrome-headless-shell-linux64/chrome-headless-shell")
 WIDTHS = [320, 390, 768, 1024, 1280, 1440, 1920]
 THEMES = ["light", "dark"]
-SIX = ["What it does", "Integrations", "Where this is going", "Who it is for", "Demo project", "Get started"]
+SIX = ["What it does", "Integrations", "Where this is going", "Is this you?", "Demo project", "Get started"]
 R = {}  # check number -> list of (ok, detail)
 
 

@@ -2,7 +2,13 @@
 
 Status: built on branch `feat/redesign-industry-layout`, 2026-10-17, website Engineer. Source: the approved mockup `Main.dc.html` plus the owner decisions below. Not merged.
 
-## What changed
+## What changed (current summary, 2026-10-17)
+- Images: friendly flat SVG illustrations (style A) for the four feature cards and a redrawn vision image; no stock photos are left on the page (the real product screenshots in the hero are the only raster images).
+- The "Who we are starting with" section was replaced by "Are you facing these issues?" (eight plain situations, one Request early access button; strip and menu label "Is this you?").
+- Removed the "Invite-only early access" chip from the hero eyebrow. Invite-only wording remains only as a factual statement outside the top of the page: the meta description, og:description and twitter:description, the early-access form text ("Jubilab is invite-only ..."), the footer ("available by invitation only") and `llms.txt` ("Access is by invitation only").
+- Integrations are text-only with "Available now" and "Where we are heading" rows; no status chips anywhere; one navigation (sticky strip on desktop, header menu below 900 px).
+
+## Detail of the first round
 - Dark header with a sticky page-section strip (shown from 900 px; below that the header menu is the navigation), orange accent bar over the H1, card grids (4 feature cards, integrations, 2 audience cards), a dark "One record across your whole toolchain" band, a vision section with image, a dark demo band, dark footer with an orange stripe.
 - Section order: hero, What it does (`#how`, aliases `#problem`, `#build`), Integrations (`#fits`), Accelerate the genetics discovery loop (`#next`), Who we are starting with (`#who`), See it on a demo project (`#product`, alias `#demo`), Request early access (`#access`, alias `#start`). All old anchors still resolve, so `llms.txt` links and external links keep working.
 - Accent colour moved from teal to orange. Tokens: `--accent` #e8520a (non-text only: bars, focus ring, borders), `--accent-ink` #b73f05 (text on light, 5.1:1 on the page), #ff8a4d (text and fills on dark), buttons are #c2410c with white text (5.2:1; #e8520a with white is about 3.9:1 and is not used for text). Dark theme keeps working (theme.js untouched): accent becomes #ff8a4d, buttons #ff8a4d with dark text.
@@ -35,8 +41,15 @@ Status: built on branch `feat/redesign-industry-layout`, 2026-10-17, website Eng
 | "Jubilab sits beside your pipelines. It does not replace them, and it does not store your data." | existing site copy and README ("links to your data where it lives") |
 | Trace, Compare card text | existing site copy; shipped (demo) |
 | Connect, Catch: "We are building ..." | existing site copy ("Building"), now in future tense |
-| Who: three bullets each; "teams that already run their own pipelines" | mockup copy approved by owner; positioning docs |
+| (superseded, section replaced) Who: three bullets each; "teams that already run their own pipelines" | mockup copy approved by owner; positioning docs |
 | Vision paragraph | unchanged existing copy |
 
 ## Budgets after the illustrations (2026-10-17)
 With five of the six non-hero images now SVG (about 10 KB each, not counted as raster images by check 34) measured own-origin total is 190 KB and raster images 47 KB, so the limits are 300 KB total and 200 KB images (html 33.7 KB of 36, css 26.6 KB of 28).
+
+## Owner decisions, second round (2026-10-17)
+- Images: friendly flat illustrations (style A of the ImageOptions mockup) for the four feature cards, ported unchanged as `card-*.svg` (viewBox 320x180, no text, `alt=""`, own background rect). The vision image was redrawn in the same style: a loop of four pictograms (idea, experiment, result, record) joined by a dotted circular arrow, no text, no code, no claim drawn in (`alt=""`). The earlier technical SVGs, `who-biotech.svg` and the who-core photo were removed; no third-party photo ships any more (see `docs/image-credits.md`).
+- "Who we are starting with" was replaced by "Are you facing these issues?" (`#who`, new alias `#issues`; strip and menu label "Is this you?"). Eight situations in plain words, a closing line and one "Request early access" button. The old audience wording (computational genomics teams at biotechs, genomics core facilities) no longer appears on the page; `llms.txt` and the JSON-LD never carried it. The form still says invite-only and that answers help us choose labs; the section promises nothing beyond that (no "we reply personally": the form and Worker do not promise a reply).
+- Dead CSS `.cl` removed.
+
+Copy table additions: the eight situations are "situation, no claim" (plain relatable statements, no stats, no ranking). Four come straight from the existing problem copy (which samples went into a callset, GRCh37 or GRCh38, analyst leaves, mislabelled sample). Closing line "we would like to hear from you" and the form sentence restate the existing form copy.

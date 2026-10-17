@@ -1,13 +1,1 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" width="1600" height="900" font-family="ui-monospace,Menlo,Consolas,'Liberation Mono',monospace"><rect width="1600" height="900" fill="#f4f5f2"/>
-<g fill="none" stroke="#6e7f78" stroke-width="6"><path d="M470 450 H590"/><path d="M1010 450 H1130"/></g>
-<g fill="#6e7f78"><path d="M600 450 l-26 -16 v32z"/><path d="M1140 450 l-26 -16 v32z"/></g>
-<g stroke="#17201c" stroke-width="5" fill="#fff">
-<rect x="70" y="300" width="400" height="300" rx="18"/><rect x="600" y="300" width="410" height="300" rx="18" stroke="#b73f05" stroke-width="8"/><rect x="1140" y="300" width="390" height="300" rx="18"/></g>
-<g fill="#55625b" font-size="40"><text x="100" y="360">FASTQ ASSET</text><text x="630" y="360">RUN</text><text x="1170" y="360">OUTPUT</text></g>
-<g fill="#17201c" font-size="46" font-weight="700"><text x="100" y="440">sample_A</text><text x="100" y="496">.fastq.gz</text><text x="630" y="440">run 002</text><text x="1170" y="440">variants</text><text x="1170" y="496">.vcf</text></g>
-<g fill="#b73f05" font-size="40"><text x="630" y="520">align + call</text><text x="630" y="570">threshold 30</text></g>
-<g fill="#0f766e"><circle cx="130" cy="560" r="12"/><circle cx="170" cy="560" r="12"/><circle cx="210" cy="560" r="12"/></g>
-<text x="70" y="140" font-family="sans-serif" fill="#17201c" font-size="64" font-weight="700">Trace a result back</text>
-<text x="70" y="240" fill="#55625b" font-size="40">output &lt;- run &lt;- inputs</text>
-<text x="70" y="840" fill="#55625b" font-size="34">synthetic data</text>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 180" width="1600" height="900"><rect width="320" height="180" fill="#fbe9dc"/><path d="M80 90 C120 40 200 140 240 90" stroke="#e8520a" stroke-width="3" stroke-dasharray="2 8" stroke-linecap="round" fill="none"/><g><rect x="62" y="56" width="34" height="68" rx="14" fill="#fff" stroke="#17201c" stroke-width="3"/><rect x="62" y="88" width="34" height="36" rx="14" fill="#e8520a"/></g><g><circle cx="160" cy="90" r="22" fill="#fff" stroke="#17201c" stroke-width="3"/><circle cx="160" cy="90" r="8" fill="#17201c"/></g><g><path d="M226 62 h30 l14 14 v46 h-44z" fill="#fff" stroke="#17201c" stroke-width="3" stroke-linejoin="round"/><path d="M234 90 h28 M234 104 h20" stroke="#e8520a" stroke-width="3" stroke-linecap="round"/></g></svg>
