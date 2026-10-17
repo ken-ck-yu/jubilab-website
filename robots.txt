@@ -1,8 +1,27 @@
-# PREVIEW: crawling is disallowed until launch. LAUNCH STEP 1 in docs/launch-checklist.md replaces this file's rules.
-User-agent: *
+# Launch rules for jubilab.io. Source: robots.launch.txt, copied over robots.txt by scripts/go-public.py (docs/launch-checklist.md step 1).
+#
+# AI crawler policy, decided by the owner on 2026-10-16:
+#   ALLOW search and answer bots (OAI-SearchBot, ChatGPT-User, PerplexityBot, Claude-SearchBot, Claude-User)
+#   and ordinary search crawlers. They fetch pages so that an assistant or search engine can show and cite
+#   them to a person who asked.
+#   BLOCK the training bots GPTBot, ClaudeBot, Google-Extended and CCBot.
+# Robots rules are requests, not enforcement: well-behaved crawlers honour them, others may not.
+# Names are the published user-agent tokens; check each vendor's documentation before changing them.
+#   Training bots (blocked below):
+#     GPTBot           OpenAI model training
+#     ClaudeBot        Anthropic model training
+#     Google-Extended  controls use of pages for Google's Gemini training and grounding (does not affect Google Search ranking)
+#     CCBot            Common Crawl, whose dataset many models train on
+# Every named group is separate: a crawler uses the most specific group that names it, so the groups
+# below do not affect anyone else, and "User-agent: *" is the fallback for all other crawlers.
+
+User-agent: GPTBot
+User-agent: ClaudeBot
+User-agent: Google-Extended
+User-agent: CCBot
 Disallow: /
 
-# At launch, use instead:
-# User-agent: *
-# Allow: /
-# Sitemap: https://jubilab.io/sitemap.xml
+User-agent: *
+Allow: /
+
+Sitemap: https://jubilab.io/sitemap.xml
