@@ -1,0 +1,45 @@
+name: Site checks
+
+# Runs on every pull request and on every push to main. Merging to main deploys the live site (Cloudflare
+# builds main automatically), so these checks are the only gate before visitors see a change.
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: site-checks-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  checks:
+    name: Unit tests, SEO, browser and smoke checks
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"       # the dev worker server uses module.registerHooks (Node 22.15+)
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - run: pip install playwright
+      - run: python -m playwright install --with-deps chromium
+      - name: Unit tests (worker, early-access form, analytics tag, launch switch)
+        run: node --test
+      - name: Start the worker locally (the same code Cloudflare runs, with KV and email stubbed)
+        run: |
+          node review/dev-worker-server.mjs 18150 > /tmp/dev-server.log 2>&1 &
+          for i in $(seq 1 30); do curl -sf http://127.0.0.1:18150/ >/dev/null && break; sleep 1; done
+          curl -sf http://127.0.0.1:18150/ >/dev/null
+      - name: "SEO and crawlability (preview mode, because the site is still noindex until launch)"
+        run: python review/check-seo.py http://127.0.0.1:18150 --mode preview
+      - name: Browser acceptance checks (layout budgets, themes, fold, accessibility)
+        run: python review/check-site.py http://127.0.0.1:18150
+      - name: Smoke checks (routing, headers, form endpoint, origin checks)
+        run: python review/smoke-site.py http://127.0.0.1:18150
