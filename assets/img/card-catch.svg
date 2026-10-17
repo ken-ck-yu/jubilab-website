@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" width="1600" height="900" font-family="ui-monospace,Menlo,Consolas,'Liberation Mono',monospace"><rect width="1600" height="900" fill="#f4f5f2"/>
+<text x="70" y="110" fill="#17201c" font-size="60" font-weight="700" font-family="sans-serif">Catch a mismatch</text>
+<rect x="110" y="230" width="280" height="330" rx="18" fill="#fff" stroke="#17201c" stroke-width="5"/>
+<text x="250" y="300" text-anchor="middle" font-size="46" font-weight="700" fill="#17201c">S-011</text>
+<rect x="190" y="330" width="120" height="150" rx="20" fill="#0f766e"/><rect x="180" y="316" width="140" height="24" rx="8" fill="#17201c"/>
+<text x="250" y="535" text-anchor="middle" font-size="40" fill="#17201c">GRCh38</text>
+<rect x="410" y="230" width="280" height="330" rx="18" fill="#fff" stroke="#17201c" stroke-width="5"/>
+<text x="550" y="300" text-anchor="middle" font-size="46" font-weight="700" fill="#17201c">S-012</text>
+<rect x="490" y="330" width="120" height="150" rx="20" fill="#0f766e"/><rect x="480" y="316" width="140" height="24" rx="8" fill="#17201c"/>
+<text x="550" y="535" text-anchor="middle" font-size="40" fill="#17201c">GRCh38</text>
+<rect x="710" y="230" width="280" height="330" rx="18" fill="#fff" stroke="#17201c" stroke-width="5"/>
+<text x="850" y="300" text-anchor="middle" font-size="46" font-weight="700" fill="#17201c">S-013</text>
+<rect x="790" y="330" width="120" height="150" rx="20" fill="#0f766e"/><rect x="780" y="316" width="140" height="24" rx="8" fill="#17201c"/>
+<text x="850" y="535" text-anchor="middle" font-size="40" fill="#17201c">GRCh38</text>
+<rect x="1010" y="230" width="280" height="330" rx="18" fill="#fdeadd" stroke="#b73f05" stroke-width="9"/>
+<text x="1150" y="300" text-anchor="middle" font-size="46" font-weight="700" fill="#b73f05">S-014</text>
+<rect x="1090" y="330" width="120" height="150" rx="20" fill="#e8520a"/><rect x="1080" y="316" width="140" height="24" rx="8" fill="#17201c"/>
+<text x="1150" y="535" text-anchor="middle" font-size="40" fill="#b73f05">GRCh37</text>
+<rect x="1310" y="230" width="280" height="330" rx="18" fill="#fff" stroke="#17201c" stroke-width="5"/>
+<text x="1450" y="300" text-anchor="middle" font-size="46" font-weight="700" fill="#17201c">S-015</text>
+<rect x="1390" y="330" width="120" height="150" rx="20" fill="#0f766e"/><rect x="1380" y="316" width="140" height="24" rx="8" fill="#17201c"/>
+<text x="1450" y="535" text-anchor="middle" font-size="40" fill="#17201c">GRCh38</text>
+<path d="M1150 150 l70 -110 l70 110z" fill="#e8520a"/><text x="1220" y="135" text-anchor="middle" font-size="64" font-weight="700" fill="#fff">!</text>
+<text x="70" y="680" font-size="48" fill="#17201c">expected <tspan font-weight="700">GRCh38</tspan></text><text x="70" y="750" font-size="48" fill="#b73f05" font-weight="700">S-014: found GRCh37</text>
+<text x="70" y="840" fill="#55625b" font-size="34">synthetic data</text></svg>

@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" width="1600" height="900" font-family="ui-monospace,Menlo,Consolas,'Liberation Mono',monospace"><rect width="1600" height="900" fill="#f4f5f2"/>
+<rect x="70" y="60" width="1000" height="190" rx="26" fill="#17201c"/>
+<text x="110" y="125" fill="#ff8a4d" font-size="38">AGENT ASKS</text>
+<text x="110" y="180" fill="#ffffff" font-size="44" font-family="sans-serif" font-weight="700">Which samples went into callset v3,</text>
+<text x="110" y="230" fill="#ffffff" font-size="44" font-family="sans-serif" font-weight="700">and which reference build?</text>
+<rect x="260" y="290" width="1270" height="480" rx="26" fill="#ffffff" stroke="#17201c" stroke-width="5"/>
+<text x="300" y="350" fill="#55625b" font-size="38">THE RECORD ANSWERS (read-only)</text>
+<g font-size="44" fill="#17201c">
+<text x="300" y="430">24 samples, S-001..S-024</text><text x="300" y="495">reference build GRCh38</text><text x="300" y="560">built by run 002</text><text x="300" y="625">container digest</text>
+</g>
+<g font-size="38" font-weight="700">
+<rect x="1180" y="392" width="300" height="56" rx="28" fill="none" stroke="#0f766e" stroke-width="5"/><text x="1330" y="432" text-anchor="middle" fill="#0f766e">verified</text>
+<rect x="1180" y="457" width="300" height="56" rx="28" fill="none" stroke="#6b4fa3" stroke-width="5"/><text x="1330" y="497" text-anchor="middle" fill="#6b4fa3">inferred</text>
+<rect x="1180" y="522" width="300" height="56" rx="28" fill="none" stroke="#0f766e" stroke-width="5"/><text x="1330" y="562" text-anchor="middle" fill="#0f766e">verified</text>
+<rect x="1180" y="587" width="300" height="56" rx="28" fill="none" stroke="#55625b" stroke-width="5" stroke-dasharray="10 8"/><text x="1330" y="627" text-anchor="middle" fill="#55625b">unknown</text>
+</g>
+<path d="M300 690 H1480" stroke="#dde2dd" stroke-width="4"/>
+<text x="300" y="740" fill="#b73f05" font-size="38">each line points back to a run and its files</text>
+<text x="70" y="840" fill="#55625b" font-size="36">Illustration of what we are building toward. Synthetic data.</text>
+</svg>

@@ -423,8 +423,8 @@ def run():
                     elif u.endswith(".webp") or u.endswith(".png"): kinds["img"] += n
                     elif u.rstrip("/") == BASE.rstrip("/") or u.endswith(".html"): kinds["html"] = n
                 # 34 counts only our own origin bytes: the Google tag is one inline snippet plus one external script and is not ours to budget.
-                rec(34, tot <= 400000 and sum(kinds["font"]) <= 80000 and len(kinds["font"]) <= 3 and kinds["js"] <= 8000 and kinds["html"] <= 36000 and kinds["css"] <= 28000, f"total {tot} B (uncompressed body bytes), fonts {kinds['font']}, js {kinds['js']}, html {kinds['html']}, css {kinds['css']}, images {kinds['img']}")
-                rec(9, kinds["img"] <= 260000, f"1440 image bytes {kinds['img']}")
+                rec(34, tot <= 300000 and sum(kinds["font"]) <= 80000 and len(kinds["font"]) <= 3 and kinds["js"] <= 8000 and kinds["html"] <= 36000 and kinds["css"] <= 28000, f"total {tot} B (uncompressed body bytes), fonts {kinds['font']}, js {kinds['js']}, html {kinds['html']}, css {kinds['css']}, images {kinds['img']}")
+                rec(9, kinds["img"] <= 200000, f"1440 image bytes {kinds['img']}")
                 allowed = {"static.cloudflareinsights.com", "cloudflareinsights.com"}  # the Cloudflare beacon is injected at the edge: allowed if present, absent locally. Google hosts are NOT allowed before consent.
                 ok_host = lambda h: h in allowed
                 req_hosts = {re.sub(r"^https?://([^/:]+).*", r"\1", u) for u in reqs if u.startswith("http")}
