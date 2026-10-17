@@ -1,6 +1,7 @@
 # Files in the repo that must not be served as website files
 .assetsignore
 .git
+.github
 .gitignore
 .wrangler
 node_modules
