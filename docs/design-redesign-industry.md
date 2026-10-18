@@ -2,6 +2,13 @@
 
 Status: built on branch `feat/redesign-industry-layout`, 2026-10-17, website Engineer. Source: the approved mockup `Main.dc.html` plus the owner decisions below. Not merged.
 
+## What changed (SEO and discovery round, 2026-10-18, branch feat/seo-discovery)
+- Title (65 characters), meta/OG/Twitter description (151) and the hero lede now name what Jubilab is in search words (data provenance and lineage, bioinformatics pipelines, Nextflow, Snakemake). JSON-LD SoftwareApplication description still equals the hero lede. The H1 is unchanged.
+- H2s reworded to carry query words and kept to two lines at 1440: "Genomics provenance without the data chaos.", "Lineage across Nextflow, Snakemake and more.", "Facing these reproducibility and data issues?". The integrations intro says Jubilab complements a LIMS or ELN.
+- New section `#faq` ("Questions about data provenance", seven native `<details>` questions, closed by default, in the raw HTML, work without JavaScript) placed before the form, with FAQPage JSON-LD that equals the visible text (pinned by `tests/seo-content.test.mjs` and `check-seo.py`). It is not in the navigation strip, to keep the six-item nav. Visible text never says "FAQ" (check 19 forbids it).
+- `llms.txt` rewritten (same facts: What exists now / Where we are heading / Pages / Optional / Contact, links to `#faq`). Sitemap home `lastmod` 2026-10-18. Keyword table: `docs/seo-keywords.md`.
+- Test budgets changed with reasons: check 12 phone page height 13000 to 13700 (collapsed FAQ adds about 600 px; the 9000 px desktop budget is unchanged, page is 8900 at 1440); check 34 CSS 28000 to 29000 and HTML 36000 to 46000 (FAQ styles; FAQ text appears once in HTML and once in JSON-LD); check 16 expects the `faq` H2 between `product` and `access`; check 19 ignores the schema.org type name `FAQPage`.
+
 ## What changed (current summary, 2026-10-17)
 - Images: friendly flat SVG illustrations (style A) for the four feature cards and a redrawn vision image; no stock photos are left on the page (the real product screenshots in the hero are the only raster images).
 - The "Who we are starting with" section was replaced by "Are you facing these issues?" (eight plain situations, one Request early access button; strip and menu label "Is this you?").
