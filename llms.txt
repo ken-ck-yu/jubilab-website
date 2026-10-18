@@ -1,14 +1,32 @@
 # Jubilab
 
-> Every sample, variant, and analysis, connected. Jubilab is building the record of how every scientific result was made, across the tools a lab already uses, so teams spend more time on science and less on data and admin. It runs on your own machine, keeps each run as history that cannot be edited, and lets you trace a result back to the run, inputs and parameters behind it, compare two runs, and see what the record does not know. It records Nextflow runs, Snakemake runs and shell commands, links to your data where it lives instead of copying it, and its server makes no outbound network calls. We are building sample linking, mismatch checks and AI-agent access. Early-access requests are accepted from a small group of labs, starting with genetics researchers. Self-hosted installs have per-user accounts and an audit log. The demo project on the website uses synthetic data.
+> Jubilab is building the record of how every scientific result was made. It is data provenance and lineage for bioinformatics pipelines: trace a result to its run and inputs, compare two runs, and see what the record does not know. It works alongside Nextflow and Snakemake, complements a lab's LIMS or ELN, runs on your own machine or server, and its server makes no outbound network calls. Our goal is to become the record of how genetic discoveries are made, so labs spend more time on science and less on data and admin. Early-access requests are accepted from a small group of labs, starting with genetics researchers. The demo project on the website uses synthetic data.
+
+## What exists now
+
+- Trace a result back to the run, inputs and parameters behind it, and forward to what depends on an input (data lineage).
+- Compare two runs and see which recorded parameters, versions or results differ.
+- Every fact carries an evidence status: verified, inferred, manual or unknown. Gaps show up as gaps.
+- Runs are kept as history the application cannot edit (an audit trail).
+- Record Nextflow runs as they happen or import a finished run; import Snakemake runs; record any other command with the native bash wrapper.
+- Opt-in capture of the reference genome and annotation details written in file headers (for example GRCh37 or GRCh38), with a warning when two runs are not comparable. This ships with our next release.
+- Links to your data where it lives instead of copying it. Self-hosted, with per-user accounts and an audit log.
+
+## Where we are heading
+
+- Linking every sample to its files, runs and results, and checks that flag sample swaps and reference genome build mismatches.
+- Read-only access for AI agents (MCP), so an agent can ask the record which samples, which build and which run.
+- Seqera Platform, NVIDIA Parabricks, NVIDIA BioNeMo, DeepMind models, notebooks and GitHub as further sources. None of these is available yet.
+- Jubilab is not a LIMS, an ELN or a workflow engine, and it is not integrated with any of them beyond the Nextflow and Snakemake imports above. Product names belong to their owners; Jubilab is not affiliated with or endorsed by them.
 
 ## Pages
 
-- [Jubilab home page](https://jubilab.io/): what Jubilab is, what it does now (trace, compare) and what is being built (connect, catch), a demo project on synthetic data, and the early-access request form
-- [How it works](https://jubilab.io/#how): trace a result back to its run; connecting samples and catching sample swaps and reference-build mismatches are being built
-- [Integrations](https://jubilab.io/#fits): available now are Nextflow, Snakemake and native bash scripts; Seqera, NVIDIA Parabricks and BioNeMo, DeepMind models, AI agents over MCP, notebooks and GitHub are listed as where we are heading, not as available
+- [Jubilab home page](https://jubilab.io/): what Jubilab is, what it does now and what is being built, a demo project on synthetic data, and the early-access request form
+- [Frequently asked questions](https://jubilab.io/#faq): what data provenance means in bioinformatics, how to track Nextflow and Snakemake runs, how to tell which reference genome build a result used, how Jubilab differs from a LIMS or ELN, whether it stores your data, and how to get early access
+- [How it works](https://jubilab.io/#how): the problem (results whose history lives in shell histories and memories) and the four ideas: trace, compare, connect and catch
+- [Integrations](https://jubilab.io/#fits): available now are Nextflow, Snakemake and native bash scripts; Seqera, NVIDIA Parabricks and BioNeMo, DeepMind models, AI agents over MCP, notebooks and GitHub are where we are heading, not available
 - [See it on a demo project](https://jubilab.io/#product): trace a result, compare two runs, and how each fact is marked verified, inferred, manual or unknown
-- [Where this is going](https://jubilab.io/#next): our goal of speeding up the genetics discovery loop, described on the page as what we are building toward
+- [Where this is going](https://jubilab.io/#next): our goal of speeding up the genetics discovery loop, described as what we are building toward
 - [Request early access](https://jubilab.io/#access): the early-access form for being among the first labs shaping Jubilab
 
 ## Optional

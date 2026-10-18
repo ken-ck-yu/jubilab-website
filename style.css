@@ -377,3 +377,14 @@ footer p a { color: #ff8a4d; }
 }
 @media (max-width: 899px) { .subnav { display: none; } }
 @media (max-width: 640px) { #fits, #product { margin-top: 56px; } .cards { gap: 16px; } }
+
+/* FAQ: native details elements. Closed answers are in the raw HTML and in the FAQPage JSON-LD, work without JavaScript, and keep the page inside its height budget. */
+.faq-list { list-style: none; margin: 32px 0 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 48px; align-items: start; border-top: 1px solid var(--ink); }
+.faq-list li { border-bottom: 1px solid var(--border); }
+.faq-list summary { cursor: pointer; display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 56px; padding: 8px 0; list-style: none; }
+.faq-list summary::-webkit-details-marker { display: none; }
+.faq-list summary::after { content: "+"; flex: none; font-size: 24px; line-height: 1; color: var(--accent-ink); }
+.faq-list details[open] summary::after { content: "\2212"; }
+.faq-list h3 { margin: 0; font-size: 1.05rem; }
+.faq-list p { margin: 0 0 18px; color: var(--muted); max-width: 62ch; }
+@media (max-width: 900px) { .faq-list { grid-template-columns: 1fr; } }
