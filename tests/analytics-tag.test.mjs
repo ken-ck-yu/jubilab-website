@@ -5,7 +5,8 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 
 const REPO = new URL("..", import.meta.url).pathname;
-const PAGES = ["index.html", "privacy/index.html", "terms/index.html", "thanks/index.html", "404.html"];
+const PAGES = ["index.html", "privacy/index.html", "terms/index.html", "thanks/index.html", "404.html",
+  "guides/index.html", "guides/reference-genome-build-vcf-bam/index.html", "guides/what-parameters-produced-this-result/index.html", "guides/nextflow-provenance-and-lineage-compared/index.html"];
 const DEFAULT = `<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('consent','default',{ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied',analytics_storage:'denied'})</script>
 `;
 const page = (p) => readFileSync(REPO + p, "utf8");

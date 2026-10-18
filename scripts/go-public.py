@@ -15,14 +15,19 @@ What it does:
      and from privacy/ and terms/ with --with-legal. thanks/ and 404.html always keep noindex.
   2. replaces robots.txt with robots.launch.txt (allows search crawlers and answer bots, blocks the training
      bots GPTBot, ClaudeBot, Google-Extended and CCBot: owner decision 2026-10-16).
-  3. rewrites sitemap.xml to list exactly the indexable pages (home, plus privacy/terms once indexable),
+  3. rewrites sitemap.xml to list exactly the indexable pages (home, the guides, plus privacy/terms once indexable),
      with lastmod from the last git commit touching each page (today's date when git is unavailable).
 Running it twice changes nothing the second time. Standard library only.
 """
 import argparse, datetime, difflib, os, re, subprocess, sys
 from urllib.robotparser import RobotFileParser
 
-PAGES = {"index.html": "https://jubilab.io/", "privacy/index.html": "https://jubilab.io/privacy/", "terms/index.html": "https://jubilab.io/terms/"}
+PAGES = {"index.html": "https://jubilab.io/",
+         "guides/index.html": "https://jubilab.io/guides/",
+         "guides/reference-genome-build-vcf-bam/index.html": "https://jubilab.io/guides/reference-genome-build-vcf-bam/",
+         "guides/what-parameters-produced-this-result/index.html": "https://jubilab.io/guides/what-parameters-produced-this-result/",
+         "guides/nextflow-provenance-and-lineage-compared/index.html": "https://jubilab.io/guides/nextflow-provenance-and-lineage-compared/",
+         "privacy/index.html": "https://jubilab.io/privacy/", "terms/index.html": "https://jubilab.io/terms/"}
 LEGAL = ("privacy/index.html", "terms/index.html")
 ALWAYS_NOINDEX = ("thanks/index.html", "404.html")
 NOINDEX = re.compile(r'(?:[ \t]*<!--[^\n]*?noindex[^\n]*?-->[ \t]*\n)?[ \t]*<meta\s+name="robots"\s+content="[^"]*noindex[^"]*"\s*/?>[ \t]*\n?', re.I)

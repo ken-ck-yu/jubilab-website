@@ -7,8 +7,8 @@ const REPO = new URL("..", import.meta.url).pathname;
 const rd = (f) => readFileSync(REPO + f, "utf8");
 const noindex = (t) => /name="robots"[^>]*noindex/.test(t);
 
-test("home, privacy and terms are indexable", () => {
-  for (const f of ["index.html", "privacy/index.html", "terms/index.html"]) assert.ok(!noindex(rd(f)), f);
+test("home, privacy, terms and the guides are indexable", () => {
+  for (const f of ["index.html", "privacy/index.html", "terms/index.html", "guides/index.html", "guides/reference-genome-build-vcf-bam/index.html", "guides/what-parameters-produced-this-result/index.html", "guides/nextflow-provenance-and-lineage-compared/index.html"]) assert.ok(!noindex(rd(f)), f);
 });
 
 test("thanks and the 404 page stay noindex", () => {
@@ -22,7 +22,7 @@ test("robots.txt allows search and answer crawlers, blocks the four training bot
   assert.match(t, /^Sitemap:\s*https:\/\/jubilab\.io\/sitemap\.xml\s*$/m);
 });
 
-test("sitemap lists exactly the three indexable pages", () => {
+test("sitemap lists exactly the seven indexable pages", () => {
   const locs = [...rd("sitemap.xml").matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1]).sort();
-  assert.deepEqual(locs, ["https://jubilab.io/", "https://jubilab.io/privacy/", "https://jubilab.io/terms/"]);
+  assert.deepEqual(locs, ["https://jubilab.io/", "https://jubilab.io/guides/", "https://jubilab.io/guides/nextflow-provenance-and-lineage-compared/", "https://jubilab.io/guides/reference-genome-build-vcf-bam/", "https://jubilab.io/guides/what-parameters-produced-this-result/", "https://jubilab.io/privacy/", "https://jubilab.io/terms/"]);
 });

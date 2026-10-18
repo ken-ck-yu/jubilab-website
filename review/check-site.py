@@ -20,6 +20,8 @@ BASE = (_args[0] if _args else "http://127.0.0.1:18212/").rstrip("/") + "/"
 EXE = os.path.expanduser("~/.cache/ms-playwright/chromium_headless_shell-1248/chrome-headless-shell-linux64/chrome-headless-shell")
 WIDTHS = [320, 390, 768, 1024, 1280, 1440, 1920]
 THEMES = ["light", "dark"]
+GUIDE_PATHS = ("guides/", "guides/reference-genome-build-vcf-bam/", "guides/what-parameters-produced-this-result/", "guides/nextflow-provenance-and-lineage-compared/")
+GUIDE_WIDTHS = [320, 375, 768, 1440]
 SIX = ["What it does", "Integrations", "Where this is going", "Is this you?", "Demo project", "Get started"]
 R = {}  # check number -> list of (ok, detail)
 
@@ -192,6 +194,43 @@ MEASURE = r"""
 }
 """
 
+
+
+GUIDE_MEASURE = r"""
+() => {
+  const iw = innerWidth, out = {iw, sw: document.documentElement.scrollWidth};
+  const inScroll = e => !!e.closest('pre, .table-scroll');
+  out.outside = [...document.querySelectorAll('body *')].filter(e => { const r = e.getBoundingClientRect(); const s = getComputedStyle(e);
+      return r.width > 0 && s.display !== 'none' && s.position !== 'fixed' && !inScroll(e) && (r.right > iw + 1 || r.left < -1); })
+      .map(e => e.tagName + '.' + e.className).slice(0, 5);
+  const pres = [...document.querySelectorAll('main pre')];
+  out.pre = {n: pres.length, focusable: pres.every(p => p.tabIndex === 0 && p.getAttribute('aria-label')), overflowX: pres.every(p => ['auto','scroll'].includes(getComputedStyle(p).overflowX)),
+             scrollable: pres.filter(p => p.scrollWidth > p.clientWidth + 1).length, widest: Math.max(0, ...pres.map(p => p.getBoundingClientRect().width)), fit: pres.every(p => p.getBoundingClientRect().right <= iw + 1)};
+  const tabs = [...document.querySelectorAll('main .table-scroll')];
+  out.tab = {n: tabs.length, focusable: tabs.every(t => t.tabIndex === 0 && t.getAttribute('aria-label')), fit: tabs.every(t => t.getBoundingClientRect().right <= iw + 1), scrollable: tabs.filter(t => t.scrollWidth > t.clientWidth + 1).length};
+  const h = [...document.querySelectorAll('main h1,main h2,main h3,main h4')].map(e => +e.tagName[1]);
+  out.h1 = h.filter(x => x === 1).length; let prev = 0, skip = 0; for (const l of h) { if (prev && l > prev + 1) skip++; prev = l; } out.skip = skip;
+  // contrast
+  const parse = c => { const m = c.match(/rgba?\(([^)]+)\)/); if (!m) return null; const v = m[1].split(/[ ,\/]+/).filter(Boolean).map(Number); return {r: v[0], g: v[1], b: v[2], a: v.length > 3 ? v[3] : 1}; };
+  const bgOf = e => { let layers = []; for (let n = e; n; n = n.parentElement) { const c = parse(getComputedStyle(n).backgroundColor); if (c && c.a > 0) { layers.push(c); if (c.a >= 1) break; } }
+      let base = {r: 255, g: 255, b: 255}; for (const c of layers.reverse()) base = {r: c.r * c.a + base.r * (1 - c.a), g: c.g * c.a + base.g * (1 - c.a), b: c.b * c.a + base.b * (1 - c.a)}; return base; };
+  const lum = c => { const f = v => { v /= 255; return v <= .03928 ? v / 12.92 : Math.pow((v + .055) / 1.055, 2.4); }; return .2126 * f(c.r) + .7152 * f(c.g) + .0722 * f(c.b); };
+  const ratio = (a, b) => { const x = lum(a), y = lum(b); return (Math.max(x, y) + .05) / (Math.min(x, y) + .05); };
+  const sel = ['.g-lede', '.g-meta', '.g-crumbs a', '.g-body p', '.g-body li', '.g-body h2', '.g-body h3', '.g-body a', '.code-cap', 'pre.code', 'pre.code.out', '.table-scroll th', '.table-scroll td', '.table-scroll caption', '.helps p', '.helps li', '.helps h3', '.helps a', '.g-review', '.g-sources .why', '.g-list p', '.g-list .q', '.g-list h2 a', 'footer p', 'footer a', '.btn'];
+  out.contrast = [];
+  for (const q of sel) for (const e of [...document.querySelectorAll(q)].slice(0, 3)) {
+    const st = getComputedStyle(e); if (!e.getClientRects().length || !e.textContent.trim()) continue;
+    const fg = parse(st.color), bg = bgOf(e); const size = parseFloat(st.fontSize), bold = parseInt(st.fontWeight) >= 700;
+    const need = (size >= 24 || (size >= 18.66 && bold)) ? 3 : 4.5; const r = ratio(fg, bg);
+    if (r < need) out.contrast.push(q + ' ' + r.toFixed(2) + '<' + need);
+  }
+  const ft = [...document.querySelectorAll('footer ul a')].map(a => a.getBoundingClientRect().height);
+  out.footerH = Math.min(...ft);
+  out.hasGuidesLink = !![...document.querySelectorAll('footer a')].find(a => a.textContent.trim() === 'Guides' && /guides\/$/.test(a.getAttribute('href')));
+  out.h1Size = parseFloat(getComputedStyle(document.querySelector('main h1')).fontSize);
+  return out;
+}
+"""
 
 PRESET = "try{localStorage.getItem('jubilab-consent')||localStorage.setItem('jubilab-consent',JSON.stringify({v:'denied',t:Date.now()}))}catch(e){}"
 
@@ -515,7 +554,7 @@ def run():
             rec("C7", (an == "none") if rm == "reduce" else (an == "cookie-in"), f"prefers-reduced-motion {rm}: notice animation {an!r}")
             ctx.close()
         # footer link on every page, 44px target, reopens the notice, thanks does not lose content
-        for path in ("", "privacy/", "terms/", "thanks/", "404.html"):
+        for path in ("", "privacy/", "terms/", "thanks/", "404.html") + GUIDE_PATHS:
             ctx = mk(b, viewport={"width": 390, "height": 800}); pg = ctx.new_page(); pg.goto(BASE + path); pg.wait_for_timeout(400)
             n0 = pg.evaluate("!!document.querySelector('.cookie-notice')")
             lk = pg.locator("footer a", has_text="Cookie settings")
@@ -616,6 +655,29 @@ def run():
         fj = M[(1440, "light")]["frame"]
         rec("N9", abs(fo[0] - fj["w"]) <= 1 and abs(fo[1] - fj["h"]) <= 1, f"JS off frame {fo[0]:.0f}x{fo[1]:.0f} vs JS on {fj['w']:.0f}x{fj['h']:.0f}")
         ctx.close()
+
+        # ---- guides hub and guides (G1..G6) ---------------------------------------------------------------------
+        for gp in GUIDE_PATHS:
+            for w in GUIDE_WIDTHS:
+                for th in THEMES:
+                    ctx, pg = new_page(b, w, th)
+                    errs, bad = [], []
+                    pg.on("pageerror", lambda e: errs.append(str(e)))
+                    pg.on("console", lambda m: errs.append(m.text) if m.type == "error" else None)
+                    pg.on("response", lambda r: bad.append(f"{r.status} {r.url}") if r.status >= 400 and r.url.startswith(BASE) else None)
+                    pg.goto(BASE + gp); pg.wait_for_timeout(300)
+                    if th == "dark":
+                        pg.click("#theme-toggle"); pg.wait_for_timeout(100)
+                    pg.wait_for_function("document.fonts.status === 'loaded'")
+                    g = pg.evaluate(GUIDE_MEASURE); tag = f"/{gp} {w}/{th}"
+                    rec("G1", abs(g["sw"] - g["iw"]) <= 1 and not g["outside"], f"{tag} scrollWidth {g['sw']} vs {g['iw']}, elements outside the viewport {g['outside']}")
+                    rec("G2", g["pre"]["focusable"] and g["pre"]["overflowX"] and g["pre"]["fit"] and g["tab"]["focusable"] and g["tab"]["fit"], f"{tag} code blocks {g['pre']}, tables {g['tab']}")
+                    if w == 320 and gp != "guides/":
+                        rec("G3", g["pre"]["scrollable"] >= 1 and g["tab"]["scrollable"] >= (1 if g["tab"]["n"] else 0), f"{tag} blocks that scroll sideways instead of widening the page: code {g['pre']['scrollable']}/{g['pre']['n']}, tables {g['tab']['scrollable']}/{g['tab']['n']}")
+                    rec("G4", not g["contrast"], f"{tag} low contrast {g['contrast']}")
+                    rec("G5", not errs and not bad, f"{tag} console/page errors {errs[:2]} failed requests {bad[:2]}")
+                    rec("G6", g["h1"] == 1 and g["skip"] == 0 and g["footerH"] >= 44 and g["hasGuidesLink"] and g["h1Size"] >= (28 if w <= 375 else 32), f"{tag} h1s {g['h1']}, skipped levels {g['skip']}, footer link height {g['footerH']:.0f}, Guides link {g['hasGuidesLink']}, h1 {g['h1Size']:.0f}px")
+                    ctx.close()
         b.close()
     return
 
@@ -625,7 +687,7 @@ def main():
     manual = {20: "list-of-features review is manual"}
     allok = True
     print(f"Jubilab site v2 acceptance checks against {BASE}\n")
-    for n in list(range(1, 38)) + ["C1", "C2", "C3", "C4", "C5", "C6", "C7", "C8", "C9", "C10", "C11"] + ["N1", "N2", "N3", "N4", "N5", "N6", "N7", "N8", "N9", "N10", "N11"]:
+    for n in list(range(1, 38)) + ["C1", "C2", "C3", "C4", "C5", "C6", "C7", "C8", "C9", "C10", "C11"] + ["N1", "N2", "N3", "N4", "N5", "N6", "N7", "N8", "N9", "N10", "N11"] + ["G1", "G2", "G3", "G4", "G5", "G6"]:
         if n in (5, 8):
             print(f"{n!s:>3}  REPLACED  (by N2/N3 and N4)"); continue
         if n == "N10":

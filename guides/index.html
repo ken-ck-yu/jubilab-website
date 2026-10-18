@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en">
+<head>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('consent','default',{ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied',analytics_storage:'denied'})</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Guides: genome builds, parameters, Nextflow provenance | Jubilab</title>
+<meta name="description" content="How-to guides for bioinformatics teams: check the reference genome build of a VCF, find the parameters behind a result, and compare Nextflow provenance tools.">
+<meta name="theme-color" content="#f4f5f2">
+<link rel="canonical" href="https://jubilab.io/guides/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Jubilab">
+<meta property="og:title" content="Guides: genome builds, parameters, Nextflow provenance | Jubilab">
+<meta property="og:description" content="How-to guides for bioinformatics teams: check the reference genome build of a VCF, find the parameters behind a result, and compare Nextflow provenance tools.">
+<meta property="og:url" content="https://jubilab.io/guides/">
+<meta property="og:image" content="https://jubilab.io/assets/og/jubilab-og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Jubilab: more science, fewer data and admin headaches. The record of how every scientific result was made, beside a lineage graph from an input file through two runs to their outputs.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Guides: genome builds, parameters, Nextflow provenance | Jubilab">
+<meta name="twitter:description" content="How-to guides for bioinformatics teams: check the reference genome build of a VCF, find the parameters behind a result, and compare Nextflow provenance tools.">
+<meta name="twitter:image" content="https://jubilab.io/assets/og/jubilab-og.png">
+<meta name="twitter:image:alt" content="Jubilab: more science, fewer data and admin headaches. The record of how every scientific result was made, beside a lineage graph from an input file through two runs to their outputs.">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="preload" href="../assets/fonts/hanken-grotesk-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="../assets/fonts/ibm-plex-mono-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "CollectionPage",
+      "name": "Guides for tracking how results were made",
+      "description": "How-to guides for bioinformatics teams: check the reference genome build of a VCF, find the parameters behind a result, and compare Nextflow provenance tools.",
+      "url": "https://jubilab.io/guides/",
+      "inLanguage": "en",
+      "isPartOf": {
+        "@type": "WebSite",
+        "name": "Jubilab",
+        "url": "https://jubilab.io/"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Jubilab",
+        "url": "https://jubilab.io/"
+      },
+      "dateModified": "2026-10-19"
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Jubilab",
+          "item": "https://jubilab.io/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Guides",
+          "item": "https://jubilab.io/guides/"
+        }
+      ]
+    }
+  ]
+}
+</script>
+<script>try{if(localStorage.getItem("jubilab-theme")==="dark")document.documentElement.setAttribute("data-theme","dark")}catch(e){}</script>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="../guides/guides.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to main content</a>
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="../" aria-label="Jubilab, home">
+      <svg viewBox="0 0 26 26" aria-hidden="true" focusable="false"><circle class="b-fill" cx="5" cy="13" r="3.2"/><circle class="b-line" cx="21" cy="6" r="3.2"/><circle class="b-line" cx="21" cy="20" r="3.2"/><path class="b-line" d="M8 12 L18 7 M8 14 L18 19"/></svg>
+      <span class="brand-name">Jubilab</span>
+    </a>
+    <nav class="site-nav" aria-label="Page sections">
+      <ul class="links">
+        <li><a href="../#how">What it does</a></li>
+        <li><a href="../#fits">Integrations</a></li>
+        <li><a href="../#product">Demo</a></li>
+      </ul>
+      <details class="menu">
+        <summary aria-label="Menu"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 7h16M4 12h16M4 17h16"/></svg></summary>
+        <ul>
+          <li><a href="../#how">What it does</a></li>
+          <li><a href="../#fits">Integrations</a></li>
+          <li><a href="../#product">Demo</a></li>
+        </ul>
+      </details>
+    </nav>
+    <div class="tools">
+      <button type="button" class="theme-toggle" id="theme-toggle" aria-label="Switch to dark theme" title="Switch to dark theme" hidden>
+        <svg class="i-moon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg>
+        <svg class="i-sun" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+      </button>
+      <a class="btn small" href="../#access" aria-label="Request early access"><span class="full">Request early access</span><span class="short" aria-hidden="true">Early access</span></a>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+<div id="top"></div>
+<section class="g-hero">
+  <div class="wrap">
+    <nav class="g-crumbs" aria-label="Breadcrumb"><ol><li><a href="../">Jubilab</a></li><li aria-current="page">Guides</li></ol></nav>
+    <p class="eyebrow">Guide</p>
+    <h1>Guides for tracking how results were made</h1>
+    <p class="g-lede">Short, practical how-tos for bioinformatics teams, with commands you can run on your own files. They are written to be useful without Jubilab, and each one says what it was tested with and when it was last reviewed.</p>
+    
+  </div>
+</section>
+<div class="g-body">
+<div class="wrap">
+<ul class="g-list">
+<li><h2><a href="reference-genome-build-vcf-bam/">How to check which reference genome build a VCF or BAM used</a></h2>
+<p>Read the header with bcftools and samtools, compare contig lengths, test REF alleles, and avoid the chr-prefix and hg19 versus b37 traps.</p>
+<p class="q">Answers: check reference genome build of a VCF</p></li>
+<li><h2><a href="what-parameters-produced-this-result/">What parameters produced this result?</a></h2>
+<p>Find out what a Nextflow, Snakemake or shell run actually used, what gets lost along the way, and what a good record contains.</p>
+<p class="q">Answers: which parameters produced this result</p></li>
+<li><h2><a href="nextflow-provenance-and-lineage-compared/">Nextflow provenance and lineage: what each tool records</a></h2>
+<p>What Nextflow, Seqera Platform and Snakemake record about a run, from the log to the experimental lineage feature, and where a separate record can help.</p>
+<p class="q">Answers: nextflow provenance</p></li>
+</ul>
+<h2 id="about">About these guides</h2>
+<p>Each guide gives a short answer first, then the steps, then what tends to get lost. Commands were run on small synthetic test files where the tools were available, and every guide lists its sources so you can check the official manuals. Where a guide mentions Jubilab, it says what is available now and what is not.</p>
+<p>Found a mistake or a command that no longer works with your version? Email <a href="mailto:hello@jubilab.io">hello@jubilab.io</a>.</p>
+
+</div>
+</div>
+</main>
+<footer>
+  <div class="wrap">
+    <div>
+      <p class="foot-brand">Jubilab</p>
+      <p>Be among the first labs shaping Jubilab. Screenshots and diagrams on this site use synthetic demo data.</p>
+      <p>Contact: <a href="mailto:hello@jubilab.io">hello@jubilab.io</a></p>
+    </div>
+    <ul aria-label="Footer">
+      <li><a href="../guides/">Guides</a></li>
+      <li><a href="../privacy/">Privacy</a></li>
+      <li><a href="../terms/">Terms</a></li>
+      <li><a href="../#top">Back to top</a></li>
+    </ul>
+  </div>
+</footer>
+<script src="../assets/theme.js" defer></script>
+<script src="../assets/consent.js" defer></script>
+</body>
+</html>

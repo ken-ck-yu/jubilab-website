@@ -29,6 +29,13 @@
 - [Where this is going](https://jubilab.io/#next): our goal of speeding up the genetics discovery loop, described as what we are building toward
 - [Request early access](https://jubilab.io/#access): the early-access form for being among the first labs shaping Jubilab
 
+## Guides
+
+- [Guides](https://jubilab.io/guides/): practical how-tos for bioinformatics teams, written to be useful without Jubilab, each with tested commands, sources and a review date
+- [How to check which reference genome build a VCF or BAM used](https://jubilab.io/guides/reference-genome-build-vcf-bam/): read VCF and BAM headers with bcftools and samtools, compare contig lengths for GRCh37 and GRCh38, test REF alleles, and avoid chr-prefix and hg19 versus b37 mistakes
+- [What parameters produced this result?](https://jubilab.io/guides/what-parameters-produced-this-result/): finding the parameters of a Nextflow, Snakemake or shell run, what gets lost, and what a good record contains
+- [Nextflow provenance and lineage: what each tool records](https://jubilab.io/guides/nextflow-provenance-and-lineage-compared/): what Nextflow's log, trace, report and experimental lineage feature, Seqera Platform and Snakemake record, with links to their official documentation
+
 ## Optional
 
 - [Privacy](https://jubilab.io/privacy/): what the website and the early-access form collect, including the Cloudflare Web Analytics service the site always uses and Google Analytics, which runs only if the visitor accepts the cookie notice
