@@ -22,6 +22,18 @@ Each term is used only in a sentence a person would write, only where it is true
 | Seqera | Planned integration | integrations "Where we are heading", FAQ not repeated, llms.txt (planned) |
 | Seqera/Parabricks/BioNeMo/DeepMind/MCP/notebooks/GitHub | Planned | integrations "Where we are heading", llms.txt (marked not available) |
 
+## Guides (2026-10-19)
+
+The guides at `/guides/` carry the long-tail phrasing people use (taken from forum thread titles in `research/website-discovery-round-1.md`; no volume data exists, check Search Console). Target query per guide, used in title, H1, intro and sources:
+
+| Guide | Target query | URL |
+|---|---|---|
+| Reference genome build of a VCF or BAM | check reference genome build of a VCF; which genome build is my VCF | `/guides/reference-genome-build-vcf-bam/` |
+| What parameters produced this result | which parameters produced this result; nextflow save params | `/guides/what-parameters-produced-this-result/` |
+| Nextflow provenance and lineage compared | nextflow provenance; nextflow lineage | `/guides/nextflow-provenance-and-lineage-compared/` |
+
+Guide-only rules: the words audit, regulated, compliance, GxP and validated (and "reproducible results", "guarantee", "first", "only", "fastest", any swap-rate statistic) stay out until legal review; `review/check-seo.py` and `tests/guides.test.mjs` fail the build if they appear in a guide. Guides name Nextflow, Seqera Platform and Snakemake because the reader's question is about them, always from first-party documentation, with a review date; they never position Jubilab as an alternative to any of them. They also name bcftools, samtools, PLINK, UCSC and Ensembl as tools and data sources used in the examples, and no integration is implied.
+
 ## Left out on purpose
 
 - nf-core, Cromwell/WDL, Galaxy, GATK, DeepVariant, VEP: no import or tested support, and naming them would suggest it. The bash wrapper can record any command, but we do not say it "supports" these.
