@@ -9,7 +9,7 @@ summary: Local-first ideas applied to lab records: what should stay on your own 
 image_alt: A laptop with a small house-shaped roof on its screen, and a thin cloud far away at the edge of the picture, joined to it by a dotted line.
 ---
 
-A sequencing run produces files that are large, sometimes sensitive, and often stuck on a cluster that is not allowed to talk to the wider internet. The record of how those files were made is small by comparison, but it is only useful if you can still read it in five years. This post asks what "local-first" software, an idea from the programming world, would mean for that record. It is partly a vision piece, so we separate what Jubilab does today from what we are only asking about.
+A sequencing run produces files that are large, sometimes sensitive, and sometimes sit on a cluster with no route to the wider internet. The record of how those files were made is small by comparison, but it is only useful if you can still read it in five years. This post asks what "local-first" software, an idea from the programming world, would mean for that record. It is partly a vision piece, so we separate what Jubilab does today from what we are only asking about.
 
 ## The seven ideals, in plain words
 
@@ -29,11 +29,11 @@ The essay is about collaborative documents and apps, not genomics, and we are bo
 
 We find four of the seven most relevant to a record of how results were made. This is our judgement, not a finding.
 
-**The network is optional.** Many clusters restrict outbound access. A record that needs a connection to a vendor's service before it can be written or read is awkward there. Jubilab's command line tool is built to keep working without the server: when it cannot reach the server it writes records to a local spool file and sends them later.
+**The network is optional.** Some clusters restrict outbound access; we have not measured how common that is. A record that needs a connection to a vendor's service before it can be written or read is awkward there. Jubilab's command line tool always writes records to a local spool file first and sends them with a separate sync command, so recording works with no network at all.
 
 **Security and privacy by default.** The record of a run can include file names, paths and parameters that you would rather not send anywhere. Jubilab's design is that it records metadata about your data, not the data itself, and that it links to files where they already live. The command line tool sends metadata only. We deliberately do not describe this in terms of any law, since that is a question for specialists and we are not one.
 
-**The Long Now.** Will you be able to open this record in ten years? We chose plain, documented storage: each Jubilab project is a single SQLite file in a data directory you control. The SQLite developers state an intent to support SQLite through the year 2050, and say that database files created today are expected to be readable by future versions.[^2] That is an intention by the SQLite team, not a promise, and it says nothing about Jubilab itself surviving. It does mean the file is not locked inside our application.
+**The Long Now.** Will you be able to open this record in ten years? We chose plain, documented storage: each Jubilab project is a single SQLite file in a data directory you control. The SQLite team says it cannot absolutely promise this, but that it plans as if it will support SQLite until 2050, and that database files created today should be readable by future versions.[^2] That is a plan by the SQLite team, and it says nothing about Jubilab itself surviving. It does mean the file is not locked inside our application.
 
 **Ownership and control.** If the record sits in a file on a machine you run, you decide who has it, where it is backed up and when it is deleted.
 
@@ -52,7 +52,7 @@ It would be unfair to treat the cloud as the enemy. Shared services are easier t
 Only things we can point to:
 
 - It is self-hosted and runs on your own machine or server, with the server bound to the local address by default.
-- The server makes no outbound network calls and needs no AI model.
+- The server makes no outbound network calls and needs no AI model. It asks you to sign in.
 - It records metadata and links to data where it lives; it does not copy your sequencing files.
 - Each project is one SQLite file in a data directory.
 - Records carry evidence statuses, and runs are kept as history the application cannot edit.

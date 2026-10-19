@@ -6,7 +6,7 @@ date: 2026-10-19
 updated: 2026-10-19
 tags: provenance, standards, bioinformatics
 summary: PROV, RO-Crate and BioCompute Objects in plain words, what nf-prov writes, and how to choose. Jubilab supports none of them yet.
-image_alt: Three differently shaped containers, a box, a wooden crate and a rolled scroll, standing in a row beside one open shelf with a dotted outline.
+image_alt: Three differently shaped containers in a row, a lidded box, a crate with a lattice front and a tall jar, standing beside one open cabinet with a dotted outline.
 ---
 
 If you search for how to share the history of a workflow run, three names come up again and again: PROV, RO-Crate and BioCompute Objects. They are often mentioned in the same breath, and they are not the same kind of thing. This post puts them side by side in plain words, using each project's own documentation, and ends with questions to ask yourself before choosing. One note up front: Jubilab does not import or export any of these formats today.
@@ -23,7 +23,7 @@ PROV is general. It was not written for sequencing, and it says nothing in parti
 
 ## RO-Crate
 
-The RO-Crate site describes it as a community effort to establish a lightweight approach to packaging research data with their metadata.[^4] In the specification, the core of a crate is a JSON-LD file named `ro-crate-metadata.json`, which uses common published vocabularies, chiefly schema.org, to describe the files, people and processes in the package.[^5]
+The RO-Crate site describes it as a community effort to establish a lightweight approach to packaging research data with their metadata.[^4] In the 1.1 specification, the core of a crate is a JSON-LD (a web data format) file named `ro-crate-metadata.json`, which uses common published vocabularies, chiefly schema.org, to describe the files, people and processes in the package.[^5]
 
 For workflow runs there is a set of profiles called Workflow Run RO-Crate. Its site names three: Process Run Crate, Workflow Run Crate and Provenance Run Crate, and lists several workflow systems that have implemented the profiles or plan to, with Nextflow and Snakemake shown against the Provenance profile.[^6] We have not tried to read how much detail each profile expects, so we do not compare them here.
 

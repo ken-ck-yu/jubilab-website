@@ -6,18 +6,18 @@ date: 2026-10-19
 updated: 2026-10-19
 tags: provenance, lineage, bioinformatics
 summary: Two overlapping words, one toy variant calling pipeline, and the questions each one helps you answer about a VCF.
-image_alt: Two maps of the same winding river side by side: on the left a marker at the spring where it starts, on the right arrows along the flow down to the sea.
+image_alt: Two maps of the same winding river side by side: on the left a marker at the spring where it starts, on the right a dotted line and small step marks along the flow down to an arrowhead.
 ---
 
-We already wrote a plain introduction to [what data provenance is in bioinformatics](/blog/what-is-data-provenance-in-bioinformatics/). This post takes a narrower angle on a question people ask us often: is lineage the same thing as provenance? Sources disagree, and the honest answer is "it depends who you ask". Rather than pick a winner, we use one small invented pipeline to show which questions each word is good at, and where the words blur.
+We already wrote a plain introduction to [what data provenance is in bioinformatics](/blog/what-is-data-provenance-in-bioinformatics/). This post takes a narrower angle on a question we expect many newcomers to have: is lineage the same thing as provenance? Sources disagree, and the honest answer is "it depends who you ask". Rather than pick a winner, we use one small invented pipeline to show which questions each word is good at, and where the words blur.
 
 ## Two definitions that do not quite line up
 
 The W3C describes provenance as information about the entities, activities and people involved in producing a piece of data or thing.[^1] Its data model builds on three ideas: an entity is a physical, digital, conceptual or other kind of thing; an activity is something that occurs over a period of time and acts upon or with entities; an agent is something that bears some form of responsibility for an activity.[^2] That is a broad frame. It has room for files, runs and people, and it does not use the word lineage in the passages we read.
 
-Data-platform vendors often draw a sharper line. In one explainer from DataHub, lineage is described as operational, mapping how data moved and changed, while provenance is about trust and governance, covering origin, ownership and custody.[^3] That article also says the two overlap in some metadata. We do not think that division is wrong, but it was written for data platforms in general, and we are not sure it fits a genomics lab. It is worth asking whether a lab would use the words that way.
+Some vendors draw a sharper line. In one explainer, from DataHub, lineage is described as operational, mapping how data moved and changed, while provenance is about trust and governance, covering origin, ownership and custody.[^3] That article also says the two overlap in some metadata. We do not think that division is wrong, but it was written for data platforms in general, and we are not sure it fits a genomics lab. It is worth asking whether a lab would use the words that way.
 
-Workflow research uses the words differently again. A 2015 preprint on the YesWorkflow tool describes the data provenance captured by workflow systems as retrospective provenance, which it says consists of data dependencies and lineage information recorded at runtime.[^4] There, lineage is a part of provenance. And a 2013 BMC Bioinformatics paper on provenance in bioinformatics workflows, never uses the word lineage in the text we read.[^5]
+Workflow research uses the words differently again. A 2015 preprint on the YesWorkflow tool describes the data provenance captured by workflow systems as retrospective provenance, which it says consists of data dependencies and lineage information recorded at runtime.[^4] There, lineage is a part of provenance. And a 2013 BMC Bioinformatics paper on provenance in bioinformatics workflows never uses the word lineage in the text we read.[^5]
 
 So we will not pretend there is one correct definition. Here is the working vocabulary we use in this post.
 
@@ -36,7 +36,7 @@ Nothing here is a real project. Now we ask four questions of `sample.annotated.v
 
 **Which files was this made from?** This is lineage at its simplest: walk back along the arrows. You reach `sample.vcf`, then `sample.bam`, then `sample.fastq`, `ref.fasta` and `ann.gtf`.
 
-**If `ref.fasta` turns out to be the wrong build, what else is affected?** Walk forward from the reference: the BAM, the VCF and the annotated VCF. This forward question is the one people often mean by impact analysis, and it is a lineage question.
+**If `ref.fasta` turns out to be the wrong build, what else is affected?** Walk forward from the reference: the BAM, the VCF and the annotated VCF. This forward question is the one people often mean by impact analysis, which DataHub lists as a use of lineage,[^3] and it is a lineage question.
 
 **Which settings did the calling step use, and which tool version?** The arrows do not tell you. This needs the details attached to each step: the command, the parameters, the versions. We would call that provenance in the everyday sense, and it is why graph-only answers can feel thin.
 

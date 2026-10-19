@@ -6,16 +6,16 @@ date: 2026-10-19
 updated: 2026-10-19
 tags: provenance, ai-agents, vision
 summary: Agents can run analyses, but a chat transcript is not a record of how a result was made. Our vision, and what is not built yet.
-image_alt: A small robot hand reaching toward a glass cabinet that holds an open ledger, with one page marked by a dotted question mark.
+image_alt: A small robot hand reaching toward a glass cabinet that holds an open ledger, with one spot on a page left as a dotted blank.
 ---
 
 Imagine asking an AI assistant to rerun last month's variant calling on a new cohort, and getting back a tidy summary and a results folder. A week later a colleague asks which reference build it used. The honest answer is somewhere in a chat transcript, if the assistant said it at all. We think this is going to be an ordinary situation for labs, and that it makes a durable record of how results were made more important, not less. This post is a vision piece. Where we describe what we want to build, we say so, and AI-agent access to Jubilab is not available today.
 
 ## What agents are starting to do
 
-Researchers are building systems that connect language models to analysis tools. One example is BRAD, described in *Bioinformatics* in 2025 as an agentic system that connects large language models to external tools, data sources and custom software; the paper presents it as a prototype built on LangChain, with one agent that runs external Python pipelines, such as a biomarker selection workflow on RNA-seq data.[^1] The authors write that commercial AI tools can "obscure data provenance", which is the problem they set out to address.[^1]
+Researchers are building systems that connect language models to analysis tools. One example is BRAD, described in *Bioinformatics* in 2025 as an agentic system that connects large language models to external tools, data sources and custom software; the paper presents it as a prototype built on LangChain, with one agent that runs external software pipelines, such as a biomarker selection workflow on RNA-seq data.[^1] The authors write that commercial AI tools can "obscure data provenance", which is the problem they set out to address.[^1]
 
-Another is a 2026 allocation description from a Swedish research computing project, NAISS, which says it aims to build an agent that runs single-cell analyses through a restricted set of predefined operations.[^2] That is a project description of what the team intends to build, not a published result, and we cite it as a statement of design intent only.
+Another is a project description for a NAISS Small allocation (2026 to 2027), with a principal investigator at Linköping University, which says it aims to build an agent that runs single-cell analyses through a restricted set of predefined operations.[^2] That is a project description of what the team intends to build, not a published result, and we cite it as a statement of design intent only.
 
 We are not claiming this is widespread. We do not know how many labs use agents on real data today, and we have not found a figure we could cite.
 
@@ -39,7 +39,7 @@ Three ideas keep coming up in what we have read.
 
 **Read-only by default.** LabKey's documentation for its MCP server says the server itself exposes only read-only tools, and also says that what limits the connected agent is the API key it is given, not the server, so it recommends a role-restricted key.[^3] We read that as an honest statement of where the real boundary sits.
 
-**Make the data legible to a model.** The MCPmed preprint argues that bioinformatics web servers, built around human interfaces, are hard for language models to read, and proposes adapting them with the Model Context Protocol.[^4] MCP is described by its own site as an open-source standard for connecting AI applications to external systems.[^5] The preprint reports implementations for three resources; we have not reproduced its results.
+**Make the data legible to a model.** The MCPmed paper, first posted as a preprint, argues that bioinformatics web servers, built around human interfaces, are hard for language models to read, and proposes adapting them with the Model Context Protocol.[^4] MCP is described by its own site as an open-source standard for connecting AI applications to external systems.[^5] The preprint reports implementations for three resources; we have not reproduced its results.
 
 ## A record that can say "I cannot tell"
 
@@ -67,5 +67,5 @@ What you can use now is the human side: trace a result back to its run, inputs a
 - [Automatic biomarker discovery and enrichment with BRAD](https://pmc.ncbi.nlm.nih.gov/articles/PMC12064167/) | Pickard et al., Bioinformatics, 2025 (PubMed Central) | Accessed: 2026-10-19
 - [Agentic single-cell and multiomic analysis with local large language models](https://supr.naiss.se/public/project/38272/) | NAISS project description, Linköping University (project plan, not a published result) | Accessed: 2026-10-19
 - [LabKey documentation: MCP](https://www.labkey.org/Documentation/wiki-page.view?name=mcp) | LabKey | Accessed: 2026-10-19
-- [MCPmed: A Call for MCP-Enabled Bioinformatics Web Services for LLM-Driven Discovery](https://arxiv.org/abs/2507.08055) | Flotho et al., arXiv:2507.08055 (preprint) | Accessed: 2026-10-19
+- [MCPmed: A Call for MCP-Enabled Bioinformatics Web Services for LLM-Driven Discovery](https://arxiv.org/abs/2507.08055) | Flotho et al., arXiv:2507.08055 (first posted as a preprint; arXiv now lists a related journal DOI, 10.1093/bib/bbag076, which we did not open) | Accessed: 2026-10-19
 - [What is the Model Context Protocol (MCP)?](https://modelcontextprotocol.io/docs/getting-started/intro) | Model Context Protocol project | Accessed: 2026-10-19
