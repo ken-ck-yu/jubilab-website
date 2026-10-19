@@ -13,7 +13,7 @@ Imagine you lift a VCF from one genome assembly to another, and the output has f
 
 ## What liftover does
 
-Liftover converts coordinates from one assembly to another using a chain file. The UCSC description of the chain format says that a chain file stores a pairwise alignment between two genome sequences, one that allows gaps in both sequences at once, as a series of aligned blocks with the distances between them.[^1] A variant sitting inside an aligned block can be moved. A variant that falls between blocks has no obvious destination.
+Liftover converts coordinates from one assembly to another using a chain file. The UCSC description of the chain format says that a chain file stores a pairwise alignment between two genome sequences, one that allows gaps in both sequences at once, as a series of aligned blocks with the distances between them.[^1] A variant sitting inside an aligned block can be moved. A variant that falls between blocks has no direct destination, though some tools try to recover it.
 
 For a VCF there is a second problem. The record carries alleles as well as a position, so the tool must also decide what REF and ALT mean on the other assembly. CrossMap's documentation states that its VCF mode needs the chain file, the input VCF and a FASTA of the target assembly, and that this reference "must correspond to the target assembly."[^2] Picard's LiftoverVcf documentation lists the chain file, an output for rejected records and the target reference sequence among its required arguments.[^3] In both cases, three things shape the result: the chain, the target reference and the tool.
 
@@ -30,7 +30,7 @@ How much do tools differ in practice? One comparison is in the paper describing 
 Here is the short list we would keep next to every lifted file:
 
 1. **Source and target:** the assembly name and build of the input, and of the target FASTA you passed to the tool.
-2. **Chain file:** its name, where it came from, and a checksum. A chain file with the same name can change between downloads, and a checksum is the cheapest way to notice.
+2. **Chain file:** its name, where it came from, and a checksum. A chain file may be updated at its source without its name changing; we have not checked how often that happens, but a checksum is a cheap way to notice.
 3. **Tool and version**, and the full command line, including options such as how swapped alleles or original positions were handled.
 4. **Counts:** records in, records out, records rejected, and where the reject or unmap file is stored.
 5. **Anything you did afterwards:** filtering, sorting or normalisation applied to the lifted output.
@@ -59,11 +59,11 @@ The bcftools manual also notes a `--no-version` option that leaves version and c
 
 ## Checking afterwards
 
-A count tells you how many records went missing, not which ones or why. If the reject file survives, it is a good place to start, because, according to their documentation, the tools above write rejected records out with filters or reasons. If it does not, you can only compare the input and output yourself. Our [guide on checking the reference build of a VCF or BAM](/guides/reference-genome-build-vcf-bam/) walks through checks such as contig lengths and REF alleles against a FASTA, which work on a lifted file in the same way.
+A count tells you how many records went missing, not which ones or why. If the reject file survives, it is a good place to start, because, according to their documentation, Picard and CrossMap write rejected records out with filters or reasons. If it does not, you can only compare the input and output yourself. Our [guide on checking the reference build of a VCF or BAM](/guides/reference-genome-build-vcf-bam/) walks through checks such as contig lengths and REF alleles against a FASTA, which work on a lifted file in the same way.
 
 ## Where Jubilab fits
 
-Jubilab is being built to keep this kind of record for you, as a local-first, self-hostable history of how results are made. Today you can wrap a liftover command with the native bash wrapper like any other command, and Jubilab keeps the command, its parameters and the files involved as an immutable run, with each fact marked verified, inferred, manual or unknown. You can then trace the lifted file back to its run and compare two runs, for example the same input lifted with two chain files. Opt-in capture of reference and annotation details from file headers ships with our next release.
+Jubilab is being built to keep this kind of record for you, as a local-first, self-hostable history of how results are made. Today you can wrap a liftover command with the native bash wrapper. Jubilab keeps the command, its arguments and the input and output files you declare as an immutable run; the command and times are marked verified, and files you declare are marked manual or inferred. If you declare the lifted file as an output, you can trace it back to that run, and you can compare two runs, for example the same input lifted with two chain files. Opt-in capture of reference and annotation details from file headers ships with our next release.
 
 Jubilab does not perform or check a liftover, it does not detect that a liftover went wrong, and it does not yet check for reference build mismatches. It is not affiliated with or endorsed by Picard, CrossMap, UCSC, the bcftools project or the authors cited here.
 

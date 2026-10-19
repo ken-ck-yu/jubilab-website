@@ -53,13 +53,13 @@ This is also the time to look for manual steps. The same 2013 paper recommends a
 
 ## Day four: look for hard-coded paths and missing files
 
-Search the scripts for absolute paths, home directories, and scratch locations. Each one is a question: does that path exist today, and was it the same thing then? Scratch space is often cleaned automatically, so a missing folder may simply mean time passed. Our [guide on what parameters produced a result](/guides/what-parameters-produced-this-result/) covers what tends to get lost.
+Search the scripts for absolute paths, home directories, and scratch locations. Each one is a question: does that path exist today, and was it the same thing then? Some sites clean scratch space automatically, so a missing folder may simply mean time passed. Our [guide on what parameters produced a result](/guides/what-parameters-produced-this-result/) covers what tends to get lost.
 
 For Nextflow, the documentation says resume needs both a matching cache entry and intact outputs, and recommends preserving the task cache and the work directories to resume successfully.[^6] So if the work directory is gone, expect a rerun to do real work again rather than skip steps.
 
 ## Day five: rerun small, and compare
 
-Rerun the smallest piece you can on a copy, with the inputs and settings you believe were used, and compare the output with the old one. Differences are information. A 2025 study of student-built variant-calling pipelines on one benchmark dataset reports that the operating system and installation method were the most influential factors in performance, though the authors describe these as observational associations from small groups.[^7] We read that as a reason to record the environment, not as a rule about which setup is best, and we would want to see it repeated elsewhere.
+Rerun the smallest piece you can on a copy, with the inputs and settings you believe were used, and compare the output with the old one. Differences are information. A 2025 study of student-built variant-calling pipelines on one benchmark dataset reports that the operating system and installation method were the most influential factors in performance.[^7] This is a course project with eleven groups, so we read it as a hint to record the environment, not as a rule about which setup is best.
 
 ## What to write down as you go
 

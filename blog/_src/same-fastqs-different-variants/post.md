@@ -23,7 +23,7 @@ Three papers are useful because they look at different layers.
 
 **Threads and repeats.** Sandmann and colleagues evaluated eight variant callers on targeted sequencing data. When they ran the same dataset twice with the same settings, most tools gave identical results, and the exception was VarDict, whose differences were in indels; the authors suspect a non-deterministic step in its local realignment. For the three tools that offer multithreading (GATK, Platypus and LoFreq), a single-thread and an eight-thread run differed. GATK showed the largest differences, and did not produce an exactly identical output for a single sample.[^2] That is one study, on one kind of data, with the versions of its day, so we would not generalise it. It is, though, a reason to test thread counts on your own data before assuming they do not matter.
 
-**Environment.** A 2025 study had eleven student groups build somatic variant-calling pipelines on the same benchmark dataset. The authors report that operating system and installation method were the most influential factors in variant-calling performance, and that identical library versions and parameters still gave divergent results. They also describe the findings as observational, from small groups, without establishing cause.[^3] We read that as a hint that "same tools" can hide differences, not as a verdict on any setup.
+**Environment.** A 2025 study had eleven student groups build somatic variant-calling pipelines on the same benchmark dataset. The authors report that operating system and installation method were the most influential factors in variant-calling performance, and that identical library versions and parameters still gave divergent results. [^3] We read this as an observational pattern across eleven student groups. We did not see the authors claim to have established cause, so we treat it as a hint that "same tools" can hide differences, not as a verdict on any setup.
 
 ## Order and ties inside the pipeline
 
@@ -65,7 +65,7 @@ Our [guide on what parameters produced a result](/guides/what-parameters-produce
 
 ## Where Jubilab fits
 
-Jubilab is a local-first, self-hostable record of how results are made. Today you can import Nextflow or Snakemake runs, capture Nextflow runs live, or wrap other commands with the native bash wrapper. Each run is kept as immutable history, each fact carries an evidence status, and you can compare two runs to see which recorded values differ, such as a thread count or a tool version. Opt-in capture of reference and annotation details from file headers ships with our next release.
+Jubilab is a local-first, self-hostable record of how results are made. Today you can import Nextflow or Snakemake runs, capture Nextflow runs live, or wrap other commands with the native bash wrapper. Each run is kept as immutable history, each fact carries an evidence status, and you can compare two runs to see which recorded values differ, such as a command-line setting you passed. Opt-in capture of reference and annotation details from file headers ships with our next release.
 
 Jubilab does not make a pipeline deterministic, and it cannot tell you why two outputs differ. It can only show you which recorded inputs and settings were different, and which were never recorded. It is not affiliated with or endorsed by GATK, bcftools, samtools or the authors cited here.
 

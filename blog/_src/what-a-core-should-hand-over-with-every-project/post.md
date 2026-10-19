@@ -15,7 +15,7 @@ We are not a core and have not run one. What follows draws on published perspect
 
 ## Why the files are not enough
 
-Sloan and Stenglein, writing in PLOS Biology in 2025, argue that data from outsourced or centralised facilities often lacks methodological information. They note that sequencing facilities often return data with little or no methods documentation, and that choices such as the DNA polymerase or the number of PCR cycles can change bias in sequence representation.[^1] The same paper recommends that service providers keep detailed protocols, record methodological metadata for each run, and deliver this information automatically with the data. They also say formal reporting standards for high-throughput sequencing exist but have not gained widespread adoption.[^1]
+Sloan and Stenglein, writing in PLOS Biology in 2025, argue that data from outsourced or centralised facilities often lacks methodological information. They say that, in their experience, many sequencing facilities return data with little or no methods documentation, and note that choices such as the DNA polymerase or the number of PCR cycles can change bias in sequence representation.[^1] The same paper recommends that service providers keep detailed protocols, record methodological metadata for each run, and deliver this information automatically with the data. They also say formal reporting standards for high-throughput sequencing exist but have not gained widespread adoption.[^1]
 
 That paper is mostly about data generation. The analysis side has a similar shape: the numbers in a client's figure depend on a pipeline, its version, its parameters and its reference. A client who receives only outputs cannot answer those questions later, and neither, after enough time, can the core.
 
@@ -27,9 +27,9 @@ Here is the list we would try, in rough order of how cheap each item is to produ
 2. **Inputs, identified.** The names and checksums of the files received or generated, so the client and the core can tell later whether they are talking about the same files.
 3. **Wet-lab methods metadata**, where the core did the preparation: the kit, protocol version and anything the Sloan and Stenglein paper highlights, such as the number of PCR cycles.[^1]
 4. **The analysis environment.** Pipeline name and version, tool versions, and container or environment identifiers.
-5. **Parameters actually used.** Ideally the file that held them, plus any set on the command line. The nf-core troubleshooting page mentions a `-params-file` option in a different context; we read it as one way to keep a parameter set in a file you can send, though the page does not say that.[^2]
+5. **Parameters actually used.** Ideally the file that held them, plus any set on the command line.
 6. **Reference and annotation.** Which genome build and annotation, with a checksum or release name.
-7. **Run reports.** If the pipeline can produce them, include them. The Nextflow documentation describes an execution report, a timeline, a trace file with a row per task, and a workflow graph, each enabled with a command-line option or a configuration setting, so none of them exist unless someone switched them on.[^3]
+7. **Run reports.** If the pipeline can produce them, include them. The Nextflow documentation describes an execution report, a timeline, a trace file of task metrics, and a workflow graph, each enabled with a command-line option or a configuration setting, so none of them exist unless someone switched them on.[^2]
 8. **QC summaries and exclusions.** Which samples were dropped, by whom, and on what grounds.
 9. **A short "what we recorded and what we could not" note.** More on this below.
 10. **Retention terms.** How long the core keeps the data and the record, and who is responsible for backup.
@@ -38,9 +38,9 @@ We do not claim every project needs all ten, and a small project may need two. T
 
 ## Examples from public pages
 
-Some cores already say publicly what they provide. The Harvard Chan Bioinformatics Core's platforms page says it provides template reports with "clear, standardized outputs across projects," and describes its Nextflow and nf-core pipelines as supporting reproducibility, transparency and efficiency.[^4] We have not seen those reports, so we cannot say what is in them. The bioinformatics core policies page at the University of Nebraska Medical Center states that clients should download all results, that the core does not have responsibility to keep data six months after returning results, and that the principal investigator is responsible for backup.[^5] That is a clear retention statement, and it is a good example of item 10 above. Whether it matches what clients expect is something we do not know.
+Some cores already say publicly what they provide. The Harvard Chan Bioinformatics Core's platforms page says it provides template reports with "clear, standardized outputs across projects," and describes its Nextflow and nf-core pipelines as supporting reproducibility, transparency and efficiency.[^3] We have not seen those reports, so we cannot say what is in them. The bioinformatics core policies page at the University of Nebraska Medical Center states that clients should download all results, that the core does not have responsibility to keep data six months after returning results, and that the principal investigator is responsible for backup.[^4] That is a clear retention statement, and it is a good example of item 10 above. Whether it matches what clients expect is something we do not know.
 
-We mention these pages as public examples only. We have no relationship with either institution, and nothing here says how any core works beyond what its own page states.
+We mention these pages as public examples only. We have no relationship with Harvard Chan School or UNMC, and nothing here says how any core works beyond what its own page states.
 
 ## The most useful item might be the honest one
 
@@ -59,9 +59,9 @@ Our [guide on what parameters produced a result](/guides/what-parameters-produce
 
 ## Where Jubilab fits
 
-Jubilab is a local-first, self-hostable record of how results are made. Today it can record Nextflow runs live or import finished ones, import Snakemake runs, and wrap other commands with a native bash wrapper. Each run is immutable history, each fact carries an evidence status, and you can trace a result back to its run, inputs and parameters, and compare two runs. Self-hosted installs have per-user accounts. Opt-in capture of reference and annotation details from file headers ships with our next release.
+Jubilab is a local-first, self-hostable record of how results are made. Today it can record Nextflow runs live or import finished ones, import Snakemake runs, and wrap other commands with a native bash wrapper. Each run is immutable history, each fact carries an evidence status, and you can trace a result back to its run, inputs and parameters, and compare two runs. Self-hosted installs have per-user accounts, and each entry records which signed-in account submitted it; this is not an electronic signature. Opt-in capture of reference and annotation details from file headers ships with our next release.
 
-It does not hand projects over to clients, it has no client portal, it does not link samples to their files, and we have not confirmed that it can export a record as a report, so we are not promising that. Those are things we wonder about and where we are heading, not things you can use today. Jubilab is not affiliated with or endorsed by Nextflow, Seqera, nf-core or any core cited here.
+It does not hand projects over to clients, it has no client portal, it does not link samples to their files, and while it can export a project as JSON, it has no formatted client report today. Those are things we wonder about and where we are heading, not things you can use today. Jubilab is not affiliated with or endorsed by Nextflow, Seqera, nf-core or any core cited here.
 
 ## Questions we are still asking
 
@@ -74,7 +74,6 @@ It does not hand projects over to clients, it has no client portal, it does not 
 ## Sources
 
 - [Towards ensuring reproducibility of outsourced data generation](https://pmc.ncbi.nlm.nih.gov/articles/PMC11734931/) | Sloan and Stenglein, PLOS Biology, 2025 | Accessed: 2026-10-19
-- [Troubleshooting](https://nf-co.re/docs/running/troubleshooting) | nf-core community | Accessed: 2026-10-19
-- [Tracing and visualisation](https://docs.seqera.io/nextflow/tracing) | Seqera, Nextflow documentation | Accessed: 2026-10-19
+- [Reports](https://docs.seqera.io/nextflow/reports) | Seqera, Nextflow documentation | Accessed: 2026-10-19
 - [Bioinformatics platforms](https://hsph.harvard.edu/research/bioinformatics/platforms) | Harvard Chan Bioinformatics Core, Harvard T.H. Chan School of Public Health | Accessed: 2026-10-19
 - [Bioinformatics and Systems Biology Core: policies](https://www.unmc.edu/research-resources/resources/cores/bioinformatics-systems-biology/policies.html) | University of Nebraska Medical Center | Accessed: 2026-10-19
