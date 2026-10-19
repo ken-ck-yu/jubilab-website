@@ -1,0 +1,291 @@
+<!doctype html>
+<html lang="en">
+<head>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('consent','default',{ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied',analytics_storage:'denied'})</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Conda for genomics: export, history or lock file? | Jubilab</title>
+<meta name="description" content="Three ways to write down a conda environment, what each one keeps when we tried them in a throwaway environment, and the questions we still have about genomics.">
+<meta name="theme-color" content="#f4f5f2">
+<link rel="canonical" href="https://jubilab.io/blog/conda-environments-genomics-export-history-lock/">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Jubilab">
+<meta property="og:title" content="Conda for genomics: export, history or lock file? | Jubilab">
+<meta property="og:description" content="Three ways to write down a conda environment, what each one keeps when we tried them in a throwaway environment, and the questions we still have about genomics.">
+<meta property="og:url" content="https://jubilab.io/blog/conda-environments-genomics-export-history-lock/">
+<meta property="og:image" content="https://jubilab.io/blog/conda-environments-genomics-export-history-lock/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Three glass jars in a row on a shelf: one holding loose green sprigs, one holding a single pressed leaf, and a sealed capsule crossed by a straight orange dotted line.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Conda for genomics: export, history or lock file? | Jubilab">
+<meta name="twitter:description" content="Three ways to write down a conda environment, what each one keeps when we tried them in a throwaway environment, and the questions we still have about genomics.">
+<meta name="twitter:image" content="https://jubilab.io/blog/conda-environments-genomics-export-history-lock/og.png">
+<meta name="twitter:image:alt" content="Three glass jars in a row on a shelf: one holding loose green sprigs, one holding a single pressed leaf, and a sealed capsule crossed by a straight orange dotted line.">
+<link rel="icon" href="../../assets/favicon.svg" type="image/svg+xml">
+<link rel="preload" href="../../assets/fonts/hanken-grotesk-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="../../assets/fonts/ibm-plex-mono-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BlogPosting",
+      "headline": "Conda for genomics: export, history or lock file?",
+      "description": "Three ways to write down a conda environment, what each one keeps when we tried them in a throwaway environment, and the questions we still have about genomics.",
+      "url": "https://jubilab.io/blog/conda-environments-genomics-export-history-lock/",
+      "mainEntityOfPage": "https://jubilab.io/blog/conda-environments-genomics-export-history-lock/",
+      "inLanguage": "en",
+      "datePublished": "2026-10-19",
+      "dateModified": "2026-10-19",
+      "author": {
+        "@type": "Organization",
+        "name": "Jubilab",
+        "url": "https://jubilab.io/"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Jubilab",
+        "url": "https://jubilab.io/"
+      },
+      "image": "https://jubilab.io/blog/conda-environments-genomics-export-history-lock/og.png",
+      "keywords": "conda, environments, provenance",
+      "wordCount": 1069,
+      "timeRequired": "PT5M",
+      "isPartOf": {
+        "@type": "Blog",
+        "name": "Jubilab blog",
+        "url": "https://jubilab.io/blog/"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "Managing environments (conda user guide)",
+          "url": "https://docs.conda.io/projects/conda/en/stable/user-guide/tasks/manage-environments.html",
+          "publisher": {
+            "@type": "Organization",
+            "name": "Conda project, conda documentation"
+          }
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "conda-lock documentation",
+          "url": "https://conda.github.io/conda-lock/",
+          "publisher": {
+            "@type": "Organization",
+            "name": "conda-lock project"
+          }
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "Bioconda: getting started",
+          "url": "https://bioconda.github.io/",
+          "publisher": {
+            "@type": "Organization",
+            "name": "Bioconda project"
+          }
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "Snakemake documentation: Deployment",
+          "url": "https://snakemake.readthedocs.io/en/stable/snakefiles/deployment.html",
+          "publisher": {
+            "@type": "Organization",
+            "name": "Snakemake project, Read the Docs"
+          }
+        }
+      ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Jubilab",
+          "item": "https://jubilab.io/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Blog",
+          "item": "https://jubilab.io/blog/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Conda for genomics: export, history or lock file?",
+          "item": "https://jubilab.io/blog/conda-environments-genomics-export-history-lock/"
+        }
+      ]
+    }
+  ]
+}
+</script>
+<script>try{if(localStorage.getItem("jubilab-theme")==="dark")document.documentElement.setAttribute("data-theme","dark")}catch(e){}</script>
+<link rel="stylesheet" href="../../style.css">
+<link rel="stylesheet" href="../../guides/guides.css">
+<link rel="stylesheet" href="../../blog/blog.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to main content</a>
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="../../" aria-label="Jubilab, home">
+      <svg viewBox="0 0 26 26" aria-hidden="true" focusable="false"><circle class="b-fill" cx="5" cy="13" r="3.2"/><circle class="b-line" cx="21" cy="6" r="3.2"/><circle class="b-line" cx="21" cy="20" r="3.2"/><path class="b-line" d="M8 12 L18 7 M8 14 L18 19"/></svg>
+      <span class="brand-name">Jubilab</span>
+    </a>
+    <nav class="site-nav" aria-label="Page sections">
+      <ul class="links">
+        <li><a href="../../#how">What it does</a></li>
+        <li><a href="../../#fits">Integrations</a></li>
+        <li><a href="../../#product">Demo</a></li>
+        <li><a href="../../blog/" aria-current="page">Blog</a></li>
+      </ul>
+      <details class="menu">
+        <summary aria-label="Menu"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 7h16M4 12h16M4 17h16"/></svg></summary>
+        <ul>
+          <li><a href="../../#how">What it does</a></li>
+          <li><a href="../../#fits">Integrations</a></li>
+          <li><a href="../../#product">Demo</a></li>
+          <li><a href="../../blog/" aria-current="page">Blog</a></li>
+        </ul>
+      </details>
+    </nav>
+    <div class="tools">
+      <button type="button" class="theme-toggle" id="theme-toggle" aria-label="Switch to dark theme" title="Switch to dark theme" hidden>
+        <svg class="i-moon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg>
+        <svg class="i-sun" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+      </button>
+      <a class="btn small" href="../../#access" aria-label="Request early access"><span class="full">Request early access</span><span class="short" aria-hidden="true">Early access</span></a>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+<div id="top"></div>
+<article>
+<section class="g-hero b-hero">
+  <div class="wrap">
+    <nav class="g-crumbs" aria-label="Breadcrumb"><ol><li><a href="../../">Jubilab</a></li><li><a href="../">Blog</a></li><li aria-current="page">Conda for genomics: export, history or lock file?</li></ol></nav>
+    <p class="eyebrow">Blog</p>
+    <h1>Conda for genomics: export, history or lock file?</h1>
+    <p class="g-lede">Pipelines and analyses often rely on a conda environment, and sooner or later someone asks for it: which tools, which versions, from where? Conda gives you a few ways to write an environment down, and they keep different things. This post compares three of them, shows what each produced in a small test we ran, and lists what we could not settle, especially for genomics work that leans on Bioconda.</p>
+    <p class="g-meta">By Jubilab &middot; <time datetime="2026-10-19">19 October 2026</time> &middot; 5 min read</p>
+    <p class="b-tags"><span class="g-tag">conda</span> <span class="g-tag">environments</span> <span class="g-tag">provenance</span></p>
+  </div>
+</section>
+<div class="g-body">
+<div class="wrap">
+<figure class="b-figure"><img src="image.svg" width="1600" height="900" alt="Three glass jars in a row on a shelf: one holding loose green sprigs, one holding a single pressed leaf, and a sealed capsule crossed by a straight orange dotted line." decoding="async"></figure>
+<h2 id="what-we-tried">What we tried</h2>
+<p>We created a throwaway environment under <code>/tmp</code> with one package, <code>tqdm</code>, from the conda-forge channel, using conda 25.11.1 and a package cache outside our home directory. Nothing was installed globally. Three commands then described the same environment in three different ways. This is a tiny environment, so it says little about a large genomics stack; we come back to that below.</p>
+<h2 id="option-1-export-everything">Option 1: export everything</h2>
+<p>The conda documentation calls <code>conda env export</code> the traditional way to write out an environment as YAML.<sup class="cite"><a href="#src-1" aria-label="Source 1">[1]</a></sup> Run against our test environment, it listed every package, including the ones we never asked for, with a version and a build string for each:</p>
+<p class="code-cap">Excerpt from our test (tested by us with conda 25.11.1)</p>
+<pre class="code out" tabindex="0" role="region" aria-label="Excerpt from our test (tested by us with conda 25.11.1)"><code>channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - bzip2=1.0.8=hda65f42_10
+  - libzlib=1.3.2=h25fd6f3_3
+  - python=3.15.0=h6e52b48_101_cp315
+  - tqdm=4.70.1=pyhfa0c392_0</code></pre>
+<p>That is a lot of detail, and it names the channel. The documentation warns that without the <code>--from-history</code> flag, installing from such a file can introduce packages that may not be compatible across platforms.<sup class="cite"><a href="#src-1" aria-label="Source 1">[1]</a></sup> Some of the build strings in our output, like those for compiled libraries, look platform-specific, but we did not test installing the file on another operating system, so that remains a question for us. The same documentation says the recommended way to export is the newer <code>conda export</code> command, which also produced YAML for our environment.<sup class="cite"><a href="#src-1" aria-label="Source 1">[1]</a></sup> The documentation also says native lockfile export needs conda 26.5 or later; we ran 25.11.1 and did not test it.</p>
+<h2 id="option-2-only-what-you-asked-for">Option 2: only what you asked for</h2>
+<p>With <code>--from-history</code>, the documentation says conda exports only explicitly installed packages and excludes platform-specific dependencies, and that the flag works with the structured formats.<sup class="cite"><a href="#src-1" aria-label="Source 1">[1]</a></sup> In our test it returned this:</p>
+<p class="code-cap">Our test, tested by us with conda 25.11.1</p>
+<pre class="code out" tabindex="0" role="region" aria-label="Our test, tested by us with conda 25.11.1"><code>channels:
+  - defaults
+dependencies:
+  - tqdm</code></pre>
+<p>Two things stand out. There is no version at all, so tomorrow&#x27;s install may give a different <code>tqdm</code> from today&#x27;s. And the channel list shows only <code>defaults</code>: we had installed from conda-forge using a command-line option, and the history output did not carry that over. The conda documentation&#x27;s own example for <code>--from-history</code> shows conda-forge kept in the output, so our result differs from it. We saw the channel lost in three ways of creating the environment, and we do not know why or whether it is general. It is a reason to put the channels you rely on in the file yourself.</p>
+<p>For genomics this matters. Bioconda&#x27;s own instructions tell users to add the bioconda and conda-forge channels and set strict channel priority, and say the order is important to avoid problems when solving dependencies.<sup class="cite"><a href="#src-3" aria-label="Source 3">[3]</a></sup> An environment file that loses a channel could solve differently elsewhere, though we have not reproduced that.</p>
+<h2 id="option-3-a-lock-file">Option 3: a lock file</h2>
+<p>A lock file records the resolved packages. The conda-lock project advertises solveless installation from its lock files, meaning installing does not have to run the solver again.<sup class="cite"><a href="#src-2" aria-label="Source 2">[2]</a></sup> The conda-lock project describes itself as a lightweight library for generating fully reproducible lock files for conda environments, produced by solving for the platforms you choose, and it can read an <code>environment.yml</code> as input.<sup class="cite"><a href="#src-2" aria-label="Source 2">[2]</a></sup> We read its documentation but did not install or run conda-lock for this post, so we cannot say how it behaves on a real Bioconda environment.</p>
+<p>Conda itself also has an <code>explicit</code> export format with platform-specific URLs.<sup class="cite"><a href="#src-1" aria-label="Source 1">[1]</a></sup> In our test, <code>conda list --explicit</code> produced one URL per package, such as <code>https://conda.anaconda.org/conda-forge/linux-64/libzlib-1.3.2-h25fd6f3_3.conda</code>. The conda documentation says explicit files are usually limited to a single platform, whereas lock files can support multiple platforms.<sup class="cite"><a href="#src-1" aria-label="Source 1">[1]</a></sup></p>
+<h2 id="workflow-engines-have-a-view-too">Workflow engines have a view too</h2>
+<p>Snakemake&#x27;s documentation encourages defining isolated software environments per rule through the <code>conda</code> directive, and describes a <code>&lt;platform&gt;.pin.txt</code> file next to the environment file that freezes the environment to a certain state; Snakemake tries the pin file first and falls back to the regular file if that fails.<sup class="cite"><a href="#src-4" aria-label="Source 4">[4]</a></sup> It also stores each environment under a hash of the definition file, so changes to the definition are detected, and it says the pins must be kept current when the environment file changes.<sup class="cite"><a href="#src-4" aria-label="Source 4">[4]</a></sup> Whether a given Nextflow pipeline pins its environments this way depends on the pipeline, and we have not surveyed that.</p>
+<h2 id="a-small-comparison">A small comparison</h2>
+<ul>
+<li>Export everything: versions and builds for every package, plus channels. Possibly tied to one platform; we did not test other systems.</li>
+<li>From history: short and readable, but in our test no versions and a lost channel.</li>
+<li>Explicit or lock file: the most specific, and the documentation says lock files can span platforms.<sup class="cite"><a href="#src-1" aria-label="Source 1">[1]</a></sup> More tooling to learn and to keep fresh.</li>
+</ul>
+<p>None of these says why a version was chosen or which analysis used the environment. That is a gap in the record, not in conda.</p>
+<h2 id="where-a-run-record-fits">Where a run record fits</h2>
+<p>An environment file describes software. A run record would also say which run used it. Imagine opening a result a year later with an environment file in the folder but no way to tell whether it is the one that ran. Jubilab records runs and their parameters, and it lets you trace a result to the run that made it. We have not yet decided how best to attach an environment definition to a run, and we would not want to claim more than that. The guide on <a href="/guides/what-parameters-produced-this-result/">what parameters produced a result</a> discusses what a good record contains. Jubilab is not affiliated with or endorsed by Conda, Anaconda, Bioconda or Snakemake.</p>
+
+<section class="b-questions" aria-labelledby="questions-h">
+<h2 id="questions-h">Questions we are still asking</h2>
+<ul>
+<li>Do the exports above behave the same on a large Bioconda environment as on our one-package test? We did not try.</li>
+<li>Would the missing conda-forge channel in the <code>--from-history</code> output appear for other ways of creating an environment? We saw it once.</li>
+<li>Does installing an exported file on another operating system work? We did not test it.</li>
+<li>How often does a re-solved environment change a genomics result? We found no source that measures this, so we do not claim it.</li>
+<li>Is a lock file worth the extra upkeep for a small team, or is a pinned <code>environment.yml</code> enough?</li>
+<li>Where should the environment definition live: in the pipeline repository, next to the results, or in a run record?</li>
+</ul>
+</section>
+<section class="helps" aria-labelledby="helps-h">
+<h2 id="helps-h">How Jubilab helps</h2>
+
+<div class="helps-cols">
+<div><h3 class="s">Available now</h3>
+<ul>
+<li>Records each run: the command, inputs, parameters and outputs, with an evidence status on every fact (verified, inferred, manual or unknown).</li>
+<li>Trace a result back to its run and parameters; compare two runs to see which recorded values differ.</li>
+<li>Runs are kept as history the application cannot edit.</li>
+<li>Records Nextflow runs as they happen or imports a finished run, imports Snakemake runs, and records any other command with the native bash wrapper.</li>
+<li>Opt-in capture of the reference genome and annotation details written in file headers. It ships with our next release.</li>
+</ul></div>
+<div><h3 class="p">Not available yet</h3>
+<ul>
+<li>Linking every sample to its files and results.</li>
+<li>Checks that flag a sample swap or a reference genome build mismatch. These are not available yet.</li>
+<li>Recovering runs that were never recorded. Jubilab records going forward; it cannot rebuild the history of a run it did not see.</li>
+</ul></div>
+</div>
+<a class="btn" href="../../#access">Request early access</a>
+</section>
+<h2 id="sources">Sources</h2>
+<ol class="g-sources">
+<li id="src-1"><a href="https://docs.conda.io/projects/conda/en/stable/user-guide/tasks/manage-environments.html" rel="noopener">Managing environments (conda user guide)</a> <span class="why">&mdash; Conda project, conda documentation. Accessed 19 October 2026. <span class="url">https://docs.conda.io/projects/conda/en/stable/user-guide/tasks/manage-environments.html</span></span></li>
+<li id="src-2"><a href="https://conda.github.io/conda-lock/" rel="noopener">conda-lock documentation</a> <span class="why">&mdash; conda-lock project. Accessed 19 October 2026. <span class="url">https://conda.github.io/conda-lock/</span></span></li>
+<li id="src-3"><a href="https://bioconda.github.io/" rel="noopener">Bioconda: getting started</a> <span class="why">&mdash; Bioconda project. Accessed 19 October 2026. <span class="url">https://bioconda.github.io/</span></span></li>
+<li id="src-4"><a href="https://snakemake.readthedocs.io/en/stable/snakefiles/deployment.html" rel="noopener">Snakemake documentation: Deployment</a> <span class="why">&mdash; Snakemake project, Read the Docs. Accessed 19 October 2026. <span class="url">https://snakemake.readthedocs.io/en/stable/snakefiles/deployment.html</span></span></li>
+</ol>
+<p class="g-review">Written by Jubilab. Published 19 October 2026; last updated 19 October 2026. Where this post names other products or projects, Jubilab is not affiliated with or endorsed by them, and it does not claim any integration with them. Things we could not check are written as questions; if you spot a mistake, email <a href="mailto:hello@jubilab.io">hello@jubilab.io</a>.</p>
+<nav class="b-pager" aria-label="More posts">
+<a class="b-prev" href="../how-to-compare-two-pipeline-runs/" rel="prev"><span class="b-dir">Newer</span><span class="b-t">How to compare two pipeline runs</span></a>
+<a class="b-next" href="../ai-agents-need-a-record-not-just-chat-history/" rel="next"><span class="b-dir">Older</span><span class="b-t">AI agents in the lab need a record, not a chat history</span></a>
+</nav>
+<section class="b-related" aria-labelledby="related"><h2 id="related">Related posts</h2><ul class="b-grid">
+<li class="b-card"><a class="b-img" href="../ai-agents-need-a-record-not-just-chat-history/" tabindex="-1" aria-hidden="true"><img src="../ai-agents-need-a-record-not-just-chat-history/image.svg" width="1600" height="900" alt="" loading="lazy" decoding="async"></a><div class="b-card-body"><h2 class="b-card-t"><a href="../ai-agents-need-a-record-not-just-chat-history/">AI agents in the lab need a record, not a chat history</a></h2><p class="b-sum">Agents can run analyses, but a chat transcript is not a record of how a result was made. Our vision, and what is not built yet.</p><p class="b-card-meta"><time datetime="2026-10-19">19 October 2026</time> &middot; 6 min read</p></div></li>
+<li class="b-card"><a class="b-img" href="../how-to-compare-two-pipeline-runs/" tabindex="-1" aria-hidden="true"><img src="../how-to-compare-two-pipeline-runs/image.svg" width="1600" height="900" alt="" loading="lazy" decoding="async"></a><div class="b-card-body"><h2 class="b-card-t"><a href="../how-to-compare-two-pipeline-runs/">How to compare two pipeline runs</a></h2><p class="b-sum">What counts as a difference between two runs, a manual way to diff them, and what lineage diff and nf-diff showed on a toy pair.</p><p class="b-card-meta"><time datetime="2026-10-19">19 October 2026</time> &middot; 6 min read</p></div></li>
+<li class="b-card"><a class="b-img" href="../inherited-pipeline-first-week-checklist/" tabindex="-1" aria-hidden="true"><img src="../inherited-pipeline-first-week-checklist/image.svg" width="1600" height="900" alt="" loading="lazy" decoding="async"></a><div class="b-card-body"><h2 class="b-card-t"><a href="../inherited-pipeline-first-week-checklist/">Inherited a pipeline? A first-week checklist</a></h2><p class="b-sum">A practical checklist for rebuilding how results were made when you inherit someone else&#x27;s analysis, and what to record as you go.</p><p class="b-card-meta"><time datetime="2026-10-19">19 October 2026</time> &middot; 7 min read</p></div></li>
+</ul></section>
+</div>
+</div>
+</article>
+</main>
+<footer>
+  <div class="wrap">
+    <div>
+      <p class="foot-brand">Jubilab</p>
+      <p>Be among the first labs shaping Jubilab. Screenshots and diagrams on this site use synthetic demo data.</p>
+      <p>Contact: <a href="mailto:hello@jubilab.io">hello@jubilab.io</a></p>
+    </div>
+    <ul aria-label="Footer">
+      <li><a href="../../guides/">Guides</a></li>
+      <li><a href="../../blog/">Blog</a></li>
+      <li><a href="../../privacy/">Privacy</a></li>
+      <li><a href="../../terms/">Terms</a></li>
+      <li><a href="../../#top">Back to top</a></li>
+    </ul>
+  </div>
+</footer>
+<script src="../../assets/theme.js" defer></script>
+<script src="../../assets/consent.js" defer></script>
+</body>
+</html>

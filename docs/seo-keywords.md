@@ -34,6 +34,14 @@ The guides at `/guides/` carry the long-tail phrasing people use (taken from for
 
 Marketing and guide rules: the words audit, regulated, compliance, GxP and validated (and "reproducible results", "guarantee", "first", "only", "fastest", any swap-rate statistic) stay out until legal review; `review/check-seo.py` and `tests/guides.test.mjs` fail the build if they appear in a guide. Guides name Nextflow, Seqera Platform and Snakemake because the reader's question is about them, always from first-party documentation, with a review date; they never position Jubilab as an alternative to any of them. They also name bcftools, samtools, PLINK, UCSC and Ensembl as tools and data sources used in the examples, and no integration is implied.
 
+## Blog (2026-10-19)
+
+The blog at `/blog/` is for question-shaped, long-tail searches and for an honest voice: each post answers one question, cites sources it fetched, and ends with "Questions we are still asking". Target query per post goes in the post's title, H1, lede and `description` (the generator enforces title and description lengths). The same word rules as the guides apply, with the owner's legal list: no audit trail, regulated, compliance, GxP, validated, FDA, 21 CFR, HIPAA, GDPR; no first, only, fastest, best, "reproducible results", "studies show". Blog posts are not keyword pages: no list of search words in the body.
+
+| Post | Target query | URL |
+|---|---|---|
+| What is data provenance in bioinformatics? (sample, proves the pipeline) | what is data provenance in bioinformatics; data provenance definition | `/blog/what-is-data-provenance-in-bioinformatics/` |
+
 ## Left out on purpose
 
 - nf-core, Cromwell/WDL, Galaxy, GATK, DeepVariant, VEP: no import or tested support, and naming them would suggest it. The bash wrapper can record any command, but we do not say it "supports" these.

@@ -22,7 +22,18 @@ WIDTHS = [320, 390, 768, 1024, 1280, 1440, 1920]
 THEMES = ["light", "dark"]
 GUIDE_PATHS = ("guides/", "guides/reference-genome-build-vcf-bam/", "guides/what-parameters-produced-this-result/", "guides/nextflow-provenance-and-lineage-compared/")
 GUIDE_WIDTHS = [320, 375, 768, 1440]
+# Blog pages are discovered from the generated sitemap block, so a new post is checked without editing this file.
+try:
+    import urllib.request
+    BLOG_PATHS = tuple(sorted(m[len("https://jubilab.io/"):] for m in re.findall(r"<loc>([^<]+)</loc>", urllib.request.urlopen(BASE + "sitemap.xml").read().decode()) if m.startswith("https://jubilab.io/blog/")))
+except Exception:
+    BLOG_PATHS = ()
+# Header budget (2026-10-19): the home menu holds the six section links plus Blog (seven); the sticky strip stays at six.
+# Blog is the only link that is also in the header on wide screens (every page). It is inside the collapsed menu below 900 px, so the
+# phone header (brand, theme toggle, one-line CTA, menu button) keeps its width at 320 px.
+SEVEN = None  # set after SIX is defined
 SIX = ["What it does", "Integrations", "Where this is going", "Is this you?", "Demo project", "Get started"]
+SEVEN = SIX + ["Blog"]
 R = {}  # check number -> list of (ok, detail)
 
 
@@ -216,7 +227,7 @@ GUIDE_MEASURE = r"""
       let base = {r: 255, g: 255, b: 255}; for (const c of layers.reverse()) base = {r: c.r * c.a + base.r * (1 - c.a), g: c.g * c.a + base.g * (1 - c.a), b: c.b * c.a + base.b * (1 - c.a)}; return base; };
   const lum = c => { const f = v => { v /= 255; return v <= .03928 ? v / 12.92 : Math.pow((v + .055) / 1.055, 2.4); }; return .2126 * f(c.r) + .7152 * f(c.g) + .0722 * f(c.b); };
   const ratio = (a, b) => { const x = lum(a), y = lum(b); return (Math.max(x, y) + .05) / (Math.min(x, y) + .05); };
-  const sel = ['.g-lede', '.g-meta', '.g-crumbs a', '.g-body p', '.g-body li', '.g-body h2', '.g-body h3', '.g-body a', '.code-cap', 'pre.code', 'pre.code.out', '.table-scroll th', '.table-scroll td', '.table-scroll caption', '.helps p', '.helps li', '.helps h3', '.helps a', '.g-review', '.g-sources .why', '.g-list p', '.g-list .q', '.g-list h2 a', 'footer p', 'footer a', '.btn'];
+  const sel = ['.b-sum', '.b-card-meta', '.b-card-t a', '.b-questions li', '.cite a', '.g-sources .url', '.b-dir', '.b-t', '.g-hero .g-tag', '.g-lede', '.g-meta', '.g-crumbs a', '.g-body p', '.g-body li', '.g-body h2', '.g-body h3', '.g-body a', '.code-cap', 'pre.code', 'pre.code.out', '.table-scroll th', '.table-scroll td', '.table-scroll caption', '.helps p', '.helps li', '.helps h3', '.helps a', '.g-review', '.g-sources .why', '.g-list p', '.g-list .q', '.g-list h2 a', 'footer p', 'footer a', '.btn'];
   out.contrast = [];
   for (const q of sel) for (const e of [...document.querySelectorAll(q)].slice(0, 3)) {
     const st = getComputedStyle(e); if (!e.getClientRects().length || !e.textContent.trim()) continue;
@@ -330,7 +341,7 @@ def run():
                 labs = [x[0] for x in m["navLinks"]]
                 rec(14, labs == SIX and all(x[2] for x in m["navLinks"]) and [x[1] for x in m["navLinks"]] == ["#how", "#fits", "#next", "#who", "#product", "#access"], f"{tag} nav {m['navLinks']}")
             if w < 640:
-                rec(15, m["menuVisible"] and m["menuBtn"]["w"] >= 44 and m["menuBtn"]["h"] >= 44 and m["menuLinks"] == SIX, f"{tag} menu {m['menuBtn']['w']:.0f}x{m['menuBtn']['h']:.0f} links {m['menuLinks']}")
+                rec(15, m["menuVisible"] and m["menuBtn"]["w"] >= 44 and m["menuBtn"]["h"] >= 44 and m["menuLinks"] == SEVEN, f"{tag} menu {m['menuBtn']['w']:.0f}x{m['menuBtn']['h']:.0f} links {m['menuLinks']}")
             rec(13, not m["direction"], f"{tag} 'Direction' present: {m['direction']}")
             rec(16, m["h1n"] == 1 and [x[1] for x in m["h2s"]] == ["how", "fits", "next", "who", "product", "faq", "access"] and not m["h2OutsideMain"] and not m["headingSkip"] and all(m["ids"]), f"{tag} h1 {m['h1n']} h2 {m['h2s']} skip {m['headingSkip']} ids {m['ids']}")
             rec(17, m["nextH2"] == "Accelerate the genetics discovery loop." and m["chipEls"] == 0 and not m["statusCtx"], f"{tag} h2 {m['nextH2']!r}, chip elements {m['chipEls']}, status words {m['statusCtx']}")
@@ -657,7 +668,7 @@ def run():
         ctx.close()
 
         # ---- guides hub and guides (G1..G6) ---------------------------------------------------------------------
-        for gp in GUIDE_PATHS:
+        for gp in GUIDE_PATHS + BLOG_PATHS:
             for w in GUIDE_WIDTHS:
                 for th in THEMES:
                     ctx, pg = new_page(b, w, th)
@@ -672,12 +683,47 @@ def run():
                     g = pg.evaluate(GUIDE_MEASURE); tag = f"/{gp} {w}/{th}"
                     rec("G1", abs(g["sw"] - g["iw"]) <= 1 and not g["outside"], f"{tag} scrollWidth {g['sw']} vs {g['iw']}, elements outside the viewport {g['outside']}")
                     rec("G2", g["pre"]["focusable"] and g["pre"]["overflowX"] and g["pre"]["fit"] and g["tab"]["focusable"] and g["tab"]["fit"], f"{tag} code blocks {g['pre']}, tables {g['tab']}")
-                    if w == 320 and gp != "guides/":
+                    if w == 320 and gp.startswith("guides/") and gp != "guides/":
                         rec("G3", g["pre"]["scrollable"] >= 1 and g["tab"]["scrollable"] >= (1 if g["tab"]["n"] else 0), f"{tag} blocks that scroll sideways instead of widening the page: code {g['pre']['scrollable']}/{g['pre']['n']}, tables {g['tab']['scrollable']}/{g['tab']['n']}")
                     rec("G4", not g["contrast"], f"{tag} low contrast {g['contrast']}")
                     rec("G5", not errs and not bad, f"{tag} console/page errors {errs[:2]} failed requests {bad[:2]}")
                     rec("G6", g["h1"] == 1 and g["skip"] == 0 and g["footerH"] >= 44 and g["hasGuidesLink"] and g["h1Size"] >= (28 if w <= 375 else 32), f"{tag} h1s {g['h1']}, skipped levels {g['skip']}, footer link height {g['footerH']:.0f}, Guides link {g['hasGuidesLink']}, h1 {g['h1Size']:.0f}px")
                     ctx.close()
+        # ---- header Blog link, one-line CTA and blog content without JavaScript (B1..B4) -------------------------
+        HDR = r"""() => { const vis = e => { const r = e.getBoundingClientRect(); return r.width > 0 && r.height > 0 && getComputedStyle(e).display !== 'none'; };
+            const cta = document.querySelector('.site-header .btn.small'); const links = [...document.querySelectorAll('.site-nav .links a')].filter(vis).map(a => a.textContent.trim());
+            const menu = document.querySelector('.site-nav .menu'); const mlinks = [...document.querySelectorAll('.site-nav .menu a')].map(a => a.textContent.trim());
+            const hd = document.querySelector('.site-header .wrap').getBoundingClientRect();
+            const kids = [...document.querySelectorAll('.site-header .wrap > *')].filter(vis).map(e => e.getBoundingClientRect());
+            return {ctaH: cta.getBoundingClientRect().height, ctaText: [...cta.querySelectorAll('span')].filter(vis).map(e => e.textContent.trim()).join(''), links, menuShown: vis(menu), mlinks,
+                    hdrH: hd.height, over: kids.some(r => r.right > innerWidth + 1), sw: document.documentElement.scrollWidth, iw: innerWidth}; }"""
+        ALLP = ["", "privacy/", "terms/", "thanks/", "404.html"] + list(GUIDE_PATHS) + list(BLOG_PATHS)
+        for ap in ALLP:
+            for w in GUIDE_WIDTHS:
+                ctx, pg = new_page(b, w, "light"); pg.goto(BASE + ap); pg.wait_for_timeout(250)
+                h = pg.evaluate(HDR); tag = f"/{ap} {w}"
+                if w >= 900:
+                    rec("B1", "Blog" in h["links"] and h["sw"] <= h["iw"] + 1 and not h["over"], f"{tag} header links {h['links']}, header overflow {h['over']}")
+                else:
+                    rec("B1", h["menuShown"] and "Blog" in h["mlinks"] and "Blog" not in h["links"] and h["sw"] <= h["iw"] + 1 and not h["over"], f"{tag} menu {h['mlinks']}, header overflow {h['over']}")
+                rec("B2", h["ctaH"] <= 48 and h["hdrH"] <= 80, f"{tag} CTA on one line: height {h['ctaH']:.0f}px, header {h['hdrH']:.0f}px, label {h['ctaText']!r}")
+                ctx.close()
+        for bp in BLOG_PATHS:
+            for js in (False, True):
+                ctx = mk(b, viewport={"width": 375, "height": 900}, java_script_enabled=js); pg = ctx.new_page(); errs = []
+                pg.on("pageerror", lambda e: errs.append(str(e))); pg.on("console", lambda m: errs.append(m.text) if m.type == "error" else None)
+                pg.goto(BASE + bp); pg.wait_for_timeout(300)
+                # images are loading="lazy": wheel-scroll through the page (works with JavaScript off too) so every one is requested, then wait for the network
+                for _ in range(int(pg.evaluate("document.documentElement.scrollHeight") / 500) + 3):
+                    pg.mouse.wheel(0, 500); pg.wait_for_timeout(60)
+                pg.wait_for_load_state("networkidle"); pg.wait_for_function("[...document.querySelectorAll('main img')].every(i => i.complete)", timeout=10000)
+                v = pg.evaluate("""() => { const vis = e => { const r = e.getBoundingClientRect(); return r.width > 0 && r.height > 0 && getComputedStyle(e).visibility !== 'hidden' && getComputedStyle(e).display !== 'none'; };
+                    const imgs = [...document.querySelectorAll('main img')];
+                    return {h1: vis(document.querySelector('main h1')), cards: document.querySelectorAll('.b-card').length, imgs: imgs.length, imgsLoaded: imgs.filter(i => i.complete && i.naturalWidth > 0).length,
+                            sources: !!document.querySelector('.g-sources') ? vis(document.querySelector('.g-sources')) : null, words: document.querySelector('main').innerText.split(/\s+/).length}; }""")
+                rec("B3", v["h1"] and v["imgs"] >= 1 and v["imgsLoaded"] == v["imgs"] and v["words"] > 60 and v["sources"] is not False, f"/{bp} JS {'on' if js else 'off'}: {v}")
+                if js: rec("B4", not errs, f"/{bp} console errors {errs[:2]}")
+                ctx.close()
         b.close()
     return
 
@@ -687,7 +733,7 @@ def main():
     manual = {20: "list-of-features review is manual"}
     allok = True
     print(f"Jubilab site v2 acceptance checks against {BASE}\n")
-    for n in list(range(1, 38)) + ["C1", "C2", "C3", "C4", "C5", "C6", "C7", "C8", "C9", "C10", "C11"] + ["N1", "N2", "N3", "N4", "N5", "N6", "N7", "N8", "N9", "N10", "N11"] + ["G1", "G2", "G3", "G4", "G5", "G6"]:
+    for n in list(range(1, 38)) + ["C1", "C2", "C3", "C4", "C5", "C6", "C7", "C8", "C9", "C10", "C11"] + ["N1", "N2", "N3", "N4", "N5", "N6", "N7", "N8", "N9", "N10", "N11"] + ["G1", "G2", "G3", "G4", "G5", "G6", "B1", "B2", "B3", "B4"]:
         if n in (5, 8):
             print(f"{n!s:>3}  REPLACED  (by N2/N3 and N4)"); continue
         if n == "N10":

@@ -1,0 +1,298 @@
+<!doctype html>
+<html lang="en">
+<head>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('consent','default',{ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied',analytics_storage:'denied'})</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lifting a VCF over: what to record | Jubilab</title>
+<meta name="description" content="Liftover can drop or change variants, and tools differ. What to write down about the chain file, tool and reference so you can explain what was lost later.">
+<meta name="theme-color" content="#f4f5f2">
+<link rel="canonical" href="https://jubilab.io/blog/lifting-a-vcf-over-what-to-record/">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Jubilab">
+<meta property="og:title" content="Lifting a VCF over: what to record | Jubilab">
+<meta property="og:description" content="Liftover can drop or change variants, and tools differ. What to write down about the chain file, tool and reference so you can explain what was lost later.">
+<meta property="og:url" content="https://jubilab.io/blog/lifting-a-vcf-over-what-to-record/">
+<meta property="og:image" content="https://jubilab.io/blog/lifting-a-vcf-over-what-to-record/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="A bridge arching between two slightly different shorelines, with two small parcels falling off the side into the water below and a dotted route above the span.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Lifting a VCF over: what to record | Jubilab">
+<meta name="twitter:description" content="Liftover can drop or change variants, and tools differ. What to write down about the chain file, tool and reference so you can explain what was lost later.">
+<meta name="twitter:image" content="https://jubilab.io/blog/lifting-a-vcf-over-what-to-record/og.png">
+<meta name="twitter:image:alt" content="A bridge arching between two slightly different shorelines, with two small parcels falling off the side into the water below and a dotted route above the span.">
+<link rel="icon" href="../../assets/favicon.svg" type="image/svg+xml">
+<link rel="preload" href="../../assets/fonts/hanken-grotesk-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="../../assets/fonts/ibm-plex-mono-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BlogPosting",
+      "headline": "Lifting a VCF over: what to record",
+      "description": "Liftover can drop or change variants, and tools differ. What to write down about the chain file, tool and reference so you can explain what was lost later.",
+      "url": "https://jubilab.io/blog/lifting-a-vcf-over-what-to-record/",
+      "mainEntityOfPage": "https://jubilab.io/blog/lifting-a-vcf-over-what-to-record/",
+      "inLanguage": "en",
+      "datePublished": "2026-10-19",
+      "dateModified": "2026-10-19",
+      "author": {
+        "@type": "Organization",
+        "name": "Jubilab",
+        "url": "https://jubilab.io/"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Jubilab",
+        "url": "https://jubilab.io/"
+      },
+      "image": "https://jubilab.io/blog/lifting-a-vcf-over-what-to-record/og.png",
+      "keywords": "vcf, reference-genome, provenance",
+      "wordCount": 1281,
+      "timeRequired": "PT6M",
+      "isPartOf": {
+        "@type": "Blog",
+        "name": "Jubilab blog",
+        "url": "https://jubilab.io/blog/"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "Chain Format",
+          "url": "https://genome.ucsc.edu/goldenPath/help/chain.html",
+          "publisher": {
+            "@type": "Organization",
+            "name": "UCSC Genome Browser, UC Santa Cruz"
+          }
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "CrossMap documentation",
+          "url": "https://crossmap.readthedocs.io/en/latest/",
+          "publisher": {
+            "@type": "Organization",
+            "name": "CrossMap project, Read the Docs"
+          }
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "Picard command line overview: LiftoverVcf",
+          "url": "https://broadinstitute.github.io/picard/command-line-overview.html",
+          "publisher": {
+            "@type": "Organization",
+            "name": "Broad Institute, Picard documentation"
+          }
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "BCFtools/liftover: an accurate and comprehensive tool to convert genetic variants across genome assemblies",
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10832354/",
+          "publisher": {
+            "@type": "Organization",
+            "name": "Genovese et al., Bioinformatics, 2024"
+          }
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "bcftools manual",
+          "url": "https://samtools.github.io/bcftools/bcftools.html",
+          "publisher": {
+            "@type": "Organization",
+            "name": "samtools project, bcftools documentation"
+          }
+        }
+      ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Jubilab",
+          "item": "https://jubilab.io/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Blog",
+          "item": "https://jubilab.io/blog/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Lifting a VCF over: what to record",
+          "item": "https://jubilab.io/blog/lifting-a-vcf-over-what-to-record/"
+        }
+      ]
+    }
+  ]
+}
+</script>
+<script>try{if(localStorage.getItem("jubilab-theme")==="dark")document.documentElement.setAttribute("data-theme","dark")}catch(e){}</script>
+<link rel="stylesheet" href="../../style.css">
+<link rel="stylesheet" href="../../guides/guides.css">
+<link rel="stylesheet" href="../../blog/blog.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to main content</a>
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="../../" aria-label="Jubilab, home">
+      <svg viewBox="0 0 26 26" aria-hidden="true" focusable="false"><circle class="b-fill" cx="5" cy="13" r="3.2"/><circle class="b-line" cx="21" cy="6" r="3.2"/><circle class="b-line" cx="21" cy="20" r="3.2"/><path class="b-line" d="M8 12 L18 7 M8 14 L18 19"/></svg>
+      <span class="brand-name">Jubilab</span>
+    </a>
+    <nav class="site-nav" aria-label="Page sections">
+      <ul class="links">
+        <li><a href="../../#how">What it does</a></li>
+        <li><a href="../../#fits">Integrations</a></li>
+        <li><a href="../../#product">Demo</a></li>
+        <li><a href="../../blog/" aria-current="page">Blog</a></li>
+      </ul>
+      <details class="menu">
+        <summary aria-label="Menu"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 7h16M4 12h16M4 17h16"/></svg></summary>
+        <ul>
+          <li><a href="../../#how">What it does</a></li>
+          <li><a href="../../#fits">Integrations</a></li>
+          <li><a href="../../#product">Demo</a></li>
+          <li><a href="../../blog/" aria-current="page">Blog</a></li>
+        </ul>
+      </details>
+    </nav>
+    <div class="tools">
+      <button type="button" class="theme-toggle" id="theme-toggle" aria-label="Switch to dark theme" title="Switch to dark theme" hidden>
+        <svg class="i-moon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg>
+        <svg class="i-sun" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+      </button>
+      <a class="btn small" href="../../#access" aria-label="Request early access"><span class="full">Request early access</span><span class="short" aria-hidden="true">Early access</span></a>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+<div id="top"></div>
+<article>
+<section class="g-hero b-hero">
+  <div class="wrap">
+    <nav class="g-crumbs" aria-label="Breadcrumb"><ol><li><a href="../../">Jubilab</a></li><li><a href="../">Blog</a></li><li aria-current="page">Lifting a VCF over: what to record</li></ol></nav>
+    <p class="eyebrow">Blog</p>
+    <h1>Lifting a VCF over: what to record</h1>
+    <p class="g-lede">Imagine you lift a VCF from one genome assembly to another, and the output has fewer records than the input. Is that expected? Is it the chain file, the tool, the settings, or a mistake somewhere earlier? Months later, a collaborator asks the same question, and all you have is the two files. This post is about the small amount of information worth writing down at the moment of the liftover, so that the question has an answer, and about what we do and do not know about how much loss to expect.</p>
+    <p class="g-meta">By Jubilab &middot; <time datetime="2026-10-19">19 October 2026</time> &middot; 6 min read</p>
+    <p class="b-tags"><span class="g-tag">vcf</span> <span class="g-tag">reference-genome</span> <span class="g-tag">provenance</span></p>
+  </div>
+</section>
+<div class="g-body">
+<div class="wrap">
+<figure class="b-figure"><img src="image.svg" width="1600" height="900" alt="A bridge arching between two slightly different shorelines, with two small parcels falling off the side into the water below and a dotted route above the span." decoding="async"></figure>
+<h2 id="what-liftover-does">What liftover does</h2>
+<p>Liftover converts coordinates from one assembly to another using a chain file. The UCSC description of the chain format says that a chain file stores a pairwise alignment between two genome sequences, one that allows gaps in both sequences at once, as a series of aligned blocks with the distances between them.<sup class="cite"><a href="#src-1" aria-label="Source 1">[1]</a></sup> A variant sitting inside an aligned block can be moved. A variant that falls between blocks has no direct destination, though some tools try to recover it.</p>
+<p>For a VCF there is a second problem. The record carries alleles as well as a position, so the tool must also decide what REF and ALT mean on the other assembly. CrossMap&#x27;s documentation states that its VCF mode needs the chain file, the input VCF and a FASTA of the target assembly, and that this reference &quot;must correspond to the target assembly.&quot;<sup class="cite"><a href="#src-2" aria-label="Source 2">[2]</a></sup> Picard&#x27;s LiftoverVcf documentation lists the chain file, an output for rejected records and the target reference sequence among its required arguments.<sup class="cite"><a href="#src-3" aria-label="Source 3">[3]</a></sup> In both cases, three things shape the result: the chain, the target reference and the tool.</p>
+<h2 id="tools-handle-the-edges-differently">Tools handle the edges differently</h2>
+<p>CrossMap&#x27;s documentation describes a separate <code>.unmap</code> file for variants that could not be mapped, and tags records with reasons such as <code>Fail(Multiple_hits)</code>, <code>Fail(REF==ALT)</code>, <code>Fail(Unmap)</code> and <code>Fail(KeyError)</code> when a contig is missing from the target FASTA.<sup class="cite"><a href="#src-2" aria-label="Source 2">[2]</a></sup> The same page lists behaviour changes between versions, for example how reference alleles of indels on the reverse strand are updated, which is a good reason to write down the exact version you ran.<sup class="cite"><a href="#src-2" aria-label="Source 2">[2]</a></sup></p>
+<p>Picard&#x27;s documentation says rejected records are written to the reject file with filters, using source genome coordinates, and it describes options such as writing the original position into the INFO field, which is off by default.<sup class="cite"><a href="#src-3" aria-label="Source 3">[3]</a></sup> If you did not switch that on, the lifted file does not say where each variant came from. That is a decision worth recording even if you think you will never need it.</p>
+<p>How much do tools differ in practice? One comparison is in the paper describing BCFtools/liftover. The authors lifted a 1000 Genomes low-coverage callset from GRCh37 to GRCh38 with the UCSC chain file and compared six tools on 45,595,458 bi-allelic SNVs. The numbers of SNVs each dropped ranged from 12,582 to 46,607, and for CrossMap the authors attribute the high count to its inability to swap reference and alternate alleles.<sup class="cite"><a href="#src-4" aria-label="Source 4">[4]</a></sup> By our arithmetic, those counts are between roughly 0.03% and 0.10% of the SNVs. Two cautions apply. The authors wrote one of the compared tools, so we read the benchmark as informative but not neutral. And it is one dataset, one pair of assemblies and one chain file, so we do not think it tells you what a &quot;normal&quot; loss rate is for yours. Tool versions have also moved on since, and we have not repeated the comparison.</p>
+<h2 id="the-record-to-write-while-you-still-remember">The record to write while you still remember</h2>
+<p>Here is the short list we would keep next to every lifted file:</p>
+<ol>
+<li><strong>Source and target:</strong> the assembly name and build of the input, and of the target FASTA you passed to the tool.</li>
+<li><strong>Chain file:</strong> its name, where it came from, and a checksum. A chain file may be updated at its source without its name changing; we have not checked how often that happens, but a checksum is a cheap way to notice.</li>
+<li><strong>Tool and version</strong>, and the full command line, including options such as how swapped alleles or original positions were handled.</li>
+<li><strong>Counts:</strong> records in, records out, records rejected, and where the reject or unmap file is stored.</li>
+<li><strong>Anything you did afterwards:</strong> filtering, sorting or normalisation applied to the lifted output.</li>
+</ol>
+<p>None of this needs special software. With bcftools you can write the record from the shell. We tried this on tiny files with bcftools 1.13; the chain here is a one-block stand-in so that the checksum line has something to hash:</p>
+<p class="code-cap">Write a small record next to a lifted file</p>
+<pre class="code" tabindex="0" role="region" aria-label="Write a small record next to a lifted file"><code>{
+  echo &quot;tool: $(bcftools --version | head -n 1)&quot;
+  echo &quot;chain: $(sha256sum toy.over.chain | cut -c1-16)...  toy.over.chain&quot;
+  echo &quot;records in: $(bcftools view -H before.vcf | wc -l)&quot;
+  echo &quot;records out: $(bcftools view -H after.vcf | wc -l)&quot;
+} &gt; liftover-record.txt</code></pre>
+<pre class="code out" tabindex="0" role="region" aria-label="Code example"><code>tool: bcftools 1.13
+chain: df05e308de6372c8...  toy.over.chain
+records in: 3
+records out: 3</code></pre>
+<p>In real use you would store the full checksum, not a shortened one, and you would add the liftover command itself. We have not run Picard or CrossMap for this post, so everything we say about them comes from their documentation, not from our own runs.</p>
+<p>The bcftools manual also notes a <code>--no-version</code> option that leaves version and command line information out of the output header, so if you ever see a VCF without such lines, that alone does not tell you nothing was done to it.<sup class="cite"><a href="#src-5" aria-label="Source 5">[5]</a></sup></p>
+<h2 id="checking-afterwards">Checking afterwards</h2>
+<p>A count tells you how many records went missing, not which ones or why. If the reject file survives, it is a good place to start, because, according to their documentation, Picard and CrossMap write rejected records out with filters or reasons. If it does not, you can only compare the input and output yourself. Our <a href="/guides/reference-genome-build-vcf-bam/">guide on checking the reference build of a VCF or BAM</a> walks through checks such as contig lengths and REF alleles against a FASTA, which work on a lifted file in the same way.</p>
+<h2 id="where-jubilab-fits">Where Jubilab fits</h2>
+<p>Jubilab is being built to keep this kind of record for you, as a local-first, self-hostable history of how results are made. Today you can wrap a liftover command with the native bash wrapper. Jubilab keeps the command, its arguments and the input and output files you declare as an immutable run; the command and times are marked verified, and files you declare are marked manual or inferred. If you declare the lifted file as an output, you can trace it back to that run, and you can compare two runs, for example the same input lifted with two chain files. Opt-in capture of reference and annotation details from file headers ships with our next release.</p>
+<p>Jubilab does not perform or check a liftover, it does not detect that a liftover went wrong, and it does not yet check for reference build mismatches. It is not affiliated with or endorsed by Picard, CrossMap, UCSC, the bcftools project or the authors cited here.</p>
+
+<section class="b-questions" aria-labelledby="questions-h">
+<h2 id="questions-h">Questions we are still asking</h2>
+<ul>
+<li>What loss rate is reasonable for a given dataset and chain? We do not know, and the published comparison above covers one case. It is worth asking whether teams keep their own reference numbers.</li>
+<li>We wonder how often a reject file is kept. Some teams may delete it as clutter; we have not surveyed anyone and would like to hear what is common.</li>
+<li>How should a loss be reported in a methods section, as a count, a percentage or the reject file itself?</li>
+<li>Does the choice of chain file matter more than the choice of tool? The paper above used one chain file, so it cannot say, and we have not tested it.</li>
+<li>We have not run Picard or CrossMap ourselves for this post. If you see behaviour that differs from their documentation as we describe it, we would like to know.</li>
+</ul>
+</section>
+<section class="helps" aria-labelledby="helps-h">
+<h2 id="helps-h">How Jubilab helps</h2>
+
+<div class="helps-cols">
+<div><h3 class="s">Available now</h3>
+<ul>
+<li>Records each run: the command, inputs, parameters and outputs, with an evidence status on every fact (verified, inferred, manual or unknown).</li>
+<li>Trace a result back to its run and parameters; compare two runs to see which recorded values differ.</li>
+<li>Runs are kept as history the application cannot edit.</li>
+<li>Records Nextflow runs as they happen or imports a finished run, imports Snakemake runs, and records any other command with the native bash wrapper.</li>
+<li>Opt-in capture of the reference genome and annotation details written in file headers. It ships with our next release.</li>
+</ul></div>
+<div><h3 class="p">Not available yet</h3>
+<ul>
+<li>Linking every sample to its files and results.</li>
+<li>Checks that flag a sample swap or a reference genome build mismatch. These are not available yet.</li>
+<li>Recovering runs that were never recorded. Jubilab records going forward; it cannot rebuild the history of a run it did not see.</li>
+</ul></div>
+</div>
+<a class="btn" href="../../#access">Request early access</a>
+</section>
+<h2 id="sources">Sources</h2>
+<ol class="g-sources">
+<li id="src-1"><a href="https://genome.ucsc.edu/goldenPath/help/chain.html" rel="noopener">Chain Format</a> <span class="why">&mdash; UCSC Genome Browser, UC Santa Cruz. Accessed 19 October 2026. <span class="url">https://genome.ucsc.edu/goldenPath/help/chain.html</span></span></li>
+<li id="src-2"><a href="https://crossmap.readthedocs.io/en/latest/" rel="noopener">CrossMap documentation</a> <span class="why">&mdash; CrossMap project, Read the Docs. Accessed 19 October 2026. <span class="url">https://crossmap.readthedocs.io/en/latest/</span></span></li>
+<li id="src-3"><a href="https://broadinstitute.github.io/picard/command-line-overview.html" rel="noopener">Picard command line overview: LiftoverVcf</a> <span class="why">&mdash; Broad Institute, Picard documentation. Accessed 19 October 2026. <span class="url">https://broadinstitute.github.io/picard/command-line-overview.html</span></span></li>
+<li id="src-4"><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC10832354/" rel="noopener">BCFtools/liftover: an accurate and comprehensive tool to convert genetic variants across genome assemblies</a> <span class="why">&mdash; Genovese et al., Bioinformatics, 2024. Accessed 19 October 2026. <span class="url">https://pmc.ncbi.nlm.nih.gov/articles/PMC10832354/</span></span></li>
+<li id="src-5"><a href="https://samtools.github.io/bcftools/bcftools.html" rel="noopener">bcftools manual</a> <span class="why">&mdash; samtools project, bcftools documentation. Accessed 19 October 2026. <span class="url">https://samtools.github.io/bcftools/bcftools.html</span></span></li>
+</ol>
+<p class="g-review">Written by Jubilab. Published 19 October 2026; last updated 19 October 2026. Where this post names other products or projects, Jubilab is not affiliated with or endorsed by them, and it does not claim any integration with them. Things we could not check are written as questions; if you spot a mistake, email <a href="mailto:hello@jubilab.io">hello@jubilab.io</a>.</p>
+<nav class="b-pager" aria-label="More posts">
+<a class="b-prev" href="../local-first-for-lab-data/" rel="prev"><span class="b-dir">Newer</span><span class="b-t">Local-first for lab data: what stays on your machine</span></a>
+<a class="b-next" href="../inherited-pipeline-first-week-checklist/" rel="next"><span class="b-dir">Older</span><span class="b-t">Inherited a pipeline? A first-week checklist</span></a>
+</nav>
+<section class="b-related" aria-labelledby="related"><h2 id="related">Related posts</h2><ul class="b-grid">
+<li class="b-card"><a class="b-img" href="../ai-agents-need-a-record-not-just-chat-history/" tabindex="-1" aria-hidden="true"><img src="../ai-agents-need-a-record-not-just-chat-history/image.svg" width="1600" height="900" alt="" loading="lazy" decoding="async"></a><div class="b-card-body"><h2 class="b-card-t"><a href="../ai-agents-need-a-record-not-just-chat-history/">AI agents in the lab need a record, not a chat history</a></h2><p class="b-sum">Agents can run analyses, but a chat transcript is not a record of how a result was made. Our vision, and what is not built yet.</p><p class="b-card-meta"><time datetime="2026-10-19">19 October 2026</time> &middot; 6 min read</p></div></li>
+<li class="b-card"><a class="b-img" href="../conda-environments-genomics-export-history-lock/" tabindex="-1" aria-hidden="true"><img src="../conda-environments-genomics-export-history-lock/image.svg" width="1600" height="900" alt="" loading="lazy" decoding="async"></a><div class="b-card-body"><h2 class="b-card-t"><a href="../conda-environments-genomics-export-history-lock/">Conda for genomics: export, history or lock file?</a></h2><p class="b-sum">Three ways to save a conda environment, what each keeps in a small test, and what we still wonder about for genomics.</p><p class="b-card-meta"><time datetime="2026-10-19">19 October 2026</time> &middot; 5 min read</p></div></li>
+<li class="b-card"><a class="b-img" href="../how-to-compare-two-pipeline-runs/" tabindex="-1" aria-hidden="true"><img src="../how-to-compare-two-pipeline-runs/image.svg" width="1600" height="900" alt="" loading="lazy" decoding="async"></a><div class="b-card-body"><h2 class="b-card-t"><a href="../how-to-compare-two-pipeline-runs/">How to compare two pipeline runs</a></h2><p class="b-sum">What counts as a difference between two runs, a manual way to diff them, and what lineage diff and nf-diff showed on a toy pair.</p><p class="b-card-meta"><time datetime="2026-10-19">19 October 2026</time> &middot; 6 min read</p></div></li>
+</ul></section>
+</div>
+</div>
+</article>
+</main>
+<footer>
+  <div class="wrap">
+    <div>
+      <p class="foot-brand">Jubilab</p>
+      <p>Be among the first labs shaping Jubilab. Screenshots and diagrams on this site use synthetic demo data.</p>
+      <p>Contact: <a href="mailto:hello@jubilab.io">hello@jubilab.io</a></p>
+    </div>
+    <ul aria-label="Footer">
+      <li><a href="../../guides/">Guides</a></li>
+      <li><a href="../../blog/">Blog</a></li>
+      <li><a href="../../privacy/">Privacy</a></li>
+      <li><a href="../../terms/">Terms</a></li>
+      <li><a href="../../#top">Back to top</a></li>
+    </ul>
+  </div>
+</footer>
+<script src="../../assets/theme.js" defer></script>
+<script src="../../assets/consent.js" defer></script>
+</body>
+</html>

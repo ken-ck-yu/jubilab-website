@@ -1,0 +1,333 @@
+<!doctype html>
+<html lang="en">
+<head>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('consent','default',{ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied',analytics_storage:'denied'})</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Inherited a pipeline? A first-week checklist | Jubilab</title>
+<meta name="description" content="A new colleague left, and you now own their analysis. A practical checklist for rebuilding how the results were made, and what to write down while you do.">
+<meta name="theme-color" content="#f4f5f2">
+<link rel="canonical" href="https://jubilab.io/blog/inherited-pipeline-first-week-checklist/">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Jubilab">
+<meta property="og:title" content="Inherited a pipeline? A first-week checklist | Jubilab">
+<meta property="og:description" content="A new colleague left, and you now own their analysis. A practical checklist for rebuilding how the results were made, and what to write down while you do.">
+<meta property="og:url" content="https://jubilab.io/blog/inherited-pipeline-first-week-checklist/">
+<meta property="og:image" content="https://jubilab.io/blog/inherited-pipeline-first-week-checklist/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="A key being passed from one hand to another across a table, with an unfolded map and a dotted route between marked places lying between the hands.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Inherited a pipeline? A first-week checklist | Jubilab">
+<meta name="twitter:description" content="A new colleague left, and you now own their analysis. A practical checklist for rebuilding how the results were made, and what to write down while you do.">
+<meta name="twitter:image" content="https://jubilab.io/blog/inherited-pipeline-first-week-checklist/og.png">
+<meta name="twitter:image:alt" content="A key being passed from one hand to another across a table, with an unfolded map and a dotted route between marked places lying between the hands.">
+<link rel="icon" href="../../assets/favicon.svg" type="image/svg+xml">
+<link rel="preload" href="../../assets/fonts/hanken-grotesk-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="../../assets/fonts/ibm-plex-mono-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BlogPosting",
+      "headline": "Inherited a pipeline? A first-week checklist",
+      "description": "A new colleague left, and you now own their analysis. A practical checklist for rebuilding how the results were made, and what to write down while you do.",
+      "url": "https://jubilab.io/blog/inherited-pipeline-first-week-checklist/",
+      "mainEntityOfPage": "https://jubilab.io/blog/inherited-pipeline-first-week-checklist/",
+      "inLanguage": "en",
+      "datePublished": "2026-10-19",
+      "dateModified": "2026-10-19",
+      "author": {
+        "@type": "Organization",
+        "name": "Jubilab",
+        "url": "https://jubilab.io/"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Jubilab",
+        "url": "https://jubilab.io/"
+      },
+      "image": "https://jubilab.io/blog/inherited-pipeline-first-week-checklist/og.png",
+      "keywords": "handover, provenance, bioinformatics",
+      "wordCount": 1380,
+      "timeRequired": "PT7M",
+      "isPartOf": {
+        "@type": "Blog",
+        "name": "Jubilab blog",
+        "url": "https://jubilab.io/blog/"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "Ten Simple Rules for Reproducible Computational Research",
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3812051/",
+          "publisher": {
+            "@type": "Organization",
+            "name": "Sandve, Nekrutenko, Taylor and Hovig, PLOS Computational Biology, 2013"
+          }
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "nextflow log (CLI reference)",
+          "url": "https://docs.seqera.io/nextflow/reference/cli/log",
+          "publisher": {
+            "@type": "Organization",
+            "name": "Seqera, Nextflow documentation"
+          }
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "Snakemake command-line interface",
+          "url": "https://snakemake.readthedocs.io/en/stable/executing/cli.html",
+          "publisher": {
+            "@type": "Organization",
+            "name": "Snakemake project, Read the Docs"
+          }
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "samtools view",
+          "url": "https://www.htslib.org/doc/samtools-view.html",
+          "publisher": {
+            "@type": "Organization",
+            "name": "htslib.org, samtools documentation"
+          }
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "bcftools manual",
+          "url": "https://samtools.github.io/bcftools/bcftools.html",
+          "publisher": {
+            "@type": "Organization",
+            "name": "samtools project, bcftools documentation"
+          }
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "Cache and resume",
+          "url": "https://docs.seqera.io/nextflow/cache-and-resume",
+          "publisher": {
+            "@type": "Organization",
+            "name": "Seqera, Nextflow documentation"
+          }
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "From ideal to practical: Heterogeneity of student-generated variant lists highlights hidden reproducibility gaps",
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12530611/",
+          "publisher": {
+            "@type": "Organization",
+            "name": "Ertürk et al., PLOS Computational Biology, 2025"
+          }
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "Be Prospective, Not Retrospective: A Philosophy for Advancing Reproducibility in Modern Biological Research",
+          "url": "https://arxiv.org/abs/2210.02593",
+          "publisher": {
+            "@type": "Organization",
+            "name": "Chure, arXiv, 2022"
+          }
+        }
+      ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Jubilab",
+          "item": "https://jubilab.io/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Blog",
+          "item": "https://jubilab.io/blog/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Inherited a pipeline? A first-week checklist",
+          "item": "https://jubilab.io/blog/inherited-pipeline-first-week-checklist/"
+        }
+      ]
+    }
+  ]
+}
+</script>
+<script>try{if(localStorage.getItem("jubilab-theme")==="dark")document.documentElement.setAttribute("data-theme","dark")}catch(e){}</script>
+<link rel="stylesheet" href="../../style.css">
+<link rel="stylesheet" href="../../guides/guides.css">
+<link rel="stylesheet" href="../../blog/blog.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to main content</a>
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="../../" aria-label="Jubilab, home">
+      <svg viewBox="0 0 26 26" aria-hidden="true" focusable="false"><circle class="b-fill" cx="5" cy="13" r="3.2"/><circle class="b-line" cx="21" cy="6" r="3.2"/><circle class="b-line" cx="21" cy="20" r="3.2"/><path class="b-line" d="M8 12 L18 7 M8 14 L18 19"/></svg>
+      <span class="brand-name">Jubilab</span>
+    </a>
+    <nav class="site-nav" aria-label="Page sections">
+      <ul class="links">
+        <li><a href="../../#how">What it does</a></li>
+        <li><a href="../../#fits">Integrations</a></li>
+        <li><a href="../../#product">Demo</a></li>
+        <li><a href="../../blog/" aria-current="page">Blog</a></li>
+      </ul>
+      <details class="menu">
+        <summary aria-label="Menu"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 7h16M4 12h16M4 17h16"/></svg></summary>
+        <ul>
+          <li><a href="../../#how">What it does</a></li>
+          <li><a href="../../#fits">Integrations</a></li>
+          <li><a href="../../#product">Demo</a></li>
+          <li><a href="../../blog/" aria-current="page">Blog</a></li>
+        </ul>
+      </details>
+    </nav>
+    <div class="tools">
+      <button type="button" class="theme-toggle" id="theme-toggle" aria-label="Switch to dark theme" title="Switch to dark theme" hidden>
+        <svg class="i-moon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg>
+        <svg class="i-sun" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+      </button>
+      <a class="btn small" href="../../#access" aria-label="Request early access"><span class="full">Request early access</span><span class="short" aria-hidden="true">Early access</span></a>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+<div id="top"></div>
+<article>
+<section class="g-hero b-hero">
+  <div class="wrap">
+    <nav class="g-crumbs" aria-label="Breadcrumb"><ol><li><a href="../../">Jubilab</a></li><li><a href="../">Blog</a></li><li aria-current="page">Inherited a pipeline? A first-week checklist</li></ol></nav>
+    <p class="eyebrow">Blog</p>
+    <h1>Inherited a pipeline? A first-week checklist</h1>
+    <p class="g-lede">Imagine a colleague has moved on, and you now own their analysis. There is a folder of scripts, a results directory with some files you recognise, and a few messages you can still search. Your supervisor asks a reasonable question: can you rerun this, and can you say how the numbers in the figure were made? This post is a checklist for week one. It aims to help you rebuild what happened, in an order that avoids making things worse, and to write down what you learn while it is fresh.</p>
+    <p class="g-meta">By Jubilab &middot; <time datetime="2026-10-19">19 October 2026</time> &middot; 7 min read</p>
+    <p class="b-tags"><span class="g-tag">handover</span> <span class="g-tag">provenance</span> <span class="g-tag">bioinformatics</span></p>
+  </div>
+</section>
+<div class="g-body">
+<div class="wrap">
+<figure class="b-figure"><img src="image.svg" width="1600" height="900" alt="A key being passed from one hand to another across a table, with an unfolded map and a dotted route between marked places lying between the hands." decoding="async"></figure>
+<p>We do not know how common this situation is. We only note that the idea is old: a widely cited 2013 paper made &quot;for every result, keep track of how it was produced&quot; its first rule.<sup class="cite"><a href="#src-1" aria-label="Source 1">[1]</a></sup> The checklist below is what we would try if the person who followed that rule was not there.</p>
+<h2 id="day-one-freeze-before-you-touch">Day one: freeze before you touch</h2>
+<p>Before you run anything, make a read-only copy of what exists: scripts, configuration, logs, results, and a list of the shared-storage directories the scripts mention. Note the date and where the copy lives. A &quot;quick test run&quot; can overwrite outputs, change timestamps, or (with some workflow settings) delete cached files you did not know you needed.</p>
+<p>Also write down what you are starting with, in plain words: what you were told, what you can see, and what you are guessing. We will come back to that last distinction, because it is the one that tends to get lost.</p>
+<h2 id="day-two-take-an-inventory">Day two: take an inventory</h2>
+<p>Look for every place a record of what was run might live. A short list to start with:</p>
+<ul>
+<li>Shell history, job scheduler scripts and their output logs.</li>
+<li>Configuration files, parameter files, and environment or container definitions.</li>
+<li>Version control history, if the scripts were ever put in a repository.</li>
+<li>The headers of the files themselves.</li>
+</ul>
+<p>Workflow engines leave their own traces, and it helps to know where. If the work was done with Nextflow, the <code>nextflow log</code> command prints the execution history and log information, and it accepts a <code>-f</code> option listing the fields to show.<sup class="cite"><a href="#src-2" aria-label="Source 2">[2]</a></sup> Run on its own, it lists previous runs. We ran it with Nextflow 24.01.0-edge on a two-step toy pipeline, and asked for the task name, status and work directory of one run:</p>
+<p class="code-cap">Ask Nextflow which tasks a past run executed and where their files are</p>
+<pre class="code" tabindex="0" role="region" aria-label="Ask Nextflow which tasks a past run executed and where their files are"><code>nextflow log confident_engelbart -f name,status,workdir</code></pre>
+<pre class="code out" tabindex="0" role="region" aria-label="Code example"><code>TRIM	COMPLETED	/tmp/.../work/7a/8d3730809906a6ca69c1b961f18d16
+ALIGN	COMPLETED	/tmp/.../work/12/1eae96959500d83e943f31adae10dc</code></pre>
+<p>That works only from the project folder where the runs happened, and only if the hidden <code>.nextflow</code> history is still there, so check before anyone tidies the folder.</p>
+<p>If the work was done with Snakemake, its documentation describes <code>--summary</code>, which prints a summary of the files the workflow created, and <code>--list-changes</code> with <code>code</code>, <code>input</code> or <code>params</code>, which lists output files for which those items have changed since creation.<sup class="cite"><a href="#src-3" aria-label="Source 3">[3]</a></sup> We have not run these ourselves. We would want to try them on a copy before trusting the answer.</p>
+<p>Files carry some history too. The <code>samtools view</code> documentation describes a <code>--no-PG</code> option that stops a <code>@PG</code> line from being added to a header.<sup class="cite"><a href="#src-4" aria-label="Source 4">[4]</a></sup> That tells us such lines are written by default, but also that they are optional, so a missing line is not proof that nothing ran. For VCF files, the bcftools manual describes <code>--no-version</code>, which omits version and command line information from the output header.<sup class="cite"><a href="#src-5" aria-label="Source 5">[5]</a></sup> We tried a plain <code>bcftools view</code> (version 1.13) on a three-line file and the output header gained <code>##bcftools_viewVersion</code> and <code>##bcftools_viewCommand</code> lines, the latter holding the arguments and a date, and adding <code>--no-version</code> left them out. Header lines like these are clues, not a full record: they show the last tool that touched a file, not the whole route to it.</p>
+<h2 id="day-three-read-results-back-toward-inputs">Day three: read results back toward inputs</h2>
+<p>Pick one result that matters, such as the table behind a figure, and walk backwards. Which file was it written from? Which script wrote that? Which inputs did that script read? Keep going until you reach raw data or a dead end. A dead end is a finding: write down exactly where the trail stops and why.</p>
+<p>This is also the time to look for manual steps. The same 2013 paper recommends avoiding manual data manipulation steps and, where one is unavoidable, noting which files were changed and why.<sup class="cite"><a href="#src-1" aria-label="Source 1">[1]</a></sup> A hand-edited sample sheet or a spreadsheet filter will not show up in any log, so ask around, and mark what you learn as hearsay until you can confirm it.</p>
+<h2 id="day-four-look-for-hard-coded-paths-and-missing-files">Day four: look for hard-coded paths and missing files</h2>
+<p>Search the scripts for absolute paths, home directories, and scratch locations. Each one is a question: does that path exist today, and was it the same thing then? Some sites clean scratch space automatically, so a missing folder may simply mean time passed. Our <a href="/guides/what-parameters-produced-this-result/">guide on what parameters produced a result</a> covers what tends to get lost.</p>
+<p>For Nextflow, the documentation says resume needs both a matching cache entry and intact outputs, and recommends preserving the task cache and the work directories to resume successfully.<sup class="cite"><a href="#src-6" aria-label="Source 6">[6]</a></sup> So if the work directory is gone, expect a rerun to do real work again rather than skip steps.</p>
+<h2 id="day-five-rerun-small-and-compare">Day five: rerun small, and compare</h2>
+<p>Rerun the smallest piece you can on a copy, with the inputs and settings you believe were used, and compare the output with the old one. Differences are information. A 2025 study of student-built variant-calling pipelines on one benchmark dataset reports that the operating system and installation method were the most influential factors in performance.<sup class="cite"><a href="#src-7" aria-label="Source 7">[7]</a></sup> This is a course project with eleven groups, so we read it as a hint to record the environment, not as a rule about which setup is best.</p>
+<h2 id="what-to-write-down-as-you-go">What to write down as you go</h2>
+<p>Everything above produces facts of different quality, and a rebuilt record is only useful if it says which is which. A simple scheme is enough:</p>
+<ol>
+<li><strong>Seen:</strong> read directly from a log, header, or file you can still open.</li>
+<li><strong>Inferred:</strong> worked out from a filename, a date, or a script that probably ran.</li>
+<li><strong>Told:</strong> from a person&#x27;s memory or a message.</li>
+<li><strong>Unknown:</strong> the gaps, written as gaps.</li>
+</ol>
+<p>Our reading of the arXiv essay &quot;Be Prospective, Not Retrospective&quot; is that its author proposes making reproducibility a goal from the start of a project instead of fixing documentation at the end.<sup class="cite"><a href="#src-8" aria-label="Source 8">[8]</a></sup> A handover is the moment that lesson shows up. Whatever you rebuild this week, a good moment to start writing down how new results are made is now.</p>
+<h2 id="where-jubilab-fits">Where Jubilab fits</h2>
+<p>Jubilab is a local-first, self-hostable record of how results are made. Today it can trace a result back to its run, inputs and parameters, compare two runs, and keep each fact with an evidence status (verified, inferred, manual or unknown), which is the same idea as the list above. It records Nextflow runs live or imports finished ones, imports Snakemake runs, and wraps other commands with a native bash wrapper. Runs are kept as history the application cannot edit.</p>
+<p>It cannot recover the history of runs it never saw, and it does not reconstruct what a departed colleague did. What it can do is make the next handover less of a detective story. Capturing reference and annotation details from file headers is opt-in and ships with our next release. Jubilab is not affiliated with or endorsed by Nextflow, Snakemake, Seqera, the bcftools or samtools projects, or the authors cited here.</p>
+
+<section class="b-questions" aria-labelledby="questions-h">
+<h2 id="questions-h">Questions we are still asking</h2>
+<ul>
+<li>How much of a handover can be rebuilt from logs and headers alone, and how much depends on asking the person? We have no data on this and would like to hear from teams who have been through it.</li>
+<li>Is a record rebuilt from inference worth keeping next to a record captured at the time? We lean towards yes, if the guesses are clearly labelled, but we have not tested whether people read the labels.</li>
+<li>We have not run the Snakemake options above ourselves. We wonder how well they hold up on a project that has been edited since the original run.</li>
+<li>It is worth asking whether the environment effects in the 2025 student study would appear in routine laboratory work. We do not know.</li>
+<li>What would you want at the top of a handover note? Our guess is parameters, reference build and where the raw data lives, but we may be missing something.</li>
+</ul>
+</section>
+<section class="helps" aria-labelledby="helps-h">
+<h2 id="helps-h">How Jubilab helps</h2>
+
+<div class="helps-cols">
+<div><h3 class="s">Available now</h3>
+<ul>
+<li>Records each run: the command, inputs, parameters and outputs, with an evidence status on every fact (verified, inferred, manual or unknown).</li>
+<li>Trace a result back to its run and parameters; compare two runs to see which recorded values differ.</li>
+<li>Runs are kept as history the application cannot edit.</li>
+<li>Records Nextflow runs as they happen or imports a finished run, imports Snakemake runs, and records any other command with the native bash wrapper.</li>
+<li>Opt-in capture of the reference genome and annotation details written in file headers. It ships with our next release.</li>
+</ul></div>
+<div><h3 class="p">Not available yet</h3>
+<ul>
+<li>Linking every sample to its files and results.</li>
+<li>Checks that flag a sample swap or a reference genome build mismatch. These are not available yet.</li>
+<li>Recovering runs that were never recorded. Jubilab records going forward; it cannot rebuild the history of a run it did not see.</li>
+</ul></div>
+</div>
+<a class="btn" href="../../#access">Request early access</a>
+</section>
+<h2 id="sources">Sources</h2>
+<ol class="g-sources">
+<li id="src-1"><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC3812051/" rel="noopener">Ten Simple Rules for Reproducible Computational Research</a> <span class="why">&mdash; Sandve, Nekrutenko, Taylor and Hovig, PLOS Computational Biology, 2013. Accessed 19 October 2026. <span class="url">https://pmc.ncbi.nlm.nih.gov/articles/PMC3812051/</span></span></li>
+<li id="src-2"><a href="https://docs.seqera.io/nextflow/reference/cli/log" rel="noopener">nextflow log (CLI reference)</a> <span class="why">&mdash; Seqera, Nextflow documentation. Accessed 19 October 2026. <span class="url">https://docs.seqera.io/nextflow/reference/cli/log</span></span></li>
+<li id="src-3"><a href="https://snakemake.readthedocs.io/en/stable/executing/cli.html" rel="noopener">Snakemake command-line interface</a> <span class="why">&mdash; Snakemake project, Read the Docs. Accessed 19 October 2026. <span class="url">https://snakemake.readthedocs.io/en/stable/executing/cli.html</span></span></li>
+<li id="src-4"><a href="https://www.htslib.org/doc/samtools-view.html" rel="noopener">samtools view</a> <span class="why">&mdash; htslib.org, samtools documentation. Accessed 19 October 2026. <span class="url">https://www.htslib.org/doc/samtools-view.html</span></span></li>
+<li id="src-5"><a href="https://samtools.github.io/bcftools/bcftools.html" rel="noopener">bcftools manual</a> <span class="why">&mdash; samtools project, bcftools documentation. Accessed 19 October 2026. <span class="url">https://samtools.github.io/bcftools/bcftools.html</span></span></li>
+<li id="src-6"><a href="https://docs.seqera.io/nextflow/cache-and-resume" rel="noopener">Cache and resume</a> <span class="why">&mdash; Seqera, Nextflow documentation. Accessed 19 October 2026. <span class="url">https://docs.seqera.io/nextflow/cache-and-resume</span></span></li>
+<li id="src-7"><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC12530611/" rel="noopener">From ideal to practical: Heterogeneity of student-generated variant lists highlights hidden reproducibility gaps</a> <span class="why">&mdash; Ertürk et al., PLOS Computational Biology, 2025. Accessed 19 October 2026. <span class="url">https://pmc.ncbi.nlm.nih.gov/articles/PMC12530611/</span></span></li>
+<li id="src-8"><a href="https://arxiv.org/abs/2210.02593" rel="noopener">Be Prospective, Not Retrospective: A Philosophy for Advancing Reproducibility in Modern Biological Research</a> <span class="why">&mdash; Chure, arXiv, 2022. Accessed 19 October 2026. <span class="url">https://arxiv.org/abs/2210.02593</span></span></li>
+</ol>
+<p class="g-review">Written by Jubilab. Published 19 October 2026; last updated 19 October 2026. Where this post names other products or projects, Jubilab is not affiliated with or endorsed by them, and it does not claim any integration with them. Things we could not check are written as questions; if you spot a mistake, email <a href="mailto:hello@jubilab.io">hello@jubilab.io</a>.</p>
+<nav class="b-pager" aria-label="More posts">
+<a class="b-prev" href="../lifting-a-vcf-over-what-to-record/" rel="prev"><span class="b-dir">Newer</span><span class="b-t">Lifting a VCF over: what to record</span></a>
+<a class="b-next" href="../how-to-compare-two-pipeline-runs/" rel="next"><span class="b-dir">Older</span><span class="b-t">How to compare two pipeline runs</span></a>
+</nav>
+<section class="b-related" aria-labelledby="related"><h2 id="related">Related posts</h2><ul class="b-grid">
+<li class="b-card"><a class="b-img" href="../how-to-compare-two-pipeline-runs/" tabindex="-1" aria-hidden="true"><img src="../how-to-compare-two-pipeline-runs/image.svg" width="1600" height="900" alt="" loading="lazy" decoding="async"></a><div class="b-card-body"><h2 class="b-card-t"><a href="../how-to-compare-two-pipeline-runs/">How to compare two pipeline runs</a></h2><p class="b-sum">What counts as a difference between two runs, a manual way to diff them, and what lineage diff and nf-diff showed on a toy pair.</p><p class="b-card-meta"><time datetime="2026-10-19">19 October 2026</time> &middot; 6 min read</p></div></li>
+<li class="b-card"><a class="b-img" href="../provenance-vs-lineage-in-bioinformatics/" tabindex="-1" aria-hidden="true"><img src="../provenance-vs-lineage-in-bioinformatics/image.svg" width="1600" height="900" alt="" loading="lazy" decoding="async"></a><div class="b-card-body"><h2 class="b-card-t"><a href="../provenance-vs-lineage-in-bioinformatics/">Provenance vs lineage in bioinformatics: examples</a></h2><p class="b-sum">Two overlapping words, one toy variant calling pipeline, and the questions each one helps you answer about a VCF.</p><p class="b-card-meta"><time datetime="2026-10-19">19 October 2026</time> &middot; 6 min read</p></div></li>
+<li class="b-card"><a class="b-img" href="../ro-crate-biocompute-objects-and-prov/" tabindex="-1" aria-hidden="true"><img src="../ro-crate-biocompute-objects-and-prov/image.svg" width="1600" height="900" alt="" loading="lazy" decoding="async"></a><div class="b-card-body"><h2 class="b-card-t"><a href="../ro-crate-biocompute-objects-and-prov/">RO-Crate, BioCompute Objects and PROV: which one?</a></h2><p class="b-sum">PROV, RO-Crate and BioCompute Objects in plain words, what nf-prov writes, and how to choose. Jubilab supports none of them yet.</p><p class="b-card-meta"><time datetime="2026-10-19">19 October 2026</time> &middot; 6 min read</p></div></li>
+</ul></section>
+</div>
+</div>
+</article>
+</main>
+<footer>
+  <div class="wrap">
+    <div>
+      <p class="foot-brand">Jubilab</p>
+      <p>Be among the first labs shaping Jubilab. Screenshots and diagrams on this site use synthetic demo data.</p>
+      <p>Contact: <a href="mailto:hello@jubilab.io">hello@jubilab.io</a></p>
+    </div>
+    <ul aria-label="Footer">
+      <li><a href="../../guides/">Guides</a></li>
+      <li><a href="../../blog/">Blog</a></li>
+      <li><a href="../../privacy/">Privacy</a></li>
+      <li><a href="../../terms/">Terms</a></li>
+      <li><a href="../../#top">Back to top</a></li>
+    </ul>
+  </div>
+</footer>
+<script src="../../assets/theme.js" defer></script>
+<script src="../../assets/consent.js" defer></script>
+</body>
+</html>
