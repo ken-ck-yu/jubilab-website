@@ -29,7 +29,7 @@ NCBI's ClinVar documentation says the website data are updated weekly, on Monday
 
 ## What the file may or may not tell you
 
-The VEP documentation shows that the tool's default output begins with a header that names the VEP version, the cache location, the API and database version, and source versions (the sample on the page includes lines for ClinVar and dbSNP).[^2] The documented VCF output section we read describes the `CSQ` field, but it did not say which header lines record cache or source versions, and the string `##VEP` does not appear on that page. So we cannot tell you from the documentation what a VEP-annotated VCF header contains. Check your own file.
+The VEP documentation shows that the tool's default output begins with a header that names the VEP version, the cache location and source versions (the sample on the page includes lines for ClinVar and dbSNP).[^2] The documented VCF output section we read describes the `CSQ` field, but it did not say which header lines record cache or source versions, and the string `##VEP` does not appear on that page. So we cannot tell you from the documentation what a VEP-annotated VCF header contains. Check your own file.
 
 We did not run VEP for this post. What we did run is a check with `bcftools` on a tiny VCF we wrote by hand, whose `##VEP` line is made up for the test, to show how you can pull header lines out for inspection:
 
@@ -42,7 +42,7 @@ bcftools view -h --no-version tiny.vcf | grep -E '^##(VEP|INFO=<ID=CSQ)'
 ##INFO=<ID=CSQ,Number=.,Type=String,Description="Consequence annotations from Ensembl VEP. Format: Allele|Consequence">
 ```
 
-That was tested by us with bcftools 1.13. The documentation also lists a `--show_cache_info` option described as showing source version information for the selected cache and quitting, and a `--no_headers` option that suppresses header lines.[^3] We did not run either, and the cache page we read did not mention `--show_cache_info`, so check that it exists in your VEP version before you rely on it. The `--no_headers` option is a reminder that a file can lose its header on the way through a pipeline.
+That was tested by us with bcftools 1.13. The documentation also lists a `--show_cache_info` option described as showing source version information for the selected cache and quitting, and a `--no_headers` option that suppresses header lines.[^3] We did not run either, and the cache page we read did not mention `--show_cache_info`, so check that it exists in your VEP version before you rely on it. It is worth asking whether your pipeline ever writes files without headers; we have not checked.
 
 ## A four-line annotation record
 

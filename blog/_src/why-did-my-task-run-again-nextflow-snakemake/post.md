@@ -51,7 +51,7 @@ snakemake -c1 --list-params-changes
 snakemake -c1 -n count.txt
 ```
 
-After we edited the `params` value in the rule, `--list-params-changes` printed `count.txt`, and the dry run printed a reason that began "Params have changed since last execution". The documentation describes `--list-params-changes` as listing all output files for which the defined params have changed in the Snakefile.[^3] The dry run also noted that some jobs were triggered by provenance information. Tested by us, on that one rule only.
+After we edited the `params` value in the rule, `--list-params-changes` printed `count.txt`, and the dry run printed a reason that began "params have changed since last execution". The documentation describes `--list-params-changes` as listing all output files for which the defined params have changed in the Snakefile.[^3] The dry run also noted that some jobs were triggered by provenance information. Tested by us, on that one rule only.
 
 We also touched the input file of a finished rule and asked for a dry run. In our test with Snakemake 9.27.0 it reported that nothing needed to be done. We do not know why, and we did not dig into it. It is possible that we misunderstood the `mtime` trigger, or that the behaviour depends on the version or on how the outputs were created. We would rather leave that as an open question than guess.
 

@@ -38,9 +38,9 @@ The weak point is discipline: you have to save the files at the time of each run
 
 ## Nextflow lineage diff
 
-Nextflow's documentation says data lineage is an experimental feature added in Nextflow 25.04, that its functionality may change in future releases, and that it is enabled with `lineage.enabled = true`.[^1] The CLI reference lists `lineage` as the command to inspect lineage metadata for Nextflow runs.[^2] Its subcommands include `list` and `diff <LID> <LID>`, which compares two records.[^1] The docs also state that tasks that failed or were aborted are not recorded.[^1]
+Nextflow's documentation says data lineage is an experimental feature added in Nextflow 25.04, that its functionality may change in future releases, and that it is enabled with `lineage.enabled = true`.[^1] The CLI reference lists `lineage` as the command to inspect lineage metadata for Nextflow runs.[^2] Its subcommands include `list` and `diff <LID> <LID>`, which the documentation shows comparing two records (its example diffs two task runs).[^1] The docs also state that tasks that failed or were aborted are not recorded.[^1]
 
-We tried it on two runs of a one-process script, with the second run using a different input file and a different `--label` parameter.
+We tried it on a toy pair of runs of a one-process script, and ran `diff` on the two workflow-run records (not on task records), with the second run using a different input file and a different `--label` parameter.
 
 ```bash List the runs, then diff their lineage records
 nextflow lineage list

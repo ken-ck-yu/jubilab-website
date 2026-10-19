@@ -19,7 +19,7 @@ For a rerun six months from now, that difference matters. Imagine you run a pipe
 
 ## Finding the digest
 
-If you have already pulled the image, Docker can show it. We ran these on a small local image:
+If you have already pulled the image, Docker can show it. We ran these on a python:3.12-slim image pulled locally (119 MB):
 
 ```bash Show the registry digest of a pulled image
 docker image ls --digests python
@@ -34,7 +34,7 @@ One command lists a DIGEST column; the other prints the name and digest in a for
 
 ### The multi-platform trap
 
-Some images are multi-platform. Docker's documentation says a multi-platform image contains a manifest list pointing to multiple manifests, one per platform, and that Docker selects the correct variant based on the host's architecture.[^2] The `docker buildx imagetools inspect` command is documented as showing details of an image in the registry, and its documented output includes a top-level digest and a list of per-platform manifests, each with its own digest.[^3]
+Some images are multi-platform. Docker's documentation says a multi-platform image contains a manifest list pointing to multiple manifests, and that Docker selects the correct variant based on the host's architecture.[^2] The `docker buildx imagetools inspect` command is documented as showing details of an image in the registry, and the example output on that page shows a top-level digest and per-platform manifests whose names end in their own `@sha256` digests.[^3]
 
 This raises a question we have not answered ourselves: if you copy a digest from a laptop and your cluster uses a different architecture, which digest did you copy? We wonder whether the safest habit is to record the top-level digest and the platform together. We have not tested a multi-platform image across architectures.
 
@@ -90,5 +90,5 @@ Jubilab records runs with evidence statuses on each fact (verified, inferred, ma
 - [Multi-platform builds](https://docs.docker.com/build/building/multi-platform/) | Docker Inc., Docker Docs | Accessed: 2026-10-19
 - [docker buildx imagetools inspect](https://docs.docker.com/reference/cli/docker/buildx/imagetools/inspect/) | Docker Inc., Docker Docs | Accessed: 2026-10-19
 - [Containers](https://docs.seqera.io/nextflow/container) | Seqera, Nextflow documentation | Accessed: 2026-10-19
-- [Snakemake documentation: deployment, containers](https://snakemake.readthedocs.io/en/stable/snakefiles/deployment.html) | Snakemake project, Read the Docs | Accessed: 2026-10-19
+- [Distribution and Reproducibility](https://snakemake.readthedocs.io/en/stable/snakefiles/deployment.html) | Snakemake project, Read the Docs | Accessed: 2026-10-19
 - [Wave error when using sha256 as tag does not support the containerConfig](https://community.seqera.io/t/wave-error-when-using-sha256-as-tag-does-not-support-the-containerconfig/706) | Seqera Community forum | Accessed: 2026-10-19
