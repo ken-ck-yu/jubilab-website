@@ -20,6 +20,16 @@
     <loc>https://jubilab.io/guides/nextflow-provenance-and-lineage-compared/</loc>
     <lastmod>2026-10-19</lastmod>
   </url>
+  <!-- blog:start -->
+  <url>
+    <loc>https://jubilab.io/blog/</loc>
+    <lastmod>2026-10-19</lastmod>
+  </url>
+  <url>
+    <loc>https://jubilab.io/blog/what-is-data-provenance-in-bioinformatics/</loc>
+    <lastmod>2026-10-19</lastmod>
+  </url>
+  <!-- blog:end -->
   <url>
     <loc>https://jubilab.io/privacy/</loc>
     <lastmod>2026-10-19</lastmod>

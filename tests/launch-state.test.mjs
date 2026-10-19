@@ -22,7 +22,7 @@ test("robots.txt allows search and answer crawlers, blocks the four training bot
   assert.match(t, /^Sitemap:\s*https:\/\/jubilab\.io\/sitemap\.xml\s*$/m);
 });
 
-test("sitemap lists exactly the seven indexable pages", () => {
-  const locs = [...rd("sitemap.xml").matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1]).sort();
+test("sitemap lists exactly the seven indexable pages plus the blog (index and posts; tests/blog.test.mjs pins those)", () => {
+  const locs = [...rd("sitemap.xml").matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1]).filter((u) => !u.startsWith("https://jubilab.io/blog/")).sort();
   assert.deepEqual(locs, ["https://jubilab.io/", "https://jubilab.io/guides/", "https://jubilab.io/guides/nextflow-provenance-and-lineage-compared/", "https://jubilab.io/guides/reference-genome-build-vcf-bam/", "https://jubilab.io/guides/what-parameters-produced-this-result/", "https://jubilab.io/privacy/", "https://jubilab.io/terms/"]);
 });

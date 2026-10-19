@@ -36,6 +36,14 @@
 - [What parameters produced this result?](https://jubilab.io/guides/what-parameters-produced-this-result/): finding the parameters of a Nextflow, Snakemake or shell run, what gets lost, and what a good record contains
 - [Nextflow provenance and lineage: what each tool records](https://jubilab.io/guides/nextflow-provenance-and-lineage-compared/): what Nextflow's log, trace, report and experimental lineage feature, Seqera Platform and Snakemake record, with links to their official documentation
 
+<!-- blog:start -->
+## Blog
+
+- [Blog](https://jubilab.io/blog/): notes on data provenance, lineage and reproducibility in bioinformatics, each with sources, open questions and a clear line between what Jubilab does now and what is planned
+- [What is data provenance in bioinformatics?](https://jubilab.io/blog/what-is-data-provenance-in-bioinformatics/): Provenance is the record of how a result was made. What it holds, what tools keep today, and what we still wonder about.
+
+<!-- blog:end -->
+
 ## Optional
 
 - [Privacy](https://jubilab.io/privacy/): what the website and the early-access form collect, including the Cloudflare Web Analytics service the site always uses and Google Analytics, which runs only if the visitor accepts the cookie notice

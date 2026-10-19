@@ -19,7 +19,7 @@ What it does:
      with lastmod from the last git commit touching each page (today's date when git is unavailable).
 Running it twice changes nothing the second time. Standard library only.
 """
-import argparse, datetime, difflib, os, re, subprocess, sys
+import argparse, datetime, difflib, glob, importlib.util, os, re, subprocess, sys
 from urllib.robotparser import RobotFileParser
 
 PAGES = {"index.html": "https://jubilab.io/",
@@ -28,6 +28,8 @@ PAGES = {"index.html": "https://jubilab.io/",
          "guides/what-parameters-produced-this-result/index.html": "https://jubilab.io/guides/what-parameters-produced-this-result/",
          "guides/nextflow-provenance-and-lineage-compared/index.html": "https://jubilab.io/guides/nextflow-provenance-and-lineage-compared/",
          "privacy/index.html": "https://jubilab.io/privacy/", "terms/index.html": "https://jubilab.io/terms/"}
+# Blog pages are not listed here: they are discovered from blog/*/index.html and written into the sitemap as the generated
+# block of scripts/build-blog.py (<!-- blog:start --> ... <!-- blog:end -->), so go-public and the generator always agree.
 LEGAL = ("privacy/index.html", "terms/index.html")
 ALWAYS_NOINDEX = ("thanks/index.html", "404.html")
 NOINDEX = re.compile(r'(?:[ \t]*<!--[^\n]*?noindex[^\n]*?-->[ \t]*\n)?[ \t]*<meta\s+name="robots"\s+content="[^"]*noindex[^"]*"\s*/?>[ \t]*\n?', re.I)
@@ -57,10 +59,26 @@ def lastmod(root, rel):
     return datetime.date.today().isoformat()
 
 
+def blog_pages(root):
+    return sorted(glob.glob(os.path.join(root, "blog", "index.html")) + glob.glob(os.path.join(root, "blog", "*", "index.html")))
+
+
+def blog_sitemap_block(root):
+    spec = importlib.util.spec_from_file_location("build_blog", os.path.join(root, "scripts", "build-blog.py"))
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    mod.ROOT = root
+    return mod.sitemap_block(mod.load_posts(False, mod.known_site_paths()))
+
+
 def plan(root, with_legal, allow_draft):
     changes, notes, errors, warnings = {}, [], [], []
     indexable = []
-    for rel in PAGES:
+    pages = dict(PAGES)
+    for f in blog_pages(root):
+        rel = os.path.relpath(f, root)
+        pages[rel] = "https://jubilab.io/" + rel[: -len("index.html")]
+    for rel in pages:
         text = read(root, rel)
         if rel in LEGAL and not with_legal:
             if NOINDEX.search(text):
@@ -86,7 +104,10 @@ def plan(root, with_legal, allow_draft):
     old_robots = read(root, "robots.txt")
     if old_robots != launch:
         changes["robots.txt"] = (old_robots, launch)
-    entries = "".join(f"  <url>\n    <loc>{PAGES[r]}</loc>\n    <lastmod>{lastmod(root, r)}</lastmod>\n  </url>\n" for r in indexable)
+    entries = "".join(f"  <url>\n    <loc>{pages[r]}</loc>\n    <lastmod>{lastmod(root, r)}</lastmod>\n  </url>\n" for r in indexable if not r.startswith("blog/"))
+    if any(r.startswith("blog/") for r in indexable):
+        block = blog_sitemap_block(root)
+        entries = entries.replace('  <url>\n    <loc>https://jubilab.io/privacy/</loc>', block + '  <url>\n    <loc>https://jubilab.io/privacy/</loc>', 1) if "privacy/" in entries else entries + block
     sitemap = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + entries + "</urlset>\n"
     old_sm = read(root, "sitemap.xml")
     if old_sm != sitemap:
