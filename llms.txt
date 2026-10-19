@@ -7,10 +7,10 @@
 - Trace a result back to the run, inputs and parameters behind it, and forward to what depends on an input (data lineage).
 - Compare two runs and see which recorded parameters, versions or results differ.
 - Every fact carries an evidence status: verified, inferred, manual or unknown. Gaps show up as gaps.
-- Runs are kept as history the application cannot edit (an audit trail).
+- Runs are kept as history the application cannot edit.
 - Record Nextflow runs as they happen or import a finished run; import Snakemake runs; record any other command with the native bash wrapper.
 - Opt-in capture of the reference genome and annotation details written in file headers (for example GRCh37 or GRCh38), with a warning when two runs are not comparable. This ships with our next release.
-- Links to your data where it lives instead of copying it. Self-hosted, with per-user accounts and an audit log.
+- Links to your data where it lives instead of copying it. Self-hosted, with per-user accounts and a record of every change.
 
 ## Where we are heading
 

@@ -153,12 +153,13 @@ nextflow log &lt;run name&gt; -f 'hash,name,status,exit,script'</code></pre>
 <p class="code-cap">Enable lineage</p>
 <pre class="code" tabindex="0" role="region" aria-label="Enable lineage"><code>// nextflow.config
 lineage.enabled = true</code></pre>
-<p class="code-cap">The subcommands the documentation describes</p>
+<p class="code-cap">The subcommands the documentation describes (<code>check</code> verifies the checksum of an output record; it is listed on the CLI reference page for <code>lineage</code>)</p>
 <pre class="code" tabindex="0" role="region" aria-label="The subcommands the documentation describes"><code>nextflow lineage list
 nextflow lineage view lid://&lt;id&gt;
 nextflow lineage find type=TaskRun workflowRun=lid://&lt;id&gt;
 nextflow lineage diff lid://&lt;task a&gt; lid://&lt;task b&gt;
-nextflow lineage render lid://&lt;id&gt;/&lt;file&gt;</code></pre>
+nextflow lineage render lid://&lt;id&gt;/&lt;file&gt;
+nextflow lineage check lid://&lt;id&gt;</code></pre>
 <p>Three kinds of record are described. A <code>WorkflowRun</code> holds the pipeline repository and revision, run name, parameters, resolved configuration and run metadata. A <code>TaskRun</code> holds the task name, script, inputs and software dependencies. A <code>FileOutput</code> holds the path, checksum, size, timestamps and links to the run and task that made the file. In my test with 25.10.0 a run with a params file and a command-line override recorded the value that won.</p>
 <p>Limits the same page states: tasks that failed or were aborted are not recorded; files appear as workflow outputs only if they are published to the output directory; a resumed run is a distinct run that shares the original session ID; and a cached task does not produce a new <code>TaskRun</code>.</p>
 <h3>nf-prov</h3>
@@ -210,6 +211,7 @@ nextflow lineage render lid://&lt;id&gt;/&lt;file&gt;</code></pre>
 </section>
 <h2 id="sources">Sources</h2>
 <ol class="g-sources">
+<li><a href="https://docs.seqera.io/nextflow/reference/cli/lineage" rel="noopener">https://docs.seqera.io/nextflow/reference/cli/lineage</a> <span class="why">&mdash; nextflow lineage subcommands, including check</span></li>
 <li><a href="https://docs.seqera.io/nextflow/data-lineage" rel="noopener">https://docs.seqera.io/nextflow/data-lineage</a> <span class="why">&mdash; Nextflow data lineage: experimental since 25.04, enabling, records, subcommands, limits</span></li>
 <li><a href="https://docs.seqera.io/nextflow/reports" rel="noopener">https://docs.seqera.io/nextflow/reports</a> <span class="why">&mdash; Nextflow reports: nextflow log, execution report, timeline, trace file, workflow diagram, trace caveats</span></li>
 <li><a href="https://docs.seqera.io/nextflow/reference/cli/log" rel="noopener">https://docs.seqera.io/nextflow/reference/cli/log</a> <span class="why">&mdash; nextflow log reference</span></li>
