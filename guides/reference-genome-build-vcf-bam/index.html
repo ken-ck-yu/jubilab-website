@@ -121,7 +121,7 @@
     <p class="eyebrow">Guide</p>
     <h1>How to check which reference genome build a VCF or BAM used</h1>
     <p class="g-lede">Start with the file header: a VCF may carry <code>##reference</code> and <code>##contig</code> lines and a BAM carries <code>@SQ</code> lines, and the contig lengths in them tell GRCh37 from GRCh38. If the header is missing or you doubt it, compare contig names and lengths with a known reference, then test the REF alleles against a reference FASTA. Every command below was run on small test files, and none of them needs Jubilab.</p>
-    <p class="g-meta">Last reviewed 19 October 2026. Commands run with bcftools 1.24 and samtools 1.24 on small synthetic test files.</p>
+    <p class="g-meta">Last reviewed 19 October 2026. Tested by us with bcftools 1.24 and samtools 1.24 on small synthetic test files. Other versions may print different output.</p>
   </div>
 </section>
 <div class="g-body">
@@ -148,7 +148,7 @@
 <p>What to look for:</p>
 <ul>
 <li><code>##reference=</code> is free text. It is often a file path from the machine that made the file, such as the one above. A name in a path is a claim, not proof: a file called <code>GRCh38.primary.fa</code> can be a different sequence.</li>
-<li><code>##contig=&lt;ID=...,length=...&gt;</code> gives one line per contig. The lengths are the most useful part, because they are hard to get wrong by accident. The optional <code>assembly=</code> attribute is a label the writer chose.</li>
+<li><code>##contig=&lt;ID=...,length=...&gt;</code> gives one line per contig. The lengths are the most useful part, because they are hard to get wrong by accident. The optional <code>assembly=</code> attribute is a label the writer chose. The optional <code>md5=</code> attribute, which the VCF 4.5 specification defines as the MD5 checksum of the sequence (calculated as in the SAM specification), is the strongest header evidence when present, in the same way as the <code>M5</code> tag in a BAM header. Many writers leave it out.</li>
 <li>Tool lines such as <code>##bcftoolsCommand=mpileup -f GRCh38.primary.fa sample.bam</code> record how the file was made, and the <code>-f</code> argument names the reference that was used. Not every tool writes such a line.</li>
 <li>The viewing tool adds lines of its own. In my test, <code>bcftools view -h</code> appended <code>##bcftools_viewVersion</code> and <code>##bcftools_viewCommand</code> lines, and the bcftools manual says <code>bcftools head</code> may add a <code>##FILTER=&lt;ID=PASS&gt;</code> line when it is missing. Do not read those as part of the original file.</li>
 </ul>
@@ -193,6 +193,7 @@ chr2	242193529</code></pre>
 <p class="code-cap">Output from a two-record test file in which one REF base was wrong</p>
 <pre class="code out" tabindex="0" role="region" aria-label="Output from a two-record test file in which one REF base was wrong"><code>REF_MISMATCH	1	2	A	C
 Lines   total/split/joined/realigned/mismatch_removed/dup_removed/skipped:	2/0/0/0/0/0/0</code></pre>
+<p>Newer bcftools versions print a longer <code>norm</code> summary line than the one above (bcftools 1.13 prints this shorter form), so expect different wording and extra counts on a current release. The <code>REF_MISMATCH</code> lines are the part to read.</p>
 <p>Treat the result as evidence, not proof. A high share of mismatches suggests a different build. A handful can have other causes, and a file with only a few variants can match two builds by chance, so use as many records as you can.</p>
 <p>For a PLINK <code>.bim</code> file this is the route to take: the format has six columns (chromosome, variant ID, genetic position, base-pair coordinate and two alleles) and no field for the assembly.</p>
 <h2 id="pitfalls">Pitfalls that cause wrong answers</h2>
