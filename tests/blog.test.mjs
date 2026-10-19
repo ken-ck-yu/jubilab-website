@@ -10,7 +10,7 @@ import { join } from "node:path";
 
 const REPO = new URL("..", import.meta.url).pathname;
 const rd = (f) => readFileSync(REPO + f, "utf8");
-const txt = (s) => s.replace(/<[^>]+>/g, " ").replace(/&[a-z]+;/g, " ").replace(/\s+/g, " ").trim();
+const txt = (s) => s.replace(/<[^>]+>/g, " ").replace(/&#x27;/g, "'").replace(/&quot;/g, '"').replace(/&amp;/g, "&").replace(/&[a-z]+;/g, " ").replace(/\s+/g, " ").trim();
 const meta = (h, k, v) => h.match(new RegExp(`<meta ${k}="${v}" content="([^"]*)"`))?.[1];
 const SLUGS = readdirSync(REPO + "blog/_src", { withFileTypes: true }).filter((d) => d.isDirectory()).map((d) => d.name);
 const PAGES = [{ path: "/blog/", file: "blog/index.html", kind: "CollectionPage" }, ...SLUGS.map((s) => ({ path: `/blog/${s}/`, file: `blog/${s}/index.html`, kind: "BlogPosting", slug: s }))];
@@ -124,7 +124,7 @@ for (const s of SLUGS) {
     const t = txt(main);
     assert.match(t, /sample swap or a reference genome build mismatch/);
     assert.match(t, /not affiliated with or endorsed by/);
-    assert.ok(!/(detects|detect) sample swaps|flags? sample swaps today/i.test(t));
+    assert.ok(!/(?<!not )(detects?|flags?) sample swaps/i.test(t), "a post may say Jubilab does not detect sample swaps, never that it does");
   });
 }
 
@@ -155,7 +155,7 @@ test("go-public.py leaves the blog in the sitemap (idempotent on the launched st
 });
 
 // ---- generator: rejects unknown constructs, so authors cannot inject HTML or scripts ------------------------------------
-const S = SLUGS[0];
+const S = "what-is-data-provenance-in-bioinformatics"; // fixture: the mutations below edit this post (other posts are untouched)
 function lint(mutate) {
   const dir = mkdtempSync(join(tmpdir(), "blogtest-"));
   try {

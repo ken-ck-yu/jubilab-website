@@ -1,0 +1,278 @@
+<!doctype html>
+<html lang="en">
+<head>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('consent','default',{ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied',analytics_storage:'denied'})</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>When should a pipeline get a new version number? | Jubilab</title>
+<meta name="description" content="Two published versioning conventions for pipelines, from nf-core and BALSAMIC, side by side. Where they differ is an open question, and we do not pick a winner.">
+<meta name="theme-color" content="#f4f5f2">
+<link rel="canonical" href="https://jubilab.io/blog/pipeline-version-numbers-two-conventions/">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Jubilab">
+<meta property="og:title" content="When should a pipeline get a new version number? | Jubilab">
+<meta property="og:description" content="Two published versioning conventions for pipelines, from nf-core and BALSAMIC, side by side. Where they differ is an open question, and we do not pick a winner.">
+<meta property="og:url" content="https://jubilab.io/blog/pipeline-version-numbers-two-conventions/">
+<meta property="og:image" content="https://jubilab.io/blog/pipeline-version-numbers-two-conventions/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="A wooden signpost with three arms pointing in different directions and a small tag dangling below the lowest arm on an orange dotted string.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="When should a pipeline get a new version number? | Jubilab">
+<meta name="twitter:description" content="Two published versioning conventions for pipelines, from nf-core and BALSAMIC, side by side. Where they differ is an open question, and we do not pick a winner.">
+<meta name="twitter:image" content="https://jubilab.io/blog/pipeline-version-numbers-two-conventions/og.png">
+<meta name="twitter:image:alt" content="A wooden signpost with three arms pointing in different directions and a small tag dangling below the lowest arm on an orange dotted string.">
+<link rel="icon" href="../../assets/favicon.svg" type="image/svg+xml">
+<link rel="preload" href="../../assets/fonts/hanken-grotesk-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="../../assets/fonts/ibm-plex-mono-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BlogPosting",
+      "headline": "When should a pipeline get a new version number?",
+      "description": "Two published versioning conventions for pipelines, from nf-core and BALSAMIC, side by side. Where they differ is an open question, and we do not pick a winner.",
+      "url": "https://jubilab.io/blog/pipeline-version-numbers-two-conventions/",
+      "mainEntityOfPage": "https://jubilab.io/blog/pipeline-version-numbers-two-conventions/",
+      "inLanguage": "en",
+      "datePublished": "2026-10-19",
+      "dateModified": "2026-10-19",
+      "author": {
+        "@type": "Organization",
+        "name": "Jubilab",
+        "url": "https://jubilab.io/"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Jubilab",
+        "url": "https://jubilab.io/"
+      },
+      "image": "https://jubilab.io/blog/pipeline-version-numbers-two-conventions/og.png",
+      "keywords": "versioning, nextflow, provenance",
+      "wordCount": 1046,
+      "timeRequired": "PT5M",
+      "isPartOf": {
+        "@type": "Blog",
+        "name": "Jubilab blog",
+        "url": "https://jubilab.io/blog/"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "Semantic versioning (nf-core pipeline guidelines)",
+          "url": "https://nf-co.re/docs/guidelines/pipelines/requirements/semantic_versioning",
+          "publisher": {
+            "@type": "Organization",
+            "name": "nf-core project"
+          }
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "BALSAMIC: Semantic versioning",
+          "url": "https://balsamic.readthedocs.io/en/stable/semver.html",
+          "publisher": {
+            "@type": "Organization",
+            "name": "BALSAMIC project, Read the Docs"
+          }
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "Versioning question for the nf-core pacvar release",
+          "url": "https://community.seqera.io/t/versioning-question-for-the-nf-core-pacvar-release/2690",
+          "publisher": {
+            "@type": "Organization",
+            "name": "Seqera community forum"
+          }
+        }
+      ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Jubilab",
+          "item": "https://jubilab.io/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Blog",
+          "item": "https://jubilab.io/blog/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "When should a pipeline get a new version number?",
+          "item": "https://jubilab.io/blog/pipeline-version-numbers-two-conventions/"
+        }
+      ]
+    }
+  ]
+}
+</script>
+<script>try{if(localStorage.getItem("jubilab-theme")==="dark")document.documentElement.setAttribute("data-theme","dark")}catch(e){}</script>
+<link rel="stylesheet" href="../../style.css">
+<link rel="stylesheet" href="../../guides/guides.css">
+<link rel="stylesheet" href="../../blog/blog.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to main content</a>
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="../../" aria-label="Jubilab, home">
+      <svg viewBox="0 0 26 26" aria-hidden="true" focusable="false"><circle class="b-fill" cx="5" cy="13" r="3.2"/><circle class="b-line" cx="21" cy="6" r="3.2"/><circle class="b-line" cx="21" cy="20" r="3.2"/><path class="b-line" d="M8 12 L18 7 M8 14 L18 19"/></svg>
+      <span class="brand-name">Jubilab</span>
+    </a>
+    <nav class="site-nav" aria-label="Page sections">
+      <ul class="links">
+        <li><a href="../../#how">What it does</a></li>
+        <li><a href="../../#fits">Integrations</a></li>
+        <li><a href="../../#product">Demo</a></li>
+        <li><a href="../../blog/" aria-current="page">Blog</a></li>
+      </ul>
+      <details class="menu">
+        <summary aria-label="Menu"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 7h16M4 12h16M4 17h16"/></svg></summary>
+        <ul>
+          <li><a href="../../#how">What it does</a></li>
+          <li><a href="../../#fits">Integrations</a></li>
+          <li><a href="../../#product">Demo</a></li>
+          <li><a href="../../blog/" aria-current="page">Blog</a></li>
+        </ul>
+      </details>
+    </nav>
+    <div class="tools">
+      <button type="button" class="theme-toggle" id="theme-toggle" aria-label="Switch to dark theme" title="Switch to dark theme" hidden>
+        <svg class="i-moon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg>
+        <svg class="i-sun" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+      </button>
+      <a class="btn small" href="../../#access" aria-label="Request early access"><span class="full">Request early access</span><span class="short" aria-hidden="true">Early access</span></a>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+<div id="top"></div>
+<article>
+<section class="g-hero b-hero">
+  <div class="wrap">
+    <nav class="g-crumbs" aria-label="Breadcrumb"><ol><li><a href="../../">Jubilab</a></li><li><a href="../">Blog</a></li><li aria-current="page">When should a pipeline get a new version number?</li></ol></nav>
+    <p class="eyebrow">Blog</p>
+    <h1>When should a pipeline get a new version number?</h1>
+    <p class="g-lede">A pipeline version number is a promise of a kind: it tells the next person how much to worry before they upgrade. Two published conventions, one from nf-core and one from the BALSAMIC project, both build on semantic versioning, yet on some changes they point in different directions. This post sets them side by side, and treats the difference as an open question rather than a verdict on either project.</p>
+    <p class="g-meta">By Jubilab &middot; <time datetime="2026-10-19">19 October 2026</time> &middot; 5 min read</p>
+    <p class="b-tags"><span class="g-tag">versioning</span> <span class="g-tag">nextflow</span> <span class="g-tag">provenance</span></p>
+  </div>
+</section>
+<div class="g-body">
+<div class="wrap">
+<figure class="b-figure"><img src="image.svg" width="1600" height="900" alt="A wooden signpost with three arms pointing in different directions and a small tag dangling below the lowest arm on an orange dotted string." decoding="async"></figure>
+<h2 id="why-a-number-matters-for-a-record">Why a number matters for a record</h2>
+<p>If you want to know how a result was made, the pipeline version is among the facts you reach for early. But a version string is only as informative as the rules behind it. &quot;Version 2.0.0&quot; means something to a reader only if they know what that project counts as a major change. So it is worth reading the rules before treating the number as evidence.</p>
+<h2 id="convention-one-nf-core">Convention one: nf-core</h2>
+<p>The nf-core guidelines on semantic versioning describe major, minor and patch bumps this way.<sup class="cite"><a href="#src-1" aria-label="Source 1">[1]</a></sup></p>
+<ul>
+<li><strong>Major</strong> is for changes that are not backwards compatible and may require users to adjust existing workflows or configurations. The page lists renaming or deprecating a parameter, major alterations to existing output formats (it gives BAM to CRAM, or changed TSV header names) or directory structures, and upgrades to dependencies that introduce breaking changes.</li>
+<li><strong>Minor</strong> is for backwards-compatible new features that do not alter existing functionality, including new output files or metrics without modifying existing ones.</li>
+<li><strong>Patch</strong> is for minor changes that do not affect user interaction or existing functionality, for example updating the container build of a tool without changing the tool&#x27;s version.</li>
+</ul>
+<p>The page also says to classify a release by the highest applicable category, and that if in doubt, you should opt for a higher increment to clearly communicate the extent of changes to users.<sup class="cite"><a href="#src-1" aria-label="Source 1">[1]</a></sup></p>
+<h2 id="convention-two-balsamic">Convention two: BALSAMIC</h2>
+<p>The BALSAMIC documentation says the project follows Semantic Versioning, extended since 24 October 2018 to cover bioinformatic and data analysis aspects.<sup class="cite"><a href="#src-2" aria-label="Source 2">[2]</a></sup> Its list reads as follows.<sup class="cite"><a href="#src-2" aria-label="Source 2">[2]</a></sup></p>
+<ul>
+<li><strong>Major</strong>: structural changes to the workflow, which includes reordering annotation software or sources, variant callers, aligners and quality trimmers, and the addition of those components.</li>
+<li><strong>Minor</strong>: under-the-hood changes to rules that will not affect the output results of the workflow, the addition of new bioinformatics tools for QC reporting, and updating the version of a bioinformatics software or data resource, including annotation sources.</li>
+<li><strong>Patch</strong>: bug fixes and under-the-hood changes that will not impact an end user&#x27;s run, and changes to resource allocation of scheduler job submission.</li>
+</ul>
+<h2 id="where-they-seem-to-differ">Where they seem to differ</h2>
+<p>We lay out three cases and mark what each document says, and what it does not.</p>
+<ol>
+<li><strong>A new output file.</strong> nf-core lists new output files without modifying existing ones as minor.<sup class="cite"><a href="#src-1" aria-label="Source 1">[1]</a></sup> BALSAMIC&#x27;s page, as we read it, does not mention output files directly; it speaks of changes that do or do not affect the output results.<sup class="cite"><a href="#src-2" aria-label="Source 2">[2]</a></sup> We do not know how the BALSAMIC project would label this case.</li>
+<li><strong>Updating a tool.</strong> nf-core treats upgrades to dependencies that introduce breaking changes as major, and a container rebuild with the same tool version as patch.<sup class="cite"><a href="#src-1" aria-label="Source 1">[1]</a></sup> BALSAMIC lists updating the version of a bioinformatic software as minor.<sup class="cite"><a href="#src-2" aria-label="Source 2">[2]</a></sup> They are not obviously in conflict: one looks at whether the upgrade breaks something, the other at the act of updating. But a reader comparing version numbers across the two projects could reasonably be misled, and we wonder how often that happens.</li>
+<li><strong>An annotation source.</strong> BALSAMIC says updating a data resource, including annotation sources, is minor, while adding or reordering annotation sources is major.<sup class="cite"><a href="#src-2" aria-label="Source 2">[2]</a></sup> The nf-core page we read does not mention annotation. A refreshed annotation database can change which variants are flagged, and neither page says how its authors would treat that.</li>
+</ol>
+<p>So the honest summary is that the two documents ask different questions. nf-core&#x27;s page is organised around compatibility for the user of the pipeline. BALSAMIC&#x27;s is organised around the structure of the workflow and whether its outputs change. We would not say either is wrong; they seem to be written for different purposes.</p>
+<h2 id="one-forum-thread">One forum thread</h2>
+<p>In May and June 2026, someone working on nf-core/pacvar asked on the Seqera community forum whether the release after 1.0.1 should be 1.1.0 or 2.0.0, after several modules had been added. One reply pointed to the nf-core semantic versioning documentation and, based solely on the details shared, saw no breaking changes and suggested 1.1.0.<sup class="cite"><a href="#src-3" aria-label="Source 3">[3]</a></sup> We do not know what they chose. This is a single forum thread, and nothing above depends on it; we include it only because it shows that even within one convention, people ask.</p>
+<h2 id="what-to-write-down-either-way">What to write down either way</h2>
+<p>Whatever rule a project follows, a few things seem useful to a later reader:</p>
+<ul>
+<li>The version actually run, not the version you meant to run.</li>
+<li>The versions of the tools and the annotation or reference data in use, since a pipeline&#x27;s own number may not move when they do.</li>
+<li>Which convention the pipeline follows, with a link, so the number can be read correctly.</li>
+</ul>
+<p>Jubilab records the pipeline version and the parameters of runs it captures, and it lets you compare two runs to see which recorded values differ. It does not interpret version numbers or tell you whether a change was breaking, and opt-in capture of reference and annotation details from file headers is part of our next release rather than something to rely on today. Our guide on <a href="/guides/nextflow-provenance-and-lineage-compared/">Nextflow provenance and lineage compared</a> covers what the engines themselves record. Jubilab is not affiliated with or endorsed by nf-core, BALSAMIC, Seqera or Nextflow, and this post does not rate either convention.</p>
+
+<section class="b-questions" aria-labelledby="questions-h">
+<h2 id="questions-h">Questions we are still asking</h2>
+<ul>
+<li>Should a version number reflect compatibility for users, a change in outputs, or both? The two pages we read lean different ways.</li>
+<li>Should a refreshed annotation database ever count as a major change, given that it can alter what a pipeline reports? Neither page tells us how its authors would answer.</li>
+<li>How would the BALSAMIC project classify a new output file? We could not find it addressed on the page.</li>
+<li>Does a reader comparing version numbers across projects get misled in practice? We have no evidence either way.</li>
+<li>We read the nf-core guideline page and the BALSAMIC page but not their release histories, so we do not know how closely releases follow the written rules.</li>
+</ul>
+</section>
+<section class="helps" aria-labelledby="helps-h">
+<h2 id="helps-h">How Jubilab helps</h2>
+
+<div class="helps-cols">
+<div><h3 class="s">Available now</h3>
+<ul>
+<li>Records each run: the command, inputs, parameters and outputs, with an evidence status on every fact (verified, inferred, manual or unknown).</li>
+<li>Trace a result back to its run and parameters; compare two runs to see which recorded values differ.</li>
+<li>Runs are kept as history the application cannot edit.</li>
+<li>Records Nextflow runs as they happen or imports a finished run, imports Snakemake runs, and records any other command with the native bash wrapper.</li>
+<li>Opt-in capture of the reference genome and annotation details written in file headers. It ships with our next release.</li>
+</ul></div>
+<div><h3 class="p">Not available yet</h3>
+<ul>
+<li>Linking every sample to its files and results.</li>
+<li>Checks that flag a sample swap or a reference genome build mismatch. These are not available yet.</li>
+<li>Recovering runs that were never recorded. Jubilab records going forward; it cannot rebuild the history of a run it did not see.</li>
+</ul></div>
+</div>
+<a class="btn" href="../../#access">Request early access</a>
+</section>
+<h2 id="sources">Sources</h2>
+<ol class="g-sources">
+<li id="src-1"><a href="https://nf-co.re/docs/guidelines/pipelines/requirements/semantic_versioning" rel="noopener">Semantic versioning (nf-core pipeline guidelines)</a> <span class="why">&mdash; nf-core project. Accessed 19 October 2026. <span class="url">https://nf-co.re/docs/guidelines/pipelines/requirements/semantic_versioning</span></span></li>
+<li id="src-2"><a href="https://balsamic.readthedocs.io/en/stable/semver.html" rel="noopener">BALSAMIC: Semantic versioning</a> <span class="why">&mdash; BALSAMIC project, Read the Docs. Accessed 19 October 2026. <span class="url">https://balsamic.readthedocs.io/en/stable/semver.html</span></span></li>
+<li id="src-3"><a href="https://community.seqera.io/t/versioning-question-for-the-nf-core-pacvar-release/2690" rel="noopener">Versioning question for the nf-core pacvar release</a> <span class="why">&mdash; Seqera community forum. Accessed 19 October 2026. <span class="url">https://community.seqera.io/t/versioning-question-for-the-nf-core-pacvar-release/2690</span></span></li>
+</ol>
+<p class="g-review">Written by Jubilab. Published 19 October 2026; last updated 19 October 2026. Where this post names other products or projects, Jubilab is not affiliated with or endorsed by them, and it does not claim any integration with them. Things we could not check are written as questions; if you spot a mistake, email <a href="mailto:hello@jubilab.io">hello@jubilab.io</a>.</p>
+<nav class="b-pager" aria-label="More posts">
+<a class="b-prev" href="../provenance-vs-lineage-in-bioinformatics/" rel="prev"><span class="b-dir">Newer</span><span class="b-t">Provenance vs lineage in bioinformatics: examples</span></a>
+<a class="b-next" href="../pin-your-containers-by-digest-not-by-tag/" rel="next"><span class="b-dir">Older</span><span class="b-t">Pin your containers by digest, not by tag</span></a>
+</nav>
+<section class="b-related" aria-labelledby="related"><h2 id="related">Related posts</h2><ul class="b-grid">
+<li class="b-card"><a class="b-img" href="../how-to-compare-two-pipeline-runs/" tabindex="-1" aria-hidden="true"><img src="../how-to-compare-two-pipeline-runs/image.svg" width="1600" height="900" alt="" loading="lazy" decoding="async"></a><div class="b-card-body"><h2 class="b-card-t"><a href="../how-to-compare-two-pipeline-runs/">How to compare two pipeline runs</a></h2><p class="b-sum">What counts as a difference between two runs, a manual way to diff them, and what lineage diff and nf-diff showed on a toy pair.</p><p class="b-card-meta"><time datetime="2026-10-19">19 October 2026</time> &middot; 6 min read</p></div></li>
+<li class="b-card"><a class="b-img" href="../samplesheet-traps-that-change-your-run/" tabindex="-1" aria-hidden="true"><img src="../samplesheet-traps-that-change-your-run/image.svg" width="1600" height="900" alt="" loading="lazy" decoding="async"></a><div class="b-card-body"><h2 class="b-card-t"><a href="../samplesheet-traps-that-change-your-run/">Samplesheet traps that quietly change your run</a></h2><p class="b-sum">A samplesheet is an input like any other. Five ways a small CSV goes wrong, and what to keep with the run.</p><p class="b-card-meta"><time datetime="2026-10-19">19 October 2026</time> &middot; 6 min read</p></div></li>
+<li class="b-card"><a class="b-img" href="../where-did-my-intermediate-files-go/" tabindex="-1" aria-hidden="true"><img src="../where-did-my-intermediate-files-go/image.svg" width="1600" height="900" alt="" loading="lazy" decoding="async"></a><div class="b-card-body"><h2 class="b-card-t"><a href="../where-did-my-intermediate-files-go/">Where did my intermediate files go?</a></h2><p class="b-sum">Work directories get cleaned or purged. What that does to resume, what to keep, and what a record can still say afterwards.</p><p class="b-card-meta"><time datetime="2026-10-19">19 October 2026</time> &middot; 6 min read</p></div></li>
+</ul></section>
+</div>
+</div>
+</article>
+</main>
+<footer>
+  <div class="wrap">
+    <div>
+      <p class="foot-brand">Jubilab</p>
+      <p>Be among the first labs shaping Jubilab. Screenshots and diagrams on this site use synthetic demo data.</p>
+      <p>Contact: <a href="mailto:hello@jubilab.io">hello@jubilab.io</a></p>
+    </div>
+    <ul aria-label="Footer">
+      <li><a href="../../guides/">Guides</a></li>
+      <li><a href="../../blog/">Blog</a></li>
+      <li><a href="../../privacy/">Privacy</a></li>
+      <li><a href="../../terms/">Terms</a></li>
+      <li><a href="../../#top">Back to top</a></li>
+    </ul>
+  </div>
+</footer>
+<script src="../../assets/theme.js" defer></script>
+<script src="../../assets/consent.js" defer></script>
+</body>
+</html>

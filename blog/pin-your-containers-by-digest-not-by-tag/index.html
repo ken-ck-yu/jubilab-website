@@ -1,0 +1,311 @@
+<!doctype html>
+<html lang="en">
+<head>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('consent','default',{ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied',analytics_storage:'denied'})</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pin your containers by digest, not by tag | Jubilab</title>
+<meta name="description" content="A tag such as python:3.12-slim is a label that can point to a different image tomorrow. A digest names one image. How to find, use and record it in a pipeline.">
+<meta name="theme-color" content="#f4f5f2">
+<link rel="canonical" href="https://jubilab.io/blog/pin-your-containers-by-digest-not-by-tag/">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Jubilab">
+<meta property="og:title" content="Pin your containers by digest, not by tag | Jubilab">
+<meta property="og:description" content="A tag such as python:3.12-slim is a label that can point to a different image tomorrow. A digest names one image. How to find, use and record it in a pipeline.">
+<meta property="og:url" content="https://jubilab.io/blog/pin-your-containers-by-digest-not-by-tag/">
+<meta property="og:image" content="https://jubilab.io/blog/pin-your-containers-by-digest-not-by-tag/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="A shipping container with a round seal on its door sits on a dock, while a paper tag on a long ribbon floats away from it in the wind.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Pin your containers by digest, not by tag | Jubilab">
+<meta name="twitter:description" content="A tag such as python:3.12-slim is a label that can point to a different image tomorrow. A digest names one image. How to find, use and record it in a pipeline.">
+<meta name="twitter:image" content="https://jubilab.io/blog/pin-your-containers-by-digest-not-by-tag/og.png">
+<meta name="twitter:image:alt" content="A shipping container with a round seal on its door sits on a dock, while a paper tag on a long ribbon floats away from it in the wind.">
+<link rel="icon" href="../../assets/favicon.svg" type="image/svg+xml">
+<link rel="preload" href="../../assets/fonts/hanken-grotesk-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="../../assets/fonts/ibm-plex-mono-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BlogPosting",
+      "headline": "Pin your containers by digest, not by tag",
+      "description": "A tag such as python:3.12-slim is a label that can point to a different image tomorrow. A digest names one image. How to find, use and record it in a pipeline.",
+      "url": "https://jubilab.io/blog/pin-your-containers-by-digest-not-by-tag/",
+      "mainEntityOfPage": "https://jubilab.io/blog/pin-your-containers-by-digest-not-by-tag/",
+      "inLanguage": "en",
+      "datePublished": "2026-10-19",
+      "dateModified": "2026-10-19",
+      "author": {
+        "@type": "Organization",
+        "name": "Jubilab",
+        "url": "https://jubilab.io/"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Jubilab",
+        "url": "https://jubilab.io/"
+      },
+      "image": "https://jubilab.io/blog/pin-your-containers-by-digest-not-by-tag/og.png",
+      "keywords": "containers, nextflow, bioinformatics",
+      "wordCount": 1167,
+      "timeRequired": "PT6M",
+      "isPartOf": {
+        "@type": "Blog",
+        "name": "Jubilab blog",
+        "url": "https://jubilab.io/blog/"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "docker image pull",
+          "url": "https://docs.docker.com/reference/cli/docker/image/pull/",
+          "publisher": {
+            "@type": "Organization",
+            "name": "Docker Inc., Docker Docs"
+          }
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "Multi-platform builds",
+          "url": "https://docs.docker.com/build/building/multi-platform/",
+          "publisher": {
+            "@type": "Organization",
+            "name": "Docker Inc., Docker Docs"
+          }
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "docker buildx imagetools inspect",
+          "url": "https://docs.docker.com/reference/cli/docker/buildx/imagetools/inspect/",
+          "publisher": {
+            "@type": "Organization",
+            "name": "Docker Inc., Docker Docs"
+          }
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "Containers",
+          "url": "https://docs.seqera.io/nextflow/container",
+          "publisher": {
+            "@type": "Organization",
+            "name": "Seqera, Nextflow documentation"
+          }
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "Distribution and Reproducibility",
+          "url": "https://snakemake.readthedocs.io/en/stable/snakefiles/deployment.html",
+          "publisher": {
+            "@type": "Organization",
+            "name": "Snakemake project, Read the Docs"
+          }
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "Wave error when using sha256 as tag does not support the containerConfig",
+          "url": "https://community.seqera.io/t/wave-error-when-using-sha256-as-tag-does-not-support-the-containerconfig/706",
+          "publisher": {
+            "@type": "Organization",
+            "name": "Seqera Community forum"
+          }
+        }
+      ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Jubilab",
+          "item": "https://jubilab.io/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Blog",
+          "item": "https://jubilab.io/blog/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Pin your containers by digest, not by tag",
+          "item": "https://jubilab.io/blog/pin-your-containers-by-digest-not-by-tag/"
+        }
+      ]
+    }
+  ]
+}
+</script>
+<script>try{if(localStorage.getItem("jubilab-theme")==="dark")document.documentElement.setAttribute("data-theme","dark")}catch(e){}</script>
+<link rel="stylesheet" href="../../style.css">
+<link rel="stylesheet" href="../../guides/guides.css">
+<link rel="stylesheet" href="../../blog/blog.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to main content</a>
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="../../" aria-label="Jubilab, home">
+      <svg viewBox="0 0 26 26" aria-hidden="true" focusable="false"><circle class="b-fill" cx="5" cy="13" r="3.2"/><circle class="b-line" cx="21" cy="6" r="3.2"/><circle class="b-line" cx="21" cy="20" r="3.2"/><path class="b-line" d="M8 12 L18 7 M8 14 L18 19"/></svg>
+      <span class="brand-name">Jubilab</span>
+    </a>
+    <nav class="site-nav" aria-label="Page sections">
+      <ul class="links">
+        <li><a href="../../#how">What it does</a></li>
+        <li><a href="../../#fits">Integrations</a></li>
+        <li><a href="../../#product">Demo</a></li>
+        <li><a href="../../blog/" aria-current="page">Blog</a></li>
+      </ul>
+      <details class="menu">
+        <summary aria-label="Menu"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 7h16M4 12h16M4 17h16"/></svg></summary>
+        <ul>
+          <li><a href="../../#how">What it does</a></li>
+          <li><a href="../../#fits">Integrations</a></li>
+          <li><a href="../../#product">Demo</a></li>
+          <li><a href="../../blog/" aria-current="page">Blog</a></li>
+        </ul>
+      </details>
+    </nav>
+    <div class="tools">
+      <button type="button" class="theme-toggle" id="theme-toggle" aria-label="Switch to dark theme" title="Switch to dark theme" hidden>
+        <svg class="i-moon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg>
+        <svg class="i-sun" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+      </button>
+      <a class="btn small" href="../../#access" aria-label="Request early access"><span class="full">Request early access</span><span class="short" aria-hidden="true">Early access</span></a>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+<div id="top"></div>
+<article>
+<section class="g-hero b-hero">
+  <div class="wrap">
+    <nav class="g-crumbs" aria-label="Breadcrumb"><ol><li><a href="../../">Jubilab</a></li><li><a href="../">Blog</a></li><li aria-current="page">Pin your containers by digest, not by tag</li></ol></nav>
+    <p class="eyebrow">Blog</p>
+    <h1>Pin your containers by digest, not by tag</h1>
+    <p class="g-lede">Most pipelines name their software with a tag, for example <code>python:3.12-slim</code>. A tag is a label chosen by whoever publishes the image, and nothing in the name itself says the label will keep pointing at the same bytes. A digest is different: it is an identifier for one specific image. This post shows how to find a digest, how to use it in a Nextflow or Snakemake pipeline, what you give up by pinning, and what we think a run record should write down.</p>
+    <p class="g-meta">By Jubilab &middot; <time datetime="2026-10-19">19 October 2026</time> &middot; 6 min read</p>
+    <p class="b-tags"><span class="g-tag">containers</span> <span class="g-tag">nextflow</span> <span class="g-tag">bioinformatics</span></p>
+  </div>
+</section>
+<div class="g-body">
+<div class="wrap">
+<figure class="b-figure"><img src="image.svg" width="1600" height="900" alt="A shipping container with a round seal on its door sits on a dock, while a paper tag on a long ribbon floats away from it in the wind." decoding="async"></figure>
+<h2 id="tags-and-digests-in-one-minute">Tags and digests in one minute</h2>
+<p>Docker&#x27;s documentation says that when you use tags you can pull an image again to get the most up-to-date version of it, whereas pulling by digest lets you specify exactly which version of an image to pull.<sup class="cite"><a href="#src-1" aria-label="Source 1">[1]</a></sup> The same page describes pinning an image to a digest as a way to make sure the image you are using is always the same.<sup class="cite"><a href="#src-1" aria-label="Source 1">[1]</a></sup></p>
+<p>For a rerun six months from now, that difference matters. Imagine you run a pipeline in October with <code>python:3.12-slim</code>, and someone reruns it in April. Whether the two runs used the same image depends on whether the publisher moved the tag in between. Some publishers do move tags, for example to ship a patched build, and that can be a good thing; the point is that the tag alone does not tell you. We do not know how often this changes results in bioinformatics, and we have not measured it. It is worth asking, though, whether you would be able to tell.</p>
+<h2 id="finding-the-digest">Finding the digest</h2>
+<p>If you have already pulled the image, Docker can show it. We ran these on a python:3.12-slim image pulled locally (119 MB):</p>
+<p class="code-cap">Show the registry digest of a pulled image</p>
+<pre class="code" tabindex="0" role="region" aria-label="Show the registry digest of a pulled image"><code>docker image ls --digests python
+docker inspect python:3.12-slim --format &#x27;{{index .RepoDigests 0}}&#x27;</code></pre>
+<pre class="code out" tabindex="0" role="region" aria-label="Code example"><code>python@sha256:a6e34c598f2467ed0e9a8d349809fcd8b5c603269512df273a0bb1784edc11b1</code></pre>
+<p>One command lists a DIGEST column; the other prints the name and digest in a form you can paste into a pipeline. In our test, this registry digest was different from the local image ID that <code>docker inspect</code> reports as <code>.Id</code>, so be careful which one you copy. We looked at one image only and have not checked how this behaves for every registry or Docker version.</p>
+<h3 id="the-multi-platform-trap">The multi-platform trap</h3>
+<p>Some images are multi-platform. Docker&#x27;s documentation says a multi-platform image contains a manifest list pointing to multiple manifests, and that Docker selects the correct variant based on the host&#x27;s architecture.<sup class="cite"><a href="#src-2" aria-label="Source 2">[2]</a></sup> The <code>docker buildx imagetools inspect</code> command is documented as showing details of an image in the registry, and the example output on that page shows a top-level digest and per-platform manifests whose names end in their own <code>@sha256</code> digests.<sup class="cite"><a href="#src-3" aria-label="Source 3">[3]</a></sup></p>
+<p>This raises a question we have not answered ourselves: if you copy a digest from a laptop and your cluster uses a different architecture, which digest did you copy? We wonder whether the safest habit is to record the top-level digest and the platform together. We have not tested a multi-platform image across architectures.</p>
+<h2 id="using-a-digest-in-nextflow">Using a digest in Nextflow</h2>
+<p>The Nextflow container documentation says each process can specify its own container image with the <code>container</code> directive.<sup class="cite"><a href="#src-4" aria-label="Source 4">[4]</a></sup> The page we read uses plain image names in its examples and does not mention digests, so what follows is our test rather than a documented recommendation.</p>
+<p class="code-cap">Process using a digest instead of a tag</p>
+<pre class="code" tabindex="0" role="region" aria-label="Process using a digest instead of a tag"><code>process HELLO {
+    container &#x27;python@sha256:a6e34c598f2467ed0e9a8d349809fcd8b5c603269512df273a0bb1784edc11b1&#x27;
+    script:
+    &quot;&quot;&quot;
+    python --version
+    &quot;&quot;&quot;
+}</code></pre>
+<p>With <code>docker.enabled = true</code> in <code>nextflow.config</code>, tested by us with Nextflow 24.01.0-edge on a tiny script, the task ran and the generated <code>.command.run</code> contained a <code>docker run</code> line ending with the digest reference. The documentation also says you can use <code>nextflow inspect</code> to preview the container each process uses.<sup class="cite"><a href="#src-4" aria-label="Source 4">[4]</a></sup> We ran it on the same script and it listed the process name and the digest string.</p>
+<p>One limitation to know about: a community thread describes a user who pinned a digest while running with Seqera Platform and Wave, and received a Wave error saying that container requests using a SHA256 as tag do not support the <code>containerConfig</code> attribute.<sup class="cite"><a href="#src-6" aria-label="Source 6">[6]</a></sup> The replies describe this as expected, because Wave modifies the images it augments, and mention a freeze-based workaround. We did not use Wave and cannot say whether that workaround is current.</p>
+<h2 id="using-a-digest-in-snakemake">Using a digest in Snakemake</h2>
+<p>Snakemake&#x27;s <code>container:</code> directive accepts an image URL, and the documentation example is <code>container: &quot;docker://joseespinosa/docker-r-ggplot2:1.0&quot;</code>, which uses a tag.<sup class="cite"><a href="#src-5" aria-label="Source 5">[5]</a></sup> The page says the allowed URLs are those supported by Apptainer, with <code>docker://</code> preferred.<sup class="cite"><a href="#src-5" aria-label="Source 5">[5]</a></sup> It does not mention digests. Apptainer itself documents image references, but we did not read that page for this post and did not have Apptainer installed, so we have not tested whether <code>docker://python@sha256:...</code> works in a rule. We would expect it to be worth trying; we are not claiming it works.</p>
+<h2 id="what-you-give-up">What you give up</h2>
+<p>Docker&#x27;s own page states the cost: a pinned image is not updated, so Docker does not pull updated versions of the image, which may include security updates, and to get an updated image you need to change the digest.<sup class="cite"><a href="#src-1" aria-label="Source 1">[1]</a></sup> That is a real trade-off, not a footnote.</p>
+<p>A routine that some teams might find workable (we have not studied what teams actually do) is:</p>
+<ol>
+<li>Pin by digest in the pipeline config, with the human-readable tag in a comment next to it.</li>
+<li>On a schedule you choose, pull the tag again, read what changed, and update the digest on purpose.</li>
+<li>Write the digest you used into the run record, so a later reader can see which image a result came from.</li>
+</ol>
+<h2 id="what-a-record-could-include">What a record could include</h2>
+<p>When a result is questioned later, &quot;the container was <code>python:3.12-slim</code>&quot; is a weaker answer than &quot;the container was this digest&quot;. A record could include the image reference exactly as the pipeline asked for it, the digest if one was available, and a note on whether the digest was observed from the run or supplied by someone afterwards. If you only know the tag, that is a fact too, and it deserves a label that says it is less precise.</p>
+<p>Jubilab records runs with evidence statuses on each fact (verified, inferred, manual or unknown), keeps runs immutable, and can compare two runs. We are not claiming it captures container digests today; this post is about the habit, and we are still working out which container details belong in a record. Jubilab is not affiliated with or endorsed by Docker, Nextflow, Seqera or Snakemake. For the wider question of what produced a result, see <a href="/guides/what-parameters-produced-this-result/">our guide on parameters</a> and <a href="/guides/nextflow-provenance-and-lineage-compared/">the Nextflow lineage comparison</a>.</p>
+
+<section class="b-questions" aria-labelledby="questions-h">
+<h2 id="questions-h">Questions we are still asking</h2>
+<ul>
+<li>How often does a moved tag change a scientific result in practice? We have no numbers and do not want to guess.</li>
+<li>For multi-platform images, which digest should a record keep: the top-level one, the one for the platform that ran, or both?</li>
+<li>Does <code>docker://image@sha256:...</code> work in a Snakemake <code>container:</code> directive across Apptainer versions? We did not test it.</li>
+<li>How should a team schedule digest updates so that security fixes are not forgotten?</li>
+<li>When a run starts from a tag and the digest is only learned afterwards, how should the record show that the digest is inferred rather than observed?</li>
+</ul>
+</section>
+<section class="helps" aria-labelledby="helps-h">
+<h2 id="helps-h">How Jubilab helps</h2>
+
+<div class="helps-cols">
+<div><h3 class="s">Available now</h3>
+<ul>
+<li>Records each run: the command, inputs, parameters and outputs, with an evidence status on every fact (verified, inferred, manual or unknown).</li>
+<li>Trace a result back to its run and parameters; compare two runs to see which recorded values differ.</li>
+<li>Runs are kept as history the application cannot edit.</li>
+<li>Records Nextflow runs as they happen or imports a finished run, imports Snakemake runs, and records any other command with the native bash wrapper.</li>
+<li>Opt-in capture of the reference genome and annotation details written in file headers. It ships with our next release.</li>
+</ul></div>
+<div><h3 class="p">Not available yet</h3>
+<ul>
+<li>Linking every sample to its files and results.</li>
+<li>Checks that flag a sample swap or a reference genome build mismatch. These are not available yet.</li>
+<li>Recovering runs that were never recorded. Jubilab records going forward; it cannot rebuild the history of a run it did not see.</li>
+</ul></div>
+</div>
+<a class="btn" href="../../#access">Request early access</a>
+</section>
+<h2 id="sources">Sources</h2>
+<ol class="g-sources">
+<li id="src-1"><a href="https://docs.docker.com/reference/cli/docker/image/pull/" rel="noopener">docker image pull</a> <span class="why">&mdash; Docker Inc., Docker Docs. Accessed 19 October 2026. <span class="url">https://docs.docker.com/reference/cli/docker/image/pull/</span></span></li>
+<li id="src-2"><a href="https://docs.docker.com/build/building/multi-platform/" rel="noopener">Multi-platform builds</a> <span class="why">&mdash; Docker Inc., Docker Docs. Accessed 19 October 2026. <span class="url">https://docs.docker.com/build/building/multi-platform/</span></span></li>
+<li id="src-3"><a href="https://docs.docker.com/reference/cli/docker/buildx/imagetools/inspect/" rel="noopener">docker buildx imagetools inspect</a> <span class="why">&mdash; Docker Inc., Docker Docs. Accessed 19 October 2026. <span class="url">https://docs.docker.com/reference/cli/docker/buildx/imagetools/inspect/</span></span></li>
+<li id="src-4"><a href="https://docs.seqera.io/nextflow/container" rel="noopener">Containers</a> <span class="why">&mdash; Seqera, Nextflow documentation. Accessed 19 October 2026. <span class="url">https://docs.seqera.io/nextflow/container</span></span></li>
+<li id="src-5"><a href="https://snakemake.readthedocs.io/en/stable/snakefiles/deployment.html" rel="noopener">Distribution and Reproducibility</a> <span class="why">&mdash; Snakemake project, Read the Docs. Accessed 19 October 2026. <span class="url">https://snakemake.readthedocs.io/en/stable/snakefiles/deployment.html</span></span></li>
+<li id="src-6"><a href="https://community.seqera.io/t/wave-error-when-using-sha256-as-tag-does-not-support-the-containerconfig/706" rel="noopener">Wave error when using sha256 as tag does not support the containerConfig</a> <span class="why">&mdash; Seqera Community forum. Accessed 19 October 2026. <span class="url">https://community.seqera.io/t/wave-error-when-using-sha256-as-tag-does-not-support-the-containerconfig/706</span></span></li>
+</ol>
+<p class="g-review">Written by Jubilab. Published 19 October 2026; last updated 19 October 2026. Where this post names other products or projects, Jubilab is not affiliated with or endorsed by them, and it does not claim any integration with them. Things we could not check are written as questions; if you spot a mistake, email <a href="mailto:hello@jubilab.io">hello@jubilab.io</a>.</p>
+<nav class="b-pager" aria-label="More posts">
+<a class="b-prev" href="../pipeline-version-numbers-two-conventions/" rel="prev"><span class="b-dir">Newer</span><span class="b-t">When should a pipeline get a new version number?</span></a>
+<a class="b-next" href="../local-first-for-lab-data/" rel="next"><span class="b-dir">Older</span><span class="b-t">Local-first for lab data: what stays on your machine</span></a>
+</nav>
+<section class="b-related" aria-labelledby="related"><h2 id="related">Related posts</h2><ul class="b-grid">
+<li class="b-card"><a class="b-img" href="../how-to-compare-two-pipeline-runs/" tabindex="-1" aria-hidden="true"><img src="../how-to-compare-two-pipeline-runs/image.svg" width="1600" height="900" alt="" loading="lazy" decoding="async"></a><div class="b-card-body"><h2 class="b-card-t"><a href="../how-to-compare-two-pipeline-runs/">How to compare two pipeline runs</a></h2><p class="b-sum">What counts as a difference between two runs, a manual way to diff them, and what lineage diff and nf-diff showed on a toy pair.</p><p class="b-card-meta"><time datetime="2026-10-19">19 October 2026</time> &middot; 6 min read</p></div></li>
+<li class="b-card"><a class="b-img" href="../why-did-my-task-run-again-nextflow-snakemake/" tabindex="-1" aria-hidden="true"><img src="../why-did-my-task-run-again-nextflow-snakemake/image.svg" width="1600" height="900" alt="" loading="lazy" decoding="async"></a><div class="b-card-body"><h2 class="b-card-t"><a href="../why-did-my-task-run-again-nextflow-snakemake/">Why did my task run again? Nextflow and Snakemake</a></h2><p class="b-sum">What Nextflow and Snakemake compare before skipping a task, how to see why one reran, and what a rerun means for history.</p><p class="b-card-meta"><time datetime="2026-10-19">19 October 2026</time> &middot; 6 min read</p></div></li>
+<li class="b-card"><a class="b-img" href="../inherited-pipeline-first-week-checklist/" tabindex="-1" aria-hidden="true"><img src="../inherited-pipeline-first-week-checklist/image.svg" width="1600" height="900" alt="" loading="lazy" decoding="async"></a><div class="b-card-body"><h2 class="b-card-t"><a href="../inherited-pipeline-first-week-checklist/">Inherited a pipeline? A first-week checklist</a></h2><p class="b-sum">A practical checklist for rebuilding how results were made when you inherit someone else&#x27;s analysis, and what to record as you go.</p><p class="b-card-meta"><time datetime="2026-10-19">19 October 2026</time> &middot; 7 min read</p></div></li>
+</ul></section>
+</div>
+</div>
+</article>
+</main>
+<footer>
+  <div class="wrap">
+    <div>
+      <p class="foot-brand">Jubilab</p>
+      <p>Be among the first labs shaping Jubilab. Screenshots and diagrams on this site use synthetic demo data.</p>
+      <p>Contact: <a href="mailto:hello@jubilab.io">hello@jubilab.io</a></p>
+    </div>
+    <ul aria-label="Footer">
+      <li><a href="../../guides/">Guides</a></li>
+      <li><a href="../../blog/">Blog</a></li>
+      <li><a href="../../privacy/">Privacy</a></li>
+      <li><a href="../../terms/">Terms</a></li>
+      <li><a href="../../#top">Back to top</a></li>
+    </ul>
+  </div>
+</footer>
+<script src="../../assets/theme.js" defer></script>
+<script src="../../assets/consent.js" defer></script>
+</body>
+</html>

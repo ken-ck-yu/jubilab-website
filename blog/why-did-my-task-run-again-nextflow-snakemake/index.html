@@ -1,0 +1,292 @@
+<!doctype html>
+<html lang="en">
+<head>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('consent','default',{ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied',analytics_storage:'denied'})</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Why did my task run again? Nextflow and Snakemake | Jubilab</title>
+<meta name="description" content="Why a workflow engine reruns a task you expected it to skip: what Nextflow and Snakemake compare, how to see the reason, and why a rerun changes your history.">
+<meta name="theme-color" content="#f4f5f2">
+<link rel="canonical" href="https://jubilab.io/blog/why-did-my-task-run-again-nextflow-snakemake/">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Jubilab">
+<meta property="og:title" content="Why did my task run again? Nextflow and Snakemake | Jubilab">
+<meta property="og:description" content="Why a workflow engine reruns a task you expected it to skip: what Nextflow and Snakemake compare, how to see the reason, and why a rerun changes your history.">
+<meta property="og:url" content="https://jubilab.io/blog/why-did-my-task-run-again-nextflow-snakemake/">
+<meta property="og:image" content="https://jubilab.io/blog/why-did-my-task-run-again-nextflow-snakemake/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Two parallel conveyor belts carrying boxes; one box is looped back to the start of its belt by an arrow, with a magnifying glass over it.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Why did my task run again? Nextflow and Snakemake | Jubilab">
+<meta name="twitter:description" content="Why a workflow engine reruns a task you expected it to skip: what Nextflow and Snakemake compare, how to see the reason, and why a rerun changes your history.">
+<meta name="twitter:image" content="https://jubilab.io/blog/why-did-my-task-run-again-nextflow-snakemake/og.png">
+<meta name="twitter:image:alt" content="Two parallel conveyor belts carrying boxes; one box is looped back to the start of its belt by an arrow, with a magnifying glass over it.">
+<link rel="icon" href="../../assets/favicon.svg" type="image/svg+xml">
+<link rel="preload" href="../../assets/fonts/hanken-grotesk-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="../../assets/fonts/ibm-plex-mono-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BlogPosting",
+      "headline": "Why did my task run again? Nextflow and Snakemake",
+      "description": "Why a workflow engine reruns a task you expected it to skip: what Nextflow and Snakemake compare, how to see the reason, and why a rerun changes your history.",
+      "url": "https://jubilab.io/blog/why-did-my-task-run-again-nextflow-snakemake/",
+      "mainEntityOfPage": "https://jubilab.io/blog/why-did-my-task-run-again-nextflow-snakemake/",
+      "inLanguage": "en",
+      "datePublished": "2026-10-19",
+      "dateModified": "2026-10-19",
+      "author": {
+        "@type": "Organization",
+        "name": "Jubilab",
+        "url": "https://jubilab.io/"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Jubilab",
+        "url": "https://jubilab.io/"
+      },
+      "image": "https://jubilab.io/blog/why-did-my-task-run-again-nextflow-snakemake/og.png",
+      "keywords": "nextflow, snakemake, bioinformatics",
+      "wordCount": 1154,
+      "timeRequired": "PT6M",
+      "isPartOf": {
+        "@type": "Blog",
+        "name": "Jubilab blog",
+        "url": "https://jubilab.io/blog/"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "Caching and resuming",
+          "url": "https://docs.seqera.io/nextflow/cache-and-resume",
+          "publisher": {
+            "@type": "Organization",
+            "name": "Seqera, Nextflow documentation"
+          }
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "Analysis of Nextflow caching behavior",
+          "url": "https://seqera.io/blog/caching-behavior-analysis",
+          "publisher": {
+            "@type": "Organization",
+            "name": "Seqera, blog, 10 November 2022"
+          }
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "Snakemake command-line interface",
+          "url": "https://snakemake.readthedocs.io/en/stable/executing/cli.html",
+          "publisher": {
+            "@type": "Organization",
+            "name": "Snakemake project, Read the Docs"
+          }
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "Data lineage",
+          "url": "https://docs.seqera.io/nextflow/data-lineage",
+          "publisher": {
+            "@type": "Organization",
+            "name": "Seqera, Nextflow documentation"
+          }
+        }
+      ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Jubilab",
+          "item": "https://jubilab.io/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Blog",
+          "item": "https://jubilab.io/blog/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Why did my task run again? Nextflow and Snakemake",
+          "item": "https://jubilab.io/blog/why-did-my-task-run-again-nextflow-snakemake/"
+        }
+      ]
+    }
+  ]
+}
+</script>
+<script>try{if(localStorage.getItem("jubilab-theme")==="dark")document.documentElement.setAttribute("data-theme","dark")}catch(e){}</script>
+<link rel="stylesheet" href="../../style.css">
+<link rel="stylesheet" href="../../guides/guides.css">
+<link rel="stylesheet" href="../../blog/blog.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to main content</a>
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="../../" aria-label="Jubilab, home">
+      <svg viewBox="0 0 26 26" aria-hidden="true" focusable="false"><circle class="b-fill" cx="5" cy="13" r="3.2"/><circle class="b-line" cx="21" cy="6" r="3.2"/><circle class="b-line" cx="21" cy="20" r="3.2"/><path class="b-line" d="M8 12 L18 7 M8 14 L18 19"/></svg>
+      <span class="brand-name">Jubilab</span>
+    </a>
+    <nav class="site-nav" aria-label="Page sections">
+      <ul class="links">
+        <li><a href="../../#how">What it does</a></li>
+        <li><a href="../../#fits">Integrations</a></li>
+        <li><a href="../../#product">Demo</a></li>
+        <li><a href="../../blog/" aria-current="page">Blog</a></li>
+      </ul>
+      <details class="menu">
+        <summary aria-label="Menu"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 7h16M4 12h16M4 17h16"/></svg></summary>
+        <ul>
+          <li><a href="../../#how">What it does</a></li>
+          <li><a href="../../#fits">Integrations</a></li>
+          <li><a href="../../#product">Demo</a></li>
+          <li><a href="../../blog/" aria-current="page">Blog</a></li>
+        </ul>
+      </details>
+    </nav>
+    <div class="tools">
+      <button type="button" class="theme-toggle" id="theme-toggle" aria-label="Switch to dark theme" title="Switch to dark theme" hidden>
+        <svg class="i-moon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg>
+        <svg class="i-sun" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+      </button>
+      <a class="btn small" href="../../#access" aria-label="Request early access"><span class="full">Request early access</span><span class="short" aria-hidden="true">Early access</span></a>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+<div id="top"></div>
+<article>
+<section class="g-hero b-hero">
+  <div class="wrap">
+    <nav class="g-crumbs" aria-label="Breadcrumb"><ol><li><a href="../../">Jubilab</a></li><li><a href="../">Blog</a></li><li aria-current="page">Why did my task run again? Nextflow and Snakemake</li></ol></nav>
+    <p class="eyebrow">Blog</p>
+    <h1>Why did my task run again? Nextflow and Snakemake</h1>
+    <p class="g-lede">You resume a pipeline, expect every finished step to be skipped, and one of them runs again. Sometimes the cause is plain, such as a script you edited. Sometimes it is not obvious at all. This post looks at what Nextflow and Snakemake each say they compare, shows how to get the engine to tell you the reason, and describes two small experiments we ran. It also asks what a rerun means for the history of a result, because a rerun is a new event even when the output looks identical.</p>
+    <p class="g-meta">By Jubilab &middot; <time datetime="2026-10-19">19 October 2026</time> &middot; 6 min read</p>
+    <p class="b-tags"><span class="g-tag">nextflow</span> <span class="g-tag">snakemake</span> <span class="g-tag">bioinformatics</span></p>
+  </div>
+</section>
+<div class="g-body">
+<div class="wrap">
+<figure class="b-figure"><img src="image.svg" width="1600" height="900" alt="Two parallel conveyor belts carrying boxes; one box is looped back to the start of its belt by an arrow, with a magnifying glass over it." decoding="async"></figure>
+<h2 id="what-each-engine-compares">What each engine compares</h2>
+<p>Nextflow&#x27;s documentation lists what goes into a task&#x27;s hash: the session ID, task name, container image, modules, Conda or Spack environments, task inputs, the script, referenced global variables and <code>ext</code> properties, and whether it is a stub run. Input files are hashed by full path, last-modified timestamp and file size.<sup class="cite"><a href="#src-1" aria-label="Source 1">[1]</a></sup> An older Seqera post puts it more briefly: the hash takes into account the complete file path, the last modified timestamp, the container ID and the content of the script, among other factors, and if any of these change, the task is re-executed.<sup class="cite"><a href="#src-2" aria-label="Source 2">[2]</a></sup> That post is from November 2022, so we treat the current documentation as the better guide.</p>
+<p>Snakemake&#x27;s command-line documentation says <code>--rerun-triggers</code> defines what triggers the rerunning of a job. The allowed values are <code>code</code>, <code>input</code>, <code>mtime</code>, <code>params</code> and <code>software-env</code>, and by default all five are used.<sup class="cite"><a href="#src-3" aria-label="Source 3">[3]</a></sup> So a Snakemake job can rerun because its code, its input, its modification times, its parameters or its software environment changed.</p>
+<p>The two engines look at similar things (inputs, code, software, and a timestamp or path), but we would not assume they behave alike in the details.</p>
+<h2 id="getting-nextflow-to-show-its-hashes">Getting Nextflow to show its hashes</h2>
+<p>The documentation suggests comparing the task hashes of each run with the <code>-dump-hashes</code> option, extracting the lines containing <code>cache hash:</code> and diffing them, and says <code>-dump-hashes json</code> makes the extraction easier.<sup class="cite"><a href="#src-1" aria-label="Source 1">[1]</a></sup> We tried the plain form on a one-process script that counts lines in a file.</p>
+<p class="code-cap">Run, resume, touch the input, resume again</p>
+<pre class="code" tabindex="0" role="region" aria-label="Run, resume, touch the input, resume again"><code>nextflow -log run1.log run main.nf -dump-hashes
+nextflow -log run2.log run main.nf -resume -dump-hashes
+touch sample.txt
+nextflow -log run3.log run main.nf -resume -dump-hashes
+grep &#x27;cache hash&#x27; run1.log run2.log run3.log</code></pre>
+<pre class="code out" tabindex="0" role="region" aria-label="Code example"><code>run1.log: - [COUNT] cache hash: 0087cab70e6db5ec8af2a19a31d7f0df; mode: STANDARD
+run2.log: - [COUNT] cache hash: 0087cab70e6db5ec8af2a19a31d7f0df; mode: STANDARD
+run3.log: - [COUNT] cache hash: d69bc42b810cf4162617fd43e616bdba; mode: STANDARD</code></pre>
+<p>This was tested by us with Nextflow 24.01.0-edge (we trimmed the log prefix and the line tail for readability). The second run reused the cached task and the hash was the same. After <code>touch sample.txt</code>, which changes only the modification time and not a single byte of content, the hash changed and the task ran again. That matches the documentation&#x27;s statement about timestamps, and it is a useful reminder that &quot;the data did not change&quot; and &quot;the engine thinks the input did not change&quot; are different statements.</p>
+<p>The Nextflow documentation also mentions some usual suspects: shared file systems such as NFS that may report inconsistent timestamps, for which a <code>&#x27;lenient&#x27;</code> caching mode ignores the timestamp and uses the path and size; processes that merge inputs non-deterministically; and work directories or the <code>.nextflow/cache</code> that were removed.<sup class="cite"><a href="#src-1" aria-label="Source 1">[1]</a></sup> We did not reproduce those three ourselves.</p>
+<h2 id="asking-snakemake-for-the-reason">Asking Snakemake for the reason</h2>
+<p>Snakemake has several ways to look. We used a three-line rule with a <code>params</code> value and Snakemake 9.27.0.</p>
+<p class="code-cap">Change a param, then ask what would run</p>
+<pre class="code" tabindex="0" role="region" aria-label="Change a param, then ask what would run"><code>snakemake -c1 count.txt
+snakemake -c1 --list-params-changes
+snakemake -c1 -n count.txt</code></pre>
+<p>After we edited the <code>params</code> value in the rule, <code>--list-params-changes</code> printed <code>count.txt</code>, and the dry run printed a reason that began &quot;params have changed since last execution&quot;. The documentation describes <code>--list-params-changes</code> as listing all output files for which the defined params have changed in the Snakefile.<sup class="cite"><a href="#src-3" aria-label="Source 3">[3]</a></sup> The dry run also noted that some jobs were triggered by provenance information. Tested by us, on that one rule only.</p>
+<p>We also touched the input file of a finished rule and asked for a dry run. In our test with Snakemake 9.27.0 it reported that nothing needed to be done. We do not know why, and we did not dig into it. It is possible that we misunderstood the <code>mtime</code> trigger, or that the behaviour depends on the version or on how the outputs were created. We would rather leave that as an open question than guess.</p>
+<p>The same documentation lists <code>--list-changes</code> for code, input and params, <code>--summary</code> for printing a summary of all files created by the workflow, and <code>--forceall</code> for forcing execution of a rule and everything it depends on.<sup class="cite"><a href="#src-3" aria-label="Source 3">[3]</a></sup> We did not exercise those.</p>
+<h2 id="the-usual-causes-in-one-list">The usual causes, in one list</h2>
+<p>From the sources above, the causes we would check first are:</p>
+<ol>
+<li>A file was touched, copied or moved, so its timestamp or path changed even though its content did not.</li>
+<li>A script, rule code or <code>params</code> value changed, including a small edit such as a comment.</li>
+<li>The container image, module or environment changed.</li>
+<li>A work directory or cache was deleted, so there was nothing to resume from.</li>
+<li>Inputs reached the task in a different order or from a different path.</li>
+</ol>
+<p>This is a checklist drawn from documentation, not a finding about how often each cause occurs. We have no data on that.</p>
+<h2 id="a-rerun-is-part-of-the-history">A rerun is part of the history</h2>
+<p>When a task reruns, there is a new execution, new outputs and, possibly, a different answer. If the story of a result says &quot;we ran it in March&quot;, but half of it was rerun in April, the story has changed in a way that the output files alone will not tell you. The Nextflow lineage documentation says that tasks that failed or were aborted are not recorded, and that when a task is retried the store describes the attempt that succeeded.<sup class="cite"><a href="#src-4" aria-label="Source 4">[4]</a></sup> That is a sensible design choice, and it also shows why a reader may want an additional record of what happened around it.</p>
+<p>Jubilab records runs and keeps them immutable, and it can compare two runs to show which recorded parameters, versions or results differ. It does not explain why an engine decided to rerun a task, and we are not claiming it does. It is not affiliated with or endorsed by Nextflow, Seqera or Snakemake. For the bigger picture of what to write down, see <a href="/guides/what-parameters-produced-this-result/">what parameters produced this result</a>.</p>
+
+<section class="b-questions" aria-labelledby="questions-h">
+<h2 id="questions-h">Questions we are still asking</h2>
+<ul>
+<li>Why did our Snakemake dry run report nothing to do after we touched an input? We have not tested other versions or rule shapes, and we would like to understand it.</li>
+<li>How closely do <code>nextflow -dump-hashes</code> and Snakemake&#x27;s reasons agree about the same underlying change? We only compared them informally.</li>
+<li>If a rerun produces identical outputs, does it still belong in a record of how a result was made? We lean towards yes, but it is worth asking what readers want.</li>
+<li>Do the causes in our checklist cover most real-world surprises? We have not measured this.</li>
+<li>Will these options and messages stay as they are? Both tools change over time, so check the current documentation for your version.</li>
+</ul>
+</section>
+<section class="helps" aria-labelledby="helps-h">
+<h2 id="helps-h">How Jubilab helps</h2>
+
+<div class="helps-cols">
+<div><h3 class="s">Available now</h3>
+<ul>
+<li>Records each run: the command, inputs, parameters and outputs, with an evidence status on every fact (verified, inferred, manual or unknown).</li>
+<li>Trace a result back to its run and parameters; compare two runs to see which recorded values differ.</li>
+<li>Runs are kept as history the application cannot edit.</li>
+<li>Records Nextflow runs as they happen or imports a finished run, imports Snakemake runs, and records any other command with the native bash wrapper.</li>
+<li>Opt-in capture of the reference genome and annotation details written in file headers. It ships with our next release.</li>
+</ul></div>
+<div><h3 class="p">Not available yet</h3>
+<ul>
+<li>Linking every sample to its files and results.</li>
+<li>Checks that flag a sample swap or a reference genome build mismatch. These are not available yet.</li>
+<li>Recovering runs that were never recorded. Jubilab records going forward; it cannot rebuild the history of a run it did not see.</li>
+</ul></div>
+</div>
+<a class="btn" href="../../#access">Request early access</a>
+</section>
+<h2 id="sources">Sources</h2>
+<ol class="g-sources">
+<li id="src-1"><a href="https://docs.seqera.io/nextflow/cache-and-resume" rel="noopener">Caching and resuming</a> <span class="why">&mdash; Seqera, Nextflow documentation. Accessed 19 October 2026. <span class="url">https://docs.seqera.io/nextflow/cache-and-resume</span></span></li>
+<li id="src-2"><a href="https://seqera.io/blog/caching-behavior-analysis" rel="noopener">Analysis of Nextflow caching behavior</a> <span class="why">&mdash; Seqera, blog, 10 November 2022. Accessed 19 October 2026. <span class="url">https://seqera.io/blog/caching-behavior-analysis</span></span></li>
+<li id="src-3"><a href="https://snakemake.readthedocs.io/en/stable/executing/cli.html" rel="noopener">Snakemake command-line interface</a> <span class="why">&mdash; Snakemake project, Read the Docs. Accessed 19 October 2026. <span class="url">https://snakemake.readthedocs.io/en/stable/executing/cli.html</span></span></li>
+<li id="src-4"><a href="https://docs.seqera.io/nextflow/data-lineage" rel="noopener">Data lineage</a> <span class="why">&mdash; Seqera, Nextflow documentation. Accessed 19 October 2026. <span class="url">https://docs.seqera.io/nextflow/data-lineage</span></span></li>
+</ol>
+<p class="g-review">Written by Jubilab. Published 19 October 2026; last updated 19 October 2026. Where this post names other products or projects, Jubilab is not affiliated with or endorsed by them, and it does not claim any integration with them. Things we could not check are written as questions; if you spot a mistake, email <a href="mailto:hello@jubilab.io">hello@jubilab.io</a>.</p>
+<nav class="b-pager" aria-label="More posts">
+<a class="b-prev" href="../write-methods-paragraph-from-run-record/" rel="prev"><span class="b-dir">Newer</span><span class="b-t">Write the methods paragraph from your run record</span></a>
+<a class="b-next" href="../why-a-record-should-say-what-it-doesnt-know/" rel="next"><span class="b-dir">Older</span><span class="b-t">Why a record should say what it doesn&#x27;t know</span></a>
+</nav>
+<section class="b-related" aria-labelledby="related"><h2 id="related">Related posts</h2><ul class="b-grid">
+<li class="b-card"><a class="b-img" href="../how-to-compare-two-pipeline-runs/" tabindex="-1" aria-hidden="true"><img src="../how-to-compare-two-pipeline-runs/image.svg" width="1600" height="900" alt="" loading="lazy" decoding="async"></a><div class="b-card-body"><h2 class="b-card-t"><a href="../how-to-compare-two-pipeline-runs/">How to compare two pipeline runs</a></h2><p class="b-sum">What counts as a difference between two runs, a manual way to diff them, and what lineage diff and nf-diff showed on a toy pair.</p><p class="b-card-meta"><time datetime="2026-10-19">19 October 2026</time> &middot; 6 min read</p></div></li>
+<li class="b-card"><a class="b-img" href="../pin-your-containers-by-digest-not-by-tag/" tabindex="-1" aria-hidden="true"><img src="../pin-your-containers-by-digest-not-by-tag/image.svg" width="1600" height="900" alt="" loading="lazy" decoding="async"></a><div class="b-card-body"><h2 class="b-card-t"><a href="../pin-your-containers-by-digest-not-by-tag/">Pin your containers by digest, not by tag</a></h2><p class="b-sum">A tag is a label that can move; a digest names one image. How to find, use and write down the digest a pipeline ran with.</p><p class="b-card-meta"><time datetime="2026-10-19">19 October 2026</time> &middot; 6 min read</p></div></li>
+<li class="b-card"><a class="b-img" href="../inherited-pipeline-first-week-checklist/" tabindex="-1" aria-hidden="true"><img src="../inherited-pipeline-first-week-checklist/image.svg" width="1600" height="900" alt="" loading="lazy" decoding="async"></a><div class="b-card-body"><h2 class="b-card-t"><a href="../inherited-pipeline-first-week-checklist/">Inherited a pipeline? A first-week checklist</a></h2><p class="b-sum">A practical checklist for rebuilding how results were made when you inherit someone else&#x27;s analysis, and what to record as you go.</p><p class="b-card-meta"><time datetime="2026-10-19">19 October 2026</time> &middot; 7 min read</p></div></li>
+</ul></section>
+</div>
+</div>
+</article>
+</main>
+<footer>
+  <div class="wrap">
+    <div>
+      <p class="foot-brand">Jubilab</p>
+      <p>Be among the first labs shaping Jubilab. Screenshots and diagrams on this site use synthetic demo data.</p>
+      <p>Contact: <a href="mailto:hello@jubilab.io">hello@jubilab.io</a></p>
+    </div>
+    <ul aria-label="Footer">
+      <li><a href="../../guides/">Guides</a></li>
+      <li><a href="../../blog/">Blog</a></li>
+      <li><a href="../../privacy/">Privacy</a></li>
+      <li><a href="../../terms/">Terms</a></li>
+      <li><a href="../../#top">Back to top</a></li>
+    </ul>
+  </div>
+</footer>
+<script src="../../assets/theme.js" defer></script>
+<script src="../../assets/consent.js" defer></script>
+</body>
+</html>

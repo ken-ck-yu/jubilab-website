@@ -1,0 +1,309 @@
+<!doctype html>
+<html lang="en">
+<head>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('consent','default',{ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied',analytics_storage:'denied'})</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Same FASTQs, different variants: where it creeps in | Jubilab</title>
+<meta name="description" content="You ran the same FASTQ files twice and the variant calls differ. A look at what the literature reports, how to isolate the stage, and what to write down.">
+<meta name="theme-color" content="#f4f5f2">
+<link rel="canonical" href="https://jubilab.io/blog/same-fastqs-different-variants/">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Jubilab">
+<meta property="og:title" content="Same FASTQs, different variants: where it creeps in | Jubilab">
+<meta property="og:description" content="You ran the same FASTQ files twice and the variant calls differ. A look at what the literature reports, how to isolate the stage, and what to write down.">
+<meta property="og:url" content="https://jubilab.io/blog/same-fastqs-different-variants/">
+<meta property="og:image" content="https://jubilab.io/blog/same-fastqs-different-variants/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Two identical cassette tapes side by side, each with its own waveform below it; the waveforms are nearly the same but one is drawn in orange, with a not-equal sign between them.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Same FASTQs, different variants: where it creeps in | Jubilab">
+<meta name="twitter:description" content="You ran the same FASTQ files twice and the variant calls differ. A look at what the literature reports, how to isolate the stage, and what to write down.">
+<meta name="twitter:image" content="https://jubilab.io/blog/same-fastqs-different-variants/og.png">
+<meta name="twitter:image:alt" content="Two identical cassette tapes side by side, each with its own waveform below it; the waveforms are nearly the same but one is drawn in orange, with a not-equal sign between them.">
+<link rel="icon" href="../../assets/favicon.svg" type="image/svg+xml">
+<link rel="preload" href="../../assets/fonts/hanken-grotesk-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="../../assets/fonts/ibm-plex-mono-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BlogPosting",
+      "headline": "Same FASTQs, different variants: where it creeps in",
+      "description": "You ran the same FASTQ files twice and the variant calls differ. A look at what the literature reports, how to isolate the stage, and what to write down.",
+      "url": "https://jubilab.io/blog/same-fastqs-different-variants/",
+      "mainEntityOfPage": "https://jubilab.io/blog/same-fastqs-different-variants/",
+      "inLanguage": "en",
+      "datePublished": "2026-10-19",
+      "dateModified": "2026-10-19",
+      "author": {
+        "@type": "Organization",
+        "name": "Jubilab",
+        "url": "https://jubilab.io/"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Jubilab",
+        "url": "https://jubilab.io/"
+      },
+      "image": "https://jubilab.io/blog/same-fastqs-different-variants/og.png",
+      "keywords": "variant-calling, reproducibility, provenance",
+      "wordCount": 1244,
+      "timeRequired": "PT6M",
+      "isPartOf": {
+        "@type": "Blog",
+        "name": "Jubilab blog",
+        "url": "https://jubilab.io/blog/"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "On genomic repeats and reproducibility",
+          "url": "https://academic.oup.com/bioinformatics/article/32/15/2243/1743552",
+          "publisher": {
+            "@type": "Organization",
+            "name": "Firtina and Alkan, Bioinformatics, 2016"
+          }
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "Evaluating Variant Calling Tools for Non-Matched Next-Generation Sequencing Data",
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5324109/",
+          "publisher": {
+            "@type": "Organization",
+            "name": "Sandmann et al., Scientific Reports, 2017"
+          }
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "From ideal to practical: Heterogeneity of student-generated variant lists highlights hidden reproducibility gaps",
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12530611/",
+          "publisher": {
+            "@type": "Organization",
+            "name": "Ertürk et al., PLOS Computational Biology, 2025"
+          }
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "samtools sort",
+          "url": "https://www.htslib.org/doc/samtools-sort.html",
+          "publisher": {
+            "@type": "Organization",
+            "name": "htslib.org, samtools documentation"
+          }
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "Ten Simple Rules for Reproducible Computational Research",
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3812051/",
+          "publisher": {
+            "@type": "Organization",
+            "name": "Sandve, Nekrutenko, Taylor and Hovig, PLOS Computational Biology, 2013"
+          }
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "bcftools manual",
+          "url": "https://samtools.github.io/bcftools/bcftools.html",
+          "publisher": {
+            "@type": "Organization",
+            "name": "samtools project, bcftools documentation"
+          }
+        }
+      ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Jubilab",
+          "item": "https://jubilab.io/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Blog",
+          "item": "https://jubilab.io/blog/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Same FASTQs, different variants: where it creeps in",
+          "item": "https://jubilab.io/blog/same-fastqs-different-variants/"
+        }
+      ]
+    }
+  ]
+}
+</script>
+<script>try{if(localStorage.getItem("jubilab-theme")==="dark")document.documentElement.setAttribute("data-theme","dark")}catch(e){}</script>
+<link rel="stylesheet" href="../../style.css">
+<link rel="stylesheet" href="../../guides/guides.css">
+<link rel="stylesheet" href="../../blog/blog.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to main content</a>
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="../../" aria-label="Jubilab, home">
+      <svg viewBox="0 0 26 26" aria-hidden="true" focusable="false"><circle class="b-fill" cx="5" cy="13" r="3.2"/><circle class="b-line" cx="21" cy="6" r="3.2"/><circle class="b-line" cx="21" cy="20" r="3.2"/><path class="b-line" d="M8 12 L18 7 M8 14 L18 19"/></svg>
+      <span class="brand-name">Jubilab</span>
+    </a>
+    <nav class="site-nav" aria-label="Page sections">
+      <ul class="links">
+        <li><a href="../../#how">What it does</a></li>
+        <li><a href="../../#fits">Integrations</a></li>
+        <li><a href="../../#product">Demo</a></li>
+        <li><a href="../../blog/" aria-current="page">Blog</a></li>
+      </ul>
+      <details class="menu">
+        <summary aria-label="Menu"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 7h16M4 12h16M4 17h16"/></svg></summary>
+        <ul>
+          <li><a href="../../#how">What it does</a></li>
+          <li><a href="../../#fits">Integrations</a></li>
+          <li><a href="../../#product">Demo</a></li>
+          <li><a href="../../blog/" aria-current="page">Blog</a></li>
+        </ul>
+      </details>
+    </nav>
+    <div class="tools">
+      <button type="button" class="theme-toggle" id="theme-toggle" aria-label="Switch to dark theme" title="Switch to dark theme" hidden>
+        <svg class="i-moon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg>
+        <svg class="i-sun" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+      </button>
+      <a class="btn small" href="../../#access" aria-label="Request early access"><span class="full">Request early access</span><span class="short" aria-hidden="true">Early access</span></a>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+<div id="top"></div>
+<article>
+<section class="g-hero b-hero">
+  <div class="wrap">
+    <nav class="g-crumbs" aria-label="Breadcrumb"><ol><li><a href="../../">Jubilab</a></li><li><a href="../">Blog</a></li><li aria-current="page">Same FASTQs, different variants: where it creeps in</li></ol></nav>
+    <p class="eyebrow">Blog</p>
+    <h1>Same FASTQs, different variants: where it creeps in</h1>
+    <p class="g-lede">Imagine you run the same FASTQ files through the same pipeline twice, maybe once on a laptop and once on a cluster, and the two VCFs are not identical. Did something break? Not necessarily, and not necessarily in the way you fear. This post collects what published studies report about where differences can come from, suggests a way to isolate the stage that changed, and lists what to write down so the next difference can be explained. We are cautious throughout: several of these effects depend on the tools, versions and data, and we have measured none of them ourselves.</p>
+    <p class="g-meta">By Jubilab &middot; <time datetime="2026-10-19">19 October 2026</time> &middot; 6 min read</p>
+    <p class="b-tags"><span class="g-tag">variant-calling</span> <span class="g-tag">reproducibility</span> <span class="g-tag">provenance</span></p>
+  </div>
+</section>
+<div class="g-body">
+<div class="wrap">
+<figure class="b-figure"><img src="image.svg" width="1600" height="900" alt="Two identical cassette tapes side by side, each with its own waveform below it; the waveforms are nearly the same but one is drawn in orange, with a not-equal sign between them." decoding="async"></figure>
+<h2 id="first-ask-what-same-means">First, ask what &quot;same&quot; means</h2>
+<p>Before looking for randomness, check the boring explanations. Were the FASTQ files byte-identical? Were the reference genome and annotation the same files? Were the tool versions, and the containers or conda environments, the same? Were parameters set on the command line in one run and in a config file in the other? Each of those is a recorded fact that a run could carry, and a mismatch there may be a more likely story than a deep property of an aligner. We have no numbers on this, so treat it as our impression and not a finding.</p>
+<h2 id="what-the-studies-report">What the studies report</h2>
+<p>Three papers are useful because they look at different layers.</p>
+<p><strong>Read order.</strong> Firtina and Alkan reanalysed the same sequencing datasets with the same tools and parameters, changing only the order of reads in the FASTQ files. Reads from repetitive regions were mapped to different locations in the second alignment. Splitting reads into chunks for parallel mapping, without shuffling, produced similar effects.<sup class="cite"><a href="#src-1" aria-label="Source 1">[1]</a></sup> The same abstract reports that, even with an identical alignment, GATK&#x27;s HaplotypeCaller gave slightly different call sets, which they traced to the variant filtration step. They conclude that each step should handle ambiguous mappings deterministically.<sup class="cite"><a href="#src-1" aria-label="Source 1">[1]</a></sup></p>
+<p><strong>Threads and repeats.</strong> Sandmann and colleagues evaluated eight variant callers on targeted sequencing data. When they ran the same dataset twice with the same settings, most tools gave identical results, and the exception was VarDict, whose differences were in indels; the authors suspect a non-deterministic step in its local realignment. For the three tools that offer multithreading (GATK, Platypus and LoFreq), a single-thread and an eight-thread run differed. GATK showed the largest differences, and did not produce an exactly identical output for a single sample.<sup class="cite"><a href="#src-2" aria-label="Source 2">[2]</a></sup> That is one study, on one kind of data, with the versions of its day, so we would not generalise it. It is, though, a reason to test thread counts on your own data before assuming they do not matter.</p>
+<p><strong>Environment.</strong> A 2025 study had eleven student groups build somatic variant-calling pipelines on the same benchmark dataset. The authors report that operating system and installation method were the most influential factors in variant-calling performance, and that identical library versions and parameters still gave divergent results. <sup class="cite"><a href="#src-3" aria-label="Source 3">[3]</a></sup> We read this as an observational pattern across eleven student groups. We did not see the authors claim to have established cause, so we treat it as a hint that &quot;same tools&quot; can hide differences, not as a verdict on any setup.</p>
+<h2 id="order-and-ties-inside-the-pipeline">Order and ties inside the pipeline</h2>
+<p>Sorting is another place to wonder. The samtools documentation says default sort order is by reference, then position, then the reverse-strand flag, and it spells out how ties are resolved for name sorting.<sup class="cite"><a href="#src-4" aria-label="Source 4">[4]</a></sup> It does not say, on the page we read, how reads that tie on all of those are ordered, or whether multithreaded sorting changes anything. We do not know whether this ever matters for a caller, and we have not tested it. We mention it because the reshuffling study above suggests that order can matter in some places, which makes it fair to ask where else order sneaks in.</p>
+<p>Random seeds are the other classic. Rule 6 of the &quot;Ten Simple Rules&quot; paper is to note the underlying random seeds for analyses that include randomness.<sup class="cite"><a href="#src-5" aria-label="Source 5">[5]</a></sup> If a step takes a seed option, record the value you used; if it does not expose one, record that too.</p>
+<h2 id="a-way-to-isolate-the-stage">A way to isolate the stage</h2>
+<p>When two runs differ, try narrowing it down rather than guessing.</p>
+<ol>
+<li><strong>Compare the inputs.</strong> Checksums of FASTQs, reference and annotation files, plus the tool versions and parameters of each run.</li>
+<li><strong>Freeze the middle.</strong> Take one BAM and give that same file to the caller twice. If the VCFs differ, the difference is in the caller or what follows.</li>
+<li><strong>Vary one thing.</strong> Repeat the caller run with one thread and with several. Change nothing else.</li>
+<li><strong>Move upstream.</strong> If the caller is stable on a fixed BAM, repeat the alignment step on the same FASTQs and compare the alignments.</li>
+</ol>
+<p>To compare two VCFs you can use <code>bcftools isec</code>. The manual describes <code>-n=1</code> as showing positions present in exactly one of the files.<sup class="cite"><a href="#src-6" aria-label="Source 6">[6]</a></sup> We tried it on two three-line toy VCFs (bcftools 1.13), where the second file has one record moved:</p>
+<p class="code-cap">List records found in only one of two call sets</p>
+<pre class="code" tabindex="0" role="region" aria-label="List records found in only one of two call sets"><code>bcftools isec -n=1 run1.vcf.gz run2.vcf.gz</code></pre>
+<pre class="code out" tabindex="0" role="region" aria-label="Code example"><code>chr1	250	T	C	01
+chr1	300	G	A	10</code></pre>
+<p>The last column shows which file held the record: in our test, <code>10</code> meant only file one and <code>01</code> only file two. Real call sets also differ in genotypes and annotations, which this does not capture, so it is a starting point and not a full comparison.</p>
+<h2 id="what-to-record-so-the-next-difference-is-explainable">What to record so the next difference is explainable</h2>
+<ul>
+<li>Input checksums, reference and annotation identifiers, and tool and container versions.</li>
+<li>The full command lines, including thread counts, chunk or scatter settings, and any seed.</li>
+<li>The order of steps, including sorting and duplicate marking, and the intervals or regions used.</li>
+<li>The environment: operating system, container or conda environment, and the machine type if it differs between runs.</li>
+<li>Anything that was not recorded, marked as unknown and not guessed.</li>
+</ul>
+<p>Our <a href="/guides/what-parameters-produced-this-result/">guide on what parameters produced a result</a> covers why command-line settings can go missing.</p>
+<h2 id="where-jubilab-fits">Where Jubilab fits</h2>
+<p>Jubilab is a local-first, self-hostable record of how results are made. Today you can import Nextflow or Snakemake runs, capture Nextflow runs live, or wrap other commands with the native bash wrapper. Each run is kept as immutable history, each fact carries an evidence status, and you can compare two runs to see which recorded values differ, such as a command-line setting you passed. Opt-in capture of reference and annotation details from file headers ships with our next release.</p>
+<p>Jubilab does not make a pipeline deterministic, and it cannot tell you why two outputs differ. It can only show you which recorded inputs and settings were different, and which were never recorded. It is not affiliated with or endorsed by GATK, bcftools, samtools or the authors cited here.</p>
+
+<section class="b-questions" aria-labelledby="questions-h">
+<h2 id="questions-h">Questions we are still asking</h2>
+<ul>
+<li>How much of the difference between two runs on a typical lab pipeline is explained by recorded inputs and settings, and how much by something nobody recorded? We have no figures.</li>
+<li>It is worth asking whether the multithreading differences reported in the 2017 study still appear with current versions of the callers. We have not rerun them.</li>
+<li>We wonder whether differences like these matter for the biological conclusion in practice, or mainly when someone compares files byte for byte. Both views seem reasonable to us.</li>
+<li>Should a lab fix thread counts and chunk sizes for production runs? That trades speed for repeatability, and we do not know where teams land.</li>
+<li>If a tool does not document whether its output depends on the thread count, what is a fair way to find out? A test on your own data seems a minimum.</li>
+</ul>
+</section>
+<section class="helps" aria-labelledby="helps-h">
+<h2 id="helps-h">How Jubilab helps</h2>
+
+<div class="helps-cols">
+<div><h3 class="s">Available now</h3>
+<ul>
+<li>Records each run: the command, inputs, parameters and outputs, with an evidence status on every fact (verified, inferred, manual or unknown).</li>
+<li>Trace a result back to its run and parameters; compare two runs to see which recorded values differ.</li>
+<li>Runs are kept as history the application cannot edit.</li>
+<li>Records Nextflow runs as they happen or imports a finished run, imports Snakemake runs, and records any other command with the native bash wrapper.</li>
+<li>Opt-in capture of the reference genome and annotation details written in file headers. It ships with our next release.</li>
+</ul></div>
+<div><h3 class="p">Not available yet</h3>
+<ul>
+<li>Linking every sample to its files and results.</li>
+<li>Checks that flag a sample swap or a reference genome build mismatch. These are not available yet.</li>
+<li>Recovering runs that were never recorded. Jubilab records going forward; it cannot rebuild the history of a run it did not see.</li>
+</ul></div>
+</div>
+<a class="btn" href="../../#access">Request early access</a>
+</section>
+<h2 id="sources">Sources</h2>
+<ol class="g-sources">
+<li id="src-1"><a href="https://academic.oup.com/bioinformatics/article/32/15/2243/1743552" rel="noopener">On genomic repeats and reproducibility</a> <span class="why">&mdash; Firtina and Alkan, Bioinformatics, 2016. Accessed 19 October 2026. <span class="url">https://academic.oup.com/bioinformatics/article/32/15/2243/1743552</span></span></li>
+<li id="src-2"><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC5324109/" rel="noopener">Evaluating Variant Calling Tools for Non-Matched Next-Generation Sequencing Data</a> <span class="why">&mdash; Sandmann et al., Scientific Reports, 2017. Accessed 19 October 2026. <span class="url">https://pmc.ncbi.nlm.nih.gov/articles/PMC5324109/</span></span></li>
+<li id="src-3"><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC12530611/" rel="noopener">From ideal to practical: Heterogeneity of student-generated variant lists highlights hidden reproducibility gaps</a> <span class="why">&mdash; Ertürk et al., PLOS Computational Biology, 2025. Accessed 19 October 2026. <span class="url">https://pmc.ncbi.nlm.nih.gov/articles/PMC12530611/</span></span></li>
+<li id="src-4"><a href="https://www.htslib.org/doc/samtools-sort.html" rel="noopener">samtools sort</a> <span class="why">&mdash; htslib.org, samtools documentation. Accessed 19 October 2026. <span class="url">https://www.htslib.org/doc/samtools-sort.html</span></span></li>
+<li id="src-5"><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC3812051/" rel="noopener">Ten Simple Rules for Reproducible Computational Research</a> <span class="why">&mdash; Sandve, Nekrutenko, Taylor and Hovig, PLOS Computational Biology, 2013. Accessed 19 October 2026. <span class="url">https://pmc.ncbi.nlm.nih.gov/articles/PMC3812051/</span></span></li>
+<li id="src-6"><a href="https://samtools.github.io/bcftools/bcftools.html" rel="noopener">bcftools manual</a> <span class="why">&mdash; samtools project, bcftools documentation. Accessed 19 October 2026. <span class="url">https://samtools.github.io/bcftools/bcftools.html</span></span></li>
+</ol>
+<p class="g-review">Written by Jubilab. Published 19 October 2026; last updated 19 October 2026. Where this post names other products or projects, Jubilab is not affiliated with or endorsed by them, and it does not claim any integration with them. Things we could not check are written as questions; if you spot a mistake, email <a href="mailto:hello@jubilab.io">hello@jubilab.io</a>.</p>
+<nav class="b-pager" aria-label="More posts">
+<a class="b-prev" href="../sample-swaps-tools-and-what-a-run-record-says/" rel="prev"><span class="b-dir">Newer</span><span class="b-t">Sample swaps: the tools, and what a run record can say</span></a>
+<a class="b-next" href="../ro-crate-biocompute-objects-and-prov/" rel="next"><span class="b-dir">Older</span><span class="b-t">RO-Crate, BioCompute Objects and PROV: which one?</span></a>
+</nav>
+<section class="b-related" aria-labelledby="related"><h2 id="related">Related posts</h2><ul class="b-grid">
+<li class="b-card"><a class="b-img" href="../ten-simple-rules-reproducible-research-revisited/" tabindex="-1" aria-hidden="true"><img src="../ten-simple-rules-reproducible-research-revisited/image.svg" width="1600" height="900" alt="" loading="lazy" decoding="async"></a><div class="b-card-body"><h2 class="b-card-t"><a href="../ten-simple-rules-reproducible-research-revisited/">Ten simple rules for reproducible research, revisited</a></h2><p class="b-sum">Ten rules from a 2013 paper, read against today&#x27;s workflow tools: which ones tools help with, and which are still open.</p><p class="b-card-meta"><time datetime="2026-10-19">19 October 2026</time> &middot; 6 min read</p></div></li>
+<li class="b-card"><a class="b-img" href="../ai-agents-need-a-record-not-just-chat-history/" tabindex="-1" aria-hidden="true"><img src="../ai-agents-need-a-record-not-just-chat-history/image.svg" width="1600" height="900" alt="" loading="lazy" decoding="async"></a><div class="b-card-body"><h2 class="b-card-t"><a href="../ai-agents-need-a-record-not-just-chat-history/">AI agents in the lab need a record, not a chat history</a></h2><p class="b-sum">Agents can run analyses, but a chat transcript is not a record of how a result was made. Our vision, and what is not built yet.</p><p class="b-card-meta"><time datetime="2026-10-19">19 October 2026</time> &middot; 6 min read</p></div></li>
+<li class="b-card"><a class="b-img" href="../conda-environments-genomics-export-history-lock/" tabindex="-1" aria-hidden="true"><img src="../conda-environments-genomics-export-history-lock/image.svg" width="1600" height="900" alt="" loading="lazy" decoding="async"></a><div class="b-card-body"><h2 class="b-card-t"><a href="../conda-environments-genomics-export-history-lock/">Conda for genomics: export, history or lock file?</a></h2><p class="b-sum">Three ways to save a conda environment, what each keeps in a small test, and what we still wonder about for genomics.</p><p class="b-card-meta"><time datetime="2026-10-19">19 October 2026</time> &middot; 5 min read</p></div></li>
+</ul></section>
+</div>
+</div>
+</article>
+</main>
+<footer>
+  <div class="wrap">
+    <div>
+      <p class="foot-brand">Jubilab</p>
+      <p>Be among the first labs shaping Jubilab. Screenshots and diagrams on this site use synthetic demo data.</p>
+      <p>Contact: <a href="mailto:hello@jubilab.io">hello@jubilab.io</a></p>
+    </div>
+    <ul aria-label="Footer">
+      <li><a href="../../guides/">Guides</a></li>
+      <li><a href="../../blog/">Blog</a></li>
+      <li><a href="../../privacy/">Privacy</a></li>
+      <li><a href="../../terms/">Terms</a></li>
+      <li><a href="../../#top">Back to top</a></li>
+    </ul>
+  </div>
+</footer>
+<script src="../../assets/theme.js" defer></script>
+<script src="../../assets/consent.js" defer></script>
+</body>
+</html>

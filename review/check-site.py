@@ -713,8 +713,12 @@ def run():
                 ctx = mk(b, viewport={"width": 375, "height": 900}, java_script_enabled=js); pg = ctx.new_page(); errs = []
                 pg.on("pageerror", lambda e: errs.append(str(e))); pg.on("console", lambda m: errs.append(m.text) if m.type == "error" else None)
                 pg.goto(BASE + bp); pg.wait_for_timeout(300)
+                # images are loading="lazy": wheel-scroll through the page (works with JavaScript off too) so every one is requested, then wait for the network
+                for _ in range(int(pg.evaluate("document.documentElement.scrollHeight") / 500) + 3):
+                    pg.mouse.wheel(0, 500); pg.wait_for_timeout(60)
+                pg.wait_for_load_state("networkidle"); pg.wait_for_function("[...document.querySelectorAll('main img')].every(i => i.complete)", timeout=10000)
                 v = pg.evaluate("""() => { const vis = e => { const r = e.getBoundingClientRect(); return r.width > 0 && r.height > 0 && getComputedStyle(e).visibility !== 'hidden' && getComputedStyle(e).display !== 'none'; };
-                    const imgs = [...document.querySelectorAll('main img')]; imgs.forEach(i => i.scrollIntoView());
+                    const imgs = [...document.querySelectorAll('main img')];
                     return {h1: vis(document.querySelector('main h1')), cards: document.querySelectorAll('.b-card').length, imgs: imgs.length, imgsLoaded: imgs.filter(i => i.complete && i.naturalWidth > 0).length,
                             sources: !!document.querySelector('.g-sources') ? vis(document.querySelector('.g-sources')) : null, words: document.querySelector('main').innerText.split(/\s+/).length}; }""")
                 rec("B3", v["h1"] and v["imgs"] >= 1 and v["imgsLoaded"] == v["imgs"] and v["words"] > 60 and v["sources"] is not False, f"/{bp} JS {'on' if js else 'off'}: {v}")
