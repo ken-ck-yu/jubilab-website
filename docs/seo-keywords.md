@@ -9,7 +9,7 @@ Each term is used only in a sentence a person would write, only where it is true
 | bioinformatics pipelines | Who it is for, in their words | title, hero lede, FAQ, llms.txt |
 | Nextflow, Snakemake | Highest-intent tool names; both shipped | description, integrations H2 and cards, FAQ 3, llms.txt |
 | reproducibility | Funder and journal driver | issues H2 ("reproducibility and data issues"), FAQ 1 ("reproduced"), llms.txt avoids "reproducible results" (forbidden claim) |
-| audit trail | Compliance-minded buyers | FAQ 1, llms.txt |
+| a record of every change | Plain wording (replaces "audit trail", removed for legal review) | FAQ 1, llms.txt |
 | reference genome build, GRCh37, GRCh38 | A very specific, frequent pain | issues list, "how" questions, FAQ 4, llms.txt |
 | sample swap | Frequent failure people search | Catch card, issues list, FAQ 4 (planned, marked as not available), llms.txt |
 | VCF, BAM (file headers) | What the capture reads | FAQ 4 |
@@ -32,7 +32,7 @@ The guides at `/guides/` carry the long-tail phrasing people use (taken from for
 | What parameters produced this result | which parameters produced this result; nextflow save params | `/guides/what-parameters-produced-this-result/` |
 | Nextflow provenance and lineage compared | nextflow provenance; nextflow lineage | `/guides/nextflow-provenance-and-lineage-compared/` |
 
-Guide-only rules: the words audit, regulated, compliance, GxP and validated (and "reproducible results", "guarantee", "first", "only", "fastest", any swap-rate statistic) stay out until legal review; `review/check-seo.py` and `tests/guides.test.mjs` fail the build if they appear in a guide. Guides name Nextflow, Seqera Platform and Snakemake because the reader's question is about them, always from first-party documentation, with a review date; they never position Jubilab as an alternative to any of them. They also name bcftools, samtools, PLINK, UCSC and Ensembl as tools and data sources used in the examples, and no integration is implied.
+Marketing and guide rules: the words audit, regulated, compliance, GxP and validated (and "reproducible results", "guarantee", "first", "only", "fastest", any swap-rate statistic) stay out until legal review; `review/check-seo.py` and `tests/guides.test.mjs` fail the build if they appear in a guide. Guides name Nextflow, Seqera Platform and Snakemake because the reader's question is about them, always from first-party documentation, with a review date; they never position Jubilab as an alternative to any of them. They also name bcftools, samtools, PLINK, UCSC and Ensembl as tools and data sources used in the examples, and no integration is implied.
 
 ## Left out on purpose
 
