@@ -9,17 +9,17 @@ summary: A samplesheet is an input like any other. Five ways a small CSV goes wr
 image_alt: A spreadsheet grid on a pale background with one cell holding a small ghost, and an orange dotted line leading from the grid to a small stack of pages.
 ---
 
-Many Nextflow pipelines start from a small CSV file: one row per sample, a few columns, and paths to the reads. It looks like configuration, so it tends to be edited by hand, in a spreadsheet, and then forgotten. This post collects a few ways that file can go wrong, some loudly and some quietly, and asks what it would mean to treat the samplesheet as an input that deserves a record.
+Nextflow pipelines commonly start from a small CSV file: one row per sample, a few columns, and paths to the reads. It looks like configuration, so it may be edited by hand, in a spreadsheet, and then forgotten. This post collects a few ways that file can go wrong, some loudly and some quietly, and asks what it would mean to treat the samplesheet as an input that deserves a record.
 
 ## Why the sheet deserves attention
 
-A pipeline can only process what the samplesheet tells it about. If a row is missing, mistyped or points at the wrong file, the pipeline may stop with an error, which is the good case. The bad case is a run that finishes happily with a different set of inputs than you meant. Nothing in the results file will say so.
+A pipeline can only process what the samplesheet tells it about. If a row is missing, mistyped or points at the wrong file, the pipeline may stop with an error, which is the good case. The bad case is a run that finishes happily with a different set of inputs than you meant. The results file may carry no sign of it.
 
 We have not measured how often this happens, and we do not know. What we can do is read what pipeline maintainers and platform documentation say about the failures they have seen.
 
 ## Trap 1: the file that looks right but is not
 
-A public issue on the nf-core/rnaseq repository shows the pattern. A user running version 3.3 got an error that compared two header lines that looked identical: the sheet header against the expected `sample,fastq_1,fastq_2,strandedness`.[^1] The reporter traced it to a bad CSV conversion from Excel, and fixed it by saving the file as UTF-8 without a byte order mark, with Unix line endings instead of Windows ones.[^1]
+A public issue on the nf-core/rnaseq repository shows the pattern. A user running version 3.3 got an error that compared two header lines that looked identical: the sheet header against the expected `sample,fastq_1,fastq_2,strandedness`.[^1] The reporter wrote that it was a bad CSV conversion from Excel, and fixed it by saving the file as UTF-8 without a byte order mark (an invisible marker some programs add at the start of a file), with Unix line endings instead of Windows ones.[^1] A maintainer replied that it had come up a few times but was difficult to test and reproduce, and a fix was merged and the issue closed in October 2021.[^1] We do not know whether current releases are affected.
 
 That is one report about one pipeline version, and we cannot say how common it is. It is a useful illustration, though: characters that you cannot see in a spreadsheet can change what a program reads. If you open a CSV in a spreadsheet application and save it again, it is worth asking what the application changed.
 
@@ -33,7 +33,7 @@ Again, this tends to fail loudly: a missing file stops the run. The quieter vari
 
 ## Trap 3: columns that mean different things in different versions
 
-Samplesheet columns are part of a pipeline's interface, and interfaces change. A DNAnexus training page about CSV builder applets for nf-core pipelines notes that each applet is built for specific pipeline versions, and warns that if the pipeline is updated with changes to required columns, validation rules or accepted values, an applet still validating against the older schema may give unexpected errors or incorrect output.[^3] Its troubleshooting table gives one example: for the proteinfold pipeline, version 1.1.1 expects a sequence column and version 2.0.0 expects an id column.[^3]
+Samplesheet columns are part of a pipeline's interface, and interfaces change. A DNAnexus training page about CSV builder applets for nf-core pipelines notes that each applet is built for specific pipeline versions, and warns that if the pipeline is updated with changes to required columns, validation rules or accepted values, an applet still validating against the older schema may give unexpected errors or incorrect output.[^3] Its troubleshooting table names a sequence column for proteinfold v1.1.1 and an id column for v2.0.0; that comes from DNAnexus's applet table, and we did not check proteinfold's own documentation.[^3]
 
 Note that this is a statement about that vendor's tooling and two named versions. We have not compared samplesheet formats across versions of other pipelines. It does suggest a habit: when you upgrade a pipeline, check the sheet format against the new version's documentation rather than assuming last year's file still means the same thing.
 

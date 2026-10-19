@@ -6,16 +6,16 @@ date: 2026-10-19
 updated: 2026-10-19
 tags: reproducibility, provenance, bioinformatics
 summary: Ten rules from a 2013 paper, read against today's workflow tools: which ones tools help with, and which are still open.
-image_alt: A staircase of ten steps where the lower steps are covered in a green carpet and the upper steps are bare, with a small orange dotted line marking the climb.
+image_alt: A staircase of ten steps where only three of the lower steps are filled green and the rest are bare white, with an orange dotted line marking the climb.
 ---
 
-In 2013, Sandve, Nekrutenko, Taylor and Hovig published "Ten Simple Rules for Reproducible Computational Research" in PLOS Computational Biology.[^1] It is a paper we keep coming back to. Workflow engines have changed since 2013, and we wonder how much of the history they now keep for you. So we wanted to go back through the ten rules one at a time and ask: which of them does a tool now help with, which still depend on people, and where are we not sure?
+In 2013, Sandve, Nekrutenko, Taylor and Hovig published "Ten Simple Rules for Reproducible Computational Research" in PLOS Computational Biology.[^1] It is a paper we keep coming back to. So we wanted to go back through the ten rules one at a time and ask: which of them does a tool now help with, which still depend on people, and where are we not sure?
 
 We are quoting the rule headings as printed and paraphrasing as little as we can. We have not tested any tool against the rules, and nothing here is a verdict on a tool or a lab.
 
 ## Does the paper expect tools to help?
 
-It does. The authors note that when analyses run inside an integrated framework, the system may already provide full or partial support for most of the rules.[^1] The rest of this post is, in effect, a question about how far that sentence has come true.
+It does. The authors note that when analyses run inside an integrated framework, the system may already provide full or partial support for most of the rules.[^1] The frameworks they name are GenePattern, Galaxy, LONI Pipeline and Taverna.[^1] We wonder whether workflow engines such as Nextflow and Snakemake now fill a similar role, and the rest of this post asks that rule by rule.
 
 ## The ten rules, and what we found
 
@@ -25,7 +25,7 @@ The rule titles below are quoted from the paper.[^1] The notes after each are wh
 2. **"Avoid Manual Data Manipulation Steps."** The paper says: "Whenever possible, rely on the execution of programs instead of manual procedures to modify data."[^1] A workflow engine records what it runs. We do not see how it could record what happened to a file in a spreadsheet, which makes this rule feel mostly about people.
 3. **"Archive the Exact Versions of All External Programs Used."** Snakemake's documentation describes pinning exact package versions in an environment file, a `<platform>.pin.txt` that freezes an environment, and storing each environment under a hash of its definition.[^5] Nextflow's documentation advises defining a specific version for each tool.[^6] Whether a particular pipeline does so is up to its authors.
 4. **"Version Control All Custom Scripts."** Nextflow's documentation notes that Git and Docker track changes over time with version control.[^6] Whether the *run* knows which commit it used is a separate question we have not tested.
-5. **"Record All Intermediate Results, When Possible in Standardized Formats."** We did not find a source on what engines keep by default, so we leave this open.
+5. **"Record All Intermediate Results, When Possible in Standardized Formats."** Nextflow's lineage page mentions intermediate data, but the feature is experimental and we did not read closely what it keeps, so we leave this open.
 6. **"For Analyses That Include Randomness, Note Underlying Random Seeds."** We found nothing in the documentation we read about engines recording seeds, so we leave this open.
 7. **"Always Store Raw Data behind Plots."** This concerns how figures are made; we found no tool documentation that addresses it.
 8. **"Generate Hierarchical Analysis Output, Allowing Layers of Increasing Detail to Be Inspected."** The paper suggests this as a way of presenting results. We did not look for tools that do it.
@@ -34,7 +34,7 @@ The rule titles below are quoted from the paper.[^1] The notes after each are wh
 
 ## A newer framing
 
-A 2023 paper in Briefings in Bioinformatics by Ziemann, Poulain and Bora names five pillars of computational reproducibility: literate programming, code version control and sharing, compute environment control, persistent data sharing, and documentation.[^2] We find it interesting that environment control and documentation appear as pillars of their own, because those are where a run's history tends to be thin. It is a different cut from the ten rules rather than a replacement, and we have only read the abstract-level description of the pillars closely.
+A 2023 paper in Briefings in Bioinformatics by Ziemann, Poulain and Bora names five pillars of computational reproducibility: literate programming, code version control and sharing, compute environment control, persistent data sharing, and documentation.[^2] We find it interesting that environment control and documentation appear as pillars of their own, because those may be where a run's history is thinnest; we have not checked. It is a different cut from the ten rules rather than a replacement, and we have only read the abstract-level description of the pillars closely.
 
 ## A pattern in the list
 
@@ -51,7 +51,7 @@ For the engine side of rule 1, our guide on [Nextflow provenance and lineage com
 ## Questions we are still asking
 
 - Do engines record random seeds, and if so, where? We did not find it in the documentation we read.
-- What do Nextflow and Snakemake keep as intermediate results by default, and for how long? We left rule 5 open for that reason.
+- What do Nextflow and Snakemake keep as intermediate results, and for how long? We left rule 5 open for that reason.
 - Is the divide we noticed, tools for rules 1, 3 and 4 and people for the rest, real? A broader reading of the documentation might change it.
 - Would a record that marks manual steps as manual change how people behave around rule 2? We do not know.
 - Which of the ten rules would a modern list drop, merge or add? The 2023 paper's five pillars suggest the answer is not obvious.

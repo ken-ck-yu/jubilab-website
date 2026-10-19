@@ -6,7 +6,7 @@ date: 2026-10-19
 updated: 2026-10-19
 tags: conda, environments, provenance
 summary: Three ways to save a conda environment, what each keeps in a small test, and what we still wonder about for genomics.
-image_alt: Three glass jars in a row on a shelf: one holding loose green leaves, one holding a single pressed leaf, and one sealed capsule with an orange dotted line looping around it.
+image_alt: Three glass jars in a row on a shelf: one holding loose green sprigs, one holding a single pressed leaf, and a sealed capsule crossed by a straight orange dotted line.
 ---
 
 Pipelines and analyses often rely on a conda environment, and sooner or later someone asks for it: which tools, which versions, from where? Conda gives you a few ways to write an environment down, and they keep different things. This post compares three of them, shows what each produced in a small test we ran, and lists what we could not settle, especially for genomics work that leans on Bioconda.
@@ -30,7 +30,7 @@ dependencies:
   - tqdm=4.70.1=pyhfa0c392_0
 ```
 
-That is a lot of detail, and it names the channel. The documentation warns that without the `--from-history` flag, installing from such a file can introduce packages that may not be compatible across platforms.[^1] Some of the build strings in our output, like those for compiled libraries, look platform-specific, but we did not test installing the file on another operating system, so that remains a question for us. The same documentation says the recommended way to export is the newer `conda export` command, which also produced YAML for our environment.[^1]
+That is a lot of detail, and it names the channel. The documentation warns that without the `--from-history` flag, installing from such a file can introduce packages that may not be compatible across platforms.[^1] Some of the build strings in our output, like those for compiled libraries, look platform-specific, but we did not test installing the file on another operating system, so that remains a question for us. The same documentation says the recommended way to export is the newer `conda export` command, which also produced YAML for our environment.[^1] The documentation also says native lockfile export needs conda 26.5 or later; we ran 25.11.1 and did not test it.
 
 ## Option 2: only what you asked for
 
@@ -43,13 +43,13 @@ dependencies:
   - tqdm
 ```
 
-Two things stand out. There is no version at all, so tomorrow's install may give a different `tqdm` from today's. And the channel list shows only `defaults`: we had installed from conda-forge using a command-line option, and the history output did not carry that over. We saw this once, in one setup, and we do not know whether it is general. It is a reason to put the channels you rely on in the file yourself.
+Two things stand out. There is no version at all, so tomorrow's install may give a different `tqdm` from today's. And the channel list shows only `defaults`: we had installed from conda-forge using a command-line option, and the history output did not carry that over. The conda documentation's own example for `--from-history` shows conda-forge kept in the output, so our result differs from it. We saw the channel lost in three ways of creating the environment, and we do not know why or whether it is general. It is a reason to put the channels you rely on in the file yourself.
 
 For genomics this matters. Bioconda's own instructions tell users to add the bioconda and conda-forge channels and set strict channel priority, and say the order is important to avoid problems when solving dependencies.[^3] An environment file that loses a channel could solve differently elsewhere, though we have not reproduced that.
 
 ## Option 3: a lock file
 
-A lock file records the resolved packages so that installing does not have to solve again. The conda-lock project describes itself as a lightweight library for generating fully reproducible lock files for conda environments, produced by solving for the platforms you choose, and it can read an `environment.yml` as input.[^2] We read its documentation but did not install or run conda-lock for this post, so we cannot say how it behaves on a real Bioconda environment.
+A lock file records the resolved packages. The conda-lock project advertises solveless installation from its lock files, meaning installing does not have to run the solver again.[^2] The conda-lock project describes itself as a lightweight library for generating fully reproducible lock files for conda environments, produced by solving for the platforms you choose, and it can read an `environment.yml` as input.[^2] We read its documentation but did not install or run conda-lock for this post, so we cannot say how it behaves on a real Bioconda environment.
 
 Conda itself also has an `explicit` export format with platform-specific URLs.[^1] In our test, `conda list --explicit` produced one URL per package, such as `https://conda.anaconda.org/conda-forge/linux-64/libzlib-1.3.2-h25fd6f3_3.conda`. The conda documentation says explicit files are usually limited to a single platform, whereas lock files can support multiple platforms.[^1]
 

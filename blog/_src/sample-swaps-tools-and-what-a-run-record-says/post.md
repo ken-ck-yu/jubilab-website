@@ -21,7 +21,7 @@ Those descriptions come from large public datasets and a cancer cohort. We do no
 
 ## What the tools look at
 
-All three papers we read take the same broad approach: compare genetic information between samples and flag pairs that do not match what the sample sheet says.
+All three papers we read take the same broad approach: compare genetic information between samples and flag pairs that disagree with the expected relationship between samples.
 
 - **HYSYS.** According to its paper, it estimates relatedness between samples in cancer cohorts using the concordance of homozygous germline SNPs, and it tests for swaps and contamination. Its output includes heat maps for visual checks and a Gaussian mixture model that labels each pair as unrelated, related or neither.[^1]
 - **Somalier.** The paper describes a tool that evaluates relatedness from sequencing data, working on BAM or CRAM files or on VCF, BCF or GVCF files, without needing jointly called germline variants. It counts reference and alternate alleles at a fixed set of sites, and produces text output and an interactive plot in which expected groups, such as tumor-normal pairs, can be coloured so that mismatches stand out.[^3] The authors also say it can estimate a sample's sex from X and Y sites, and its plots compare predicted with reported sex.[^3]

@@ -43,9 +43,9 @@ We lay out three cases and mark what each document says, and what it does not.
 
 So the honest summary is that the two documents ask different questions. nf-core's page is organised around compatibility for the user of the pipeline. BALSAMIC's is organised around the structure of the workflow and whether its outputs change. We would not say either is wrong; they seem to be written for different purposes.
 
-## A real question from the community
+## One forum thread
 
-A maintainer of the nf-core/pacvar pipeline asked on the Seqera community forum whether the release after 1.0.1 should be 1.1.0 or 2.0.0, after several modules had been added. One reply pointed to the nf-core semantic versioning documentation and, based solely on the details shared, saw no breaking changes and suggested 1.1.0.[^3] That is one thread, and we do not know what the maintainer chose. We include it only because it shows that even within one convention, people ask.
+In May and June 2026, someone working on nf-core/pacvar asked on the Seqera community forum whether the release after 1.0.1 should be 1.1.0 or 2.0.0, after several modules had been added. One reply pointed to the nf-core semantic versioning documentation and, based solely on the details shared, saw no breaking changes and suggested 1.1.0.[^3] We do not know what they chose. This is a single forum thread, and nothing above depends on it; we include it only because it shows that even within one convention, people ask.
 
 ## What to write down either way
 
