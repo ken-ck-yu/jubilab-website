@@ -4,24 +4,24 @@
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('consent','default',{ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied',analytics_storage:'denied'})</script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Jubilab: data provenance and lineage for bioinformatics pipelines</title>
-<meta name="description" content="Jubilab is building the record of how each result was made. Data provenance and lineage for Nextflow and Snakemake pipelines: trace, compare, see gaps.">
+<title>Jubilab: the order-to-result layer for lab work</title>
+<meta name="description" content="Jubilab is building one order format, one status feed and one result schema across every lab you use, for scientists and agents. Sequencing first. Early access.">
 <meta name="theme-color" content="#f4f5f2">
 <link rel="canonical" href="https://jubilab.io/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Jubilab">
-<meta property="og:title" content="Jubilab: data provenance and lineage for bioinformatics pipelines">
-<meta property="og:description" content="Jubilab is building the record of how each result was made. Data provenance and lineage for Nextflow and Snakemake pipelines: trace, compare, see gaps.">
+<meta property="og:title" content="Jubilab: the order-to-result layer for lab work">
+<meta property="og:description" content="Jubilab is building one order format, one status feed and one result schema across every lab you use, for scientists and agents. Sequencing first. Early access.">
 <meta property="og:url" content="https://jubilab.io/">
 <meta property="og:image" content="https://jubilab.io/assets/og/jubilab-og.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Jubilab: more science, fewer data and admin headaches. The record of how every scientific result was made, beside a lineage graph from an input file through two runs to their outputs.">
+<meta property="og:image:alt" content="Jubilab: power lab operations, from sample order to result. An order moves from received through QC and run to delivered, with an agent reading each step.">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Jubilab: data provenance and lineage for bioinformatics pipelines">
-<meta name="twitter:description" content="Jubilab is building the record of how each result was made. Data provenance and lineage for Nextflow and Snakemake pipelines: trace, compare, see gaps.">
+<meta name="twitter:title" content="Jubilab: the order-to-result layer for lab work">
+<meta name="twitter:description" content="Jubilab is building one order format, one status feed and one result schema across every lab you use, for scientists and agents. Sequencing first. Early access.">
 <meta name="twitter:image" content="https://jubilab.io/assets/og/jubilab-og.png">
-<meta name="twitter:image:alt" content="Jubilab: more science, fewer data and admin headaches. The record of how every scientific result was made, beside a lineage graph from an input file through two runs to their outputs.">
+<meta name="twitter:image:alt" content="Jubilab: power lab operations, from sample order to result. An order moves from received through QC and run to delivered, with an agent reading each step.">
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 <link rel="preload" href="assets/fonts/hanken-grotesk-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/ibm-plex-mono-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
@@ -49,66 +49,70 @@
       "name": "Jubilab",
       "url": "https://jubilab.io/",
       "inLanguage": "en",
-      "publisher": {"@id": "https://jubilab.io/#organization"}
+      "publisher": {
+        "@id": "https://jubilab.io/#organization"
+      }
     },
     {
       "@type": "SoftwareApplication",
       "@id": "https://jubilab.io/#software",
       "name": "Jubilab",
       "url": "https://jubilab.io/",
-      "description": "Jubilab is building the record of how every scientific result was made. Data provenance and lineage for bioinformatics pipelines: trace a result to its run and inputs, compare two runs, and see what the record does not know.",
-      "applicationCategory": "DeveloperApplication",
-      "publisher": {"@id": "https://jubilab.io/#organization"}
+      "description": "Jubilab is the order-to-result layer for lab work, now in design: one way to place a sequencing order, follow the sample and the run, and get the result back as structured data. Biomarker assays come next.",
+      "applicationCategory": "BusinessApplication",
+      "publisher": {
+        "@id": "https://jubilab.io/#organization"
+      }
     },
     {
       "@type": "FAQPage",
       "mainEntity": [
         {
           "@type": "Question",
-          "name": "What is data provenance in bioinformatics?",
+          "name": "What is Jubilab?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Data provenance is the record of where a result came from: the input files and samples, the tool and pipeline versions, the parameters and the reference genome build used to produce it. Data lineage follows the same chain from an output back to its inputs, and forward to everything that depends on an input. Together they form a record of every change that lets a lab explain a result and judge whether it can be reproduced. Jubilab records and shows that chain. It does not make a result reproducible by itself."
+            "text": "Jubilab is the order-to-result layer for lab work: a standard way to place a lab order (sequencing first, biomarker assays next), track the sample and the run, and get the result back in a machine-readable shape, for scientists and for the AI agents that work for them. It is in design. Nothing on this page is released yet."
           }
         },
         {
           "@type": "Question",
-          "name": "What is Jubilab and who is it for?",
+          "name": "Can I use it today?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Jubilab is a provenance and lineage layer for bioinformatics and genomics data management. It is for bioinformaticians, genetics and computational genomics labs, and core facilities that run pipelines such as variant calling again and again and need to answer how a result was made. We are accepting early-access requests from a small group of labs, starting with genetics researchers."
+            "text": "No. The order layer is being built. We are taking early-access requests to choose the teams and labs we build with. The JSON examples on this page are drafts of the planned formats and will change."
           }
         },
         {
           "@type": "Question",
-          "name": "How do I track Nextflow and Snakemake runs?",
+          "name": "Who is it for?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Jubilab records a Nextflow run as it happens or imports a finished one, and imports Snakemake runs from Snakemake’s own metadata. Any other script or tool can be recorded with the native bash wrapper, jubilab run. Each run is kept as history the application cannot edit, with its inputs, outputs, parameters and versions, and each fact is marked verified, inferred, manual or unknown."
+            "text": "Small and mid-size biotech teams that send 30 to 150 samples a month to several outside labs, pharma and large organizations with a constant outsourced flow, and the labs and core facilities that take those orders and want to serve people and software agents without changing how they work."
           }
         },
         {
           "@type": "Question",
-          "name": "How do I know which reference genome build a result used?",
+          "name": "Does a lab have to change how it works?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "When you switch it on, Jubilab reads the reference genome and annotation details that tools write into file headers, such as VCF and BAM headers, and records them with the run, so a result can be traced to GRCh37 or GRCh38 and its annotation. When two runs used different references, the comparison shows a warning that they are not comparable. This opt-in option ships with our next release. We are building checks that flag reference build mismatches and sample swaps automatically, and the link from each sample to its files and runs. Those are not available yet."
+            "text": "No. The plan has four ways to join, and the first needs nothing from the lab: we read the order emails and courier tracking it already has. The next steps are a four-button status page, a webhook from the lab’s LIMS, and instrument telemetry. A lab can stop at any step."
           }
         },
         {
           "@type": "Question",
-          "name": "How is Jubilab different from a LIMS, an ELN or a workflow platform?",
+          "name": "How is it different from an ELN, a LIMS or a marketplace?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "A LIMS tracks samples, an ELN holds notebooks and protocols, and a workflow engine or cloud analysis platform runs the pipeline. Jubilab is the provenance layer beside them that keeps the record of how results were made across tools. It does not replace any of them, and it is not integrated with products such as Benchling, DNAnexus or Terra. Those names belong to their owners, and Jubilab is not affiliated with them."
+            "text": "An ELN such as Benchling or Labguru tracks your samples. A LIMS runs inside one lab. A marketplace brokers quotes, contracts and billing between people. Jubilab standardizes the order, the status and the result across labs, and is meant to sit beside the tools you already use. It does not replace them, control instruments or broker price. Product names belong to their owners, and Jubilab is not affiliated with them."
           }
         },
         {
           "@type": "Question",
-          "name": "Does Jubilab store my data?",
+          "name": "What will Jubilab not do?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "No. Jubilab stores metadata about runs, such as inputs, outputs, parameters and versions, and links to your data where it lives. It does not copy your data files. You run it on your own machine or server, and the server makes no outbound network calls."
+            "text": "It will not control instruments, it will not be a marketplace, and it will not handle human clinical diagnostics. Research sequencing comes first, then research biomarker assays such as proteomics, multiplex immunoassay and metabolomics."
           }
         },
         {
@@ -116,7 +120,7 @@
           "name": "How do I get early access?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Use the early-access form at the end of this page. It asks a few short questions about your role, your field and where your analysis runs, so we can choose the labs we learn from. We invite a small group of labs first and write to you by email."
+            "text": "Use the early-access form at the end of this page. It asks for your role, your organization, the providers you use, how many samples you send out in a month and your ELN, so we can choose the teams and labs we learn from. We invite a small group first and write to you by email."
           }
         }
       ]
@@ -130,7 +134,6 @@
   <defs>
     <symbol id="g-verified" viewBox="0 0 28 28"><circle cx="14" cy="14" r="12" fill="currentColor"/><path d="M8.5 14.5l4 4 7-8" style="stroke:var(--on-accent)" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></symbol>
     <symbol id="g-inferred" viewBox="0 0 28 28"><circle cx="14" cy="14" r="11" fill="none" stroke="currentColor" stroke-width="2"/><path d="M14 3a11 11 0 0 0 0 22z" fill="currentColor"/></symbol>
-    <symbol id="g-manual" viewBox="0 0 28 28"><rect x="3" y="3" width="22" height="22" rx="3" fill="none" stroke="currentColor" stroke-width="2"/><path d="M9 19l1-4 8-8 3 3-8 8z" fill="currentColor"/></symbol>
     <symbol id="g-unknown" viewBox="0 0 28 28"><circle cx="14" cy="14" r="11" fill="none" stroke="currentColor" stroke-width="2" stroke-dasharray="4 3"/><path d="M10.6 11.3a3.5 3.5 0 1 1 5 3.1c-1.1.6-1.6 1.2-1.6 2.3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="14" cy="20" r="1.3" fill="currentColor"/></symbol>
   </defs>
 </svg>
@@ -142,19 +145,16 @@
       <span class="brand-name">Jubilab</span>
     </a>
     <nav class="site-nav" aria-label="Main">
-      <ul class="links">
-        <li><a href="blog/">Blog</a></li>
-      </ul>
       <details class="menu">
         <summary aria-label="Menu"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 7h16M4 12h16M4 17h16"/></svg></summary>
         <ul>
-          <li><a href="#how">What it does</a></li>
-          <li><a href="#fits">Integrations</a></li>
-          <li><a href="#next">Where this is going</a></li>
-          <li><a href="#who">Is this you?</a></li>
-          <li><a href="#product">Demo project</a></li>
-          <li><a href="#access">Get started</a></li>
-          <li><a href="blog/">Blog</a></li>
+          <li><a href="#problem">Today</a></li>
+          <li><a href="#how">How it works</a></li>
+          <li><a href="#labs">For labs</a></li>
+          <li><a href="#teams">For teams</a></li>
+          <li><a href="#why">Why now</a></li>
+          <li><a href="#dev">Developers</a></li>
+          <li><a href="#access">Early access</a></li>
         </ul>
       </details>
     </nav>
@@ -170,7 +170,7 @@
 </header>
 <nav class="subnav" aria-label="Page sections">
   <div class="wrap">
-    <a href="#how">What it does</a><a href="#fits">Integrations</a><a href="#next">Where this is going</a><a href="#who">Is this you?</a><a href="#product">Demo project</a><a href="#access">Get started</a>
+    <a href="#problem">Today</a><a href="#how">How it works</a><a href="#labs">For labs</a><a href="#teams">For teams</a><a href="#why">Why now</a><a href="#dev">Developers</a><a href="#access">Early access</a>
   </div>
 </nav>
 
@@ -179,212 +179,265 @@
 <section class="hero" aria-labelledby="h1">
   <div class="wrap hero-grid">
     <div class="hero-text">
-      <p class="eyebrow">The record for how science is made</p>
-      <h1 id="h1">More Science Fewer Data &amp; Admin Headaches</h1>
-      <p class="hero-sub">Every sample, variant, and analysis, connected.</p>
-      <p class="hero-lede"><strong>Jubilab is building the record of how every scientific result was made.</strong> Data provenance and lineage for bioinformatics pipelines: trace a result to its run and inputs, compare two runs, and see what the record does not know.</p>
+      <p class="eyebrow">The order-to-result layer for lab work</p>
+      <h1 id="h1">Power lab operations, from sample order to result.</h1>
+      <p class="hero-sub">One order format, one status feed, one result schema — across every lab you use, for every scientist and agent who orders.</p>
+      <p class="hero-lede"><strong>Jubilab is the order-to-result layer for lab work, now in design:</strong> one way to place a sequencing order, follow the sample and the run, and get the result back as structured data. Biomarker assays come next.</p>
       <div class="cta-row">
         <a class="btn" href="#access">Request early access</a>
-        <a class="btn ghost" href="#product">See it on a demo project</a>
+        <a class="btn ghost" href="#how">See how it works</a>
       </div>
-      <p class="trust">Runs on your own machine. The server makes no outbound network calls. Demo data is synthetic.</p>
+      <p class="trust">In design, not released. This page describes what we are building. The examples are illustrative drafts, not real orders.</p>
     </div>
     <figure class="hero-shot">
       <div class="frame">
         <div class="frame-bar" aria-hidden="true"><i></i><i></i><i></i></div>
-        <div class="frame-media">
-          <!-- Video later: a <video muted loop playsinline preload="metadata" poster="assets/img/hero-1440.webp"> goes here, same box, object-fit: cover; no autoplay attribute. Spec: docs/design-spec-v2.1.md section 7. -->
-          <picture>
-            <source media="(max-width: 640px)" srcset="assets/img/hero-narrow-358.webp 358w, assets/img/hero-narrow-716.webp 716w" sizes="calc(100vw - 32px)" width="358" height="269">
-            <img src="assets/img/hero-1120.webp" srcset="assets/img/hero-720.webp 720w, assets/img/hero-1120.webp 1120w, assets/img/hero-1440.webp 1440w, assets/img/hero-2240.webp 2240w" sizes="(min-width: 1280px) 1120px, (min-width: 641px) calc(100vw - 48px), calc(100vw - 32px)" width="1120" height="630" fetchpriority="high"
-              alt="Demo project Cohort A, synthetic data. The lineage graph traces the output variants_run002.vcf back to Run 002, a Nextflow run with threshold 30, which used the data asset Cohort_A.fastq.gz.">
-          </picture>
+        <div class="flow">
+<svg class="flow-wide" viewBox="0 0 792 232" role="img" aria-labelledby="flow-t flow-d" xmlns="http://www.w3.org/2000/svg"><title id="flow-t">An example order moving from received to delivered, with an agent reading each step</title><desc id="flow-d">An example order moves through four steps: received, QC, run and delivered. At each step an agent reads the order status. At the first three it calls get_status, and at the last it calls fetch_result to read the result manifest. The run step is marked as the current step. The order is an illustrative example.</desc>
+<text class="t-type" x="8" y="22">EXAMPLE ORDER ord_0001 &middot; ILLUSTRATIVE</text>
+<g class="n"><rect class="box" x="8" y="40" width="176" height="84" rx="6"/><text class="t-type" x="22" y="64">sample.received</text><text class="t-name" x="22" y="88">Received</text><text class="t-sub" x="22" y="110">Logged at the lab</text></g>
+<path class="e" d="M184 82 H198"/><polygon class="arrow" points="206,82 197,77 197,87"/>
+<path class="e" d="M96 156 V135"/><polygon class="arrow" points="96,126 91,135 101,135"/>
+<g class="n ag"><rect class="box" x="8" y="156" width="176" height="68" rx="6"/><text class="t-type" x="22" y="178">AGENT</text><text class="t-tool" x="22" y="198">get_status</text><text class="t-sub" x="22" y="215">reads sample.received</text></g>
+<g class="n"><rect class="box" x="208" y="40" width="176" height="84" rx="6"/><text class="t-type" x="222" y="64">qc.passed</text><text class="t-name" x="222" y="88">QC</text><text class="t-sub" x="222" y="110">Pass or fail</text></g>
+<path class="e" d="M384 82 H398"/><polygon class="arrow" points="406,82 397,77 397,87"/>
+<path class="e" d="M296 156 V135"/><polygon class="arrow" points="296,126 291,135 301,135"/>
+<g class="n ag"><rect class="box" x="208" y="156" width="176" height="68" rx="6"/><text class="t-type" x="222" y="178">AGENT</text><text class="t-tool" x="222" y="198">get_status</text><text class="t-sub" x="222" y="215">reads the QC result</text></g>
+<g class="n cur"><rect class="box" x="408" y="40" width="176" height="84" rx="6"/><text class="t-type" x="422" y="64">run.started</text><text class="t-name" x="422" y="88">Run</text><text class="t-sub" x="422" y="110">Run under way</text><text class="t-type t-cur" text-anchor="end" x="572" y="64">NOW</text></g>
+<path class="e" d="M584 82 H598"/><polygon class="arrow" points="606,82 597,77 597,87"/>
+<path class="e" d="M496 156 V135"/><polygon class="arrow" points="496,126 491,135 501,135"/>
+<g class="n ag"><rect class="box" x="408" y="156" width="176" height="68" rx="6"/><text class="t-type" x="422" y="178">AGENT</text><text class="t-tool" x="422" y="198">get_status</text><text class="t-sub" x="422" y="215">reads run.started</text></g>
+<g class="n"><rect class="box" x="608" y="40" width="176" height="84" rx="6"/><text class="t-type" x="622" y="64">results.delivered</text><text class="t-name" x="622" y="88">Delivered</text><text class="t-sub" x="622" y="110">Files and manifest</text></g>
+<path class="e" d="M696 156 V135"/><polygon class="arrow" points="696,126 691,135 701,135"/>
+<g class="n ag"><rect class="box" x="608" y="156" width="176" height="68" rx="6"/><text class="t-type" x="622" y="178">AGENT</text><text class="t-tool" x="622" y="198">fetch_result</text><text class="t-sub" x="622" y="215">reads results.json</text></g>
+</svg>
+<svg class="flow-tall" viewBox="0 0 260 566" role="img" aria-labelledby="flowp-t flowp-d" xmlns="http://www.w3.org/2000/svg"><title id="flowp-t">An example order moving from received to delivered, with an agent reading each step</title><desc id="flowp-d">An example order moves through four steps: received, QC, run and delivered. At each step an agent reads the order status. At the first three it calls get_status, and at the last it calls fetch_result to read the result manifest. The run step is marked as the current step. The order is an illustrative example.</desc>
+<text class="t-type" x="8" y="16">EXAMPLE ORDER &middot; ILLUSTRATIVE</text>
+<g class="n"><rect class="box" x="18" y="30" width="236" height="60" rx="6"/><text class="t-type" x="32" y="49">sample.received</text><text class="t-name" x="32" y="68">Received</text><text class="t-sub" x="32" y="84">Logged at the lab</text></g>
+<path class="e" d="M50 106 V99"/><polygon class="arrow" points="50,92 45,101 55,101"/>
+<g class="n ag"><rect class="box" x="18" y="106" width="236" height="44" rx="6"/><text class="t-tool" x="32" y="125">get_status</text><text class="t-sub" x="32" y="141">reads sample.received</text><text class="t-type" text-anchor="end" x="242" y="125">AGENT</text></g>
+<g class="n"><rect class="box" x="18" y="166" width="236" height="60" rx="6"/><text class="t-type" x="32" y="185">qc.passed</text><text class="t-name" x="32" y="204">QC</text><text class="t-sub" x="32" y="220">Pass or fail</text></g>
+<path class="e" d="M50 242 V235"/><polygon class="arrow" points="50,228 45,237 55,237"/>
+<g class="n ag"><rect class="box" x="18" y="242" width="236" height="44" rx="6"/><text class="t-tool" x="32" y="261">get_status</text><text class="t-sub" x="32" y="277">reads the QC result</text><text class="t-type" text-anchor="end" x="242" y="261">AGENT</text></g>
+<g class="n cur"><rect class="box" x="18" y="302" width="236" height="60" rx="6"/><text class="t-type" x="32" y="321">run.started</text><text class="t-name" x="32" y="340">Run</text><text class="t-sub" x="32" y="356">Run under way</text><text class="t-type t-cur" text-anchor="end" x="242" y="321">NOW</text></g>
+<path class="e" d="M50 378 V371"/><polygon class="arrow" points="50,364 45,373 55,373"/>
+<g class="n ag"><rect class="box" x="18" y="378" width="236" height="44" rx="6"/><text class="t-tool" x="32" y="397">get_status</text><text class="t-sub" x="32" y="413">reads run.started</text><text class="t-type" text-anchor="end" x="242" y="397">AGENT</text></g>
+<g class="n"><rect class="box" x="18" y="438" width="236" height="60" rx="6"/><text class="t-type" x="32" y="457">results.delivered</text><text class="t-name" x="32" y="476">Delivered</text><text class="t-sub" x="32" y="492">Files and manifest</text></g>
+<path class="e" d="M50 514 V507"/><polygon class="arrow" points="50,500 45,509 55,509"/>
+<g class="n ag"><rect class="box" x="18" y="514" width="236" height="44" rx="6"/><text class="t-tool" x="32" y="533">fetch_result</text><text class="t-sub" x="32" y="549">reads results.json</text><text class="t-type" text-anchor="end" x="242" y="533">AGENT</text></g>
+<path class="e" d="M6 60 V468"/>
+<path class="e" d="M6 60 H11"/><polygon class="arrow" points="17,60 10,55 10,65"/>
+<path class="e" d="M6 196 H11"/><polygon class="arrow" points="17,196 10,191 10,201"/>
+<path class="e" d="M6 332 H11"/><polygon class="arrow" points="17,332 10,327 10,337"/>
+<path class="e" d="M6 468 H11"/><polygon class="arrow" points="17,468 10,463 10,473"/>
+</svg>
         </div>
       </div>
-    </figure>
-  </div>
-</section>
-
-<section id="how" aria-labelledby="h-how">
-  <span id="problem" class="anchor"></span><span id="problem-alias" class="anchor"></span><span id="idea" class="anchor"></span><span id="build" class="anchor"></span>
-  <div class="wrap">
-    <h2 id="h-how">Genomics provenance without the data chaos.</h2>
-    <ul class="qs" aria-label="Questions that take days to answer">
-      <li>Which samples went into this callset?</li>
-      <li>Was it built on GRCh37 or GRCh38?</li>
-      <li>Why did we drop those three samples?</li>
-    </ul>
-    <p class="after-qs">A result is a file. How it was made lives in shell histories, notebooks, chat threads and colleagues&rsquo; memories, and when someone leaves, the explanation leaves with them. Even simple questions can be slow to answer.</p>
-    <ul class="cards" aria-label="What Jubilab does">
-        <li class="card"><div class="ph"><img src="assets/img/card-trace.svg" width="1600" height="900" alt="" loading="lazy" decoding="async"></div><div class="cb"><h3 class="ct">Trace</h3><p class="cp">Follow a recorded result back to the run, inputs and parameters behind it. Recorded runs are kept as history the application cannot edit, and the record says what it does not know.</p></div></li>
-        <li class="card"><div class="ph"><img src="assets/img/card-compare.svg" width="1600" height="900" alt="" loading="lazy" decoding="async"></div><div class="cb"><h3 class="ct">Compare</h3><p class="cp">Line up two runs and see which recorded parameters, versions or results differ.</p></div></li>
-        <li class="card"><div class="ph"><img src="assets/img/card-connect.svg" width="1600" height="900" alt="" loading="lazy" decoding="async"></div><div class="cb"><h3 class="ct">Connect</h3><p class="cp">We are building the link from every sample to its files, runs and results, straight from the cluster, without moving your data.</p></div></li>
-        <li class="card"><div class="ph"><img src="assets/img/card-catch.svg" width="1600" height="900" alt="" loading="lazy" decoding="async"></div><div class="cb"><h3 class="ct">Catch</h3><p class="cp">We are building checks that flag sample swaps and reference-build mismatches before they reach a paper.</p></div></li>
-    </ul>
-  </div>
-</section>
-
-<section id="fits" class="band-dark on-dark" aria-labelledby="h-fits">
-  <span id="integrations" class="anchor"></span>
-  <div class="wrap">
-    <h2 id="h-fits">Lineage across Nextflow, Snakemake and more.</h2>
-    <p class="lede-d">Jubilab sits beside your pipelines and complements your LIMS or ELN. It does not replace them, and it does not store your data. Our goal is one record for the whole path from sample to decision.</p>
-
-    <h3 class="rowh">Available now</h3>
-    <p class="rowp">These three are built and shipped. They do not all record the same things, and what Jubilab infers is marked as inferred.</p>
-    <ul class="cards fit-row">
-        <li class="cd"><div class="cb"><h4 class="ct">Nextflow</h4><p class="take"><span class="take-l">What we take from it</span>The tasks, inputs, outputs, parameters and versions of each run, recorded as it happens or imported from a finished run.</p></div></li>
-        <li class="cd"><div class="cb"><h4 class="ct">Snakemake</h4><p class="take"><span class="take-l">What we take from it</span>The rules, the commands (kept as hashes), and the inputs and outputs Snakemake left on disk, imported from its own metadata.</p></div></li>
-        <li class="cd"><div class="cb"><h4 class="ct">Native bash</h4><p class="take"><span class="take-l">What we take from it</span>The command, its arguments (redacted), times, exit code and the files you declare, when you run it with <span class="mono-inline">jubilab run</span>.</p></div></li>
-    </ul>
-
-    <h3 class="rowh">Where we are heading</h3>
-    <p class="rowp">This is what we are building toward.</p>
-    <ul class="cards fit-row">
-        <li class="cd cd-next"><div class="cb"><h4 class="ct">Seqera</h4><p class="take"><span class="take-l">What we take from it</span>We will take the runs launched through Seqera Platform.</p></div></li>
-        <li class="cd cd-next"><div class="cb"><h4 class="ct">NVIDIA Parabricks</h4><p class="take"><span class="take-l">What we take from it</span>We will take which GPU-accelerated alignment and variant-calling steps ran, and with what versions and references.</p></div></li>
-        <li class="cd cd-next"><div class="cb"><h4 class="ct">NVIDIA BioNeMo</h4><p class="take"><span class="take-l">What we take from it</span>We will take which model and version produced a result, and from which inputs.</p></div></li>
-        <li class="cd cd-next"><div class="cb"><h4 class="ct">DeepMind models</h4><p class="take"><span class="take-l">What we take from it</span>We will take which model and version produced a result, and from which inputs.</p></div></li>
-        <li class="cd cd-next"><div class="cb"><h4 class="ct">MCP to AI agents</h4><p class="take"><span class="take-l">What we take from it</span>We are building toward letting an agent ask the record which samples, which build and which run. Read-only.</p></div></li>
-        <li class="cd cd-next"><div class="cb"><h4 class="ct">Notebooks</h4><p class="take"><span class="take-l">What we take from it</span>We will take the analysis steps and files behind a notebook result.</p></div></li>
-        <li class="cd cd-next"><div class="cb"><h4 class="ct">GitHub</h4><p class="take"><span class="take-l">What we take from it</span>We will take the exact code commit behind a result.</p></div></li>
-    </ul>
-    <p class="fit-cta"><a class="btn" href="#access">Request early access</a></p>
-    <p class="note">Product names belong to their owners. Jubilab is not affiliated with or endorsed by them.</p>
-  </div>
-</section>
-
-<section id="next" aria-labelledby="h-next">
-  <span id="direction" class="anchor"></span>
-  <div class="wrap vision">
-    <div class="vision-text">
-      <div class="bar"></div>
-      <h2 id="h-next">Accelerate the genetics discovery loop.</h2>
-      <p class="span">Labs will use AI to propose and test ideas. That only works with trusted context about the lab&rsquo;s own work: where every sample came from, how every result was made and what is still unknown. We are building that record, so each experiment cycle can get faster.</p>
-      <p><a class="btn" href="#access">Request early access</a></p>
-    </div>
-    <div class="ph vision-img"><img src="assets/img/vision-agent.svg" width="1600" height="900" alt="" loading="lazy" decoding="async"></div>
-  </div>
-</section>
-
-<section id="who" aria-labelledby="h-who">
-  <span id="issues" class="anchor"></span>
-  <div class="wrap">
-    <h2 id="h-who">Facing these reproducibility and data issues?</h2>
-    <ul class="issues" aria-label="Situations Jubilab is built for">
-      <li>You cannot say which samples went into a callset.</li>
-      <li>Nobody is sure whether it was built on GRCh37 or GRCh38.</li>
-      <li>You cannot tell how an analysis from months ago was run.</li>
-      <li>The person who ran the pipeline has left, and the answers left with them.</li>
-      <li>You cannot tell what changed between two runs.</li>
-      <li>Two runs of the same pipeline disagree and you do not know why.</li>
-      <li>A mislabelled or swapped sample might be hiding in your data.</li>
-      <li>Your record of how a result was made lives in folder names and chat messages.</li>
-    </ul>
-    <div class="issues-end">
-      <p>If any of these sound familiar, be among the first labs shaping Jubilab.</p>
-      <p class="small">The early-access form asks a few short questions so we can choose the labs we learn from.</p>
-      <p><a class="btn" href="#access">Request early access</a></p>
-    </div>
-  </div>
-</section>
-
-<section id="product" class="band-dark" aria-labelledby="h-product">
-  <span id="practice" class="anchor"></span><span id="demo" class="anchor"></span>
-  <div class="wrap">
-    <div class="on-dark">
-    <h2 id="h-product">See it on a demo project.</h2>
-    <p class="lede-d">A real lineage view and a real command session, on a synthetic demo project.</p>
-    <ol class="outcomes">
-      <li><h3>Trace a result</h3><p>Start at any output and follow it back to the run that made it and the inputs that run used. Start at an input and see everything that depends on it.</p></li>
-      <li><h3>See what changed</h3><p>Line up two runs and see which recorded parameters, versions or results differ. Jubilab records the difference. It does not decide which result is better.</p></li>
-      <li><h3>Know how sure you are</h3><p>A gap shows up as a gap. Each fact is marked verified, inferred, manual or unknown.</p>
-        <ul class="chips" aria-label="The four fact labels">
-          <li class="t-verified"><svg aria-hidden="true"><use href="#g-verified"/></svg>verified</li>
-          <li class="t-inferred"><svg aria-hidden="true"><use href="#g-inferred"/></svg>inferred</li>
-          <li class="t-manual"><svg aria-hidden="true"><use href="#g-manual"/></svg>manual</li>
-          <li class="t-unknown"><svg aria-hidden="true"><use href="#g-unknown"/></svg>unknown</li>
-        </ul></li>
-    </ol>
-    </div>
-
-    <figure class="panel proof">
-      <div class="panel-head"><span>What changed between these two runs? &middot; demo project Cohort A (synthetic data)</span><span class="chg">&Delta; changed between Run 001 and Run 002</span></div>
-      <div class="diagram">
-        <svg class="dag-wide" viewBox="0 0 804 356" role="img" aria-labelledby="dag-t dag-d" xmlns="http://www.w3.org/2000/svg"><title id="dag-t">Lineage of the demo project Cohort A, with one changed run</title><desc id="dag-d">Cohort_A.fastq.gz is used as input by Run 001 and by Run 002. Run 001 generated variants_run001.vcf. Run 002 generated variants_run002.vcf. Run 002 is marked changed: its quality threshold is 30 where Run 001 used 20. The container digest of Run 002 is unknown.</desc>
-<g><path class="e" d="M204 154 H224 V64 H306"/><path class="e" d="M204 154 H224 V244 H306"/><path class="e" d="M512 64 H590"/><path class="e" d="M512 244 H590"/></g>
-<g><polygon class="arrow" points="314,64 305,59 305,69"/><polygon class="arrow" points="314,244 305,239 305,249"/><polygon class="arrow" points="598,64 589,59 589,69"/><polygon class="arrow" points="598,244 589,239 589,249"/>
-<text class="t-lbl" x="230" y="56">used as input</text><text class="t-lbl" x="230" y="236">used as input</text><text class="t-lbl" text-anchor="middle" x="551" y="56">generated</text><text class="t-lbl" text-anchor="middle" x="551" y="236">generated</text></g>
-<g class="n"><rect class="box" x="8" y="110" width="196" height="88" rx="6"/><text class="t-type" x="24" y="134">DATA ASSET</text><text class="t-name" x="24" y="158">Cohort_A.fastq.gz</text><text class="t-sub" x="24" y="178">S3 &middot; 120 files &middot; v1</text></g>
-<g class="n"><rect class="box" x="316" y="20" width="196" height="88" rx="6"/><text class="t-type" x="332" y="44">RUN</text><text class="t-name" x="332" y="68">Run 001 &middot; Baseline</text><text class="t-sub" x="332" y="88">Nextflow &middot; threshold 20</text></g>
-<g class="n chg"><rect class="box" x="316" y="200" width="196" height="88" rx="6"/><text class="t-type" x="332" y="224">RUN</text><text class="t-name" x="332" y="248">Run 002 &middot; Variant</text><text class="t-sub" x="332" y="268">Nextflow &middot; <tspan class="t-chg">threshold 30</tspan></text><text class="t-type t-chg" text-anchor="end" x="496" y="224">&Delta; CHANGED</text></g>
-<g class="n"><rect class="box" x="600" y="20" width="196" height="88" rx="6"/><text class="t-type" x="616" y="44">OUTPUT</text><text class="t-name" x="616" y="68">variants_run001.vcf</text><text class="t-sub" x="616" y="88">HPC &middot; 42,180 variants</text></g>
-<g class="n"><rect class="box" x="600" y="200" width="196" height="88" rx="6"/><text class="t-type" x="616" y="224">OUTPUT</text><text class="t-name" x="616" y="248">variants_run002.vcf</text><text class="t-sub" x="616" y="268">HPC &middot; 36,740 variants</text></g>
-<g><text class="t-lbl t-chg" x="316" y="318">&Delta; quality_threshold 20 &rarr; 30, against Run 001</text><use class="g-unknown" href="#g-unknown" x="316" y="328" width="18" height="18"/><text class="t-unk" x="342" y="342">container digest: unknown</text></g>
-        </svg>
-        <svg class="dag-tall" viewBox="0 0 260 548" role="img" aria-labelledby="dagp-t dagp-d" xmlns="http://www.w3.org/2000/svg"><title id="dagp-t">Lineage of the demo project Cohort A, with one changed run</title><desc id="dagp-d">Cohort_A.fastq.gz is used as input by Run 001 and by Run 002. Run 001 generated variants_run001.vcf. Run 002 generated variants_run002.vcf. Run 002 is marked changed: its quality threshold is 30 where Run 001 used 20. The container digest of Run 002 is unknown.</desc>
-<g><path class="e" d="M138 72 V96"/><path class="e" d="M138 168 V192"/><path class="e" d="M24 40 H10 V336 H15"/><path class="e" d="M138 368 V392"/></g>
-<g><polygon class="arrow" points="138,104 133,95 143,95"/><polygon class="arrow" points="138,200 133,191 143,191"/><polygon class="arrow" points="24,336 15,331 15,341"/><polygon class="arrow" points="138,400 133,391 143,391"/>
-<text class="t-lbl" x="148" y="92">used as input</text><text class="t-lbl" x="148" y="188">generated</text><text class="t-lbl" x="30" y="294">used as input</text><text class="t-lbl" x="148" y="388">generated</text></g>
-<g class="n"><rect class="box" x="24" y="8" width="228" height="64" rx="6"/><text class="t-type" x="38" y="28">DATA ASSET</text><text class="t-name" x="38" y="47">Cohort_A.fastq.gz</text><text class="t-sub" x="38" y="64">S3 &middot; 120 files &middot; v1</text></g>
-<g class="n"><rect class="box" x="24" y="104" width="228" height="64" rx="6"/><text class="t-type" x="38" y="124">RUN</text><text class="t-name" x="38" y="143">Run 001 &middot; Baseline</text><text class="t-sub" x="38" y="160">Nextflow &middot; threshold 20</text></g>
-<g class="n"><rect class="box" x="24" y="200" width="228" height="64" rx="6"/><text class="t-type" x="38" y="220">OUTPUT</text><text class="t-name" x="38" y="239">variants_run001.vcf</text><text class="t-sub" x="38" y="256">HPC &middot; 42,180 variants</text></g>
-<g class="n chg"><rect class="box" x="24" y="304" width="228" height="64" rx="6"/><text class="t-type" x="38" y="324">RUN</text><text class="t-name" x="38" y="343">Run 002 &middot; Variant</text><text class="t-sub" x="38" y="360">Nextflow &middot; <tspan class="t-chg">threshold 30</tspan></text><text class="t-type t-chg" text-anchor="end" x="238" y="324">&Delta; CHANGED</text></g>
-<g class="n"><rect class="box" x="24" y="400" width="228" height="64" rx="6"/><text class="t-type" x="38" y="420">OUTPUT</text><text class="t-name" x="38" y="439">variants_run002.vcf</text><text class="t-sub" x="38" y="456">HPC &middot; 36,740 variants</text></g>
-<g><text class="t-lbl t-chg" x="24" y="492">&Delta; quality_threshold 20 &rarr; 30</text><text class="t-lbl t-chg" x="24" y="510">against Run 001</text><use class="g-unknown" href="#g-unknown" x="24" y="520" width="18" height="18"/><text class="t-unk" x="50" y="534">container digest: unknown</text></g>
-        </svg>
-      </div>
-      <div class="legend">
-        <span><svg class="glyph" aria-hidden="true"><use href="#g-unknown"/></svg><span class="unk">unknown</span>: the record does not say</span>
-        <span class="chg">&Delta; changed: a value differs between the two runs</span>
-      </div>
-      <details class="twin">
+      <figcaption>An example order and the agent that reads it. The step names are the draft event vocabulary, not recorded data.</figcaption>
+      <details class="twin hero-twin">
         <summary>Text version of this diagram</summary>
         <ul>
-          <li><b>Backward from variants_run002.vcf.</b> It was generated by Run 002, which used <span class="mono-inline">Cohort_A.fastq.gz</span> (data asset, S3, 120 files, version v1) as input.</li>
-          <li><b>Forward from Cohort_A.fastq.gz.</b> Run 001 and Run 002 both used it. Run 001 generated <span class="mono-inline">variants_run001.vcf</span> (42,180 variants) and Run 002 generated <span class="mono-inline">variants_run002.vcf</span> (36,740 variants).</li>
-          <li><b>What changed.</b> Run 002 ran with <span class="chg">quality_threshold = 30</span> where Run 001 ran with 20.</li>
-          <li><b>What is unknown.</b> The container digest of Run 002 was not captured.</li>
+          <li><b>Received.</b> The lab logs the tube (<span class="mono-inline">sample.received</span>). The agent reads it with <span class="mono-inline">get_status</span>.</li>
+          <li><b>QC.</b> The lab reports a pass or a fail for each sample (<span class="mono-inline">qc.passed</span> or <span class="mono-inline">qc.failed</span>, with a reason). The agent reads it with <span class="mono-inline">get_status</span>.</li>
+          <li><b>Run.</b> The run starts (<span class="mono-inline">run.started</span>). The agent reads it with <span class="mono-inline">get_status</span>. This is the current step in the example.</li>
+          <li><b>Delivered.</b> The files and the result manifest arrive (<span class="mono-inline">results.delivered</span>). The agent reads <span class="mono-inline">results.json</span> with <span class="mono-inline">fetch_result</span>.</li>
         </ul>
       </details>
     </figure>
+  </div>
+</section>
+
+<section id="problem" aria-labelledby="h-problem">
+  <div class="wrap">
+    <h2 id="h-problem">Today an order moves by Excel and email.</h2>
+    <p class="lede-l">You send samples out and wait. This is what we found when we looked at how sequencing and assay orders move in October 2026.</p>
+    <ul class="facts" aria-label="What we found">
+      <li><h3>Order</h3><p>A provider-specific Excel manifest, filled in and emailed or re-uploaded, often with a printed copy in the box. Novogene reviews every manifest by hand in one to two hours and approves by email. TU Dresden&rsquo;s purpose-built portal falls back to emailed Excel above 30 samples.</p></li>
+      <li><h3>Status</h3><p>An email to a rep or project manager. Genohub, the most structured marketplace we looked at, shows six coarse states. None of them is &ldquo;received&rdquo;, &ldquo;QC passed&rdquo; or &ldquo;sequencing started&rdquo;. One documented case ran 4.5 months against a 10 to 12 week promise, with no delay notice.</p></li>
+      <li><h3>Result</h3><p>An emailed link or a BaseSpace invite that expires in 30 days. Provider IDs that the lab maps back to its own sample names by hand. Failed samples that are silently missing.</p></li>
+      <li><h3>APIs</h3><p>We found no ordering API at the sequencing providers we opened (Azenta/GENEWIZ, Novogene, Plasmidsaurus, Eurofins, Psomagen, Edinburgh Genomics, NWGC), or at the research biomarker services (Olink, SomaLogic, Metabolon, IQVIA Labs, Quanterix). The programmatic interfaces we did find sit inside the lab: Clarity LIMS, BaseSpace, MinKNOW, SMRT Link.</p></li>
+      <li><h3>Under contract</h3><p>Pharma and consumer-genomics companies with multi-year MSAs still send manifests out and get scheduled file drops back. Clinical-trial data transfer agreements write &ldquo;we will SFTP you a file every Friday&rdquo; into the contract, and data management reconciles by hand.</p></li>
+      <li><h3>Your ELN</h3><p>Benchling and Labguru track samples, not external orders. Procurement issues the PO and stops. Benchling shipped direct ordering in 2025 for Twist, Adaptyv and Ginkgo, and left sequencing and assays out.</p></li>
+    </ul>
+    <p class="after-qs">Three hand-offs have no structured status, and all three are inside the provider: receipt and QC, the run, and delivery. That is where Jubilab starts.</p>
+    <p class="small-note">Our own research, about 70 public sources. Product and company names belong to their owners. Jubilab is not affiliated with them.</p>
+  </div>
+</section>
+
+<section id="how" class="band-dark" aria-labelledby="h-how">
+  <div class="wrap">
+    <div class="on-dark">
+      <h2 id="h-how">Three objects, from request to result.</h2>
+      <p class="lede-d">Jubilab is three specifications and the tooling around them. The snippets are drafts of version 0. The field names and values are illustrative and will change before anything ships.</p>
+    </div>
 
     <div class="session">
       <div class="txt on-dark">
-        <h3>From the command line</h3>
-        <p>On a cluster node with no internet, a record is written to a file and sent to the server later. This is a real session on the demo project, trimmed to four commands.</p>
+        <h3>1. Order spec</h3>
+        <p>What the requester sends. Platform, chemistry, depth or output target, a sample manifest, plate layout for assays, the deliverables you want, turnaround and a use tier. One format, whichever lab runs it.</p>
       </div>
       <figure class="terminal">
-        <pre tabindex="0" aria-label="Terminal session on demo data"><span class="c">$ python -m server serve --data-dir ./data</span>
-jubilab: listening on http://127.0.0.1:18190 data-dir=./data
+        <pre tabindex="0" aria-label="Draft order spec, illustrative JSON">{
+  "spec": "order/v0-draft",
+  "platform": "ONT",
+  "assay": "whole-genome",
+  "target": { "depth_x": 30 },
+  "samples": [
+    { "id": "S-001", "matrix": "gDNA", "conc_ng_ul": 42, "volume_ul": 50 },
+    { "id": "S-002", "matrix": "gDNA", "conc_ng_ul": 38, "volume_ul": 50 }
+  ],
+  "deliverables": ["fastq", "bam", "qc_report"],
+  "turnaround_days": 14,
+  "use_tier": "RUO"
+}</pre>
+        <figcaption>Draft v0, illustrative values.</figcaption>
+      </figure>
+    </div>
 
-<span class="c">$ jubilab register-run --id run-002 --name "Variant calling, threshold 30" --input fastq-v1 -p quality_threshold=30 --status completed --executor nextflow</span>
-spooled register_run key=ed400327f323beb1c015acf5e7ed1297 -&gt; jubilab-spool.p_8hakp36js1.jsonl
+    <div class="session">
+      <div class="txt on-dark">
+        <h3>2. Event model</h3>
+        <p>The shared status vocabulary. Every lab reports the same events: <span class="mono-inline">order.accepted</span>, <span class="mono-inline">kit.shipped</span>, <span class="mono-inline">sample.received</span>, <span class="mono-inline">qc.passed</span> or <span class="mono-inline">qc.failed</span> with a reason, <span class="mono-inline">library.prepped</span>, <span class="mono-inline">run.started</span>, <span class="mono-inline">run.progress</span>, <span class="mono-inline">results.delivered</span> and <span class="mono-inline">invoice.issued</span>.</p>
+      </div>
+      <figure class="terminal">
+        <pre tabindex="0" aria-label="Draft event feed, illustrative JSON lines">{"event": "sample.received", "order": "ord_0001", "at": "2026-11-03T09:14:00Z", "source": "email", "certainty": "inferred"}
+{"event": "qc.failed", "order": "ord_0001", "sample": "S-002", "reason": "low_concentration", "at": "2026-11-03T15:40:00Z", "source": "webhook", "certainty": "verified"}
+{"event": "run.started", "order": "ord_0001", "at": "2026-11-05T08:02:00Z", "source": "webhook", "certainty": "verified"}</pre>
+        <figcaption>Draft v0, illustrative events. Events are append-only: a correction is a new event.</figcaption>
+      </figure>
+    </div>
 
-<span class="c">$ jubilab sync</span>
-synced 3 record(s) to http://127.0.0.1:18190/api/projects/p_8hakp36js1/ingest: applied=3 duplicate=0 error=0
+    <div class="session">
+      <div class="txt on-dark">
+        <h3>3. Result manifest</h3>
+        <p>What the lab emits. A <span class="mono-inline">results.json</span> that points at the files with checksums, reports QC for each sample as structured fields, maps the provider&rsquo;s IDs back to your sample names, and puts a certainty tag on every fact. A failed sample shows up as a failed sample, not as a missing row.</p>
+      </div>
+      <figure class="terminal">
+        <pre tabindex="0" aria-label="Draft result manifest, illustrative JSON">{
+  "manifest": "result/v0-draft",
+  "order": "ord_0001",
+  "files": [
+    { "path": "S-001.fastq.gz", "sha256": "9f2c1e...", "bytes": 4811203392 }
+  ],
+  "samples": [
+    { "requester_id": "S-001", "provider_id": "PRV-48213",
+      "qc": { "passed": true, "q30_pct": 91.4 }, "certainty": "verified" },
+    { "requester_id": "S-002", "provider_id": "PRV-48214",
+      "qc": { "passed": false, "reason": "low_concentration" }, "certainty": "verified" }
+  ],
+  "run": {
+    "flow_cell": { "value": "FC-EXAMPLE", "certainty": "verified" },
+    "basecaller": { "value": null, "certainty": "unknown" }
+  }
+}</pre>
+        <figcaption>Draft v0, illustrative values. The checksum is shortened.</figcaption>
+      </figure>
+    </div>
 
-<span class="c">$ jubilab status</span>
-spool: jubilab-spool.p_8hakp36js1.jsonl (3 records, 0 unsynced)
-server: http://127.0.0.1:18190 {"projects":{"active":1,"archived":0,"unavailable":0},"status":"ok","version":"0.1.0"}
-project: p_8hakp36js1 (Cohort A)</pre>
-        <figcaption>Synthetic demo data (Cohort A). Some commands are left out and paths are tidied for display.</figcaption>
+    <div class="on-dark certainty">
+      <h3 class="cert-h">Every fact says how sure we are.</h3>
+      <p class="cert-p">In the draft manifest, each fact carries one of three tags. A gap stays a gap.</p>
+      <ul class="outcomes cert" aria-label="The three certainty tags">
+        <li><h4 class="t-verified"><svg aria-hidden="true"><use href="#g-verified"/></svg>verified</h4><p>Reported by the lab&rsquo;s own system or instrument, for example by a webhook or run telemetry.</p></li>
+        <li><h4 class="t-inferred"><svg aria-hidden="true"><use href="#g-inferred"/></svg>inferred</h4><p>Read from something less direct, such as an email or a courier update. It stays inferred until the lab confirms it.</p></li>
+        <li><h4 class="t-unknown"><svg aria-hidden="true"><use href="#g-unknown"/></svg>unknown</h4><p>The lab did not say. The manifest keeps the gap and does not fill it in.</p></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="labs" aria-labelledby="h-labs">
+  <div class="wrap">
+    <h2 id="h-labs">Nothing changes on your side on day one.</h2>
+    <p class="lede-l">For labs, cores and boutique providers. You join at the step that suits you. Each step asks a little more of you than the one before, and you can stop at any of them. All four are in design.</p>
+    <ul class="cards tiers" aria-label="Four ways for a lab to join">
+      <li class="card"><div class="cb"><p class="tier">Tier 0</p><h3 class="ct">Email and courier tracking</h3><p class="cp">We read the order emails and courier tracking you already have. You do nothing. What we read this way is tagged inferred.</p></div></li>
+      <li class="card"><div class="cb"><p class="tier">Tier 1</p><h3 class="ct">A four-button status page</h3><p class="cp">One page with four buttons: received, QC, run started, results ready. Drag and drop your files and we write a valid result manifest. Less work than writing the email.</p></div></li>
+      <li class="card"><div class="cb"><p class="tier">Tier 2</p><h3 class="ct">A webhook from your LIMS</h3><p class="cp">Your LIMS posts events to a webhook as they happen. Facts that come from your own system are tagged verified.</p></div></li>
+      <li class="card"><div class="cb"><p class="tier">Tier 3</p><h3 class="ct">Instrument telemetry</h3><p class="cp">For labs we partner with or own: run data from MinKNOW or BaseSpace, read live. We read it. We do not control the instrument.</p></div></li>
+    </ul>
+    <p class="span">You keep your intake, your LIMS and your instruments. Take orders from software agents and institutional buyers without changing how you work.</p>
+    <p class="cta-line"><a class="btn" href="#access">Run a lab or a core? Tell us how you take orders</a></p>
+  </div>
+</section>
+
+<section id="teams" aria-labelledby="h-teams">
+  <div class="wrap">
+    <h2 id="h-teams">Every outside lab, one order format.</h2>
+    <p class="lede-l">For biotech platform teams and pharma sourcing. You send 30 to 150 samples a month across a plasmid service, a WGS provider and a proteomics vendor, order by email and track it in a spreadsheet next to your ELN. This is what we plan to give you. None of it is released yet.</p>
+    <ul class="cards tiers" aria-label="What teams get">
+      <li class="card"><div class="cb"><h3 class="ct">Benchling first</h3><p class="cp">Orders and results land in your ELN. Benchling is the first integration we plan to build. It covers the sequencing and assays that its own ordering does not.</p></div></li>
+      <li class="card"><div class="cb"><h3 class="ct">One agreement</h3><p class="cp">One MSA with us in place of a different NDA and onboarding for every vendor. The terms are not set yet.</p></div></li>
+      <li class="card"><div class="cb"><h3 class="ct">A history of every order</h3><p class="cp">Each status change is an append-only event with a time and a source. You can see who placed an order, what changed and when.</p></div></li>
+      <li class="card"><div class="cb"><h3 class="ct">Agent and MCP access</h3><p class="cp">An MCP server and a REST API so your agents can quote, order, check status and fetch results, with the same rules as a person.</p></div></li>
+    </ul>
+    <p class="span">You have negotiated the price. We aim to make what flows under the contract machine-readable, so adding a second lab does not need a bespoke integration. Whether the lab is across the hall or across the world, the plan is the same order object. Benchling, Labguru and Scispot are names of their owners. Jubilab is not affiliated with them.</p>
+  </div>
+</section>
+
+<section id="why" aria-labelledby="h-why">
+  <div class="wrap vision">
+    <div class="vision-text">
+      <div class="bar"></div>
+      <h2 id="h-why">Why now: every AI agent stops at the lab door.</h2>
+      <p class="span">Agents can already draft a sequencing plan, place an order and read a result file. They stop at the lab, because the lab side is not callable. In the providers we opened, we found no API. We are building the door.</p>
+      <p class="span">At Bili Gene, our own sequencing orders lived in forty email threads. That is why we are building this, and why Bili Gene&rsquo;s own sequencing orders are planned to run through it first.</p>
+    </div>
+  </div>
+</section>
+
+<section id="dev" class="band-dark" aria-labelledby="h-dev">
+  <div class="wrap">
+    <h2 id="h-dev">For developers and agent builders.</h2>
+    <div class="session">
+      <div class="txt on-dark">
+        <p>The plan is an MCP server and a REST API with five calls, plus webhooks for events. None of it is released, so there is nothing to install yet and no endpoint to call. We would rather shape the surface with the people who will use it.</p>
+        <p class="cta-line"><a class="btn" href="#access">Tell us what you need</a></p>
+      </div>
+      <figure class="terminal">
+        <pre tabindex="0" aria-label="Planned tool surface, draft">planned tool surface (draft, not released)
+
+quote         ask a lab what an order spec would take
+create_order  place an order from an order spec
+get_status    read the event feed of an order
+list_results  list the result manifests of an order
+fetch_result  fetch a result manifest and its files
+
+webhooks      planned: events pushed to a URL you choose</pre>
+        <figcaption>In design. Names and shapes can change.</figcaption>
       </figure>
     </div>
   </div>
 </section>
 
+<section id="scope" aria-labelledby="h-scope">
+  <div class="wrap">
+    <h2 id="h-scope">What we don&rsquo;t do.</h2>
+    <ul class="cards cards3" aria-label="What Jubilab does not do">
+      <li class="card"><div class="cb"><h3 class="ct">No instrument control</h3><p class="cp">Jubilab reads what a lab reports. It does not drive sequencers, liquid handlers or any other instrument.</p></div></li>
+      <li class="card"><div class="cb"><h3 class="ct">No marketplace</h3><p class="cp">We do not broker quotes or price, and we are not a place to shop for labs. You keep your providers and your contracts. Jubilab standardizes the order, the status and the result.</p></div></li>
+      <li class="card"><div class="cb"><h3 class="ct">No clinical diagnostics</h3><p class="cp">Human clinical testing is out of scope. It needs a physician of record, CLIA certification and critical-value duties, and its own standards already exist.</p></div></li>
+    </ul>
+    <h3 class="rowh-l">Where we start</h3>
+    <ul class="scope" aria-label="Order of work">
+      <li><span class="scope-k">Now</span><span>Research sequencing (ONT, Illumina, PacBio) from commercial providers, boutique services and cores.</span></li>
+      <li><span class="scope-k">Next</span><span>Research biomarker assays, such as proteomics, multiplex immunoassay and metabolomics. Same order path. The sample manifest becomes a plate map.</span></li>
+      <li><span class="scope-k">Later</span><span>Your own in-house core as another place an order can run, robot and cloud labs, and live run progress for nanopore runs.</span></li>
+    </ul>
+  </div>
+</section>
+
 <section id="faq" class="faq" aria-labelledby="h-faq">
   <div class="wrap">
-    <h2 id="h-faq">Questions about data provenance</h2>
+    <h2 id="h-faq">Questions</h2>
     <ul class="faq-list">
-      <li><details><summary><h3>What is data provenance in bioinformatics?</h3></summary><p>Data provenance is the record of where a result came from: the input files and samples, the tool and pipeline versions, the parameters and the reference genome build used to produce it. Data lineage follows the same chain from an output back to its inputs, and forward to everything that depends on an input. Together they form a record of every change that lets a lab explain a result and judge whether it can be reproduced. Jubilab records and shows that chain. It does not make a result reproducible by itself.</p></details></li>
-      <li><details><summary><h3>What is Jubilab and who is it for?</h3></summary><p>Jubilab is a provenance and lineage layer for bioinformatics and genomics data management. It is for bioinformaticians, genetics and computational genomics labs, and core facilities that run pipelines such as variant calling again and again and need to answer how a result was made. We are accepting early-access requests from a small group of labs, starting with genetics researchers.</p></details></li>
-      <li><details><summary><h3>How do I track Nextflow and Snakemake runs?</h3></summary><p>Jubilab records a Nextflow run as it happens or imports a finished one, and imports Snakemake runs from Snakemake&rsquo;s own metadata. Any other script or tool can be recorded with the native bash wrapper, <span class="mono-inline">jubilab run</span>. Each run is kept as history the application cannot edit, with its inputs, outputs, parameters and versions, and each fact is marked verified, inferred, manual or unknown.</p></details></li>
-      <li><details><summary><h3>How do I know which reference genome build a result used?</h3></summary><p>When you switch it on, Jubilab reads the reference genome and annotation details that tools write into file headers, such as VCF and BAM headers, and records them with the run, so a result can be traced to GRCh37 or GRCh38 and its annotation. When two runs used different references, the comparison shows a warning that they are not comparable. This opt-in option ships with our next release. We are building checks that flag reference build mismatches and sample swaps automatically, and the link from each sample to its files and runs. Those are not available yet.</p></details></li>
-      <li><details><summary><h3>How is Jubilab different from a LIMS, an ELN or a workflow platform?</h3></summary><p>A LIMS tracks samples, an ELN holds notebooks and protocols, and a workflow engine or cloud analysis platform runs the pipeline. Jubilab is the provenance layer beside them that keeps the record of how results were made across tools. It does not replace any of them, and it is not integrated with products such as Benchling, DNAnexus or Terra. Those names belong to their owners, and Jubilab is not affiliated with them.</p></details></li>
-      <li><details><summary><h3>Does Jubilab store my data?</h3></summary><p>No. Jubilab stores metadata about runs, such as inputs, outputs, parameters and versions, and links to your data where it lives. It does not copy your data files. You run it on your own machine or server, and the server makes no outbound network calls.</p></details></li>
-      <li><details><summary><h3>How do I get early access?</h3></summary><p>Use the early-access form at the end of this page. It asks a few short questions about your role, your field and where your analysis runs, so we can choose the labs we learn from. We invite a small group of labs first and write to you by email.</p></details></li>
+      <li><details><summary><h3>What is Jubilab?</h3></summary><p>Jubilab is the order-to-result layer for lab work: a standard way to place a lab order (sequencing first, biomarker assays next), track the sample and the run, and get the result back in a machine-readable shape, for scientists and for the AI agents that work for them. It is in design. Nothing on this page is released yet.</p></details></li>
+      <li><details><summary><h3>Can I use it today?</h3></summary><p>No. The order layer is being built. We are taking early-access requests to choose the teams and labs we build with. The JSON examples on this page are drafts of the planned formats and will change.</p></details></li>
+      <li><details><summary><h3>Who is it for?</h3></summary><p>Small and mid-size biotech teams that send 30 to 150 samples a month to several outside labs, pharma and large organizations with a constant outsourced flow, and the labs and core facilities that take those orders and want to serve people and software agents without changing how they work.</p></details></li>
+      <li><details><summary><h3>Does a lab have to change how it works?</h3></summary><p>No. The plan has four ways to join, and the first needs nothing from the lab: we read the order emails and courier tracking it already has. The next steps are a four-button status page, a webhook from the lab&rsquo;s LIMS, and instrument telemetry. A lab can stop at any step.</p></details></li>
+      <li><details><summary><h3>How is it different from an ELN, a LIMS or a marketplace?</h3></summary><p>An ELN such as Benchling or Labguru tracks your samples. A LIMS runs inside one lab. A marketplace brokers quotes, contracts and billing between people. Jubilab standardizes the order, the status and the result across labs, and is meant to sit beside the tools you already use. It does not replace them, control instruments or broker price. Product names belong to their owners, and Jubilab is not affiliated with them.</p></details></li>
+      <li><details><summary><h3>What will Jubilab not do?</h3></summary><p>It will not control instruments, it will not be a marketplace, and it will not handle human clinical diagnostics. Research sequencing comes first, then research biomarker assays such as proteomics, multiplex immunoassay and metabolomics.</p></details></li>
+      <li><details><summary><h3>How do I get early access?</h3></summary><p>Use the early-access form at the end of this page. It asks for your role, your organization, the providers you use, how many samples you send out in a month and your ELN, so we can choose the teams and labs we learn from. We invite a small group first and write to you by email.</p></details></li>
     </ul>
   </div>
 </section>
@@ -395,9 +448,9 @@ project: p_8hakp36js1 (Cohort A)</pre>
     <div class="grid">
       <div class="left">
         <h2 id="h-access">Request early access</h2>
-        <p class="goal"><strong>Our goal: become the record of how genetic discoveries are made.</strong></p>
-        <p>Be among the first labs shaping Jubilab. We are opening early access to a small group of labs, starting with genetics researchers, so that Jubilab is built around real use. Every question is required except the last one, a short free-text answer. The answers help us choose who to invite first.</p>
-        <p class="look"><a href="#product">Or look first: see it on a demo project &rarr;</a></p>
+        <p class="goal"><strong>Our goal: one standard way to order lab work.</strong></p>
+        <p>We are opening early access to a small group of teams and labs, so that Jubilab is built around real orders. Tell us how you order today. Every question is required except the last one, a short free-text answer. The answers help us choose who to invite first.</p>
+        <p class="look"><a href="#how">Or look first: the three objects &rarr;</a></p>
       </div>
       <form class="form" id="early-access-form" action="/api/early-access" method="post" aria-labelledby="h-access">
         <p class="form-error" id="form-error" role="alert" tabindex="-1" hidden>That email address does not look right. Please check it and send the form again.</p>
@@ -407,54 +460,54 @@ project: p_8hakp36js1 (Cohort A)</pre>
         </div>
         <div class="hp" aria-hidden="true"><label>Internal note, leave blank <input type="text" name="q7_note" tabindex="-1" autocomplete="off" data-lpignore="true" data-1p-ignore data-bwignore data-form-type="other"></label></div>
         <fieldset class="group" id="role-group"><legend>Your role <span class="hint">(required)</span></legend>
-          <label class="opt"><input type="radio" name="role" value="lab-head" required>Principal investigator or lab head</label>
-          <label class="opt"><input type="radio" name="role" value="postdoc-scientist" required>Postdoc or research scientist</label>
-          <label class="opt"><input type="radio" name="role" value="grad-student" required>Graduate student</label>
-          <label class="opt"><input type="radio" name="role" value="bioinformatician-analyst" required>Bioinformatician or data analyst</label>
-          <label class="opt"><input type="radio" name="role" value="core-rse" required>Core facility or research-software engineer</label>
+          <label class="opt"><input type="radio" name="role" value="platform-ops" required>Head of platform or lab operations</label>
+          <label class="opt"><input type="radio" name="role" value="comp-bio" required>Computational biologist or bioinformatician</label>
+          <label class="opt"><input type="radio" name="role" value="scientist" required>Scientist or lab head</label>
+          <label class="opt"><input type="radio" name="role" value="procurement" required>Procurement or sourcing</label>
+          <label class="opt"><input type="radio" name="role" value="provider-staff" required>Lab or core staff (we take orders)</label>
+          <label class="opt"><input type="radio" name="role" value="agent-dev" required>AI or agent developer</label>
           <label class="opt"><input type="radio" name="role" value="other" required>Other (specify)</label>
           <div class="field other" data-other-for="role">
             <label for="role-other">If other, please specify <span class="hint">(up to 100 characters)</span></label>
             <input id="role-other" name="role-other" type="text" maxlength="100" autocomplete="off">
           </div>
         </fieldset>
-        <fieldset class="group" id="field-group"><legend>Your field <span class="hint">(required)</span></legend>
-          <label class="opt"><input type="radio" name="field" value="genetics-genomics" required>Genetics or genomics</label>
-          <label class="opt"><input type="radio" name="field" value="bioinformatics-comp-bio" required>Bioinformatics or computational biology</label>
-          <label class="opt"><input type="radio" name="field" value="molecular-cell-biology" required>Molecular or cell biology</label>
-          <label class="opt"><input type="radio" name="field" value="other-life-science" required>Other life science</label>
-          <label class="opt"><input type="radio" name="field" value="other-lab-science" required>Other lab science (chemistry, physics, materials)</label>
-          <label class="opt"><input type="radio" name="field" value="other" required>Other (specify)</label>
-          <div class="field other" data-other-for="field">
-            <label for="field-other">If other, please specify <span class="hint">(up to 100 characters)</span></label>
-            <input id="field-other" name="field-other" type="text" maxlength="100" autocomplete="off">
-          </div>
-        </fieldset>
-        <fieldset class="group" id="runs-on-group"><legend>Where does your analysis run? <span class="hint">(required, choose any)</span></legend>
-          <label class="opt chk"><input type="checkbox" name="runs-on" value="windows">Windows</label>
-          <label class="opt chk"><input type="checkbox" name="runs-on" value="macos">macOS</label>
-          <label class="opt chk"><input type="checkbox" name="runs-on" value="linux">Linux</label>
-          <label class="opt chk"><input type="checkbox" name="runs-on" value="hpc-cluster">HPC cluster</label>
-          <label class="opt chk"><input type="checkbox" name="runs-on" value="aws">AWS</label>
-          <label class="opt chk"><input type="checkbox" name="runs-on" value="azure">Azure</label>
-          <label class="opt chk"><input type="checkbox" name="runs-on" value="gcp">GCP</label>
-          <label class="opt chk"><input type="checkbox" name="runs-on" value="other">Other (specify)</label>
-          <div class="field other" data-other-for="runs-on">
-            <label for="runs-on-other">If other, please specify <span class="hint">(up to 100 characters)</span></label>
-            <input id="runs-on-other" name="runs-on-other" type="text" maxlength="100" autocomplete="off">
-          </div>
-        </fieldset>
-        <fieldset class="group" id="human-data-group"><legend>Does your work involve human or patient-derived data? <span class="hint">(required)</span></legend>
-          <label class="opt"><input type="radio" name="human-data" value="yes" required>Yes</label>
-          <label class="opt"><input type="radio" name="human-data" value="no" required>No</label>
+        <fieldset class="group" id="org-type-group"><legend>Your organization <span class="hint">(required)</span></legend>
+          <label class="opt"><input type="radio" name="org-type" value="biotech" required>Biotech</label>
+          <label class="opt"><input type="radio" name="org-type" value="pharma" required>Pharma or large organization</label>
+          <label class="opt"><input type="radio" name="org-type" value="academic" required>Academic lab</label>
+          <label class="opt"><input type="radio" name="org-type" value="provider" required>Commercial or boutique lab (provider)</label>
+          <label class="opt"><input type="radio" name="org-type" value="core" required>Core facility</label>
         </fieldset>
         <div class="field">
-          <label for="tracking">How do you keep track of how a result was made today? <span class="hint">(optional, up to 300 characters)</span></label>
-          <textarea id="tracking" name="tracking" rows="3" maxlength="300"></textarea>
+          <label for="providers">Which providers do you use today? <span class="hint">(required, up to 200 characters)</span></label>
+          <input id="providers" name="providers" type="text" maxlength="200" required autocomplete="off" placeholder="A WGS provider, a plasmid service">
+        </div>
+        <fieldset class="group" id="volume-group"><legend>Samples you send out in a month <span class="hint">(required)</span></legend>
+          <label class="opt"><input type="radio" name="volume" value="lt-30" required>Under 30</label>
+          <label class="opt"><input type="radio" name="volume" value="30-150" required>30 to 150</label>
+          <label class="opt"><input type="radio" name="volume" value="151-500" required>151 to 500</label>
+          <label class="opt"><input type="radio" name="volume" value="gt-500" required>Over 500</label>
+          <label class="opt"><input type="radio" name="volume" value="unsure" required>Not sure</label>
+        </fieldset>
+        <fieldset class="group" id="eln-group"><legend>ELN you use <span class="hint">(required)</span></legend>
+          <label class="opt"><input type="radio" name="eln" value="benchling" required>Benchling</label>
+          <label class="opt"><input type="radio" name="eln" value="labguru" required>Labguru</label>
+          <label class="opt"><input type="radio" name="eln" value="scispot" required>Scispot</label>
+          <label class="opt"><input type="radio" name="eln" value="other" required>Other (specify)</label>
+          <label class="opt"><input type="radio" name="eln" value="none" required>None</label>
+          <div class="field other" data-other-for="eln">
+            <label for="eln-other">If other, please specify <span class="hint">(up to 100 characters)</span></label>
+            <input id="eln-other" name="eln-other" type="text" maxlength="100" autocomplete="off">
+          </div>
+        </fieldset>
+        <div class="field">
+          <label for="comment">What would you most like fixed about how you order lab work? <span class="hint">(optional, up to 300 characters)</span></label>
+          <textarea id="comment" name="comment" rows="3" maxlength="300"></textarea>
         </div>
         <p class="consent">By sending this form you agree that we may email you about early access.</p>
         <button class="btn" type="submit">Request early access</button>
-        <p class="privacy">Your answers are used only to choose early-access labs and to write to you about early access. They are stored in our Cloudflare account, not shared or sold, and you can ask us to delete them at any time. Details are on the <a href="privacy/">privacy page</a>.</p>
+        <p class="privacy">Your answers are used only to choose early-access teams and labs and to write to you about early access. They are stored in our Cloudflare account, not shared or sold, and you can ask us to delete them at any time. Details are on the <a href="privacy/">privacy page</a>.</p>
       </form>
     </div>
   </div>
@@ -464,12 +517,10 @@ project: p_8hakp36js1 (Cohort A)</pre>
   <div class="wrap">
     <div>
       <p class="foot-brand">Jubilab</p>
-      <p>Be among the first labs shaping Jubilab. Screenshots and diagrams on this site use synthetic demo data.</p>
+      <p>The order-to-result layer for lab work, in design. Examples on this site are illustrative drafts.</p>
       <p>Contact: <a href="mailto:hello@jubilab.io">hello@jubilab.io</a></p>
     </div>
     <ul aria-label="Footer">
-      <li><a href="guides/">Guides</a></li>
-      <li><a href="blog/">Blog</a></li>
       <li><a href="privacy/">Privacy</a></li>
       <li><a href="terms/">Terms</a></li>
       <li><a href="#top">Back to top</a></li>
