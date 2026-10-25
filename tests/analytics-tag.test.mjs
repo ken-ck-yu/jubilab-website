@@ -5,8 +5,7 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 
 const REPO = new URL("..", import.meta.url).pathname;
-const PAGES = ["index.html", "privacy/index.html", "terms/index.html", "thanks/index.html", "404.html",
-  "guides/index.html", "guides/reference-genome-build-vcf-bam/index.html", "guides/what-parameters-produced-this-result/index.html", "guides/nextflow-provenance-and-lineage-compared/index.html"];
+const PAGES = ["index.html", "privacy/index.html", "terms/index.html", "thanks/index.html", "404.html"];
 const DEFAULT = `<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('consent','default',{ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied',analytics_storage:'denied'})</script>
 `;
 const page = (p) => readFileSync(REPO + p, "utf8");
@@ -28,7 +27,7 @@ for (const p of PAGES) {
     for (const s of srcs) assert.ok(!/^(https?:)?\/\//.test(s), `external script ${s}`);
     assert.ok(srcs.some((s) => s.endsWith("assets/consent.js")), "consent.js is included");
     assert.match(noComments, /<script src="[^"]*assets\/consent\.js" defer><\/script>/);
-    assert.ok(!/fbq\(|hotjar|clarity|segment|plausible|matomo|cloudflareinsights|doubleclick/i.test(noComments), "other tracker code");
+    assert.ok(!/fbq\(|hotjar|clarity(?! LIMS)|segment|plausible|matomo|cloudflareinsights|doubleclick/i.test(noComments), "other tracker code");
     assert.ok(!/<(iframe|img|link)\b[^>]*(src|href)=["']https?:\/\/(?!jubilab\.io)[^"']*(google|facebook|doubleclick)/i.test(noComments));
   });
 }

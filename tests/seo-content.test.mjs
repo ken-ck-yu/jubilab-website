@@ -25,6 +25,7 @@ test("FAQPage JSON-LD matches the visible questions and answers exactly, and is 
   const faq = ld.find((n) => n["@type"] === "FAQPage");
   const vis = [...html.matchAll(/<summary><h3>(.*?)<\/h3><\/summary><p>(.*?)<\/p>/gs)].map((m) => [txt(m[1]), txt(m[2])]);
   assert.ok(vis.length >= 5 && vis.length <= 7);
+  assert.equal(vis.length, 7);
   assert.deepEqual(faq.mainEntity.map((q) => [q.name, q.acceptedAnswer.text]), vis);
 });
 
