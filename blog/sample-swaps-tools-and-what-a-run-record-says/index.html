@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="en">
+<head>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('consent','default',{ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied',analytics_storage:'denied'})</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sample swaps: the tools, and what a run record can say | Jubilab</title>
+<meta name="description" content="How sample swaps are found in sequencing data according to three papers, and an honest look at what a run record can and cannot tell you once one is suspected.">
+<meta name="theme-color" content="#f4f5f2">
+<link rel="canonical" href="https://jubilab.io/blog/sample-swaps-tools-and-what-a-run-record-says/">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Jubilab">
+<meta property="og:title" content="Sample swaps: the tools, and what a run record can say | Jubilab">
+<meta property="og:description" content="How sample swaps are found in sequencing data according to three papers, and an honest look at what a run record can and cannot tell you once one is suspected.">
+<meta property="og:url" content="https://jubilab.io/blog/sample-swaps-tools-and-what-a-run-record-says/">
+<meta property="og:image" content="https://jubilab.io/blog/sample-swaps-tools-and-what-a-run-record-says/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Two test tubes, one green and one orange, with dotted paths that cross in the middle where a question mark sits, ending at two empty trays below.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Sample swaps: the tools, and what a run record can say | Jubilab">
+<meta name="twitter:description" content="How sample swaps are found in sequencing data according to three papers, and an honest look at what a run record can and cannot tell you once one is suspected.">
+<meta name="twitter:image" content="https://jubilab.io/blog/sample-swaps-tools-and-what-a-run-record-says/og.png">
+<meta name="twitter:image:alt" content="Two test tubes, one green and one orange, with dotted paths that cross in the middle where a question mark sits, ending at two empty trays below.">
+<link rel="icon" href="../../assets/favicon.svg" type="image/svg+xml">
+<link rel="preload" href="../../assets/fonts/hanken-grotesk-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="../../assets/fonts/ibm-plex-mono-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BlogPosting",
+      "headline": "Sample swaps: the tools, and what a run record can say",
+      "description": "How sample swaps are found in sequencing data according to three papers, and an honest look at what a run record can and cannot tell you once one is suspected.",
+      "url": "https://jubilab.io/blog/sample-swaps-tools-and-what-a-run-record-says/",
+      "mainEntityOfPage": "https://jubilab.io/blog/sample-swaps-tools-and-what-a-run-record-says/",
+      "inLanguage": "en",
+      "datePublished": "2026-10-19",
+      "dateModified": "2026-10-19",
+      "author": {
+        "@type": "Organization",
+        "name": "Jubilab",
+        "url": "https://jubilab.io/"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Jubilab",
+        "url": "https://jubilab.io/"
+      },
+      "image": "https://jubilab.io/blog/sample-swaps-tools-and-what-a-run-record-says/og.png",
+      "keywords": "sample-swaps, quality-control, provenance",
+      "wordCount": 1113,
+      "timeRequired": "PT6M",
+      "isPartOf": {
+        "@type": "Blog",
+        "name": "Jubilab blog",
+        "url": "https://jubilab.io/blog/"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "HYSYS: have you swapped your samples?",
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5408803/",
+          "publisher": {
+            "@type": "Organization",
+            "name": "Schröder, Corbin and Papenfuss, Bioinformatics, 2017"
+          }
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "Detecting sample swaps in diverse NGS data types using linkage disequilibrium",
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7391710/",
+          "publisher": {
+            "@type": "Organization",
+            "name": "Javed et al., Nature Communications, 2020"
+          }
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "Somalier: rapid relatedness estimation for cancer and germline studies using efficient genome sketches",
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7362544/",
+          "publisher": {
+            "@type": "Organization",
+            "name": "Pedersen et al., Genome Medicine, 2020"
+          }
+        }
+      ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Jubilab",
+          "item": "https://jubilab.io/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Blog",
+          "item": "https://jubilab.io/blog/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Sample swaps: the tools, and what a run record can say",
+          "item": "https://jubilab.io/blog/sample-swaps-tools-and-what-a-run-record-says/"
+        }
+      ]
+    }
+  ]
+}
+</script>
+<script>try{if(localStorage.getItem("jubilab-theme")==="dark")document.documentElement.setAttribute("data-theme","dark")}catch(e){}</script>
+<link rel="stylesheet" href="../../style.css">
+<link rel="stylesheet" href="../../guides/guides.css">
+<link rel="stylesheet" href="../../blog/blog.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to main content</a>
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="../../" aria-label="Jubilab, home">
+      <svg viewBox="0 0 26 26" aria-hidden="true" focusable="false"><circle class="b-fill" cx="5" cy="13" r="3.2"/><circle class="b-line" cx="21" cy="6" r="3.2"/><circle class="b-line" cx="21" cy="20" r="3.2"/><path class="b-line" d="M8 12 L18 7 M8 14 L18 19"/></svg>
+      <span class="brand-name">Jubilab</span>
+    </a>
+    <nav class="site-nav" aria-label="Page sections">
+      <ul class="links">
+        <li><a href="../../#how">How it works</a></li>
+        <li><a href="../../#labs">For labs</a></li>
+        <li><a href="../../#teams">For teams</a></li>
+        <li><a href="../../#dev">Developers</a></li>
+        <li><a href="../../blog/" aria-current="page">Blog</a></li>
+      </ul>
+      <details class="menu">
+        <summary aria-label="Menu"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 7h16M4 12h16M4 17h16"/></svg></summary>
+        <ul>
+          <li><a href="../../#how">How it works</a></li>
+          <li><a href="../../#labs">For labs</a></li>
+          <li><a href="../../#teams">For teams</a></li>
+          <li><a href="../../#dev">Developers</a></li>
+          <li><a href="../../blog/" aria-current="page">Blog</a></li>
+        </ul>
+      </details>
+    </nav>
+    <div class="tools">
+      <button type="button" class="theme-toggle" id="theme-toggle" aria-label="Switch to dark theme" title="Switch to dark theme" hidden>
+        <svg class="i-moon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg>
+        <svg class="i-sun" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+      </button>
+      <a class="btn small" href="../../#access" aria-label="Request early access"><span class="full">Request early access</span><span class="short" aria-hidden="true">Early access</span></a>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+<div id="top"></div>
+<article>
+<section class="g-hero b-hero">
+  <div class="wrap">
+    <nav class="g-crumbs" aria-label="Breadcrumb"><ol><li><a href="../../">Jubilab</a></li><li><a href="../">Blog</a></li><li aria-current="page">Sample swaps: the tools, and what a run record can say</li></ol></nav>
+    <p class="eyebrow">Blog</p>
+    <h1>Sample swaps: the tools, and what a run record can say</h1>
+    <p class="g-lede">A sample swap means that the data you analysed does not come from the sample you think it does. Published tools exist to look for them, and a run record is a different kind of thing: it says how a result was made, not whether the sample was the right one. This post reads three papers on swap detection, then asks what a record of a run can and cannot add.</p>
+    <p class="g-meta">By Jubilab &middot; <time datetime="2026-10-19">19 October 2026</time> &middot; 6 min read</p>
+    <p class="b-tags"><span class="g-tag">sample-swaps</span> <span class="g-tag">quality-control</span> <span class="g-tag">provenance</span></p>
+  </div>
+</section>
+<div class="g-body">
+<div class="wrap">
+<figure class="b-figure"><img src="image.svg" width="1600" height="900" alt="Two test tubes, one green and one orange, with dotted paths that cross in the middle where a question mark sits, ending at two empty trays below." decoding="async"></figure>
+<p>Jubilab does not detect sample swaps today. It does not link samples to their files, it does not compare genotypes, and it does not check that a row in a samplesheet describes the sample it names. Everything below about detection is about other people&#x27;s tools, described from the papers we read; Jubilab is not affiliated with or endorsed by their authors.</p>
+<h2 id="how-swaps-happen">How swaps happen</h2>
+<p>The HYSYS paper says that many steps in a sequencing workflow are manual and that mistakes can cause a DNA sample to be mislabelled; it also says swaps, loss and contamination can happen even in excellent laboratories.<sup class="cite"><a href="#src-1" aria-label="Source 1">[1]</a></sup> The authors of the CrosscheckFingerprints paper describe mislabeling as datasets being incorrectly associated with a donor, and list several ways it shows up in public data: cells from one donor labeled as another, several donors labeled as one, and one donor accessioned several times so that identical samples appear to come from different donors.<sup class="cite"><a href="#src-2" aria-label="Source 2">[2]</a></sup></p>
+<p>Those descriptions come from large public datasets and a cancer cohort. We do not know how well they describe your lab, and we found no source we could use for how often swaps occur, so we are not going to give a figure.</p>
+<h2 id="what-the-tools-look-at">What the tools look at</h2>
+<p>All three papers we read take the same broad approach: compare genetic information between samples and flag pairs that disagree with the expected relationship between samples.</p>
+<ul>
+<li><strong>HYSYS.</strong> According to its paper, it estimates relatedness between samples in cancer cohorts using the concordance of homozygous germline SNPs, and it tests for swaps and contamination. Its output includes heat maps for visual checks and a Gaussian mixture model that labels each pair as unrelated, related or neither.<sup class="cite"><a href="#src-1" aria-label="Source 1">[1]</a></sup></li>
+<li><strong>Somalier.</strong> The paper describes a tool that evaluates relatedness from sequencing data, working on BAM or CRAM files or on VCF, BCF or GVCF files, without needing jointly called germline variants. It counts reference and alternate alleles at a fixed set of sites, and produces text output and an interactive plot in which expected groups, such as tumor-normal pairs, can be coloured so that mismatches stand out.<sup class="cite"><a href="#src-3" aria-label="Source 3">[3]</a></sup> The authors also say it can estimate a sample&#x27;s sex from X and Y sites, and its plots compare predicted with reported sex.<sup class="cite"><a href="#src-3" aria-label="Source 3">[3]</a></sup></li>
+<li><strong>CrosscheckFingerprints.</strong> Its paper describes a tool for quantifying sample-relatedness and detecting incorrectly paired sequencing datasets from different donors, using reads that overlap common SNPs within linkage disequilibrium blocks and summarising them as a log-odds score.<sup class="cite"><a href="#src-2" aria-label="Source 2">[2]</a></sup></li>
+</ul>
+<p>These are not interchangeable. They take different inputs and make different assumptions, and we have not run any of them for this post, so we would not recommend one over another.</p>
+<h2 id="their-stated-limits">Their stated limits</h2>
+<p>The papers are candid about limits, and they are worth reading before relying on any check. The Somalier authors describe their genotyping as a simple heuristic that works well in practice, based on depth and allele-balance thresholds.<sup class="cite"><a href="#src-3" aria-label="Source 3">[3]</a></sup> The CrosscheckFingerprints authors write that scores close to zero are inconclusive, and that for their ENCODE analysis each dataset was compared to three representative datasets from its nominal donor, which suggests that a check of that kind leans on having trusted reference data for the donor.<sup class="cite"><a href="#src-2" aria-label="Source 2">[2]</a></sup> A swap check can therefore say that two datasets disagree with what you expected. It may not tell you which label is wrong.</p>
+<p>A sex check is cheap, but it cannot catch a swap between two samples of the same sex. In the Somalier paper, several samples listed as female in a manifest appeared to have lost an X chromosome, which the authors judged more likely than a swap or a manifest error in those cell-line samples.<sup class="cite"><a href="#src-3" aria-label="Source 3">[3]</a></sup> It is a reminder that a flag is a prompt to investigate, not a conclusion.</p>
+<h2 id="what-a-run-record-can-tell-you">What a run record can tell you</h2>
+<p>Suppose a check flags a sample. Imagine you now need to know what else is affected. A record of how each result was made could help answer questions such as:</p>
+<ul>
+<li>Which runs used the flagged sample&#x27;s files as inputs?</li>
+<li>Which results were produced downstream of those runs?</li>
+<li>Which pipeline version, parameters and reference were used in each, so you can rerun the right ones?</li>
+<li>Did anyone enter a fact by hand rather than capturing it from a run?</li>
+</ul>
+<p>That is tracing, and it is what an earlier Jubilab prototype did for the runs it saw: it let you follow a result back to its run, inputs and parameters and forward from an input to what depends on it, with an evidence status on each fact. Jubilab&#x27;s earlier run-record prototype is not being offered. Jubilab is now building the order-to-result layer for lab work, which is in design and not released.</p>
+<h2 id="what-a-run-record-cannot-tell-you">What a run record cannot tell you</h2>
+<p>A record of a run says what the run was given. It does not know whether the input files were labelled correctly before they arrived. If a FASTQ file was swapped at the bench, the record will faithfully describe a run on the wrong sample. We wonder how much of the swap problem lives upstream of any pipeline, where a record cannot see; we have not measured it.</p>
+<p>Linking samples to their files and runs was where we were heading in our earlier work, and we think it would make the tracing questions above easier to answer. We are not promising it. Even then, it would record a link someone declared, not prove that the link is true. See also our post on <a href="/blog/samplesheet-traps-that-change-your-run/">samplesheet traps</a> and the guide on <a href="/guides/reference-genome-build-vcf-bam/">reference genome builds in VCF and BAM files</a>.</p>
+
+<section class="b-questions" aria-labelledby="questions-h">
+<h2 id="questions-h">Questions we are still asking</h2>
+<ul>
+<li>How often do swaps happen in a typical lab? We found no source we could rely on, so we say nothing about rates.</li>
+<li>Which of the tools above behave well on your type of data, such as low coverage or RNA-seq? We have not run them and the papers cover specific datasets.</li>
+<li>Should a pipeline run a swap check by default, or should checking stay a separate step the team chooses?</li>
+<li>If a check could one day be recorded next to a run, how should a record show a check that was skipped, as opposed to one that passed?</li>
+<li>We did not read the Picard documentation for CrosscheckFingerprints, which returned an error when we tried, so we do not describe how that implementation works.</li>
+</ul>
+</section>
+<section class="helps" aria-labelledby="helps-h">
+<h2 id="helps-h">Where Jubilab is now</h2>
+<p>This post comes from our earlier work on a record of how results are made. Jubilab's earlier run-record prototype is not being offered. Jubilab is now building the order-to-result layer for lab work, which is in design and not released.</p>
+<a class="btn" href="../../#access">Request early access</a>
+</section>
+<h2 id="sources">Sources</h2>
+<ol class="g-sources">
+<li id="src-1"><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC5408803/" rel="noopener">HYSYS: have you swapped your samples?</a> <span class="why">&mdash; Schröder, Corbin and Papenfuss, Bioinformatics, 2017. Accessed 19 October 2026. <span class="url">https://pmc.ncbi.nlm.nih.gov/articles/PMC5408803/</span></span></li>
+<li id="src-2"><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC7391710/" rel="noopener">Detecting sample swaps in diverse NGS data types using linkage disequilibrium</a> <span class="why">&mdash; Javed et al., Nature Communications, 2020. Accessed 19 October 2026. <span class="url">https://pmc.ncbi.nlm.nih.gov/articles/PMC7391710/</span></span></li>
+<li id="src-3"><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC7362544/" rel="noopener">Somalier: rapid relatedness estimation for cancer and germline studies using efficient genome sketches</a> <span class="why">&mdash; Pedersen et al., Genome Medicine, 2020. Accessed 19 October 2026. <span class="url">https://pmc.ncbi.nlm.nih.gov/articles/PMC7362544/</span></span></li>
+</ol>
+<p class="g-review">Written by Jubilab. Published 19 October 2026; last updated 19 October 2026. Where this post names other products or projects, Jubilab is not affiliated with or endorsed by them, and it does not claim any integration with them. Things we could not check are written as questions; if you spot a mistake, email <a href="mailto:hello@jubilab.io">hello@jubilab.io</a>.</p>
+<nav class="b-pager" aria-label="More posts">
+<a class="b-prev" href="../samplesheet-traps-that-change-your-run/" rel="prev"><span class="b-dir">Newer</span><span class="b-t">Samplesheet traps that quietly change your run</span></a>
+<a class="b-next" href="../same-fastqs-different-variants/" rel="next"><span class="b-dir">Older</span><span class="b-t">Same FASTQs, different variants: where it creeps in</span></a>
+</nav>
+<section class="b-related" aria-labelledby="related"><h2 id="related">Related posts</h2><ul class="b-grid">
+<li class="b-card"><a class="b-img" href="../ai-agents-need-a-record-not-just-chat-history/" tabindex="-1" aria-hidden="true"><img src="../ai-agents-need-a-record-not-just-chat-history/image.svg" width="1600" height="900" alt="" loading="lazy" decoding="async"></a><div class="b-card-body"><h2 class="b-card-t"><a href="../ai-agents-need-a-record-not-just-chat-history/">AI agents in the lab need a record, not a chat history</a></h2><p class="b-sum">Agents can run analyses, but a chat transcript is not a record of how a result was made. Our vision, and what is not built yet.</p><p class="b-card-meta"><time datetime="2026-10-19">19 October 2026</time> &middot; 6 min read</p></div></li>
+<li class="b-card"><a class="b-img" href="../conda-environments-genomics-export-history-lock/" tabindex="-1" aria-hidden="true"><img src="../conda-environments-genomics-export-history-lock/image.svg" width="1600" height="900" alt="" loading="lazy" decoding="async"></a><div class="b-card-body"><h2 class="b-card-t"><a href="../conda-environments-genomics-export-history-lock/">Conda for genomics: export, history or lock file?</a></h2><p class="b-sum">Three ways to save a conda environment, what each keeps in a small test, and what we still wonder about for genomics.</p><p class="b-card-meta"><time datetime="2026-10-19">19 October 2026</time> &middot; 5 min read</p></div></li>
+<li class="b-card"><a class="b-img" href="../how-to-compare-two-pipeline-runs/" tabindex="-1" aria-hidden="true"><img src="../how-to-compare-two-pipeline-runs/image.svg" width="1600" height="900" alt="" loading="lazy" decoding="async"></a><div class="b-card-body"><h2 class="b-card-t"><a href="../how-to-compare-two-pipeline-runs/">How to compare two pipeline runs</a></h2><p class="b-sum">What counts as a difference between two runs, a manual way to diff them, and what lineage diff and nf-diff showed on a toy pair.</p><p class="b-card-meta"><time datetime="2026-10-19">19 October 2026</time> &middot; 6 min read</p></div></li>
+</ul></section>
+</div>
+</div>
+</article>
+</main>
+<footer>
+  <div class="wrap">
+    <div>
+      <p class="foot-brand">Jubilab</p>
+      <p>The order-to-result layer for lab work, in design. Examples on this site are illustrative drafts.</p>
+      <p>Contact: <a href="mailto:hello@jubilab.io">hello@jubilab.io</a></p>
+    </div>
+    <ul aria-label="Footer">
+      <li><a href="../../guides/">Guides</a></li>
+      <li><a href="../../blog/">Blog</a></li>
+      <li><a href="../../privacy/">Privacy</a></li>
+      <li><a href="../../terms/">Terms</a></li>
+      <li><a href="../../#top">Back to top</a></li>
+    </ul>
+  </div>
+</footer>
+<script src="../../assets/theme.js" defer></script>
+<script src="../../assets/consent.js" defer></script>
+</body>
+</html>

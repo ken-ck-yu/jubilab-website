@@ -96,7 +96,7 @@ MEASURE = r"""
   out.vals = {role: vals('role'), org: vals('org-type'), vol: vals('volume'), eln: vals('eln')};
   out.other = [...form.querySelectorAll('.other input')].map(c => [c.name, c.maxLength]);
   out.commentOptional = !q('#comment').required && q('#comment').maxLength === 300; out.providers = [q('#providers').required, q('#providers').maxLength];
-  const ft = q('footer'); out.footer = {mailto: !!ft.querySelector('a[href^="mailto:"]'), privacy: !!ft.querySelector('a[href$="privacy/"]'), terms: !!ft.querySelector('a[href$="terms/"]'), retired: !!ft.querySelector('a[href*="blog"], a[href*="guides"]')};
+  const ft = q('footer'); out.footer = {mailto: !!ft.querySelector('a[href^="mailto:"]'), privacy: !!ft.querySelector('a[href$="privacy/"]'), terms: !!ft.querySelector('a[href$="terms/"]'), retired: !!ft.querySelector('a[href$="blog/"]') && !!ft.querySelector('a[href$="guides/"]')};
   out.ctas = [...document.querySelectorAll('header .btn, .hero .btn:not(.ghost), form button[type=submit]')].map(a => (a.getAttribute('aria-label') || a.textContent).trim());
   out.text = document.body.innerText; out.words = q('main').innerText.trim().split(/\s+/).length;
   return out;
@@ -132,7 +132,7 @@ def run():
                 if w >= 900:
                     rec(5, [x[:2] for x in m["sub_nav"]] == [list(n) for n in NAV] and all(x[2] for x in m["sub_nav"]), f"{t} sticky nav {m['sub_nav']}")
                 else:
-                    rec(5, m["menuVisible"] and m["menuBtn"] >= 44 and [x[0] for x in m["menuLinks"]] == [n[0] for n in NAV], f"{t} menu {m['menuBtn']} {m['menuLinks']}")
+                    rec(5, m["menuVisible"] and m["menuBtn"] >= 44 and [x[0] for x in m["menuLinks"]] == [n[0] for n in NAV] + ["Blog"], f"{t} menu {m['menuBtn']} {m['menuLinks']}")
                 rec(6, len(m["flow"]) == 1 and all(f["role"] == "img" and f["title"] and f["desc"] and f["minFont"] >= 11.9 and f["w"] <= m["iw"] for f in m["flow"]) and m["twinClosed"], f"{t} flow {m['flow']}")
                 rec(7, not m["small"], f"{t} text under 12px: {m['small']}")
                 rec(8, not m["failC"] and m["uiMin"][1] >= 3, f"{t} min text contrast {m['minC']:.2f} ({m['minWhere']}); fails {m['failC']}; weakest UI {m['uiMin'][0]} {m['uiMin'][1]:.2f}")
@@ -142,7 +142,7 @@ def run():
                 rec(11, m["hp"]["name"] == "q7_note" and m["hp"]["tab"] == -1 and m["hp"]["ac"] == "off" and not m["hp"]["visible"], f"{t} honeypot {m['hp']}")
                 rec(12, m["vals"]["org"] == ["biotech", "pharma", "academic", "provider", "core"] and m["vals"]["eln"] == ["benchling", "labguru", "scispot", "other", "none"] and m["vals"]["vol"] == ["lt-30", "30-150", "151-500", "gt-500", "unsure"] and m["vals"]["role"][-1] == "other" and m["other"] == [["role-other", 100], ["eln-other", 100]] and m["commentOptional"] and m["providers"] == [True, 200], f"{t} options {m['vals']} other {m['other']}")
                 f = m["footer"]
-                rec(13, f["mailto"] and f["privacy"] and f["terms"] and not f["retired"], f"{t} footer {f}")
+                rec(13, f["mailto"] and f["privacy"] and f["terms"] and f["retired"], f"{t} footer {f}")
                 rec(14, m["ctas"] == ["Request early access"] * 3, f"{t} CTAs {m['ctas']}")
                 low = m["text"].lower()
                 bad = [s for s in FORBIDDEN if s in low]
@@ -161,6 +161,20 @@ def run():
                 seq.append(pg.evaluate("(()=>{const e=document.activeElement;const s=getComputedStyle(e);return [e.className||e.tagName,e.textContent.trim().slice(0,18),parseFloat(s.outlineWidth),s.outlineStyle]})()"))
             rec(19, "skip" in seq[0][0] and all(x[2] >= 2 and x[3] != "none" for x in seq), f"1280/{th} focus order {[x[1] or x[0] for x in seq]}")
             ctx.close()
+        # blog and guide pages: no overflow, new nav and footer, no old chrome, no external requests
+        PAGES = ["blog/", "blog/what-is-data-provenance-in-bioinformatics/", "blog/local-first-for-lab-data/", "guides/", "guides/reference-genome-build-vcf-bam/", "guides/nextflow-provenance-and-lineage-compared/"]
+        for path in PAGES:
+            for w in (320, 390, 768, 1440):
+                for th in THEMES:
+                    ctx = mk(b, viewport={"width": w, "height": 900}); pg = ctx.new_page(); pg.goto(BASE + path); pg.wait_for_timeout(250)
+                    if th == "dark": pg.evaluate("localStorage.setItem('jubilab-theme','dark')"); pg.reload(); pg.wait_for_timeout(200)
+                    r = pg.evaluate("""() => { const iw = innerWidth; const bad = [...document.body.querySelectorAll('*')].filter(e => { if (e.closest('pre,.table-scroll')) return false; const b = e.getBoundingClientRect(); const s = getComputedStyle(e); return b.width > 0 && s.position !== 'fixed' && (b.right > iw + 1 || b.left < -1); }).map(e => e.tagName + '.' + e.className).slice(0, 3);
+                      const links = [...document.querySelectorAll('.site-nav .menu a')].map(a => a.textContent.trim());
+                      const foot = [...document.querySelectorAll('footer a')].map(a => a.textContent.trim());
+                      return {sw: document.documentElement.scrollWidth, iw, bad, links, foot, old: /Be among the first labs|synthetic demo data|How Jubilab helps/.test(document.body.innerText)}; }""")
+                    ok = r["sw"] <= r["iw"] + 1 and not r["bad"] and r["links"] == ["How it works", "For labs", "For teams", "Developers", "Blog"] and {"Guides", "Blog", "Privacy", "Terms"} <= set(r["foot"]) and not r["old"]
+                    rec(26, ok, f"{path} {w}/{th} {r}")
+                    ctx.close()
         ctx = mk(b, viewport={"width": 390, "height": 800}, java_script_enabled=False); pg = ctx.new_page(); pg.goto(BASE)
         pg.focus(".menu summary"); pg.keyboard.press("Enter")
         rec(20, pg.evaluate("document.querySelector('.menu').open"), "390 JS off: Enter on the menu summary opens it")

@@ -104,12 +104,11 @@ def main(argv):
     b = box(html)
     rec("GET / error box present and hidden", "PASS" if b and re.search(r"\bhidden\b", b) else "FAIL", (b or "no #form-error")[:120])
 
-    for p in ("/thanks/", "/privacy/", "/terms/"):
+    for p in ("/thanks/", "/privacy/", "/terms/", "/guides/", "/guides/reference-genome-build-vcf-bam/", "/guides/what-parameters-produced-this-result/", "/guides/nextflow-provenance-and-lineage-compared/"):
         s, _, _ = fetch(base + p)
         rec(f"GET {p} is 200", "PASS" if s == 200 else "FAIL", f"status {s}")
-    for p in ("/blog/", "/guides/"):
-        s, _, _ = fetch(base + p)
-        rec(f"GET {p} is gone (retired)", "PASS" if s == 404 else "FAIL", f"status {s}")
+    s, hh, _ = fetch(base + "/guides/guides.css")
+    rec("GET /guides/guides.css is 200 css", "PASS" if s == 200 and "css" in hh.get("content-type", "") else "FAIL", f"{s} {hh.get('content-type')}")
     s, hh, _ = fetch(base + "/style.css")
     rec("GET /style.css is 200 css", "PASS" if s == 200 and "css" in hh.get("content-type", "") else "FAIL", f"{s} {hh.get('content-type')}")
 

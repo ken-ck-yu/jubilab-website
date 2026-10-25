@@ -1,0 +1,310 @@
+<!doctype html>
+<html lang="en">
+<head>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('consent','default',{ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied',analytics_storage:'denied'})</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Where did my intermediate files go? | Jubilab</title>
+<meta name="description" content="Work directories get purged, cleaned or deleted to save space. What that does to resume, what is worth keeping, and what a record can still say afterwards.">
+<meta name="theme-color" content="#f4f5f2">
+<link rel="canonical" href="https://jubilab.io/blog/where-did-my-intermediate-files-go/">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Jubilab">
+<meta property="og:title" content="Where did my intermediate files go? | Jubilab">
+<meta property="og:description" content="Work directories get purged, cleaned or deleted to save space. What that does to resume, what is worth keeping, and what a record can still say afterwards.">
+<meta property="og:url" content="https://jubilab.io/blog/where-did-my-intermediate-files-go/">
+<meta property="og:image" content="https://jubilab.io/blog/where-did-my-intermediate-files-go/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="A sandcastle with a doorway on a beach with a wave curling in toward it, and a small sealed jar with a check mark standing safely to one side.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Where did my intermediate files go? | Jubilab">
+<meta name="twitter:description" content="Work directories get purged, cleaned or deleted to save space. What that does to resume, what is worth keeping, and what a record can still say afterwards.">
+<meta name="twitter:image" content="https://jubilab.io/blog/where-did-my-intermediate-files-go/og.png">
+<meta name="twitter:image:alt" content="A sandcastle with a doorway on a beach with a wave curling in toward it, and a small sealed jar with a check mark standing safely to one side.">
+<link rel="icon" href="../../assets/favicon.svg" type="image/svg+xml">
+<link rel="preload" href="../../assets/fonts/hanken-grotesk-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="../../assets/fonts/ibm-plex-mono-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BlogPosting",
+      "headline": "Where did my intermediate files go?",
+      "description": "Work directories get purged, cleaned or deleted to save space. What that does to resume, what is worth keeping, and what a record can still say afterwards.",
+      "url": "https://jubilab.io/blog/where-did-my-intermediate-files-go/",
+      "mainEntityOfPage": "https://jubilab.io/blog/where-did-my-intermediate-files-go/",
+      "inLanguage": "en",
+      "datePublished": "2026-10-19",
+      "dateModified": "2026-10-19",
+      "author": {
+        "@type": "Organization",
+        "name": "Jubilab",
+        "url": "https://jubilab.io/"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Jubilab",
+        "url": "https://jubilab.io/"
+      },
+      "image": "https://jubilab.io/blog/where-did-my-intermediate-files-go/og.png",
+      "keywords": "nextflow, storage, provenance",
+      "wordCount": 1232,
+      "timeRequired": "PT6M",
+      "isPartOf": {
+        "@type": "Blog",
+        "name": "Jubilab blog",
+        "url": "https://jubilab.io/blog/"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "Cache and resume",
+          "url": "https://docs.seqera.io/nextflow/cache-and-resume",
+          "publisher": {
+            "@type": "Organization",
+            "name": "Seqera, Nextflow documentation"
+          }
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "publishDir directive",
+          "url": "https://docs.seqera.io/nextflow/reference/process/directives/publish-dir",
+          "publisher": {
+            "@type": "Organization",
+            "name": "Seqera, Nextflow documentation"
+          }
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "Scratch file purging policy",
+          "url": "https://rcac.purdue.edu/policies/scratchpurge",
+          "publisher": {
+            "@type": "Organization",
+            "name": "Rosen Center for Advanced Computing, Purdue University"
+          }
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "Configuration: unscoped options",
+          "url": "https://docs.seqera.io/nextflow/reference/config/unscoped",
+          "publisher": {
+            "@type": "Organization",
+            "name": "Seqera, Nextflow documentation"
+          }
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "nf-core/configs: Tufts",
+          "url": "https://nf-co.re/configs/tufts.html",
+          "publisher": {
+            "@type": "Organization",
+            "name": "nf-core community"
+          }
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "nextflow clean (CLI reference)",
+          "url": "https://docs.seqera.io/nextflow/reference/cli/clean",
+          "publisher": {
+            "@type": "Organization",
+            "name": "Seqera, Nextflow documentation"
+          }
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "Does -resume re-run tasks if input files are deleted from the work directory?",
+          "url": "https://community.seqera.io/t/does-resume-re-run-tasks-if-input-files-are-deleted-from-the-work-directory/2584",
+          "publisher": {
+            "@type": "Organization",
+            "name": "Seqera community forum"
+          }
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "Ten Simple Rules for Reproducible Computational Research",
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3812051/",
+          "publisher": {
+            "@type": "Organization",
+            "name": "Sandve, Nekrutenko, Taylor and Hovig, PLOS Computational Biology, 2013"
+          }
+        }
+      ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Jubilab",
+          "item": "https://jubilab.io/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Blog",
+          "item": "https://jubilab.io/blog/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Where did my intermediate files go?",
+          "item": "https://jubilab.io/blog/where-did-my-intermediate-files-go/"
+        }
+      ]
+    }
+  ]
+}
+</script>
+<script>try{if(localStorage.getItem("jubilab-theme")==="dark")document.documentElement.setAttribute("data-theme","dark")}catch(e){}</script>
+<link rel="stylesheet" href="../../style.css">
+<link rel="stylesheet" href="../../guides/guides.css">
+<link rel="stylesheet" href="../../blog/blog.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to main content</a>
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="../../" aria-label="Jubilab, home">
+      <svg viewBox="0 0 26 26" aria-hidden="true" focusable="false"><circle class="b-fill" cx="5" cy="13" r="3.2"/><circle class="b-line" cx="21" cy="6" r="3.2"/><circle class="b-line" cx="21" cy="20" r="3.2"/><path class="b-line" d="M8 12 L18 7 M8 14 L18 19"/></svg>
+      <span class="brand-name">Jubilab</span>
+    </a>
+    <nav class="site-nav" aria-label="Page sections">
+      <ul class="links">
+        <li><a href="../../#how">How it works</a></li>
+        <li><a href="../../#labs">For labs</a></li>
+        <li><a href="../../#teams">For teams</a></li>
+        <li><a href="../../#dev">Developers</a></li>
+        <li><a href="../../blog/" aria-current="page">Blog</a></li>
+      </ul>
+      <details class="menu">
+        <summary aria-label="Menu"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 7h16M4 12h16M4 17h16"/></svg></summary>
+        <ul>
+          <li><a href="../../#how">How it works</a></li>
+          <li><a href="../../#labs">For labs</a></li>
+          <li><a href="../../#teams">For teams</a></li>
+          <li><a href="../../#dev">Developers</a></li>
+          <li><a href="../../blog/" aria-current="page">Blog</a></li>
+        </ul>
+      </details>
+    </nav>
+    <div class="tools">
+      <button type="button" class="theme-toggle" id="theme-toggle" aria-label="Switch to dark theme" title="Switch to dark theme" hidden>
+        <svg class="i-moon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg>
+        <svg class="i-sun" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+      </button>
+      <a class="btn small" href="../../#access" aria-label="Request early access"><span class="full">Request early access</span><span class="short" aria-hidden="true">Early access</span></a>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+<div id="top"></div>
+<article>
+<section class="g-hero b-hero">
+  <div class="wrap">
+    <nav class="g-crumbs" aria-label="Breadcrumb"><ol><li><a href="../../">Jubilab</a></li><li><a href="../">Blog</a></li><li aria-current="page">Where did my intermediate files go?</li></ol></nav>
+    <p class="eyebrow">Blog</p>
+    <h1>Where did my intermediate files go?</h1>
+    <p class="g-lede">Imagine you come back to a project after a few months and the <code>work</code> directory is empty, or half empty. Nobody deleted it on purpose: a cluster policy, a cleanup setting or a quota did. The final results are still there, the figures look fine, and then someone asks you to rerun one step. This post explains what a Nextflow work directory is for, what happens to resume when it disappears, and what we think is worth keeping before it does. We tested a few behaviours on a toy pipeline, and for the rest we rely on the documentation and say so.</p>
+    <p class="g-meta">By Jubilab &middot; <time datetime="2026-10-19">19 October 2026</time> &middot; 6 min read</p>
+    <p class="b-tags"><span class="g-tag">nextflow</span> <span class="g-tag">storage</span> <span class="g-tag">provenance</span></p>
+  </div>
+</section>
+<div class="g-body">
+<div class="wrap">
+<figure class="b-figure"><img src="image.svg" width="1600" height="900" alt="A sandcastle with a doorway on a beach with a wave curling in toward it, and a small sealed jar with a check mark standing safely to one side." decoding="async"></figure>
+<h2 id="three-places-three-jobs">Three places, three jobs</h2>
+<p>It helps to separate three locations that often get blurred.</p>
+<ul>
+<li><strong>The work directory</strong> is scratch space for the engine. The Nextflow documentation says it stores the files used during a pipeline run, with one folder per task named by a hash, where the task&#x27;s inputs, script and outputs sit.<sup class="cite"><a href="#src-1" aria-label="Source 1">[1]</a></sup></li>
+<li><strong>The published results</strong> are what the pipeline copies out for you. The <code>publishDir</code> directive documents several modes, and the default is <code>symlink</code>, which creates an absolute symbolic link in the publish directory for each output file; <code>copy</code> copies the files, and <code>move</code> moves them.<sup class="cite"><a href="#src-2" aria-label="Source 2">[2]</a></sup> A symlink that points into a work directory is only as durable as that work directory.</li>
+<li><strong>The record</strong> is any description of what ran, which can outlive both.</li>
+</ul>
+<p>We ran a toy two-step pipeline with <code>publishDir</code> in <code>copy</code> mode, and the published file stayed in <code>results/</code> after we removed files from <code>work/</code>. With the default <code>symlink</code> mode the answer would differ, and we did not test it, so check which mode your pipeline uses.</p>
+<h2 id="purges-cleanup-and-quotas">Purges, cleanup and quotas</h2>
+<p>Several different things can empty a work directory, and they are not the same.</p>
+<p><strong>Site purge policies.</strong> Some clusters delete old scratch files automatically. Purdue&#x27;s research computing page, as one public example, says files become eligible after 60 days on most of its clusters and 30 days on one named system, judged by last access and modification time. It says renaming a file or changing permissions does not protect it, and that users should not expect a warning.<sup class="cite"><a href="#src-3" aria-label="Source 3">[3]</a></sup> That is one site. Policies differ between institutions, so we would read your own site&#x27;s page rather than assume.</p>
+<p><strong>Cleanup settings.</strong> Nextflow has a <code>cleanup</code> option which, per its configuration reference, deletes all files associated with a run in the work directory when the run completes successfully, and which the page says will prevent the use of resume on subsequent executions of that run.<sup class="cite"><a href="#src-4" aria-label="Source 4">[4]</a></sup> At least one institutional profile turns it on. The nf-core configuration page for one institution says its profile enables Nextflow cleanup on successful completion to save space, and shows an option to keep the directory for debugging.<sup class="cite"><a href="#src-5" aria-label="Source 5">[5]</a></sup> If you launch a pipeline with someone else&#x27;s profile, it is worth reading what it sets.</p>
+<p><strong>The <code>nextflow clean</code> command.</strong> It is documented as removing files from previous runs, with <code>-n</code> to print what would be removed without deleting and <code>-k</code> to remove only temporary files while keeping the log entries.<sup class="cite"><a href="#src-6" aria-label="Source 6">[6]</a></sup> We ran <code>nextflow clean -n</code> (Nextflow 24.01.0-edge) on the toy project and it printed two &quot;Would remove&quot; lines, one per task folder of the latest run, and deleted nothing.</p>
+<h2 id="what-happens-to-resume">What happens to resume</h2>
+<p>The cache-and-resume documentation says resume needs both a matching cache entry and intact outputs, and that it is important to preserve both the task cache and the work directories to resume runs successfully.<sup class="cite"><a href="#src-1" aria-label="Source 1">[1]</a></sup> A Seqera community thread asks exactly the practical version of this: whether deleting trimmed FASTQs from the work directory of finished samples would make a resumed run redo the trimming. A reply from Phil Ewels in that thread answers that yes, Nextflow would rerun the task and the tasks downstream of it, and suggests splitting samples into batches or using scratch storage as alternatives.<sup class="cite"><a href="#src-7" aria-label="Source 7">[7]</a></sup></p>
+<p>We saw the same on our toy: after deleting one task&#x27;s output file from <code>work/</code>, <code>-resume</code> executed both tasks again, each in a new work folder. That is a two-task example, not a measurement of anything larger, but it matches the documentation. The practical lesson is simple. A tidy-up that frees disk space may also remove your ability to skip work, and on a large cohort that could be hours or days of compute. We do not have numbers for that, so we will not guess them.</p>
+<h2 id="what-to-keep">What to keep</h2>
+<p>Rule 5 of &quot;Ten Simple Rules for Reproducible Computational Research&quot; is to record all intermediate results, when possible in standardized formats.<sup class="cite"><a href="#src-8" aria-label="Source 8">[8]</a></sup> That is a reasonable ideal and often an unaffordable one: a work directory can hold terabytes (the community thread above mentions 3 to 4 TB of trimmed FASTQs for one project). So the real question is which small things are worth keeping when the large things go.</p>
+<ol>
+<li><strong>Final outputs</strong>, in a location with its own retention rules, not scratch.</li>
+<li><strong>The pipeline configuration and parameters</strong> actually used, not the defaults you remember.</li>
+<li><strong>Pipeline and tool versions</strong>, and container or environment identifiers.</li>
+<li><strong>Logs and reports</strong> the engine produced, including the run history that <code>nextflow log</code> reads.</li>
+<li><strong>Checksums of inputs and outputs</strong>, which are tiny and let you notice later that a file is not the one a run used.</li>
+<li><strong>A list of what was deleted and why</strong>, even a single line in a notes file.</li>
+</ol>
+<p>None of these lets you resume. They let you say what was done, which is a different and smaller promise. Our <a href="/guides/what-parameters-produced-this-result/">guide on what parameters produced a result</a> covers items 2 and 3 in more detail.</p>
+<h2 id="what-a-record-can-say-when-the-files-are-gone">What a record can say when the files are gone</h2>
+<p>A record can still say which run made a result, with which parameters and inputs, even if the intermediate files have been purged. What it cannot say is what was inside those files. We think the honest version of a record marks the difference: this fact was seen directly when the run happened; this file used to exist and we can no longer open it.</p>
+<h2 id="where-jubilab-is-now">Where Jubilab is now</h2>
+<p>An earlier Jubilab prototype recorded the locations of the files a run used (and, when asked, their size, timestamp and checksum), never their contents. It was not a data store, so if a purge removed a file the record could be left pointing to something that no longer existed. Jubilab&#x27;s earlier run-record prototype is not being offered. Jubilab is now building the order-to-result layer for lab work, which is in design and not released. Jubilab is not affiliated with or endorsed by Nextflow, Seqera, nf-core, Tufts University, Purdue University or the authors cited here.</p>
+
+<section class="b-questions" aria-labelledby="questions-h">
+<h2 id="questions-h">Questions we are still asking</h2>
+<ul>
+<li>How many labs lose a work directory they still needed? We have no evidence, only the public threads and policy pages above.</li>
+<li>We wonder whether <code>copy</code> mode for publishing is the safer default for projects on purged storage. We tested one toy case and nothing larger, and <code>symlink</code> is the documented default, so we would like to hear what teams choose and why.</li>
+<li>Is a smaller record that survives a purge worth more than a complete one that does not? We lean that way but have not tested it.</li>
+<li>Policies like Purdue&#x27;s are site specific. It is worth asking whether your own site&#x27;s page says anything about project storage versus scratch, and how people find out.</li>
+<li>What is a fair way for a record to show that a referenced file has gone? We have not settled this.</li>
+</ul>
+</section>
+<section class="helps" aria-labelledby="helps-h">
+<h2 id="helps-h">Where Jubilab is now</h2>
+<p>This post comes from our earlier work on a record of how results are made. Jubilab's earlier run-record prototype is not being offered. Jubilab is now building the order-to-result layer for lab work, which is in design and not released.</p>
+<a class="btn" href="../../#access">Request early access</a>
+</section>
+<h2 id="sources">Sources</h2>
+<ol class="g-sources">
+<li id="src-1"><a href="https://docs.seqera.io/nextflow/cache-and-resume" rel="noopener">Cache and resume</a> <span class="why">&mdash; Seqera, Nextflow documentation. Accessed 19 October 2026. <span class="url">https://docs.seqera.io/nextflow/cache-and-resume</span></span></li>
+<li id="src-2"><a href="https://docs.seqera.io/nextflow/reference/process/directives/publish-dir" rel="noopener">publishDir directive</a> <span class="why">&mdash; Seqera, Nextflow documentation. Accessed 19 October 2026. <span class="url">https://docs.seqera.io/nextflow/reference/process/directives/publish-dir</span></span></li>
+<li id="src-3"><a href="https://rcac.purdue.edu/policies/scratchpurge" rel="noopener">Scratch file purging policy</a> <span class="why">&mdash; Rosen Center for Advanced Computing, Purdue University. Accessed 19 October 2026. <span class="url">https://rcac.purdue.edu/policies/scratchpurge</span></span></li>
+<li id="src-4"><a href="https://docs.seqera.io/nextflow/reference/config/unscoped" rel="noopener">Configuration: unscoped options</a> <span class="why">&mdash; Seqera, Nextflow documentation. Accessed 19 October 2026. <span class="url">https://docs.seqera.io/nextflow/reference/config/unscoped</span></span></li>
+<li id="src-5"><a href="https://nf-co.re/configs/tufts.html" rel="noopener">nf-core/configs: Tufts</a> <span class="why">&mdash; nf-core community. Accessed 19 October 2026. <span class="url">https://nf-co.re/configs/tufts.html</span></span></li>
+<li id="src-6"><a href="https://docs.seqera.io/nextflow/reference/cli/clean" rel="noopener">nextflow clean (CLI reference)</a> <span class="why">&mdash; Seqera, Nextflow documentation. Accessed 19 October 2026. <span class="url">https://docs.seqera.io/nextflow/reference/cli/clean</span></span></li>
+<li id="src-7"><a href="https://community.seqera.io/t/does-resume-re-run-tasks-if-input-files-are-deleted-from-the-work-directory/2584" rel="noopener">Does -resume re-run tasks if input files are deleted from the work directory?</a> <span class="why">&mdash; Seqera community forum. Accessed 19 October 2026. <span class="url">https://community.seqera.io/t/does-resume-re-run-tasks-if-input-files-are-deleted-from-the-work-directory/2584</span></span></li>
+<li id="src-8"><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC3812051/" rel="noopener">Ten Simple Rules for Reproducible Computational Research</a> <span class="why">&mdash; Sandve, Nekrutenko, Taylor and Hovig, PLOS Computational Biology, 2013. Accessed 19 October 2026. <span class="url">https://pmc.ncbi.nlm.nih.gov/articles/PMC3812051/</span></span></li>
+</ol>
+<p class="g-review">Written by Jubilab. Published 19 October 2026; last updated 19 October 2026. Where this post names other products or projects, Jubilab is not affiliated with or endorsed by them, and it does not claim any integration with them. Things we could not check are written as questions; if you spot a mistake, email <a href="mailto:hello@jubilab.io">hello@jubilab.io</a>.</p>
+<nav class="b-pager" aria-label="More posts">
+<a class="b-prev" href="../which-annotation-versions-produced-this-vcf/" rel="prev"><span class="b-dir">Newer</span><span class="b-t">Which annotation versions produced this VCF?</span></a>
+<a class="b-next" href="../what-is-data-provenance-in-bioinformatics/" rel="next"><span class="b-dir">Older</span><span class="b-t">What is data provenance in bioinformatics?</span></a>
+</nav>
+<section class="b-related" aria-labelledby="related"><h2 id="related">Related posts</h2><ul class="b-grid">
+<li class="b-card"><a class="b-img" href="../how-to-compare-two-pipeline-runs/" tabindex="-1" aria-hidden="true"><img src="../how-to-compare-two-pipeline-runs/image.svg" width="1600" height="900" alt="" loading="lazy" decoding="async"></a><div class="b-card-body"><h2 class="b-card-t"><a href="../how-to-compare-two-pipeline-runs/">How to compare two pipeline runs</a></h2><p class="b-sum">What counts as a difference between two runs, a manual way to diff them, and what lineage diff and nf-diff showed on a toy pair.</p><p class="b-card-meta"><time datetime="2026-10-19">19 October 2026</time> &middot; 6 min read</p></div></li>
+<li class="b-card"><a class="b-img" href="../pipeline-version-numbers-two-conventions/" tabindex="-1" aria-hidden="true"><img src="../pipeline-version-numbers-two-conventions/image.svg" width="1600" height="900" alt="" loading="lazy" decoding="async"></a><div class="b-card-body"><h2 class="b-card-t"><a href="../pipeline-version-numbers-two-conventions/">When should a pipeline get a new version number?</a></h2><p class="b-sum">Two published pipeline versioning conventions side by side, where they differ, and why we treat it as an open question.</p><p class="b-card-meta"><time datetime="2026-10-19">19 October 2026</time> &middot; 5 min read</p></div></li>
+<li class="b-card"><a class="b-img" href="../samplesheet-traps-that-change-your-run/" tabindex="-1" aria-hidden="true"><img src="../samplesheet-traps-that-change-your-run/image.svg" width="1600" height="900" alt="" loading="lazy" decoding="async"></a><div class="b-card-body"><h2 class="b-card-t"><a href="../samplesheet-traps-that-change-your-run/">Samplesheet traps that quietly change your run</a></h2><p class="b-sum">A samplesheet is an input like any other. Five ways a small CSV goes wrong, and what to keep with the run.</p><p class="b-card-meta"><time datetime="2026-10-19">19 October 2026</time> &middot; 6 min read</p></div></li>
+</ul></section>
+</div>
+</div>
+</article>
+</main>
+<footer>
+  <div class="wrap">
+    <div>
+      <p class="foot-brand">Jubilab</p>
+      <p>The order-to-result layer for lab work, in design. Examples on this site are illustrative drafts.</p>
+      <p>Contact: <a href="mailto:hello@jubilab.io">hello@jubilab.io</a></p>
+    </div>
+    <ul aria-label="Footer">
+      <li><a href="../../guides/">Guides</a></li>
+      <li><a href="../../blog/">Blog</a></li>
+      <li><a href="../../privacy/">Privacy</a></li>
+      <li><a href="../../terms/">Terms</a></li>
+      <li><a href="../../#top">Back to top</a></li>
+    </ul>
+  </div>
+</footer>
+<script src="../../assets/theme.js" defer></script>
+<script src="../../assets/consent.js" defer></script>
+</body>
+</html>

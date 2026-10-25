@@ -17,3 +17,5 @@ scripts
 review
 robots.launch.txt
 
+# Authoring sources for the blog (the generated pages are served)
+blog/_src

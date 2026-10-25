@@ -2,12 +2,17 @@
 // list but not from the old-positioning list.
 import test from "node:test";
 import assert from "node:assert/strict";
-import { readFileSync } from "node:fs";
+import { readFileSync, readdirSync } from "node:fs";
 
 const REPO = new URL("..", import.meta.url).pathname;
 const rd = (f) => readFileSync(REPO + f, "utf8");
 const MARKETING = ["index.html", "llms.txt", "404.html", "thanks/index.html"];
 const ALL = [...MARKETING, "privacy/index.html", "terms/index.html"];
+// blog/ and guides/ are kept for SEO (owner decision 2026-10-25). Their subject matter is provenance and lineage, so the
+// old-positioning words are allowed in their bodies; every other rule still applies to them.
+const walk = (d) => readdirSync(REPO + d, { withFileTypes: true }).flatMap((e) => e.isDirectory() && e.name !== "_src" ? walk(d + "/" + e.name) : e.name.endsWith(".html") ? [d + "/" + e.name] : []);
+const CONTENT = [...walk("blog"), ...walk("guides")].map((f) => f.replace(/^\.?\//, ""));
+const stripArchive = (f, t) => (f === "llms.txt" ? t.replace(/## Guides[\s\S]*?## Optional/, "## Optional") : t);
 
 // Legal-review wording: stays out of marketing pages.
 const LEGAL = /audit trail|audit log|\baudit|regulated|regulatory|compliance|compliant|\bgxp\b|validated|\bfda\b|\bgdpr\b/i;
@@ -28,10 +33,34 @@ for (const f of ALL) {
     assert.equal(m, null, `found "${m?.[0]}"`);
   });
   test(`${f}: no old-positioning strings`, () => {
-    const m = rd(f).match(OLD);
+    const m = stripArchive(f, rd(f)).match(OLD);
     assert.equal(m, null, `found "${m?.[0]}"`);
   });
 }
+
+for (const f of CONTENT) {
+  test(`${f}: banned brief phrases stay out of blog and guide pages too`, () => {
+    // One post quotes a list of local-first ideals that includes "Seamless collaboration with colleagues" (reported to the owner, not rewritten).
+    const m = rd(f).replace(/<li>Seamless collaboration with colleagues\./g, "<li>").match(BRIEF);
+    assert.equal(m, null, `found "${m?.[0]}"`);
+  });
+  test(`${f}: no old-product tagline, chrome or shipped-feature box`, () => {
+    const t = rd(f);
+    for (const re of [/data provenance and lineage for bioinformatics pipelines/i, /Be among the first labs shaping/, /synthetic demo data/i, /more science, fewer data/i, /How Jubilab helps/, /Available now<\/h3>/, /\.\.\/#(fits|product|next)\b/, /\/#(fits|product|next)\b/]) assert.ok(!re.test(t), String(re));
+    assert.match(t, /href="[^"]*#how">How it works/);
+    assert.match(t, /order-to-result layer for lab work, in design/);
+  });
+}
+test("blog index carries the neutral earlier-work line with a link home", () => {
+  assert.match(rd("blog/index.html"), /These articles come from our earlier work on data provenance\. Jubilab is now building the <a href="\.\.\/">order-to-result layer for lab work<\/a>\./);
+});
+test("every post and guide has an honest 'Where Jubilab is now' box and no claim that Jubilab ships the old tool", () => {
+  for (const f of CONTENT.filter((x) => x !== "blog/index.html" && x !== "guides/index.html")) {
+    const t = rd(f);
+    const body = t.replace(/<script[\s\S]*?<\/script>/g, "");
+    assert.ok(!/ships with our next release|Jubilab records|Jubilab traces|local-first, self-hostable|native bash wrapper|jubilab run/.test(body), f);
+  }
+});
 
 test("\"marketplace\" appears only to say what Jubilab is not, or in a factual description of other tools", () => {
   for (const f of MARKETING) {

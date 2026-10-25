@@ -1,0 +1,273 @@
+<!doctype html>
+<html lang="en">
+<head>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('consent','default',{ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied',analytics_storage:'denied'})</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>What is data provenance in bioinformatics? | Jubilab</title>
+<meta name="description" content="Data provenance is the record of how a result was made. A plain-language look at what it contains, what common tools keep, and what we still wonder about.">
+<meta name="theme-color" content="#f4f5f2">
+<link rel="canonical" href="https://jubilab.io/blog/what-is-data-provenance-in-bioinformatics/">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Jubilab">
+<meta property="og:title" content="What is data provenance in bioinformatics? | Jubilab">
+<meta property="og:description" content="Data provenance is the record of how a result was made. A plain-language look at what it contains, what common tools keep, and what we still wonder about.">
+<meta property="og:url" content="https://jubilab.io/blog/what-is-data-provenance-in-bioinformatics/">
+<meta property="og:image" content="https://jubilab.io/blog/what-is-data-provenance-in-bioinformatics/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="A file at the end of a chain, linked back through a gear, a small stack of pages and a magnifying glass to the source file it came from.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="What is data provenance in bioinformatics? | Jubilab">
+<meta name="twitter:description" content="Data provenance is the record of how a result was made. A plain-language look at what it contains, what common tools keep, and what we still wonder about.">
+<meta name="twitter:image" content="https://jubilab.io/blog/what-is-data-provenance-in-bioinformatics/og.png">
+<meta name="twitter:image:alt" content="A file at the end of a chain, linked back through a gear, a small stack of pages and a magnifying glass to the source file it came from.">
+<link rel="icon" href="../../assets/favicon.svg" type="image/svg+xml">
+<link rel="preload" href="../../assets/fonts/hanken-grotesk-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="../../assets/fonts/ibm-plex-mono-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BlogPosting",
+      "headline": "What is data provenance in bioinformatics?",
+      "description": "Data provenance is the record of how a result was made. A plain-language look at what it contains, what common tools keep, and what we still wonder about.",
+      "url": "https://jubilab.io/blog/what-is-data-provenance-in-bioinformatics/",
+      "mainEntityOfPage": "https://jubilab.io/blog/what-is-data-provenance-in-bioinformatics/",
+      "inLanguage": "en",
+      "datePublished": "2026-10-19",
+      "dateModified": "2026-10-19",
+      "author": {
+        "@type": "Organization",
+        "name": "Jubilab",
+        "url": "https://jubilab.io/"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Jubilab",
+        "url": "https://jubilab.io/"
+      },
+      "image": "https://jubilab.io/blog/what-is-data-provenance-in-bioinformatics/og.png",
+      "keywords": "provenance, lineage, bioinformatics",
+      "wordCount": 1122,
+      "timeRequired": "PT6M",
+      "isPartOf": {
+        "@type": "Blog",
+        "name": "Jubilab blog",
+        "url": "https://jubilab.io/blog/"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "An Overview of the PROV Family of Documents (PROV-Overview)",
+          "url": "https://www.w3.org/TR/prov-overview/",
+          "publisher": {
+            "@type": "Organization",
+            "name": "W3C Provenance Working Group, Working Group Note, 30 April 2013"
+          }
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "Ten Simple Rules for Reproducible Computational Research",
+          "url": "https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1003285",
+          "publisher": {
+            "@type": "Organization",
+            "name": "Sandve, Nekrutenko, Taylor and Hovig, PLOS Computational Biology, 2013"
+          }
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "Snakemake documentation: Provenance",
+          "url": "https://snakemake.readthedocs.io/en/stable/executing/provenance.html",
+          "publisher": {
+            "@type": "Organization",
+            "name": "Snakemake project, Read the Docs"
+          }
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "Nextflow documentation: Data lineage",
+          "url": "https://docs.seqera.io/nextflow/data-lineage",
+          "publisher": {
+            "@type": "Organization",
+            "name": "Seqera, Nextflow documentation"
+          }
+        }
+      ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Jubilab",
+          "item": "https://jubilab.io/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Blog",
+          "item": "https://jubilab.io/blog/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "What is data provenance in bioinformatics?",
+          "item": "https://jubilab.io/blog/what-is-data-provenance-in-bioinformatics/"
+        }
+      ]
+    }
+  ]
+}
+</script>
+<script>try{if(localStorage.getItem("jubilab-theme")==="dark")document.documentElement.setAttribute("data-theme","dark")}catch(e){}</script>
+<link rel="stylesheet" href="../../style.css">
+<link rel="stylesheet" href="../../guides/guides.css">
+<link rel="stylesheet" href="../../blog/blog.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to main content</a>
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="../../" aria-label="Jubilab, home">
+      <svg viewBox="0 0 26 26" aria-hidden="true" focusable="false"><circle class="b-fill" cx="5" cy="13" r="3.2"/><circle class="b-line" cx="21" cy="6" r="3.2"/><circle class="b-line" cx="21" cy="20" r="3.2"/><path class="b-line" d="M8 12 L18 7 M8 14 L18 19"/></svg>
+      <span class="brand-name">Jubilab</span>
+    </a>
+    <nav class="site-nav" aria-label="Page sections">
+      <ul class="links">
+        <li><a href="../../#how">How it works</a></li>
+        <li><a href="../../#labs">For labs</a></li>
+        <li><a href="../../#teams">For teams</a></li>
+        <li><a href="../../#dev">Developers</a></li>
+        <li><a href="../../blog/" aria-current="page">Blog</a></li>
+      </ul>
+      <details class="menu">
+        <summary aria-label="Menu"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 7h16M4 12h16M4 17h16"/></svg></summary>
+        <ul>
+          <li><a href="../../#how">How it works</a></li>
+          <li><a href="../../#labs">For labs</a></li>
+          <li><a href="../../#teams">For teams</a></li>
+          <li><a href="../../#dev">Developers</a></li>
+          <li><a href="../../blog/" aria-current="page">Blog</a></li>
+        </ul>
+      </details>
+    </nav>
+    <div class="tools">
+      <button type="button" class="theme-toggle" id="theme-toggle" aria-label="Switch to dark theme" title="Switch to dark theme" hidden>
+        <svg class="i-moon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg>
+        <svg class="i-sun" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+      </button>
+      <a class="btn small" href="../../#access" aria-label="Request early access"><span class="full">Request early access</span><span class="short" aria-hidden="true">Early access</span></a>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+<div id="top"></div>
+<article>
+<section class="g-hero b-hero">
+  <div class="wrap">
+    <nav class="g-crumbs" aria-label="Breadcrumb"><ol><li><a href="../../">Jubilab</a></li><li><a href="../">Blog</a></li><li aria-current="page">What is data provenance in bioinformatics?</li></ol></nav>
+    <p class="eyebrow">Blog</p>
+    <h1>What is data provenance in bioinformatics?</h1>
+    <p class="g-lede">Open a results file from last spring and ask a simple question: how was this made? Which input went in, which settings were used, which version of the tools ran, and who or what touched it on the way? Data provenance is the name for the record that answers those questions. This post explains the idea in plain words, looks at what common bioinformatics tools keep today, and is honest about the parts we are still thinking through.</p>
+    <p class="g-meta">By Jubilab &middot; <time datetime="2026-10-19">19 October 2026</time> &middot; 6 min read</p>
+    <p class="b-tags"><span class="g-tag">provenance</span> <span class="g-tag">lineage</span> <span class="g-tag">bioinformatics</span></p>
+  </div>
+</section>
+<div class="g-body">
+<div class="wrap">
+<figure class="b-figure"><img src="image.svg" width="1600" height="900" alt="A file at the end of a chain, linked back through a gear, a small stack of pages and a magnifying glass to the source file it came from." decoding="async"></figure>
+<h2 id="a-working-definition">A working definition</h2>
+<p>The W3C, in its overview of the PROV family of documents, describes provenance as information about the entities, activities and people involved in producing a piece of data or thing, which can be used to form assessments about its quality, reliability or trustworthiness.<sup class="cite"><a href="#src-1" aria-label="Source 1">[1]</a></sup> That is a broad definition, and we like it because it does not mention any particular tool. It simply says that a result has a history, and that the history is useful.</p>
+<p>In everyday lab language we would put it more simply: provenance is the answer to &quot;where did this come from, and what happened to it?&quot; A related word is lineage, which we use for the same history drawn as a graph, with arrows from inputs to the steps that used them and on to the outputs.</p>
+<h2 id="why-a-bioinformatics-result-needs-one">Why a bioinformatics result needs one</h2>
+<p>Imagine a collaborator emails you six months after a variant-calling run and asks why two cohorts look different. To answer, you would want to know several things at once.</p>
+<ul>
+<li>Which input files went into each run, and whether they were the same files.</li>
+<li>Which parameters each run used, including the ones set on the command line rather than in a file.</li>
+<li>Which versions of the pipeline and its tools ran.</li>
+<li>Which reference genome build and annotation the results were produced against.</li>
+<li>Whether anyone changed a file by hand along the way.</li>
+</ul>
+<p>None of this is exotic. The authors of the paper &quot;Ten Simple Rules for Reproducible Computational Research&quot; put it as their first rule: for every result, keep track of how it was produced, recording the steps, programs, versions and parameters behind any potentially important result.<sup class="cite"><a href="#src-2" aria-label="Source 2">[2]</a></sup> They also advise avoiding manual data manipulation steps, and, where one cannot be avoided, noting which files were changed and why.<sup class="cite"><a href="#src-2" aria-label="Source 2">[2]</a></sup> In other words, asking for a record of how a result was made is not a new request; that paper dates from 2013.</p>
+<h2 id="what-the-common-tools-keep">What the common tools keep</h2>
+<p>Workflow engines already write down a good deal. It is worth being precise about what, because it is easy to assume more or less than is true.</p>
+<p>Snakemake, according to its documentation, stores provenance information in the <code>.snakemake/metadata</code> directory by default, and it also offers an experimental database backend that keeps the same kind of information in a SQLite file or another supported database.<sup class="cite"><a href="#src-3" aria-label="Source 3">[3]</a></sup> The page does not list every field, so we would not claim to know exactly what each record holds without opening one on a real project. We have not compared those records across Snakemake versions, and it would be worth doing before relying on them for anything important.</p>
+<p>Nextflow added an experimental data lineage feature in version 25.04. Its documentation says that it records workflow runs, successful task executions and output files in a lineage store, that it is switched on with a configuration setting, and that its behaviour may change in future releases.<sup class="cite"><a href="#src-4" aria-label="Source 4">[4]</a></sup> The same page says failed or aborted tasks are not recorded, which is a good example of why it helps to read what a record leaves out as carefully as what it contains.</p>
+<p>Plain shell scripts and notebooks are a different story. A command typed into a terminal leaves whatever the shell history kept, and a notebook keeps the cells but not necessarily the state they ran in. We wonder whether this is where most of the surprises hide; we have not measured it, so we treat that as a question rather than a finding.</p>
+<h2 id="what-a-useful-record-looks-like">What a useful record looks like</h2>
+<p>Putting the sources above together, a record that would help a stranger answer &quot;how was this made?&quot; probably contains:</p>
+<ol>
+<li>The exact command or launch, and the values of the parameters that applied, not just the name of the file that held them.</li>
+<li>The identity of each input, ideally something that would show if the file changed, such as a checksum.</li>
+<li>The versions of the pipeline, tools and containers.</li>
+<li>The outputs, linked back to the step that made them.</li>
+<li>Who or what ran it, and when.</li>
+<li>A clear mark on anything that was not recorded, so that a gap looks like a gap.</li>
+</ol>
+<p>That last item is easy to forget. A record that silently skips what it did not see can be more misleading than no record at all. This is why every fact in an earlier Jubilab prototype carried an evidence status: verified, inferred, manual or unknown. It is a small habit with a large effect on how much you trust a page of history.</p>
+<h2 id="where-jubilab-is-now">Where Jubilab is now</h2>
+<p>Jubilab began as a record of how results are made across the tools a lab already uses. Jubilab&#x27;s earlier run-record prototype is not being offered. Jubilab is now building the order-to-result layer for lab work, which is in design and not released.</p>
+<p>Jubilab does not link samples to files or check for sample swaps or reference genome build mismatches, and a record cannot recover the history of a run that was never captured.</p>
+<p>Jubilab is not a replacement for a workflow engine, a LIMS or an electronic lab notebook, and it is not affiliated with or endorsed by Nextflow, Snakemake, Seqera or the W3C.</p>
+
+<section class="b-questions" aria-labelledby="questions-h">
+<h2 id="questions-h">Questions we are still asking</h2>
+<p>We do not think the field has settled these, and we would like to hear how other teams see them.</p>
+<ul>
+<li>How much provenance is enough? It is worth asking whether a record that is too detailed gets ignored, and whether a lighter record that people actually keep is worth more than a perfect one that nobody reads.</li>
+<li>We wonder how stable the built-in records of workflow engines will be over time, given that Nextflow describes its lineage feature as experimental. Should a lab depend on any single tool&#x27;s format?</li>
+<li>We wonder whether manual steps, such as a hand-renamed file or a filter applied in a spreadsheet, are the hardest to capture. We have not tested how often they happen, and we would like to understand it better.</li>
+<li>If a record is incomplete, what is the most honest way to show that to a reader without making the whole record look unreliable?</li>
+<li>What would you want a record to tell a reviewer or a new colleague on day one? Our guess is the parameters and the reference build, but we may be wrong.</li>
+</ul>
+</section>
+<section class="helps" aria-labelledby="helps-h">
+<h2 id="helps-h">Where Jubilab is now</h2>
+<p>This post comes from our earlier work on a record of how results are made. Jubilab's earlier run-record prototype is not being offered. Jubilab is now building the order-to-result layer for lab work, which is in design and not released.</p>
+<a class="btn" href="../../#access">Request early access</a>
+</section>
+<h2 id="sources">Sources</h2>
+<ol class="g-sources">
+<li id="src-1"><a href="https://www.w3.org/TR/prov-overview/" rel="noopener">An Overview of the PROV Family of Documents (PROV-Overview)</a> <span class="why">&mdash; W3C Provenance Working Group, Working Group Note, 30 April 2013. Accessed 19 October 2026. <span class="url">https://www.w3.org/TR/prov-overview/</span></span></li>
+<li id="src-2"><a href="https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1003285" rel="noopener">Ten Simple Rules for Reproducible Computational Research</a> <span class="why">&mdash; Sandve, Nekrutenko, Taylor and Hovig, PLOS Computational Biology, 2013. Accessed 19 October 2026. <span class="url">https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1003285</span></span></li>
+<li id="src-3"><a href="https://snakemake.readthedocs.io/en/stable/executing/provenance.html" rel="noopener">Snakemake documentation: Provenance</a> <span class="why">&mdash; Snakemake project, Read the Docs. Accessed 19 October 2026. <span class="url">https://snakemake.readthedocs.io/en/stable/executing/provenance.html</span></span></li>
+<li id="src-4"><a href="https://docs.seqera.io/nextflow/data-lineage" rel="noopener">Nextflow documentation: Data lineage</a> <span class="why">&mdash; Seqera, Nextflow documentation. Accessed 19 October 2026. <span class="url">https://docs.seqera.io/nextflow/data-lineage</span></span></li>
+</ol>
+<p class="g-review">Written by Jubilab. Published 19 October 2026; last updated 19 October 2026. Where this post names other products or projects, Jubilab is not affiliated with or endorsed by them, and it does not claim any integration with them. Things we could not check are written as questions; if you spot a mistake, email <a href="mailto:hello@jubilab.io">hello@jubilab.io</a>.</p>
+<nav class="b-pager" aria-label="More posts">
+<a class="b-prev" href="../where-did-my-intermediate-files-go/" rel="prev"><span class="b-dir">Newer</span><span class="b-t">Where did my intermediate files go?</span></a>
+<a class="b-next" href="../what-a-core-should-hand-over-with-every-project/" rel="next"><span class="b-dir">Older</span><span class="b-t">What a core should hand over with every project</span></a>
+</nav>
+<section class="b-related" aria-labelledby="related"><h2 id="related">Related posts</h2><ul class="b-grid">
+<li class="b-card"><a class="b-img" href="../provenance-vs-lineage-in-bioinformatics/" tabindex="-1" aria-hidden="true"><img src="../provenance-vs-lineage-in-bioinformatics/image.svg" width="1600" height="900" alt="" loading="lazy" decoding="async"></a><div class="b-card-body"><h2 class="b-card-t"><a href="../provenance-vs-lineage-in-bioinformatics/">Provenance vs lineage in bioinformatics: examples</a></h2><p class="b-sum">Two overlapping words, one toy variant calling pipeline, and the questions each one helps you answer about a VCF.</p><p class="b-card-meta"><time datetime="2026-10-19">19 October 2026</time> &middot; 6 min read</p></div></li>
+<li class="b-card"><a class="b-img" href="../how-to-compare-two-pipeline-runs/" tabindex="-1" aria-hidden="true"><img src="../how-to-compare-two-pipeline-runs/image.svg" width="1600" height="900" alt="" loading="lazy" decoding="async"></a><div class="b-card-body"><h2 class="b-card-t"><a href="../how-to-compare-two-pipeline-runs/">How to compare two pipeline runs</a></h2><p class="b-sum">What counts as a difference between two runs, a manual way to diff them, and what lineage diff and nf-diff showed on a toy pair.</p><p class="b-card-meta"><time datetime="2026-10-19">19 October 2026</time> &middot; 6 min read</p></div></li>
+<li class="b-card"><a class="b-img" href="../inherited-pipeline-first-week-checklist/" tabindex="-1" aria-hidden="true"><img src="../inherited-pipeline-first-week-checklist/image.svg" width="1600" height="900" alt="" loading="lazy" decoding="async"></a><div class="b-card-body"><h2 class="b-card-t"><a href="../inherited-pipeline-first-week-checklist/">Inherited a pipeline? A first-week checklist</a></h2><p class="b-sum">A practical checklist for rebuilding how results were made when you inherit someone else&#x27;s analysis, and what to record as you go.</p><p class="b-card-meta"><time datetime="2026-10-19">19 October 2026</time> &middot; 7 min read</p></div></li>
+</ul></section>
+</div>
+</div>
+</article>
+</main>
+<footer>
+  <div class="wrap">
+    <div>
+      <p class="foot-brand">Jubilab</p>
+      <p>The order-to-result layer for lab work, in design. Examples on this site are illustrative drafts.</p>
+      <p>Contact: <a href="mailto:hello@jubilab.io">hello@jubilab.io</a></p>
+    </div>
+    <ul aria-label="Footer">
+      <li><a href="../../guides/">Guides</a></li>
+      <li><a href="../../blog/">Blog</a></li>
+      <li><a href="../../privacy/">Privacy</a></li>
+      <li><a href="../../terms/">Terms</a></li>
+      <li><a href="../../#top">Back to top</a></li>
+    </ul>
+  </div>
+</footer>
+<script src="../../assets/theme.js" defer></script>
+<script src="../../assets/consent.js" defer></script>
+</body>
+</html>

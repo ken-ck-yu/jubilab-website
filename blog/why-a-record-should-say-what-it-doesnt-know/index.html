@@ -1,0 +1,255 @@
+<!doctype html>
+<html lang="en">
+<head>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('consent','default',{ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied',analytics_storage:'denied'})</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Why a record should say what it doesn&#x27;t know | Jubilab</title>
+<meta name="description" content="A tidy provenance record with silently guessed fields can mislead more than a gap. Four evidence statuses, a worked example and a spreadsheet version to try.">
+<meta name="theme-color" content="#f4f5f2">
+<link rel="canonical" href="https://jubilab.io/blog/why-a-record-should-say-what-it-doesnt-know/">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Jubilab">
+<meta property="og:title" content="Why a record should say what it doesn&#x27;t know | Jubilab">
+<meta property="og:description" content="A tidy provenance record with silently guessed fields can mislead more than a gap. Four evidence statuses, a worked example and a spreadsheet version to try.">
+<meta property="og:url" content="https://jubilab.io/blog/why-a-record-should-say-what-it-doesnt-know/">
+<meta property="og:image" content="https://jubilab.io/blog/why-a-record-should-say-what-it-doesnt-know/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Four lidded jars resting on a shelf in four muted colours, with a fifth spot on the shelf shown only as an empty dotted outline.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Why a record should say what it doesn&#x27;t know | Jubilab">
+<meta name="twitter:description" content="A tidy provenance record with silently guessed fields can mislead more than a gap. Four evidence statuses, a worked example and a spreadsheet version to try.">
+<meta name="twitter:image" content="https://jubilab.io/blog/why-a-record-should-say-what-it-doesnt-know/og.png">
+<meta name="twitter:image:alt" content="Four lidded jars resting on a shelf in four muted colours, with a fifth spot on the shelf shown only as an empty dotted outline.">
+<link rel="icon" href="../../assets/favicon.svg" type="image/svg+xml">
+<link rel="preload" href="../../assets/fonts/hanken-grotesk-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="../../assets/fonts/ibm-plex-mono-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BlogPosting",
+      "headline": "Why a record should say what it doesn't know",
+      "description": "A tidy provenance record with silently guessed fields can mislead more than a gap. Four evidence statuses, a worked example and a spreadsheet version to try.",
+      "url": "https://jubilab.io/blog/why-a-record-should-say-what-it-doesnt-know/",
+      "mainEntityOfPage": "https://jubilab.io/blog/why-a-record-should-say-what-it-doesnt-know/",
+      "inLanguage": "en",
+      "datePublished": "2026-10-19",
+      "dateModified": "2026-10-19",
+      "author": {
+        "@type": "Organization",
+        "name": "Jubilab",
+        "url": "https://jubilab.io/"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Jubilab",
+        "url": "https://jubilab.io/"
+      },
+      "image": "https://jubilab.io/blog/why-a-record-should-say-what-it-doesnt-know/og.png",
+      "keywords": "provenance, evidence, bioinformatics",
+      "wordCount": 1096,
+      "timeRequired": "PT5M",
+      "isPartOf": {
+        "@type": "Blog",
+        "name": "Jubilab blog",
+        "url": "https://jubilab.io/blog/"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "Ten Simple Rules for Reproducible Computational Research",
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3812051/",
+          "publisher": {
+            "@type": "Organization",
+            "name": "Sandve, Nekrutenko, Taylor and Hovig, PLOS Computational Biology, 2013"
+          }
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "Ten Simple Rules for Experiments' Provenance",
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4619002/",
+          "publisher": {
+            "@type": "Organization",
+            "name": "Toni Kazic, PLOS Computational Biology, 2015"
+          }
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "Towards ensuring reproducibility of outsourced data generation",
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11734931/",
+          "publisher": {
+            "@type": "Organization",
+            "name": "Sloan and Stenglein, PLOS Biology, 2025"
+          }
+        }
+      ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Jubilab",
+          "item": "https://jubilab.io/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Blog",
+          "item": "https://jubilab.io/blog/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Why a record should say what it doesn't know",
+          "item": "https://jubilab.io/blog/why-a-record-should-say-what-it-doesnt-know/"
+        }
+      ]
+    }
+  ]
+}
+</script>
+<script>try{if(localStorage.getItem("jubilab-theme")==="dark")document.documentElement.setAttribute("data-theme","dark")}catch(e){}</script>
+<link rel="stylesheet" href="../../style.css">
+<link rel="stylesheet" href="../../guides/guides.css">
+<link rel="stylesheet" href="../../blog/blog.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to main content</a>
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="../../" aria-label="Jubilab, home">
+      <svg viewBox="0 0 26 26" aria-hidden="true" focusable="false"><circle class="b-fill" cx="5" cy="13" r="3.2"/><circle class="b-line" cx="21" cy="6" r="3.2"/><circle class="b-line" cx="21" cy="20" r="3.2"/><path class="b-line" d="M8 12 L18 7 M8 14 L18 19"/></svg>
+      <span class="brand-name">Jubilab</span>
+    </a>
+    <nav class="site-nav" aria-label="Page sections">
+      <ul class="links">
+        <li><a href="../../#how">How it works</a></li>
+        <li><a href="../../#labs">For labs</a></li>
+        <li><a href="../../#teams">For teams</a></li>
+        <li><a href="../../#dev">Developers</a></li>
+        <li><a href="../../blog/" aria-current="page">Blog</a></li>
+      </ul>
+      <details class="menu">
+        <summary aria-label="Menu"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 7h16M4 12h16M4 17h16"/></svg></summary>
+        <ul>
+          <li><a href="../../#how">How it works</a></li>
+          <li><a href="../../#labs">For labs</a></li>
+          <li><a href="../../#teams">For teams</a></li>
+          <li><a href="../../#dev">Developers</a></li>
+          <li><a href="../../blog/" aria-current="page">Blog</a></li>
+        </ul>
+      </details>
+    </nav>
+    <div class="tools">
+      <button type="button" class="theme-toggle" id="theme-toggle" aria-label="Switch to dark theme" title="Switch to dark theme" hidden>
+        <svg class="i-moon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg>
+        <svg class="i-sun" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+      </button>
+      <a class="btn small" href="../../#access" aria-label="Request early access"><span class="full">Request early access</span><span class="short" aria-hidden="true">Early access</span></a>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+<div id="top"></div>
+<article>
+<section class="g-hero b-hero">
+  <div class="wrap">
+    <nav class="g-crumbs" aria-label="Breadcrumb"><ol><li><a href="../../">Jubilab</a></li><li><a href="../">Blog</a></li><li aria-current="page">Why a record should say what it doesn&#x27;t know</li></ol></nav>
+    <p class="eyebrow">Blog</p>
+    <h1>Why a record should say what it doesn&#x27;t know</h1>
+    <p class="g-lede">Imagine a methods table for an old analysis. Every row is filled in: tool, version, reference genome, annotation release. It looks complete. Then a colleague asks how the genome build was known, and the answer is that someone assumed it from the lab&#x27;s usual setup. The table did not lie on purpose; it just had no way to say &quot;we assumed this&quot;. This post argues that a record should be able to say what it does not know, describes four statuses we use for that, and shows how to try the idea in a spreadsheet today.</p>
+    <p class="g-meta">By Jubilab &middot; <time datetime="2026-10-19">19 October 2026</time> &middot; 5 min read</p>
+    <p class="b-tags"><span class="g-tag">provenance</span> <span class="g-tag">evidence</span> <span class="g-tag">bioinformatics</span></p>
+  </div>
+</section>
+<div class="g-body">
+<div class="wrap">
+<figure class="b-figure"><img src="image.svg" width="1600" height="900" alt="Four lidded jars resting on a shelf in four muted colours, with a fifth spot on the shelf shown only as an empty dotted outline." decoding="async"></figure>
+<h2 id="the-failure-we-are-worried-about">The failure we are worried about</h2>
+<p>A record can fail in two ways. It can leave a field empty, which is visible. Or it can fill the field with something plausible, which is not. We think the second is the more dangerous one, and we say that as a worry rather than a finding, because we have not measured how often it happens.</p>
+<p>The usual advice points in the same direction without using this language. The authors of &quot;Ten Simple Rules for Reproducible Computational Research&quot; say that whenever a result may be of potential interest, you should keep track of how it was produced.<sup class="cite"><a href="#src-1" aria-label="Source 1">[1]</a></sup> Their second rule says that, whenever possible, you should rely on the execution of programs instead of manual procedures to modify data, and that manual procedures are inefficient, error-prone and difficult to reproduce.<sup class="cite"><a href="#src-1" aria-label="Source 1">[1]</a></sup> Both rules assume a record of how a result was made. Neither says what the record should do when a step was manual or half remembered, and that is the gap we want to talk about.</p>
+<h2 id="four-statuses">Four statuses</h2>
+<p>An earlier Jubilab prototype attached an evidence status to each fact it recorded: verified, inferred, manual or unknown. Here is what we mean by each, with an invented example, a variant-calling run for a made-up sample.</p>
+<ul>
+<li><strong>Verified:</strong> read from something that was observed. For instance, the command line of the run, as the tool that ran it saw it.</li>
+<li><strong>Inferred:</strong> worked out from something else. For instance, a reference build guessed from the file name <code>sample1.hg38.bam</code>. A file name is a clue, not a measurement, and it can be wrong.</li>
+<li><strong>Manual:</strong> typed in by a person. For instance, &quot;filtered on depth at least 10 in a spreadsheet, then saved as a new file&quot;. It may be accurate, and it could carry the name of whoever said it and when; that is a design wish, not something we have verified.</li>
+<li><strong>Unknown:</strong> nothing is known. For instance, the annotation release, because nobody wrote it down and the file does not say.</li>
+</ul>
+<p>Imagine all four on one line of a record: tool version verified, reference build inferred, a hand filter manual, annotation release unknown. A reader who sees that line knows where to dig. A reader who sees four tidy values has no such clue.</p>
+<p>Precision matters in the words as well. &quot;Inferred&quot; does not mean &quot;probably right&quot;. It means &quot;not directly observed&quot;, and how much weight to give it is for the reader to decide.</p>
+<h2 id="why-we-cannot-tell-is-an-answer">Why &quot;we cannot tell&quot; is an answer</h2>
+<p>Kazic&#x27;s &quot;Ten Simple Rules for Experiments&#x27; Provenance&quot; argues for making everything self-identifying, observing that any bar code can be mangled on scanning or land in the wrong place in the spreadsheet, and that a contemporaneous record guards against all errors except mislabelling the original.<sup class="cite"><a href="#src-2" aria-label="Source 2">[2]</a></sup> We read this as support for a modest idea: when you cannot confirm what something is, a record that says so is more useful than one that quietly picks an answer. That is our interpretation of the rule, not a claim that the author discusses evidence statuses.</p>
+<p>There is also a social side. Sloan and Stenglein write in PLOS Biology that facilities often return data with little or no methods documentation.<sup class="cite"><a href="#src-3" aria-label="Source 3">[3]</a></sup> If that is common, then a recipient of such data will often face a field they cannot fill in honestly. A system that can only store a value will push them to invent one. A system with an &quot;unknown&quot; status lets them be accurate, and lets the next reader see exactly what is missing. We wonder how much this matters in practice; we have not tested it with anyone.</p>
+<h2 id="try-it-by-hand-in-a-spreadsheet">Try it by hand in a spreadsheet</h2>
+<p>You do not need software. Take a table with one row per fact and add two columns:</p>
+<ol>
+<li><strong>Status:</strong> one of verified, inferred, manual, unknown.</li>
+<li><strong>Basis:</strong> a short note on how you know, for example &quot;read from the VCF header&quot;, &quot;from the file name&quot;, &quot;told to me by the sequencing core&quot;, or &quot;no record found&quot;.</li>
+</ol>
+<p>A few habits make it work. Fill the status before you fill the value, so &quot;unknown&quot; is a deliberate choice. Never leave the value cell blank for an unknown; write &quot;unknown&quot; so a blank means &quot;not yet looked at&quot;. When something moves from unknown to verified, change the row and keep a note of the earlier state rather than overwriting it.</p>
+<p>This is a paper version of an idea, and it has the weaknesses of paper. Nobody checks it, and it is easy to skip when you are busy. We think the discipline is still worth practising before any tool is involved.</p>
+<h2 id="where-jubilab-is-now">Where Jubilab is now</h2>
+<p>An earlier Jubilab prototype traced a result back to its run, inputs and parameters, and forward to what depends on an input, with one of the four statuses on each fact, so a trace showed what was observed and what was not. A record cannot recover the history of a run it never saw. Jubilab&#x27;s earlier run-record prototype is not being offered. Jubilab is now building the order-to-result layer for lab work, which is in design and not released. For more on what to record, see <a href="/guides/what-parameters-produced-this-result/">what parameters produced this result</a>, <a href="/guides/reference-genome-build-vcf-bam/">reference genome builds</a> and <a href="/guides/nextflow-provenance-and-lineage-compared/">Nextflow provenance and lineage compared</a>.</p>
+
+<section class="b-questions" aria-labelledby="questions-h">
+<h2 id="questions-h">Questions we are still asking</h2>
+<ul>
+<li>Are four statuses the right number? A fifth, such as &quot;disputed&quot;, may be needed, or two of ours may blur together in practice.</li>
+<li>How should a reader weigh &quot;inferred&quot;? A build guessed from a file name and a build computed from the file&#x27;s contents are both inferred in a loose sense, yet they are very different in strength.</li>
+<li>Does labelling a record&#x27;s gaps make a reader trust the rest of it more or less? It is worth asking, and we have no evidence either way.</li>
+<li>Who should be allowed to move a fact from unknown to verified, and how should the earlier state stay visible?</li>
+<li>Is a spreadsheet column enough for a small team, or does the habit fade without tooling? We have not tried it with a team.</li>
+</ul>
+</section>
+<section class="helps" aria-labelledby="helps-h">
+<h2 id="helps-h">Where Jubilab is now</h2>
+<p>This post comes from our earlier work on a record of how results are made. Jubilab's earlier run-record prototype is not being offered. Jubilab is now building the order-to-result layer for lab work, which is in design and not released.</p>
+<a class="btn" href="../../#access">Request early access</a>
+</section>
+<h2 id="sources">Sources</h2>
+<ol class="g-sources">
+<li id="src-1"><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC3812051/" rel="noopener">Ten Simple Rules for Reproducible Computational Research</a> <span class="why">&mdash; Sandve, Nekrutenko, Taylor and Hovig, PLOS Computational Biology, 2013. Accessed 19 October 2026. <span class="url">https://pmc.ncbi.nlm.nih.gov/articles/PMC3812051/</span></span></li>
+<li id="src-2"><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC4619002/" rel="noopener">Ten Simple Rules for Experiments&#x27; Provenance</a> <span class="why">&mdash; Toni Kazic, PLOS Computational Biology, 2015. Accessed 19 October 2026. <span class="url">https://pmc.ncbi.nlm.nih.gov/articles/PMC4619002/</span></span></li>
+<li id="src-3"><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC11734931/" rel="noopener">Towards ensuring reproducibility of outsourced data generation</a> <span class="why">&mdash; Sloan and Stenglein, PLOS Biology, 2025. Accessed 19 October 2026. <span class="url">https://pmc.ncbi.nlm.nih.gov/articles/PMC11734931/</span></span></li>
+</ol>
+<p class="g-review">Written by Jubilab. Published 19 October 2026; last updated 19 October 2026. Where this post names other products or projects, Jubilab is not affiliated with or endorsed by them, and it does not claim any integration with them. Things we could not check are written as questions; if you spot a mistake, email <a href="mailto:hello@jubilab.io">hello@jubilab.io</a>.</p>
+<nav class="b-pager" aria-label="More posts">
+<a class="b-prev" href="../why-did-my-task-run-again-nextflow-snakemake/" rel="prev"><span class="b-dir">Newer</span><span class="b-t">Why did my task run again? Nextflow and Snakemake</span></a>
+<a class="b-next" href="../which-annotation-versions-produced-this-vcf/" rel="next"><span class="b-dir">Older</span><span class="b-t">Which annotation versions produced this VCF?</span></a>
+</nav>
+<section class="b-related" aria-labelledby="related"><h2 id="related">Related posts</h2><ul class="b-grid">
+<li class="b-card"><a class="b-img" href="../how-to-compare-two-pipeline-runs/" tabindex="-1" aria-hidden="true"><img src="../how-to-compare-two-pipeline-runs/image.svg" width="1600" height="900" alt="" loading="lazy" decoding="async"></a><div class="b-card-body"><h2 class="b-card-t"><a href="../how-to-compare-two-pipeline-runs/">How to compare two pipeline runs</a></h2><p class="b-sum">What counts as a difference between two runs, a manual way to diff them, and what lineage diff and nf-diff showed on a toy pair.</p><p class="b-card-meta"><time datetime="2026-10-19">19 October 2026</time> &middot; 6 min read</p></div></li>
+<li class="b-card"><a class="b-img" href="../inherited-pipeline-first-week-checklist/" tabindex="-1" aria-hidden="true"><img src="../inherited-pipeline-first-week-checklist/image.svg" width="1600" height="900" alt="" loading="lazy" decoding="async"></a><div class="b-card-body"><h2 class="b-card-t"><a href="../inherited-pipeline-first-week-checklist/">Inherited a pipeline? A first-week checklist</a></h2><p class="b-sum">A practical checklist for rebuilding how results were made when you inherit someone else&#x27;s analysis, and what to record as you go.</p><p class="b-card-meta"><time datetime="2026-10-19">19 October 2026</time> &middot; 7 min read</p></div></li>
+<li class="b-card"><a class="b-img" href="../provenance-vs-lineage-in-bioinformatics/" tabindex="-1" aria-hidden="true"><img src="../provenance-vs-lineage-in-bioinformatics/image.svg" width="1600" height="900" alt="" loading="lazy" decoding="async"></a><div class="b-card-body"><h2 class="b-card-t"><a href="../provenance-vs-lineage-in-bioinformatics/">Provenance vs lineage in bioinformatics: examples</a></h2><p class="b-sum">Two overlapping words, one toy variant calling pipeline, and the questions each one helps you answer about a VCF.</p><p class="b-card-meta"><time datetime="2026-10-19">19 October 2026</time> &middot; 6 min read</p></div></li>
+</ul></section>
+</div>
+</div>
+</article>
+</main>
+<footer>
+  <div class="wrap">
+    <div>
+      <p class="foot-brand">Jubilab</p>
+      <p>The order-to-result layer for lab work, in design. Examples on this site are illustrative drafts.</p>
+      <p>Contact: <a href="mailto:hello@jubilab.io">hello@jubilab.io</a></p>
+    </div>
+    <ul aria-label="Footer">
+      <li><a href="../../guides/">Guides</a></li>
+      <li><a href="../../blog/">Blog</a></li>
+      <li><a href="../../privacy/">Privacy</a></li>
+      <li><a href="../../terms/">Terms</a></li>
+      <li><a href="../../#top">Back to top</a></li>
+    </ul>
+  </div>
+</footer>
+<script src="../../assets/theme.js" defer></script>
+<script src="../../assets/consent.js" defer></script>
+</body>
+</html>

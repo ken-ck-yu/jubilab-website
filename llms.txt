@@ -29,6 +29,41 @@
 - [Questions](https://jubilab.io/#faq): answers to common questions
 - [Request early access](https://jubilab.io/#access): the early-access form
 
+## Guides
+
+- [Guides](https://jubilab.io/guides/): practical how-tos for bioinformatics teams, written to be useful without Jubilab, each with tested commands, sources and a review date, from our earlier work on data provenance
+- [How to check which reference genome build a VCF or BAM used](https://jubilab.io/guides/reference-genome-build-vcf-bam/): read VCF and BAM headers with bcftools and samtools, compare contig lengths and test REF alleles
+- [What parameters produced this result?](https://jubilab.io/guides/what-parameters-produced-this-result/): finding the parameters of a Nextflow, Snakemake or shell run, what gets lost, and what a good record contains
+- [Nextflow provenance and lineage: what each tool records](https://jubilab.io/guides/nextflow-provenance-and-lineage-compared/): what Nextflow's log, trace, report and experimental lineage feature record, compared with Snakemake
+
+<!-- blog:start -->
+## Blog
+
+- [Blog](https://jubilab.io/blog/): notes on data provenance, lineage and reproducibility in bioinformatics from our earlier work, each with sources and open questions. Jubilab is now building the order-to-result layer for lab work
+- [AI agents in the lab need a record, not a chat history](https://jubilab.io/blog/ai-agents-need-a-record-not-just-chat-history/): Agents can run analyses, but a chat transcript is not a record of how a result was made. Our vision, and what is not built yet.
+- [Conda for genomics: export, history or lock file?](https://jubilab.io/blog/conda-environments-genomics-export-history-lock/): Three ways to save a conda environment, what each keeps in a small test, and what we still wonder about for genomics.
+- [How to compare two pipeline runs](https://jubilab.io/blog/how-to-compare-two-pipeline-runs/): What counts as a difference between two runs, a manual way to diff them, and what lineage diff and nf-diff showed on a toy pair.
+- [Inherited a pipeline? A first-week checklist](https://jubilab.io/blog/inherited-pipeline-first-week-checklist/): A practical checklist for rebuilding how results were made when you inherit someone else's analysis, and what to record as you go.
+- [Lifting a VCF over: what to record](https://jubilab.io/blog/lifting-a-vcf-over-what-to-record/): Liftover moves variants between assemblies and can lose some. What to record so you can explain the differences later.
+- [Local-first for lab data: what stays on your machine](https://jubilab.io/blog/local-first-for-lab-data/): Local-first ideas applied to lab records: what should stay on your own machine, where the cloud helps, and what we ship today.
+- [Pin your containers by digest, not by tag](https://jubilab.io/blog/pin-your-containers-by-digest-not-by-tag/): A tag is a label that can move; a digest names one image. How to find, use and write down the digest a pipeline ran with.
+- [When should a pipeline get a new version number?](https://jubilab.io/blog/pipeline-version-numbers-two-conventions/): Two published pipeline versioning conventions side by side, where they differ, and why we treat it as an open question.
+- [Provenance vs lineage in bioinformatics: examples](https://jubilab.io/blog/provenance-vs-lineage-in-bioinformatics/): Two overlapping words, one toy variant calling pipeline, and the questions each one helps you answer about a VCF.
+- [RO-Crate, BioCompute Objects and PROV: which one?](https://jubilab.io/blog/ro-crate-biocompute-objects-and-prov/): PROV, RO-Crate and BioCompute Objects in plain words, what nf-prov writes, and how to choose. Jubilab supports none of them.
+- [Same FASTQs, different variants: where it creeps in](https://jubilab.io/blog/same-fastqs-different-variants/): Same FASTQs, different VCFs? What published studies report, how to isolate the stage, and what to record to explain it.
+- [Sample swaps: the tools, and what a run record can say](https://jubilab.io/blog/sample-swaps-tools-and-what-a-run-record-says/): How swaps are found, per three papers, and what a run record can and cannot tell you once one is suspected.
+- [Samplesheet traps that quietly change your run](https://jubilab.io/blog/samplesheet-traps-that-change-your-run/): A samplesheet is an input like any other. Five ways a small CSV goes wrong, and what to keep with the run.
+- [Ten simple rules for reproducible research, revisited](https://jubilab.io/blog/ten-simple-rules-reproducible-research-revisited/): Ten rules from a 2013 paper, read against today's workflow tools: which ones tools help with, and which are still open.
+- [What a core should hand over with every project](https://jubilab.io/blog/what-a-core-should-hand-over-with-every-project/): A checklist of what a sequencing or analysis core could send beyond the data files, and why it helps clients and staff.
+- [What is data provenance in bioinformatics?](https://jubilab.io/blog/what-is-data-provenance-in-bioinformatics/): Provenance is the record of how a result was made. What it holds, what tools keep today, and what we still wonder about.
+- [Where did my intermediate files go?](https://jubilab.io/blog/where-did-my-intermediate-files-go/): Work directories get cleaned or purged. What that does to resume, what to keep, and what a record can still say afterwards.
+- [Which annotation versions produced this VCF?](https://jubilab.io/blog/which-annotation-versions-produced-this-vcf/): An annotated VCF may not name its VEP cache, ClinVar or gnomAD release. What the docs say, how to check, what to write down.
+- [Why a record should say what it doesn't know](https://jubilab.io/blog/why-a-record-should-say-what-it-doesnt-know/): A tidy record with silently guessed fields can mislead. Four evidence statuses, a worked example and a spreadsheet version.
+- [Why did my task run again? Nextflow and Snakemake](https://jubilab.io/blog/why-did-my-task-run-again-nextflow-snakemake/): What Nextflow and Snakemake compare before skipping a task, how to see why one reran, and what a rerun means for history.
+- [Write the methods paragraph from your run record](https://jubilab.io/blog/write-methods-paragraph-from-run-record/): A fill-in methods paragraph for pipeline analyses, and where each value comes from when you read it off a record.
+
+<!-- blog:end -->
+
 ## Optional
 
 - [Privacy](https://jubilab.io/privacy/): what the website and the early-access form collect, including the Cloudflare Web Analytics service the site always uses and Google Analytics, which runs only if the visitor accepts the cookie notice

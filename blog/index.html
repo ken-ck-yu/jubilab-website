@@ -1,0 +1,299 @@
+<!doctype html>
+<html lang="en">
+<head>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('consent','default',{ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied',analytics_storage:'denied'})</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Jubilab blog: how scientific results get made</title>
+<meta name="description" content="Notes from the Jubilab team on data provenance, lineage and reproducibility in bioinformatics, with sources and open questions where we are not yet sure.">
+<meta name="theme-color" content="#f4f5f2">
+<link rel="canonical" href="https://jubilab.io/blog/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Jubilab">
+<meta property="og:title" content="Jubilab blog: how scientific results get made">
+<meta property="og:description" content="Notes from the Jubilab team on data provenance, lineage and reproducibility in bioinformatics, with sources and open questions where we are not yet sure.">
+<meta property="og:url" content="https://jubilab.io/blog/">
+<meta property="og:image" content="https://jubilab.io/assets/og/jubilab-og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Jubilab: power lab operations, from sample order to result. An order moves from received through QC and run to delivered, with an agent reading each step. Marked: in design.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Jubilab blog: how scientific results get made">
+<meta name="twitter:description" content="Notes from the Jubilab team on data provenance, lineage and reproducibility in bioinformatics, with sources and open questions where we are not yet sure.">
+<meta name="twitter:image" content="https://jubilab.io/assets/og/jubilab-og.png">
+<meta name="twitter:image:alt" content="Jubilab: power lab operations, from sample order to result. An order moves from received through QC and run to delivered, with an agent reading each step. Marked: in design.">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="preload" href="../assets/fonts/hanken-grotesk-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="../assets/fonts/ibm-plex-mono-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "CollectionPage",
+      "name": "The Jubilab blog",
+      "description": "Notes from the Jubilab team on data provenance, lineage and reproducibility in bioinformatics, with sources and open questions where we are not yet sure.",
+      "url": "https://jubilab.io/blog/",
+      "inLanguage": "en",
+      "isPartOf": {
+        "@type": "WebSite",
+        "name": "Jubilab",
+        "url": "https://jubilab.io/"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Jubilab",
+        "url": "https://jubilab.io/"
+      },
+      "dateModified": "2026-10-19",
+      "hasPart": [
+        {
+          "@type": "BlogPosting",
+          "headline": "Write the methods paragraph from your run record",
+          "url": "https://jubilab.io/blog/write-methods-paragraph-from-run-record/",
+          "datePublished": "2026-10-19"
+        },
+        {
+          "@type": "BlogPosting",
+          "headline": "Why did my task run again? Nextflow and Snakemake",
+          "url": "https://jubilab.io/blog/why-did-my-task-run-again-nextflow-snakemake/",
+          "datePublished": "2026-10-19"
+        },
+        {
+          "@type": "BlogPosting",
+          "headline": "Why a record should say what it doesn't know",
+          "url": "https://jubilab.io/blog/why-a-record-should-say-what-it-doesnt-know/",
+          "datePublished": "2026-10-19"
+        },
+        {
+          "@type": "BlogPosting",
+          "headline": "Which annotation versions produced this VCF?",
+          "url": "https://jubilab.io/blog/which-annotation-versions-produced-this-vcf/",
+          "datePublished": "2026-10-19"
+        },
+        {
+          "@type": "BlogPosting",
+          "headline": "Where did my intermediate files go?",
+          "url": "https://jubilab.io/blog/where-did-my-intermediate-files-go/",
+          "datePublished": "2026-10-19"
+        },
+        {
+          "@type": "BlogPosting",
+          "headline": "What is data provenance in bioinformatics?",
+          "url": "https://jubilab.io/blog/what-is-data-provenance-in-bioinformatics/",
+          "datePublished": "2026-10-19"
+        },
+        {
+          "@type": "BlogPosting",
+          "headline": "What a core should hand over with every project",
+          "url": "https://jubilab.io/blog/what-a-core-should-hand-over-with-every-project/",
+          "datePublished": "2026-10-19"
+        },
+        {
+          "@type": "BlogPosting",
+          "headline": "Ten simple rules for reproducible research, revisited",
+          "url": "https://jubilab.io/blog/ten-simple-rules-reproducible-research-revisited/",
+          "datePublished": "2026-10-19"
+        },
+        {
+          "@type": "BlogPosting",
+          "headline": "Samplesheet traps that quietly change your run",
+          "url": "https://jubilab.io/blog/samplesheet-traps-that-change-your-run/",
+          "datePublished": "2026-10-19"
+        },
+        {
+          "@type": "BlogPosting",
+          "headline": "Sample swaps: the tools, and what a run record can say",
+          "url": "https://jubilab.io/blog/sample-swaps-tools-and-what-a-run-record-says/",
+          "datePublished": "2026-10-19"
+        },
+        {
+          "@type": "BlogPosting",
+          "headline": "Same FASTQs, different variants: where it creeps in",
+          "url": "https://jubilab.io/blog/same-fastqs-different-variants/",
+          "datePublished": "2026-10-19"
+        },
+        {
+          "@type": "BlogPosting",
+          "headline": "RO-Crate, BioCompute Objects and PROV: which one?",
+          "url": "https://jubilab.io/blog/ro-crate-biocompute-objects-and-prov/",
+          "datePublished": "2026-10-19"
+        },
+        {
+          "@type": "BlogPosting",
+          "headline": "Provenance vs lineage in bioinformatics: examples",
+          "url": "https://jubilab.io/blog/provenance-vs-lineage-in-bioinformatics/",
+          "datePublished": "2026-10-19"
+        },
+        {
+          "@type": "BlogPosting",
+          "headline": "When should a pipeline get a new version number?",
+          "url": "https://jubilab.io/blog/pipeline-version-numbers-two-conventions/",
+          "datePublished": "2026-10-19"
+        },
+        {
+          "@type": "BlogPosting",
+          "headline": "Pin your containers by digest, not by tag",
+          "url": "https://jubilab.io/blog/pin-your-containers-by-digest-not-by-tag/",
+          "datePublished": "2026-10-19"
+        },
+        {
+          "@type": "BlogPosting",
+          "headline": "Local-first for lab data: what stays on your machine",
+          "url": "https://jubilab.io/blog/local-first-for-lab-data/",
+          "datePublished": "2026-10-19"
+        },
+        {
+          "@type": "BlogPosting",
+          "headline": "Lifting a VCF over: what to record",
+          "url": "https://jubilab.io/blog/lifting-a-vcf-over-what-to-record/",
+          "datePublished": "2026-10-19"
+        },
+        {
+          "@type": "BlogPosting",
+          "headline": "Inherited a pipeline? A first-week checklist",
+          "url": "https://jubilab.io/blog/inherited-pipeline-first-week-checklist/",
+          "datePublished": "2026-10-19"
+        },
+        {
+          "@type": "BlogPosting",
+          "headline": "How to compare two pipeline runs",
+          "url": "https://jubilab.io/blog/how-to-compare-two-pipeline-runs/",
+          "datePublished": "2026-10-19"
+        },
+        {
+          "@type": "BlogPosting",
+          "headline": "Conda for genomics: export, history or lock file?",
+          "url": "https://jubilab.io/blog/conda-environments-genomics-export-history-lock/",
+          "datePublished": "2026-10-19"
+        },
+        {
+          "@type": "BlogPosting",
+          "headline": "AI agents in the lab need a record, not a chat history",
+          "url": "https://jubilab.io/blog/ai-agents-need-a-record-not-just-chat-history/",
+          "datePublished": "2026-10-19"
+        }
+      ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Jubilab",
+          "item": "https://jubilab.io/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Blog",
+          "item": "https://jubilab.io/blog/"
+        }
+      ]
+    }
+  ]
+}
+</script>
+<script>try{if(localStorage.getItem("jubilab-theme")==="dark")document.documentElement.setAttribute("data-theme","dark")}catch(e){}</script>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="../guides/guides.css">
+<link rel="stylesheet" href="../blog/blog.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to main content</a>
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="../" aria-label="Jubilab, home">
+      <svg viewBox="0 0 26 26" aria-hidden="true" focusable="false"><circle class="b-fill" cx="5" cy="13" r="3.2"/><circle class="b-line" cx="21" cy="6" r="3.2"/><circle class="b-line" cx="21" cy="20" r="3.2"/><path class="b-line" d="M8 12 L18 7 M8 14 L18 19"/></svg>
+      <span class="brand-name">Jubilab</span>
+    </a>
+    <nav class="site-nav" aria-label="Page sections">
+      <ul class="links">
+        <li><a href="../#how">How it works</a></li>
+        <li><a href="../#labs">For labs</a></li>
+        <li><a href="../#teams">For teams</a></li>
+        <li><a href="../#dev">Developers</a></li>
+        <li><a href="../blog/" aria-current="page">Blog</a></li>
+      </ul>
+      <details class="menu">
+        <summary aria-label="Menu"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 7h16M4 12h16M4 17h16"/></svg></summary>
+        <ul>
+          <li><a href="../#how">How it works</a></li>
+          <li><a href="../#labs">For labs</a></li>
+          <li><a href="../#teams">For teams</a></li>
+          <li><a href="../#dev">Developers</a></li>
+          <li><a href="../blog/" aria-current="page">Blog</a></li>
+        </ul>
+      </details>
+    </nav>
+    <div class="tools">
+      <button type="button" class="theme-toggle" id="theme-toggle" aria-label="Switch to dark theme" title="Switch to dark theme" hidden>
+        <svg class="i-moon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg>
+        <svg class="i-sun" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+      </button>
+      <a class="btn small" href="../#access" aria-label="Request early access"><span class="full">Request early access</span><span class="short" aria-hidden="true">Early access</span></a>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+<div id="top"></div>
+<section class="g-hero b-hero">
+  <div class="wrap">
+    <nav class="g-crumbs" aria-label="Breadcrumb"><ol><li><a href="../">Jubilab</a></li><li aria-current="page">Blog</li></ol></nav>
+    <p class="eyebrow">Blog</p>
+    <h1>The Jubilab blog</h1>
+    <p class="g-lede">Notes on provenance, lineage and the everyday questions behind a result, from our earlier work on a record of how results are made. Each post cites its sources and says what we could not check.</p>
+  </div>
+</section>
+<div class="g-body b-index">
+<div class="wrap">
+<ul class="b-grid">
+<li class="b-card"><a class="b-img" href="write-methods-paragraph-from-run-record/" tabindex="-1" aria-hidden="true"><img src="write-methods-paragraph-from-run-record/image.svg" width="1600" height="900" alt="" loading="lazy" decoding="async"></a><div class="b-card-body"><h2 class="b-card-t"><a href="write-methods-paragraph-from-run-record/">Write the methods paragraph from your run record</a></h2><p class="b-sum">A fill-in methods paragraph for pipeline analyses, and where each value comes from when you read it off a record.</p><p class="b-card-meta"><time datetime="2026-10-19">19 October 2026</time> &middot; 6 min read</p></div></li>
+<li class="b-card"><a class="b-img" href="why-did-my-task-run-again-nextflow-snakemake/" tabindex="-1" aria-hidden="true"><img src="why-did-my-task-run-again-nextflow-snakemake/image.svg" width="1600" height="900" alt="" loading="lazy" decoding="async"></a><div class="b-card-body"><h2 class="b-card-t"><a href="why-did-my-task-run-again-nextflow-snakemake/">Why did my task run again? Nextflow and Snakemake</a></h2><p class="b-sum">What Nextflow and Snakemake compare before skipping a task, how to see why one reran, and what a rerun means for history.</p><p class="b-card-meta"><time datetime="2026-10-19">19 October 2026</time> &middot; 6 min read</p></div></li>
+<li class="b-card"><a class="b-img" href="why-a-record-should-say-what-it-doesnt-know/" tabindex="-1" aria-hidden="true"><img src="why-a-record-should-say-what-it-doesnt-know/image.svg" width="1600" height="900" alt="" loading="lazy" decoding="async"></a><div class="b-card-body"><h2 class="b-card-t"><a href="why-a-record-should-say-what-it-doesnt-know/">Why a record should say what it doesn&#x27;t know</a></h2><p class="b-sum">A tidy record with silently guessed fields can mislead. Four evidence statuses, a worked example and a spreadsheet version.</p><p class="b-card-meta"><time datetime="2026-10-19">19 October 2026</time> &middot; 5 min read</p></div></li>
+<li class="b-card"><a class="b-img" href="which-annotation-versions-produced-this-vcf/" tabindex="-1" aria-hidden="true"><img src="which-annotation-versions-produced-this-vcf/image.svg" width="1600" height="900" alt="" loading="lazy" decoding="async"></a><div class="b-card-body"><h2 class="b-card-t"><a href="which-annotation-versions-produced-this-vcf/">Which annotation versions produced this VCF?</a></h2><p class="b-sum">An annotated VCF may not name its VEP cache, ClinVar or gnomAD release. What the docs say, how to check, what to write down.</p><p class="b-card-meta"><time datetime="2026-10-19">19 October 2026</time> &middot; 6 min read</p></div></li>
+<li class="b-card"><a class="b-img" href="where-did-my-intermediate-files-go/" tabindex="-1" aria-hidden="true"><img src="where-did-my-intermediate-files-go/image.svg" width="1600" height="900" alt="" loading="lazy" decoding="async"></a><div class="b-card-body"><h2 class="b-card-t"><a href="where-did-my-intermediate-files-go/">Where did my intermediate files go?</a></h2><p class="b-sum">Work directories get cleaned or purged. What that does to resume, what to keep, and what a record can still say afterwards.</p><p class="b-card-meta"><time datetime="2026-10-19">19 October 2026</time> &middot; 6 min read</p></div></li>
+<li class="b-card"><a class="b-img" href="what-is-data-provenance-in-bioinformatics/" tabindex="-1" aria-hidden="true"><img src="what-is-data-provenance-in-bioinformatics/image.svg" width="1600" height="900" alt="" loading="lazy" decoding="async"></a><div class="b-card-body"><h2 class="b-card-t"><a href="what-is-data-provenance-in-bioinformatics/">What is data provenance in bioinformatics?</a></h2><p class="b-sum">Provenance is the record of how a result was made. What it holds, what tools keep today, and what we still wonder about.</p><p class="b-card-meta"><time datetime="2026-10-19">19 October 2026</time> &middot; 6 min read</p></div></li>
+<li class="b-card"><a class="b-img" href="what-a-core-should-hand-over-with-every-project/" tabindex="-1" aria-hidden="true"><img src="what-a-core-should-hand-over-with-every-project/image.svg" width="1600" height="900" alt="" loading="lazy" decoding="async"></a><div class="b-card-body"><h2 class="b-card-t"><a href="what-a-core-should-hand-over-with-every-project/">What a core should hand over with every project</a></h2><p class="b-sum">A checklist of what a sequencing or analysis core could send beyond the data files, and why it helps clients and staff.</p><p class="b-card-meta"><time datetime="2026-10-19">19 October 2026</time> &middot; 6 min read</p></div></li>
+<li class="b-card"><a class="b-img" href="ten-simple-rules-reproducible-research-revisited/" tabindex="-1" aria-hidden="true"><img src="ten-simple-rules-reproducible-research-revisited/image.svg" width="1600" height="900" alt="" loading="lazy" decoding="async"></a><div class="b-card-body"><h2 class="b-card-t"><a href="ten-simple-rules-reproducible-research-revisited/">Ten simple rules for reproducible research, revisited</a></h2><p class="b-sum">Ten rules from a 2013 paper, read against today&#x27;s workflow tools: which ones tools help with, and which are still open.</p><p class="b-card-meta"><time datetime="2026-10-19">19 October 2026</time> &middot; 5 min read</p></div></li>
+<li class="b-card"><a class="b-img" href="samplesheet-traps-that-change-your-run/" tabindex="-1" aria-hidden="true"><img src="samplesheet-traps-that-change-your-run/image.svg" width="1600" height="900" alt="" loading="lazy" decoding="async"></a><div class="b-card-body"><h2 class="b-card-t"><a href="samplesheet-traps-that-change-your-run/">Samplesheet traps that quietly change your run</a></h2><p class="b-sum">A samplesheet is an input like any other. Five ways a small CSV goes wrong, and what to keep with the run.</p><p class="b-card-meta"><time datetime="2026-10-19">19 October 2026</time> &middot; 6 min read</p></div></li>
+<li class="b-card"><a class="b-img" href="sample-swaps-tools-and-what-a-run-record-says/" tabindex="-1" aria-hidden="true"><img src="sample-swaps-tools-and-what-a-run-record-says/image.svg" width="1600" height="900" alt="" loading="lazy" decoding="async"></a><div class="b-card-body"><h2 class="b-card-t"><a href="sample-swaps-tools-and-what-a-run-record-says/">Sample swaps: the tools, and what a run record can say</a></h2><p class="b-sum">How swaps are found, per three papers, and what a run record can and cannot tell you once one is suspected.</p><p class="b-card-meta"><time datetime="2026-10-19">19 October 2026</time> &middot; 6 min read</p></div></li>
+<li class="b-card"><a class="b-img" href="same-fastqs-different-variants/" tabindex="-1" aria-hidden="true"><img src="same-fastqs-different-variants/image.svg" width="1600" height="900" alt="" loading="lazy" decoding="async"></a><div class="b-card-body"><h2 class="b-card-t"><a href="same-fastqs-different-variants/">Same FASTQs, different variants: where it creeps in</a></h2><p class="b-sum">Same FASTQs, different VCFs? What published studies report, how to isolate the stage, and what to record to explain it.</p><p class="b-card-meta"><time datetime="2026-10-19">19 October 2026</time> &middot; 6 min read</p></div></li>
+<li class="b-card"><a class="b-img" href="ro-crate-biocompute-objects-and-prov/" tabindex="-1" aria-hidden="true"><img src="ro-crate-biocompute-objects-and-prov/image.svg" width="1600" height="900" alt="" loading="lazy" decoding="async"></a><div class="b-card-body"><h2 class="b-card-t"><a href="ro-crate-biocompute-objects-and-prov/">RO-Crate, BioCompute Objects and PROV: which one?</a></h2><p class="b-sum">PROV, RO-Crate and BioCompute Objects in plain words, what nf-prov writes, and how to choose. Jubilab supports none of them.</p><p class="b-card-meta"><time datetime="2026-10-19">19 October 2026</time> &middot; 6 min read</p></div></li>
+<li class="b-card"><a class="b-img" href="provenance-vs-lineage-in-bioinformatics/" tabindex="-1" aria-hidden="true"><img src="provenance-vs-lineage-in-bioinformatics/image.svg" width="1600" height="900" alt="" loading="lazy" decoding="async"></a><div class="b-card-body"><h2 class="b-card-t"><a href="provenance-vs-lineage-in-bioinformatics/">Provenance vs lineage in bioinformatics: examples</a></h2><p class="b-sum">Two overlapping words, one toy variant calling pipeline, and the questions each one helps you answer about a VCF.</p><p class="b-card-meta"><time datetime="2026-10-19">19 October 2026</time> &middot; 6 min read</p></div></li>
+<li class="b-card"><a class="b-img" href="pipeline-version-numbers-two-conventions/" tabindex="-1" aria-hidden="true"><img src="pipeline-version-numbers-two-conventions/image.svg" width="1600" height="900" alt="" loading="lazy" decoding="async"></a><div class="b-card-body"><h2 class="b-card-t"><a href="pipeline-version-numbers-two-conventions/">When should a pipeline get a new version number?</a></h2><p class="b-sum">Two published pipeline versioning conventions side by side, where they differ, and why we treat it as an open question.</p><p class="b-card-meta"><time datetime="2026-10-19">19 October 2026</time> &middot; 5 min read</p></div></li>
+<li class="b-card"><a class="b-img" href="pin-your-containers-by-digest-not-by-tag/" tabindex="-1" aria-hidden="true"><img src="pin-your-containers-by-digest-not-by-tag/image.svg" width="1600" height="900" alt="" loading="lazy" decoding="async"></a><div class="b-card-body"><h2 class="b-card-t"><a href="pin-your-containers-by-digest-not-by-tag/">Pin your containers by digest, not by tag</a></h2><p class="b-sum">A tag is a label that can move; a digest names one image. How to find, use and write down the digest a pipeline ran with.</p><p class="b-card-meta"><time datetime="2026-10-19">19 October 2026</time> &middot; 6 min read</p></div></li>
+<li class="b-card"><a class="b-img" href="local-first-for-lab-data/" tabindex="-1" aria-hidden="true"><img src="local-first-for-lab-data/image.svg" width="1600" height="900" alt="" loading="lazy" decoding="async"></a><div class="b-card-body"><h2 class="b-card-t"><a href="local-first-for-lab-data/">Local-first for lab data: what stays on your machine</a></h2><p class="b-sum">Local-first ideas applied to lab records: what should stay on your own machine, where the cloud helps, and what we ship today.</p><p class="b-card-meta"><time datetime="2026-10-19">19 October 2026</time> &middot; 5 min read</p></div></li>
+<li class="b-card"><a class="b-img" href="lifting-a-vcf-over-what-to-record/" tabindex="-1" aria-hidden="true"><img src="lifting-a-vcf-over-what-to-record/image.svg" width="1600" height="900" alt="" loading="lazy" decoding="async"></a><div class="b-card-body"><h2 class="b-card-t"><a href="lifting-a-vcf-over-what-to-record/">Lifting a VCF over: what to record</a></h2><p class="b-sum">Liftover moves variants between assemblies and can lose some. What to record so you can explain the differences later.</p><p class="b-card-meta"><time datetime="2026-10-19">19 October 2026</time> &middot; 6 min read</p></div></li>
+<li class="b-card"><a class="b-img" href="inherited-pipeline-first-week-checklist/" tabindex="-1" aria-hidden="true"><img src="inherited-pipeline-first-week-checklist/image.svg" width="1600" height="900" alt="" loading="lazy" decoding="async"></a><div class="b-card-body"><h2 class="b-card-t"><a href="inherited-pipeline-first-week-checklist/">Inherited a pipeline? A first-week checklist</a></h2><p class="b-sum">A practical checklist for rebuilding how results were made when you inherit someone else&#x27;s analysis, and what to record as you go.</p><p class="b-card-meta"><time datetime="2026-10-19">19 October 2026</time> &middot; 7 min read</p></div></li>
+<li class="b-card"><a class="b-img" href="how-to-compare-two-pipeline-runs/" tabindex="-1" aria-hidden="true"><img src="how-to-compare-two-pipeline-runs/image.svg" width="1600" height="900" alt="" loading="lazy" decoding="async"></a><div class="b-card-body"><h2 class="b-card-t"><a href="how-to-compare-two-pipeline-runs/">How to compare two pipeline runs</a></h2><p class="b-sum">What counts as a difference between two runs, a manual way to diff them, and what lineage diff and nf-diff showed on a toy pair.</p><p class="b-card-meta"><time datetime="2026-10-19">19 October 2026</time> &middot; 6 min read</p></div></li>
+<li class="b-card"><a class="b-img" href="conda-environments-genomics-export-history-lock/" tabindex="-1" aria-hidden="true"><img src="conda-environments-genomics-export-history-lock/image.svg" width="1600" height="900" alt="" loading="lazy" decoding="async"></a><div class="b-card-body"><h2 class="b-card-t"><a href="conda-environments-genomics-export-history-lock/">Conda for genomics: export, history or lock file?</a></h2><p class="b-sum">Three ways to save a conda environment, what each keeps in a small test, and what we still wonder about for genomics.</p><p class="b-card-meta"><time datetime="2026-10-19">19 October 2026</time> &middot; 5 min read</p></div></li>
+<li class="b-card"><a class="b-img" href="ai-agents-need-a-record-not-just-chat-history/" tabindex="-1" aria-hidden="true"><img src="ai-agents-need-a-record-not-just-chat-history/image.svg" width="1600" height="900" alt="" loading="lazy" decoding="async"></a><div class="b-card-body"><h2 class="b-card-t"><a href="ai-agents-need-a-record-not-just-chat-history/">AI agents in the lab need a record, not a chat history</a></h2><p class="b-sum">Agents can run analyses, but a chat transcript is not a record of how a result was made. Our vision, and what is not built yet.</p><p class="b-card-meta"><time datetime="2026-10-19">19 October 2026</time> &middot; 6 min read</p></div></li>
+</ul>
+<p class="g-review">These articles come from our earlier work on data provenance. Jubilab is now building the <a href="../">order-to-result layer for lab work</a>.</p>
+<p class="g-review">Posts are written by the Jubilab team. Product names belong to their owners; Jubilab is not affiliated with or endorsed by them. If you spot a mistake, email <a href="mailto:hello@jubilab.io">hello@jubilab.io</a>.</p>
+</div>
+</div>
+</main>
+<footer>
+  <div class="wrap">
+    <div>
+      <p class="foot-brand">Jubilab</p>
+      <p>The order-to-result layer for lab work, in design. Examples on this site are illustrative drafts.</p>
+      <p>Contact: <a href="mailto:hello@jubilab.io">hello@jubilab.io</a></p>
+    </div>
+    <ul aria-label="Footer">
+      <li><a href="../guides/">Guides</a></li>
+      <li><a href="../blog/">Blog</a></li>
+      <li><a href="../privacy/">Privacy</a></li>
+      <li><a href="../terms/">Terms</a></li>
+      <li><a href="../#top">Back to top</a></li>
+    </ul>
+  </div>
+</footer>
+<script src="../assets/theme.js" defer></script>
+<script src="../assets/consent.js" defer></script>
+</body>
+</html>
