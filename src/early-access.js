@@ -1,13 +1,14 @@
 // POST /api/early-access, called from src/worker.js.
 // Stores one record per email in the KV namespace bound as WAITLIST (see wrangler.jsonc).
-// Stores only the form fields (email, role, role_other, field, field_other, runs_on, runs_on_other, human_data, tracking)
-// and a UTC timestamp. Everything except the free-text comment (tracking) is required; the "other" text is required
-// only when "other" is chosen. Old field names (tools, trace) are ignored, not stored. No IP address or user agent is stored.
+// Stores only the form fields (email, role, role_other, org_type, providers, volume, eln, eln_other, comment)
+// and a UTC timestamp. Everything except the free-text comment is required; the "other" text is required
+// only when "other" is chosen. Unknown and retired field names (field, runs-on, human-data, tracking, tools, trace)
+// are ignored, not stored. No IP address or user agent is stored.
 
-const ROLE = ["lab-head", "postdoc-scientist", "grad-student", "bioinformatician-analyst", "core-rse", "other"];
-const FIELD = ["genetics-genomics", "bioinformatics-comp-bio", "molecular-cell-biology", "other-life-science", "other-lab-science", "other"];
-const RUNS_ON = ["windows", "macos", "linux", "hpc-cluster", "aws", "azure", "gcp", "other"];
-const HUMAN = ["yes", "no"];
+const ROLE = ["platform-ops", "comp-bio", "scientist", "procurement", "provider-staff", "agent-dev", "other"];
+const ORG_TYPE = ["biotech", "pharma", "academic", "provider", "core"];
+const VOLUME = ["lt-30", "30-150", "151-500", "gt-500", "unsure"];
+const ELN = ["benchling", "labguru", "scispot", "other", "none"];
 
 // Strict address check. Unicode letters are allowed; whitespace, control characters and % < > , ; quotes
 // and backslash are not. One "@", local part up to 64, whole address up to 254, domain with a dot and
@@ -41,6 +42,10 @@ function other(form, name, chosen) {
   return v ? { value: v } : { error: name };
 }
 
+// Required free text (providers used): same cleaning as "other" text, up to 200 characters. Returns null when
+// the bytes were not valid UTF-8, "" when empty.
+const providersText = (v) => text(v, 200);
+
 // Optional comment: invalid UTF-8 returns null (rejected); control characters other than newline are dropped,
 // CRLF becomes LF, capped at 300 characters.
 const comment = (v) => {
@@ -56,30 +61,29 @@ export function parse(form) {
   if (!role) return { error: "role" };
   const roleOther = other(form, "role-other", role === "other");
   if (roleOther.error) return { error: roleOther.error };
-  const field = one(form.get("field"), FIELD);
-  if (!field) return { error: "field" };
-  const fieldOther = other(form, "field-other", field === "other");
-  if (fieldOther.error) return { error: fieldOther.error };
-  const picked = form.getAll("runs-on");
-  if (!picked.length || picked.some((t) => !RUNS_ON.includes(t))) return { error: "runs-on" };
-  const runsOn = [...new Set(picked)];
-  const runsOther = other(form, "runs-on-other", runsOn.includes("other"));
-  if (runsOther.error) return { error: runsOther.error };
-  const human = one(form.get("human-data"), HUMAN);
-  if (!human) return { error: "human-data" };
-  const tracking = comment(form.get("tracking"));
-  if (tracking === null) return { error: "tracking" };
+  const orgType = one(form.get("org-type"), ORG_TYPE);
+  if (!orgType) return { error: "org-type" };
+  const providers = providersText(form.get("providers"));
+  if (!providers) return { error: "providers" };
+  const volume = one(form.get("volume"), VOLUME);
+  if (!volume) return { error: "volume" };
+  const eln = one(form.get("eln"), ELN);
+  if (!eln) return { error: "eln" };
+  const elnOther = other(form, "eln-other", eln === "other");
+  if (elnOther.error) return { error: elnOther.error };
+  const comment_ = comment(form.get("comment"));
+  if (comment_ === null) return { error: "comment" };
   return {
     record: {
       email,
       role,
       role_other: roleOther.value,
-      field,
-      field_other: fieldOther.value,
-      runs_on: runsOn,
-      runs_on_other: runsOther.value,
-      human_data: human,
-      tracking,
+      org_type: orgType,
+      providers,
+      volume,
+      eln,
+      eln_other: elnOther.value,
+      comment: comment_,
       received_at: new Date().toISOString(),
     },
   };

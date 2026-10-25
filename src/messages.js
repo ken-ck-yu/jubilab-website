@@ -4,12 +4,12 @@ export const MESSAGES = {
   email: "That email address does not look right. Please check it and send the form again.",
   role: "Please choose your role.",
   "role-other": "You chose Other for your role but did not say what it is. Please choose your role again and type your answer.",
-  field: "Please choose your field.",
-  "field-other": "You chose Other for your field but did not say what it is. Please choose your field again and type your answer.",
-  "runs-on": "Please choose at least one place where your analysis runs.",
-  "runs-on-other": "You chose Other for where your analysis runs but did not say what it is. Please choose again and type your answer.",
-  "human-data": "Please say whether your work involves human or patient-derived data.",
-  tracking: "Your comment could not be read. Please remove unusual characters and try again.",
+  "org-type": "Please choose your organization type.",
+  providers: "Please tell us which providers you use today.",
+  volume: "Please choose your monthly sample volume.",
+  eln: "Please choose the ELN you use, or None.",
+  "eln-other": "You chose Other for your ELN but did not say what it is. Please choose your ELN again and type your answer.",
+  comment: "Your comment could not be read. Please remove unusual characters and try again.",
 };
 
 const esc = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");

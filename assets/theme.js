@@ -2,8 +2,7 @@
    Light is the default; dark is only used when the visitor chooses it with the header button. */
 (function () {
   // Early-access form. Without JS everything still works: the "If other" boxes are always visible and the
-  // server checks every answer. With JS the boxes appear only when Other is chosen, and the checkbox group
-  // gets a "choose at least one" check.
+  // server checks every answer. With JS the boxes appear only when Other is chosen.
   var form = document.getElementById("early-access-form");
   if (form) {
     var others = form.querySelectorAll(".other[data-other-for]");
@@ -21,33 +20,25 @@
         i.addEventListener("change", function () { syncOther(box); });
       });
     });
-    var boxes = form.querySelectorAll('input[name="runs-on"]');
-    var syncRuns = function () {
-      var any = Array.prototype.some.call(boxes, function (c) { return c.checked; });
-      boxes[0].setCustomValidity(any ? "" : "Please choose at least one.");
-    };
-    Array.prototype.forEach.call(boxes, function (c) { c.addEventListener("change", syncRuns); });
-    syncRuns();
-
     // The server redirects to /?error=<what>#access when an answer is missing or invalid; say which one.
     var msg = document.getElementById("form-error");
     var texts = {
       email: "That email address does not look right. Please check it and send the form again.",
       role: "Please choose your role.",
       "role-other": "You chose Other for your role but did not say what it is. Please choose your role again and type your answer.",
-      field: "Please choose your field.",
-      "field-other": "You chose Other for your field but did not say what it is. Please choose your field again and type your answer.",
-      "runs-on": "Please choose at least one place where your analysis runs.",
-      "runs-on-other": "You chose Other for where your analysis runs but did not say what it is. Please choose again and type your answer.",
-      "human-data": "Please say whether your work involves human or patient-derived data.",
-      tracking: "Your comment could not be read. Please remove unusual characters and try again."
+      "org-type": "Please choose your organization type.",
+      providers: "Please tell us which providers you use today.",
+      volume: "Please choose your monthly sample volume.",
+      eln: "Please choose the ELN you use, or None.",
+      "eln-other": "You chose Other for your ELN but did not say what it is. Please choose your ELN again and type your answer.",
+      comment: "Your comment could not be read. Please remove unusual characters and try again."
     };
     var m = /(^|[?&])error=([a-z-]+)(&|$)/.exec(location.search);
     if (msg && m && Object.prototype.hasOwnProperty.call(texts, m[2])) {
       msg.textContent = texts[m[2]];
       msg.hidden = false;
       var code = m[2];
-      var target = code === "email" ? document.getElementById("email") : document.getElementById(code.replace(/-other$/, "") + "-group");
+      var target = document.getElementById(code.replace(/-other$/, "") + "-group") || document.getElementById(code);
       if (target) target.setAttribute("aria-describedby", "form-error");
       // Wait for the browser's own jump to #access, which would otherwise take focus away again.
       setTimeout(function () { msg.focus(); }, 50);
