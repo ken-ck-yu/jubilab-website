@@ -16,11 +16,6 @@ test("title <= 65 characters and description 150-160, same in Open Graph and Twi
   for (const k of ["og:description", "twitter:description"]) assert.equal(html.match(new RegExp(`"${k}" content="(.*?)"`))[1], desc);
 });
 
-test("SoftwareApplication description equals the hero lede", () => {
-  const lede = txt(html.match(/class="hero-lede">(.*?)<\/p>/s)[1]);
-  assert.equal(ld.find((n) => n["@type"] === "SoftwareApplication").description, lede);
-});
-
 test("FAQPage JSON-LD matches the visible questions and answers exactly, and is in the raw HTML", () => {
   const faq = ld.find((n) => n["@type"] === "FAQPage");
   const vis = [...html.matchAll(/<summary><h3>(.*?)<\/h3><\/summary><p>(.*?)<\/p>/gs)].map((m) => [txt(m[1]), txt(m[2])]);
@@ -29,7 +24,7 @@ test("FAQPage JSON-LD matches the visible questions and answers exactly, and is 
   assert.deepEqual(faq.mainEntity.map((q) => [q.name, q.acceptedAnswer.text]), vis);
 });
 
-test("Organization, WebSite and SoftwareApplication nodes exist; no sameAs, offers or ratings", () => {
-  assert.deepEqual(ld.map((n) => n["@type"]).sort(), ["FAQPage", "Organization", "SoftwareApplication", "WebSite"]);
+test("Organization, WebSite and FAQPage nodes exist; no SoftwareApplication (unreleased), sameAs, offers or ratings", () => {
+  assert.deepEqual(ld.map((n) => n["@type"]).sort(), ["FAQPage", "Organization", "WebSite"]);
   assert.ok(!JSON.stringify(ld).match(/sameAs|aggregateRating|"offers"/));
 });

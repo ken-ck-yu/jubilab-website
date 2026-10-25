@@ -264,12 +264,7 @@ def main():
                     if isinstance(v, str) and v.startswith("http"):
                         urls.add(v.split("#")[0])
                 if node.get("@type") == "SoftwareApplication":
-                    desc = node.get("description", "")
-                    hero = re.search(r'class="hero-lede">(.*?)</p>', get(base + "/")[1], re.S)
-                    hero_txt = re.sub(r"<[^>]+>", "", hero.group(1)).replace("&rsquo;", "'") if hero else ""
-                    rec("PASS" if " ".join(hero_txt.split()) == " ".join(desc.split()) else "FAIL", "SoftwareApplication description equals the visible hero text")
-                    for banned in ("offers", "aggregateRating", "review"):
-                        rec("PASS" if banned not in node else "FAIL", f"SoftwareApplication has no unverified '{banned}'")
+                    rec("FAIL", "no SoftwareApplication JSON-LD while the product is unreleased")
         # FAQPage must match the visible FAQ text exactly (Google requires the marked-up text to be visible on the page)
         _html = get(base + "/")[1]
         _vis = {}
@@ -283,7 +278,7 @@ def main():
                     for q in node.get("mainEntity", []):
                         _ld[" ".join(q["name"].split())] = " ".join(q["acceptedAnswer"]["text"].split())
         rec("PASS" if _ld and _ld == _vis and 5 <= len(_ld) <= 7 else "FAIL", "FAQPage JSON-LD equals the visible questions and answers", f"{len(_ld)} in JSON-LD, {len(_vis)} visible")
-        for need in ("Organization", "WebSite", "SoftwareApplication"):
+        for need in ("Organization", "WebSite", "FAQPage"):
             rec("PASS" if need in types else "FAIL", f"JSON-LD has {need}")
         for u in sorted(urls):
             s2, _, _ = get(local(base, u))

@@ -43,7 +43,7 @@ Do not push or deploy from the script; those stay separate owner steps.
 - **Search wording (2026-10-25)**: title, description, hero lede, headings, the `#faq` section, its FAQPage JSON-LD and `llms.txt` describe the order-to-result layer (see `docs/seo-keywords.md`). The FAQPage JSON-LD must equal the visible answers (`tests/seo-content.test.mjs`, `review/check-seo.py`); change both together. Every answer says the product is in design and nothing is released; update them when something ships. Google shows FAQ rich results only for a few site types; the markup is kept for answer engines and costs nothing.
 - **Blog and guides (retired 2026-10-25)**: `/blog/` and `/guides/`, `scripts/build-blog.py` and their tests were removed with the order-layer pivot. They are archived in `/home/ken/biligene/jubilab-website/.archive/` and in git history (undo: `git revert` the commit `chore: retire blog and guides`). `tests/launch-state.test.mjs` fails if a link or sitemap entry comes back. After deploy, the old URLs return the 404 page; consider redirects in the Cloudflare dashboard if any were shared.
 - **Home page claims (2026-10-25)**: the order layer is not built. Every capability on the page is worded as planned or in design, every JSON snippet is labelled "Draft v0, illustrative", and the developer section shows the planned tool surface with no install command or endpoint. `tests/banned-wording.test.mjs` pins this and the banned phrases from the brief. When something ships, change the wording and the tests together.
-- **Keep it true**: `index.html` JSON-LD (`Organization`, `WebSite`, `SoftwareApplication`) and `llms.txt` repeat facts from the page. When the page copy changes, change them too, and re-run `review/check-seo.py`. `operatingSystem`, `offers`, ratings, reviews and a logo are deliberately absent until true and confirmed.
+- **Keep it true**: `index.html` JSON-LD (`Organization`, `WebSite`, `FAQPage`; no SoftwareApplication while the product is unreleased) and `llms.txt` repeat facts from the page. When the page copy changes, change them too, and re-run `review/check-seo.py`. `operatingSystem`, `offers`, ratings, reviews and a logo are deliberately absent until true and confirmed.
 
 ## 2. Hosting and the form (Cloudflare Workers with static assets)
 
@@ -154,7 +154,7 @@ Status: implemented (option (a) of the earlier plan: our own banner plus Google 
 - The page makes no statement about licence, open source, customers, logos, testimonials, performance or accounts. Keep it that way until true.
 - No screenshot ships. The hero diagram is inline HTML/SVG (`.flow` in `index.html`) and its step names must match the draft event vocabulary in the "How it works" section and in `llms.txt`.
 - Legal pages: `privacy/` and `terms/` were edited on 2026-10-25 only where they described the old product (form field table, "four questions" wording, demo-data sentence, tool names); legal substance is unchanged and needs the owner's legal review before the next release.
-- JSON-LD in `index.html` has `Organization` (with a contactPoint for hello@jubilab.io, which must be a working mailbox), `WebSite` and `SoftwareApplication` with only durable true facts. `operatingSystem` is deliberately absent until platforms are confirmed.
+- JSON-LD in `index.html` has `Organization` (with a contactPoint for hello@jubilab.io, which must be a working mailbox), `WebSite` and `FAQPage` with only durable true facts. `operatingSystem` is deliberately absent until platforms are confirmed.
 
 ## 9. Final checks
 

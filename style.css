@@ -397,3 +397,5 @@ svg .t-tool { font-family: var(--mono); font-size: 13.5px; fill: var(--ink); }
   .session + .session { margin-top: 36px; }
   .scope li { grid-template-columns: minmax(0, 1fr); gap: 2px; }
 }
+
+#dev .terminal pre { white-space: pre; overflow-x: auto; overflow-wrap: normal; }

@@ -16,12 +16,12 @@
 <meta property="og:image" content="https://jubilab.io/assets/og/jubilab-og.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Jubilab: power lab operations, from sample order to result. An order moves from received through QC and run to delivered, with an agent reading each step.">
+<meta property="og:image:alt" content="Jubilab: power lab operations, from sample order to result. An order moves from received through QC and run to delivered, with an agent reading each step. Marked: in design.">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Jubilab: the order-to-result layer for lab work">
 <meta name="twitter:description" content="Jubilab is building one order format, one status feed and one result schema across every lab you use, for scientists and agents. Sequencing first. Early access.">
 <meta name="twitter:image" content="https://jubilab.io/assets/og/jubilab-og.png">
-<meta name="twitter:image:alt" content="Jubilab: power lab operations, from sample order to result. An order moves from received through QC and run to delivered, with an agent reading each step.">
+<meta name="twitter:image:alt" content="Jubilab: power lab operations, from sample order to result. An order moves from received through QC and run to delivered, with an agent reading each step. Marked: in design.">
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 <link rel="preload" href="assets/fonts/hanken-grotesk-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/ibm-plex-mono-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
@@ -49,17 +49,6 @@
       "name": "Jubilab",
       "url": "https://jubilab.io/",
       "inLanguage": "en",
-      "publisher": {
-        "@id": "https://jubilab.io/#organization"
-      }
-    },
-    {
-      "@type": "SoftwareApplication",
-      "@id": "https://jubilab.io/#software",
-      "name": "Jubilab",
-      "url": "https://jubilab.io/",
-      "description": "Jubilab is the order-to-result layer for lab work, now in design: one way to place a sequencing order, follow the sample and the run, and get the result back as structured data. Biomarker assays come next.",
-      "applicationCategory": "BusinessApplication",
       "publisher": {
         "@id": "https://jubilab.io/#organization"
       }
@@ -253,7 +242,7 @@
     <p class="lede-l">You send samples out and wait. This is what we found when we looked at how sequencing and assay orders move in October 2026.</p>
     <ul class="facts" aria-label="What we found">
       <li><h3>Order</h3><p>A provider-specific Excel manifest, filled in and emailed or re-uploaded, often with a printed copy in the box. Novogene reviews every manifest by hand in one to two hours and approves by email. TU Dresden&rsquo;s purpose-built portal falls back to emailed Excel above 30 samples.</p></li>
-      <li><h3>Status</h3><p>An email to a rep or project manager. Genohub, the most structured marketplace we looked at, shows six coarse states. None of them is &ldquo;received&rdquo;, &ldquo;QC passed&rdquo; or &ldquo;sequencing started&rdquo;. One documented case ran 4.5 months against a 10 to 12 week promise, with no delay notice.</p></li>
+      <li><h3>Status</h3><p>An email to a rep or project manager. Genohub, the most structured marketplace we looked at, shows six coarse states. None of them is &ldquo;received&rdquo;, &ldquo;QC passed&rdquo; or &ldquo;sequencing started&rdquo;. Separately, in one documented case an order ran 4.5 months against a 10 to 12 week promise, with no delay notice. We do not name the provider.</p></li>
       <li><h3>Result</h3><p>An emailed link or a BaseSpace invite that expires in 30 days. Provider IDs that the lab maps back to its own sample names by hand. Failed samples that are silently missing.</p></li>
       <li><h3>APIs</h3><p>We found no ordering API at the sequencing providers we opened (Azenta/GENEWIZ, Novogene, Plasmidsaurus, Eurofins, Psomagen, Edinburgh Genomics, NWGC), or at the research biomarker services (Olink, SomaLogic, Metabolon, IQVIA Labs, Quanterix). The programmatic interfaces we did find sit inside the lab: Clarity LIMS, BaseSpace, MinKNOW, SMRT Link.</p></li>
       <li><h3>Under contract</h3><p>Pharma and consumer-genomics companies with multi-year MSAs still send manifests out and get scheduled file drops back. Clinical-trial data transfer agreements write &ldquo;we will SFTP you a file every Friday&rdquo; into the contract, and data management reconciles by hand.</p></li>
@@ -368,7 +357,7 @@
     <ul class="cards tiers" aria-label="What teams get">
       <li class="card"><div class="cb"><h3 class="ct">Benchling first</h3><p class="cp">Orders and results land in your ELN. Benchling is the first integration we plan to build. It covers the sequencing and assays that its own ordering does not.</p></div></li>
       <li class="card"><div class="cb"><h3 class="ct">One agreement</h3><p class="cp">One MSA with us in place of a different NDA and onboarding for every vendor. The terms are not set yet.</p></div></li>
-      <li class="card"><div class="cb"><h3 class="ct">A history of every order</h3><p class="cp">Each status change is an append-only event with a time and a source. You can see who placed an order, what changed and when.</p></div></li>
+      <li class="card"><div class="cb"><h3 class="ct">A history of every order</h3><p class="cp">Each status change is an append-only event with a time and a source. You can see what changed and when.</p></div></li>
       <li class="card"><div class="cb"><h3 class="ct">Agent and MCP access</h3><p class="cp">An MCP server and a REST API so your agents can quote, order, check status and fetch results, with the same rules as a person.</p></div></li>
     </ul>
     <p class="span">You have negotiated the price. We aim to make what flows under the contract machine-readable, so adding a second lab does not need a bespoke integration. Whether the lab is across the hall or across the world, the plan is the same order object. Benchling, Labguru and Scispot are names of their owners. Jubilab is not affiliated with them.</p>
@@ -380,7 +369,7 @@
     <div class="vision-text">
       <div class="bar"></div>
       <h2 id="h-why">Why now: every AI agent stops at the lab door.</h2>
-      <p class="span">Agents can already draft a sequencing plan, place an order and read a result file. They stop at the lab, because the lab side is not callable. In the providers we opened, we found no API. We are building the door.</p>
+      <p class="span">Agents can already draft a sequencing plan and reason about a result file. They stop at the lab, because the lab side is not callable: in the providers we opened, we found no ordering API. We are building the door.</p>
       <p class="span">At Bili Gene, our own sequencing orders lived in forty email threads. That is why we are building this, and why Bili Gene&rsquo;s own sequencing orders are planned to run through it first.</p>
     </div>
   </div>

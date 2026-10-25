@@ -29,10 +29,11 @@ const one = (v, allowed) => (typeof v === "string" && allowed.includes(v) ? v : 
 
 // Free text: control characters and runs of whitespace become one space; trimmed; capped. Returns null when
 // the bytes were not valid UTF-8 (U+FFFD) so the caller can reject it.
+const FMT = /[\u200B-\u200F\u202A-\u202E\u2066-\u2069\uFEFF]/g;
 const text = (v, max) => {
   const s = String(v || "");
   if (s.includes("\uFFFD")) return null;
-  return s.replace(/[\p{Cc}\s]+/gu, " ").trim().slice(0, max);
+  return s.replace(FMT, "").replace(/[\p{Cc}\s]+/gu, " ").trim().slice(0, max);
 };
 
 // Required "other" text, only when the choice is "other". Returns {value} or {error}.
@@ -51,7 +52,7 @@ const providersText = (v) => text(v, 200);
 const comment = (v) => {
   const s = String(v || "");
   if (s.includes("\uFFFD")) return null;
-  return [...s.replace(/\r\n?/g, "\n").replace(/[^\P{Cc}\n]/gu, "").trim()].slice(0, 300).join("").trim();
+  return [...s.replace(/\r\n?/g, "\n").replace(FMT, "").replace(/[^\P{Cc}\n]/gu, "").trim()].slice(0, 300).join("").trim();
 };
 
 export function parse(form) {

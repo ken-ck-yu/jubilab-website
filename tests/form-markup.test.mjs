@@ -34,3 +34,59 @@ test("providers is required with a 200 character cap; the comment is optional wi
 test("retired fields are gone from the form", () => {
   for (const n of ["field", "runs-on", "human-data", "tracking"]) assert.ok(!form.includes(`name="${n}"`), n);
 });
+
+// ---- regression tests added in fix round 1 (T-045)
+import { readFileSync as rf } from "node:fs";
+const rd2 = (f) => rf(new URL("../" + f, import.meta.url), "utf8");
+
+test("privacy stored-fields table lists exactly the fields parse() stores (plus received_at)", () => {
+  const full = new URLSearchParams({ email: "a@lab.org", role: "other", "role-other": "x", "org-type": "core", providers: "p", volume: "unsure", eln: "other", "eln-other": "y", comment: "c" });
+  const stored = Object.keys(parse(full).record).sort();
+  const table = rd2("privacy/index.html").match(/<tbody>[\s\S]*?<\/tbody>/)[0];
+  const listed = [...table.matchAll(/<th scope="row"><code>([a-z_]+)<\/code>/g)].map((m) => m[1]).sort();
+  assert.deepEqual(listed, stored);
+});
+
+test("privacy no longer describes the old local-first product", () => {
+  const t = rd2("privacy/index.html");
+  assert.ok(!/own machine|outbound network|data stays with you/i.test(t));
+  assert.match(t, /order layer is in design/);
+  for (const f of ["privacy/index.html", "terms/index.html"]) assert.match(rd2(f), /Last updated: 25 October 2026/);
+});
+
+test("evidence facts are present as intended, and the 4.5-month case is not attributed to Genohub", () => {
+  const h = rd2("index.html").replace(/&ldquo;|&rdquo;/g, '"').replace(/&rsquo;/g, "’");
+  assert.match(h, /Novogene reviews every manifest by hand in one to two hours and approves by email/);
+  assert.match(h, /TU Dresden’s purpose-built portal falls back to emailed Excel above 30 samples/);
+  assert.match(h, /Genohub, the most structured marketplace we looked at, shows six coarse states/);
+  assert.match(h, /Separately, in one documented case an order ran 4\.5 months against a 10 to 12 week promise/);
+  assert.ok(!/Genohub[^<.]*4\.5 months/.test(h));
+});
+
+test("the hero diagram and every JSON snippet are labelled illustrative or draft", () => {
+  const h = rd2("index.html");
+  assert.equal((h.match(/EXAMPLE ORDER[^<]*ILLUSTRATIVE/g) || []).length, 2); // wide and tall svg
+  const pre = [...h.matchAll(/<pre tabindex="0" aria-label="([^"]+)">[\s\S]*?<\/pre>\s*<figcaption>([^<]*)<\/figcaption>/g)];
+  assert.equal(pre.length, 4);
+  for (const m of pre) assert.match(m[1] + " " + m[2], /[Dd]raft|illustrative|In design/);
+  assert.equal(pre.filter((m) => /Draft v0, illustrative/.test(m[2])).length, 3);
+});
+
+test("claims consistency: agents do not 'place an order' next to 'no API'; no actor/'who placed' claim", () => {
+  const h = rd2("index.html");
+  assert.ok(!/Agents can already[^.]*place an order/.test(h));
+  assert.ok(!/who placed an order/.test(h));
+});
+
+test("free text drops bidi and zero-width format characters (U+202E and friends)", () => {
+  const evil = "‮evil​⁦x⁩﻿ ok";
+  const r = parse(new URLSearchParams({ email: "a@lab.org", role: "scientist", "org-type": "core", providers: "ab" + evil, volume: "unsure", eln: "none", comment: "c" + evil }));
+  assert.equal(r.record.providers, "abevilx ok");
+  assert.equal(r.record.comment, "cevilx ok");
+  const o = parse(new URLSearchParams({ email: "a@lab.org", role: "other", "role-other": "‮​", "org-type": "core", providers: "p", volume: "unsure", eln: "none" }));
+  assert.equal(o.error, "role-other");
+});
+
+test("OG source carries the In design marker", () => {
+  assert.match(rd2("assets/og/og-source.html"), /class="tag">In design</);
+});

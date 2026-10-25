@@ -1,4 +1,4 @@
-> SUPERSEDED 2026-10-25: this spec describes the retired provenance-product hero (screenshot frame). The frame, tokens and layout rules still apply; the content does not. See docs/design-redesign-industry.md and the pivot brief.
+> SUPERSEDED 2026-10-25: this spec describes the retired provenance-product hero (screenshot frame). The frame, tokens and layout rules still apply; the content does not. See the pivot brief.
 
 # Jubilab website v2.1: hero product visual (UXD spec)
 

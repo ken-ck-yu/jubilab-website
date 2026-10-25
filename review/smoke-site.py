@@ -73,7 +73,7 @@ def main(argv):
             print(__doc__)
             return 2
         worker_url = argv[i + 1].rstrip("/")
-        args = [a for a in args if a != worker_url]
+        args = [a for k, a in enumerate(argv) if not a.startswith('--') and k != i + 1]
     if len(args) != 1:
         print(__doc__)
         return 2
@@ -126,7 +126,7 @@ def main(argv):
     # robots / sitemap: report only
     s, _, rb = fetch(base + "/robots.txt")
     rtxt = rb.decode("utf-8", "replace")
-    dis = bool(re.search(r"^Disallow:\s*/\s*$", rtxt, re.M))
+    dis = bool(re.search(r"^User-agent:\s*\*\s*\n(?:[^\n]*\n)*?Disallow:\s*/\s*$", rtxt, re.M | re.I))
     rec("robots.txt state", "INFO", f"status {s}, " + ("crawling DISALLOWED (preview mode)" if dis else "crawling allowed or no Disallow: /"))
     s, _, sb = fetch(base + "/sitemap.xml")
     rec("sitemap.xml state", "INFO", f"status {s}, {len(re.findall(b'<loc>', sb))} url(s)" if s == 200 else f"status {s}")
