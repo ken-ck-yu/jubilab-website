@@ -17,11 +17,6 @@ from urllib.robotparser import RobotFileParser
 
 TRAINING_BOTS = ("GPTBot", "ClaudeBot", "Google-Extended", "CCBot")
 PAGES = ["/", "/privacy/", "/terms/", "/thanks/", "/404.html"]
-GUIDES = ["/guides/", "/guides/reference-genome-build-vcf-bam/", "/guides/what-parameters-produced-this-result/", "/guides/nextflow-provenance-and-lineage-compared/"]
-# Words that need legal review before they may appear in a guide (owner rule, 2026-10-19), and claim words the owner rules forbid.
-GUIDE_BANNED = re.compile(r"audit|regulat|complian|\bgxp\b|validat|\bfastest\b|\bthe only\b|\bthe first\b|\bfirst and only\b|reproducible results|guarantee|better than|\bbeats?\b|\bswap rate\b|3%", re.I)
-# The legal-review word list for blog posts (owner rule, 2026-10-19); the claim words are shared with the guides.
-BLOG_BANNED = re.compile(r"audit trail|\bregulated\b|\bcompliance\b|\bcompliant\b|\bgxp\b|\bvalidated\b|\bfda\b|21\s*cfr|\bhipaa\b|\bgdpr\b|\bfastest\b|\bthe only\b|\bthe first\b|\bfirst and only\b|reproducible results|guarantee|studies show|better than|\bbeats\b", re.I)
 PUBLIC_ORIGIN = "https://jubilab.io"
 RESULTS = []
 
@@ -143,11 +138,7 @@ def main():
 
     pages = {}
     raw = {}
-    BLOGS = sorted(u[len(PUBLIC_ORIGIN):] for u in sm_locs if u.startswith(PUBLIC_ORIGIN + "/blog/"))  # the blog is discovered from the sitemap (generated block)
-    if mode == "launch":
-        rec("PASS" if "/blog/" in BLOGS else "FAIL", "the sitemap lists /blog/", str(BLOGS))
-    # The guides are part of the launched site; in preview mode (everything noindex) they are not expected yet.
-    for path in PAGES + ((GUIDES + BLOGS) if mode == "launch" else []):
+    for path in PAGES:
         url = base + path
         st, html, hdr = get(url)
         if path == "/404.html":
@@ -175,7 +166,7 @@ def main():
             pass
         if is_noindex and in_sitemap and mode == "launch":
             rec("FAIL", f"{path} is noindex but listed in the sitemap")
-        if not is_noindex and not in_sitemap and path in ["/", "/privacy/", "/terms/"] + GUIDES + BLOGS:
+        if not is_noindex and not in_sitemap and path in ["/", "/privacy/", "/terms/"]:
             rec("FAIL", f"{path} is indexable but missing from the sitemap")
         rec("PASS" if p.lang == "en" else "FAIL", f"{path} html lang", str(p.lang))
         rec("PASS" if metac(p, "name", "viewport") else "FAIL", f"{path} viewport meta")
@@ -248,98 +239,10 @@ def main():
                     bad.append(f"{href} (no id {frag})")
         rec("PASS" if not bad else "FAIL", f"{path} internal links resolve", f"{len(set(p.anchors))} links {bad}")
 
-    # Guides: sitemap membership, structured data, accessibility of code blocks, footer link, banned words
-    if mode == "launch":
-        for g in GUIDES:
-            if g not in pages:
-                continue
-            p, html = pages[g], raw[g]
-            rec("PASS" if PUBLIC_ORIGIN + g in sm_locs else "FAIL", f"{g} is in the sitemap")
-            lds = []
-            for blob in p.ldjson:
-                try:
-                    lds.append(json.loads(blob))
-                except Exception as e:
-                    rec("FAIL", f"{g} JSON-LD parses", str(e))
-            rec("PASS" if lds else "FAIL", f"{g} has JSON-LD that parses", f"{len(lds)} blocks")
-            nodes = [n for d in lds for n in walk_ld(d) if isinstance(n, dict) and "@type" in n]
-            types = [n["@type"] for n in nodes]
-            main_t = "CollectionPage" if g == "/guides/" else "TechArticle"
-            rec("PASS" if main_t in types and "BreadcrumbList" in types else "FAIL", f"{g} JSON-LD has {main_t} and BreadcrumbList", str(types))
-            art = next((n for n in nodes if n["@type"] == main_t), {})
-            if main_t == "TechArticle":
-                ok = all(art.get(k) for k in ("headline", "datePublished", "dateModified", "author", "publisher", "description"))
-                rec("PASS" if ok else "FAIL", f"{g} Article has headline, dates, author, publisher, description")
-                rec("PASS" if art.get("author") == art.get("publisher") == {"@type": "Organization", "name": "Jubilab", "url": PUBLIC_ORIGIN + "/"} else "FAIL", f"{g} author and publisher are the Jubilab Organization only (no invented person)")
-                rec("PASS" if art.get("datePublished") <= art.get("dateModified") else "FAIL", f"{g} dateModified is not before datePublished")
-                rec("PASS" if art.get("headline") == next((t for lvl, t in p.headings if lvl == 1), None) else "FAIL", f"{g} Article headline equals the visible h1")
-                rec("PASS" if art.get("description") == metac(p, "name", "description") else "FAIL", f"{g} Article description equals the meta description")
-                rec("PASS" if not re.search(r'"(aggregateRating|review|offers|sameAs|logo)"', "".join(p.ldjson)) else "FAIL", f"{g} JSON-LD has no rating, review, offers, sameAs or logo")
-                rec("PASS" if re.search(r"Last reviewed \d{1,2} \w+ \d{4}", re.sub(r"<[^>]+>", " ", html)) else "FAIL", f"{g} shows a 'Last reviewed' date")
-                rec("PASS" if p.ids >= {"sources", "lost"} else "FAIL", f"{g} has Sources and 'What gets lost' sections")
-                rec("PASS" if "How Jubilab helps" in html and "Available now" in html and "Not available yet" in html and html.count('class="btn"') == 1 else "FAIL", f"{g} has the shipped/not-yet box and exactly one early-access CTA")
-                srcs = re.findall(r'<ol class="g-sources">(.*?)</ol>', html, re.S)
-                rec("PASS" if srcs and srcs[0].count("<li>") >= 3 and srcs[0].count('href="https://') == srcs[0].count("<li>") else "FAIL", f"{g} sources list has https URLs", str(srcs[0].count("<li>") if srcs else 0))
-            for it in next((n for n in nodes if n["@type"] == "BreadcrumbList"), {}).get("itemListElement", []):
-                s2, _, _ = get(local(base, it["item"]))
-                rec("PASS" if s2 == 200 else "FAIL", f"{g} breadcrumb URL resolves: {it['item']}", str(s2))
-            pres = re.findall(r"<pre\b[^>]*>", html)
-            bad = [x for x in pres if 'tabindex="0"' not in x or "aria-label=" not in x]
-            rec("PASS" if not bad else "FAIL", f"{g} every code block is keyboard-focusable and labelled", f"{len(pres)} blocks")
-            rec("PASS" if re.search(r'rel="stylesheet" href="(\.\./)+guides/guides\.css"', html) else "FAIL", f"{g} loads guides.css")
-            rec("PASS" if re.search(r'<footer>.*?href="[^"]*guides/">Guides</a>', html, re.S) else "FAIL", f"{g} footer links to Guides")
-            vis = re.sub(r"(?s)<(script|style)\b.*?</\1>", " ", (re.search(r"(?s)<main\b.*?</main>", html) or re.search(".*", html)).group(0))  # main content only; the site-wide footer says "Be among the first labs"
-            hits = sorted({m.group(0).lower() for m in GUIDE_BANNED.finditer(re.sub(r"<[^>]+>", " ", vis))})
-            rec("PASS" if not hits else "FAIL", f"{g} has none of the banned claim words", str(hits))
-        for pg in ["/", "/privacy/", "/terms/", "/thanks/", "/404.html"]:
-            if pg in raw:
-                rec("PASS" if re.search(r'<footer>.*?href="[^"]*guides/">Guides</a>', raw[pg], re.S) else "FAIL", f"{pg} footer links to Guides")
-
-    # Blog: index and posts. Metadata lengths, canonical and noindex are covered by the generic per-page checks above.
-    if mode == "launch":
-        for g in BLOGS:
-            if g not in pages:
-                continue
-            p, html = pages[g], raw[g]
-            rec("PASS" if PUBLIC_ORIGIN + g in sm_locs else "FAIL", f"{g} is in the sitemap")
-            lds = []
-            for blob in p.ldjson:
-                try:
-                    lds.append(json.loads(blob))
-                except Exception as e:
-                    rec("FAIL", f"{g} JSON-LD parses", str(e))
-            nodes = [n for d in lds for n in walk_ld(d) if isinstance(n, dict) and "@type" in n]
-            types = [n["@type"] for n in nodes]
-            main_t = "CollectionPage" if g == "/blog/" else "BlogPosting"
-            rec("PASS" if main_t in types and "BreadcrumbList" in types else "FAIL", f"{g} JSON-LD has {main_t} and BreadcrumbList", str(types))
-            org = {"@type": "Organization", "name": "Jubilab", "url": PUBLIC_ORIGIN + "/"}
-            art = next((n for n in nodes if n["@type"] == main_t), {})
-            rec("PASS" if art.get("publisher") == org else "FAIL", f"{g} publisher is the Jubilab Organization")
-            if main_t == "BlogPosting":
-                rec("PASS" if all(art.get(k) for k in ("headline", "datePublished", "dateModified", "description", "image")) and art.get("author") == org and art["datePublished"] <= art["dateModified"] else "FAIL", f"{g} BlogPosting has headline, dates, description, image and the Organization as author (no invented person)")
-                rec("PASS" if art.get("headline") == next((t for lvl, t in p.headings if lvl == 1), None) else "FAIL", f"{g} headline equals the visible h1")
-                og = metac(p, "property", "og:image") or ""
-                s2, body, _ = get(local(base, og)) if og.endswith(".png") else (0, "", {})
-                rec("PASS" if og.endswith(".png") and og == art.get("image") and s2 == 200 else "FAIL", f"{g} og:image is a PNG that resolves and matches the JSON-LD image", og)
-                m = re.search(r'<img src="image\.svg"[^>]*alt="([^"]+)"', html)
-                rec("PASS" if m and len(m.group(1)) >= 30 else "FAIL", f"{g} has a post image with real alt text")
-                srcs = re.findall(r'<ol class="g-sources">(.*?)</ol>', html, re.S)
-                rec("PASS" if srcs and srcs[0].count("<li ") >= 3 and srcs[0].count('rel="noopener"') == srcs[0].count("<li ") else "FAIL", f"{g} sources list has at least 3 outbound links with rel=noopener")
-                rec("PASS" if "How Jubilab helps" in html and "Not available yet" in html and html.count('class="btn"') == 1 else "FAIL", f"{g} has the shipped/not-yet box and one early-access CTA")
-            for it in next((n for n in nodes if n["@type"] == "BreadcrumbList"), {}).get("itemListElement", []):
-                s2, _, _ = get(local(base, it["item"]))
-                rec("PASS" if s2 == 200 else "FAIL", f"{g} breadcrumb URL resolves: {it['item']}", str(s2))
-            pres = re.findall(r"<pre\b[^>]*>", html)
-            bad = [x for x in pres if 'tabindex="0"' not in x or "aria-label=" not in x]
-            rec("PASS" if not bad else "FAIL", f"{g} every code block is keyboard-focusable and labelled", f"{len(pres)} blocks")
-            rec("PASS" if re.search(r'rel="stylesheet" href="(\.\./)+blog/blog\.css"', html) else "FAIL", f"{g} loads blog.css")
-            rec("PASS" if re.search(r'<footer>.*?href="[^"]*blog/">Blog</a>', html, re.S) and re.search(r'<nav class="site-nav".*?href="[^"]*blog/"[^>]*>Blog</a>', html, re.S) else "FAIL", f"{g} header nav and footer link to Blog")
-            vis = re.sub(r"(?s)<(script|style)\b.*?</\1>", " ", (re.search(r"(?s)<main\b.*?</main>", html) or re.search(".*", html)).group(0))
-            hits = sorted({m.group(0).lower() for m in BLOG_BANNED.finditer(re.sub(r"<[^>]+>", " ", vis))})
-            rec("PASS" if not hits else "FAIL", f"{g} has none of the banned words or claim words", str(hits))
-        for pg in ["/", "/privacy/", "/terms/", "/thanks/", "/404.html"] + GUIDES:
-            if pg in raw:
-                rec("PASS" if re.search(r'<footer>.*?href="[^"]*blog/">Blog</a>', raw[pg], re.S) and re.search(r'<nav class="site-nav".*?href="[^"]*blog/">Blog</a>', raw[pg], re.S) else "FAIL", f"{pg} header nav and footer link to Blog")
+    # Retired sections: no page may link to the blog or the guides, and the sitemap must not list them.
+    rec("PASS" if not any("/blog/" in u or "/guides/" in u for u in sm_locs) else "FAIL", "sitemap lists no blog or guides URL")
+    for pg, html in raw.items():
+        rec("PASS" if not re.search(r'href="[^"]*(blog|guides)/', html) else "FAIL", f"{pg} has no link to the retired blog or guides")
 
     # JSON-LD (home)
     home = pages.get("/")

@@ -23,7 +23,7 @@ import urllib.parse
 import urllib.request
 
 UA = "jubilab-smoke/1 (QA read-only)"
-BAD_BODY = b"email=not-an-email&role=postdoc-scientist&field=genetics-genomics&runs-on=linux&human-data=no"
+BAD_BODY = b"email=not-an-email&role=platform-ops&org-type=biotech&providers=x&volume=lt-30&eln=none"
 SORRY = "We could not send your request. Please go back and try again, or email hello@jubilab.io."
 MSG_EMAIL = "That email address does not look right."
 SEC_HEADERS = ["x-content-type-options", "referrer-policy", "x-frame-options", "content-security-policy",
@@ -104,11 +104,12 @@ def main(argv):
     b = box(html)
     rec("GET / error box present and hidden", "PASS" if b and re.search(r"\bhidden\b", b) else "FAIL", (b or "no #form-error")[:120])
 
-    for p in ("/thanks/", "/privacy/", "/terms/", "/guides/", "/guides/reference-genome-build-vcf-bam/", "/guides/what-parameters-produced-this-result/", "/guides/nextflow-provenance-and-lineage-compared/"):
+    for p in ("/thanks/", "/privacy/", "/terms/"):
         s, _, _ = fetch(base + p)
         rec(f"GET {p} is 200", "PASS" if s == 200 else "FAIL", f"status {s}")
-    s, hh, _ = fetch(base + "/guides/guides.css")
-    rec("GET /guides/guides.css is 200 css", "PASS" if s == 200 and "css" in hh.get("content-type", "") else "FAIL", f"{s} {hh.get('content-type')}")
+    for p in ("/blog/", "/guides/"):
+        s, _, _ = fetch(base + p)
+        rec(f"GET {p} is gone (retired)", "PASS" if s == 404 else "FAIL", f"status {s}")
     s, hh, _ = fetch(base + "/style.css")
     rec("GET /style.css is 200 css", "PASS" if s == 200 and "css" in hh.get("content-type", "") else "FAIL", f"{s} {hh.get('content-type')}")
 

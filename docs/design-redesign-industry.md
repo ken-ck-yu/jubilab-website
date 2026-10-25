@@ -1,5 +1,7 @@
 # Home page redesign: industry-page layout
 
+> SUPERSEDED IN CONTENT 2026-10-25 (T-045): the layout, tokens and components described here are kept; every section and all copy were replaced for the order-to-result positioning. Current sections: hero with flow diagram, Today, How it works, For labs, For teams, Why now, Developers, What we do not do, Questions, Early access.
+
 Status: built on branch `feat/redesign-industry-layout`, 2026-10-17, website Engineer. Source: the approved mockup `Main.dc.html` plus the owner decisions below. Not merged.
 
 ## What changed (guides hub, 2026-10-19, branch feat/guides-hub)
