@@ -10,7 +10,7 @@ const values = (name) => [...form.matchAll(new RegExp(`<input type="radio" name=
 
 test("form fields are exactly the new set", () => {
   const names = [...new Set([...form.matchAll(/<(?:input|textarea)[^>]*\sname="([^"]+)"/g)].map((m) => m[1]))].sort();
-  assert.deepEqual(names, ["comment", "email", "eln", "eln-other", "org-type", "providers", "q7_note", "role", "role-other", "volume"]);
+  assert.deepEqual(names, ["comment", "eln", "eln-other", "email", "org-type", "providers", "q7_note", "role", "role-other", "volume"]);
 });
 
 test("every radio value in the form is accepted by the Worker and the lists match the brief", () => {
