@@ -19,11 +19,11 @@ The usual advice points in the same direction without using this language. The a
 
 ## Four statuses
 
-Jubilab attaches an evidence status to each fact it records: verified, inferred, manual or unknown. Here is what we mean by each, with an invented example, a variant-calling run for a made-up sample.
+An earlier Jubilab prototype attached an evidence status to each fact it recorded: verified, inferred, manual or unknown. Here is what we mean by each, with an invented example, a variant-calling run for a made-up sample.
 
-- **Verified:** read from something that was observed. For instance, the command line of the run, as the wrapper saw it. (Reading values from file headers is where we are heading; it ships with our next release.)
+- **Verified:** read from something that was observed. For instance, the command line of the run, as the tool that ran it saw it.
 - **Inferred:** worked out from something else. For instance, a reference build guessed from the file name `sample1.hg38.bam`. A file name is a clue, not a measurement, and it can be wrong.
-- **Manual:** typed in by a person. For instance, "filtered on depth at least 10 in a spreadsheet, then saved as a new file". It may be accurate, and it could carry the name of whoever said it and when; that is a design wish, not something we have verified in the product.
+- **Manual:** typed in by a person. For instance, "filtered on depth at least 10 in a spreadsheet, then saved as a new file". It may be accurate, and it could carry the name of whoever said it and when; that is a design wish, not something we have verified.
 - **Unknown:** nothing is known. For instance, the annotation release, because nobody wrote it down and the file does not say.
 
 Imagine all four on one line of a record: tool version verified, reference build inferred, a hand filter manual, annotation release unknown. A reader who sees that line knows where to dig. A reader who sees four tidy values has no such clue.
@@ -47,9 +47,9 @@ A few habits make it work. Fill the status before you fill the value, so "unknow
 
 This is a paper version of an idea, and it has the weaknesses of paper. Nobody checks it, and it is easy to skip when you are busy. We think the discipline is still worth practising before any tool is involved.
 
-## Where Jubilab applies it, and where it does not
+## Where Jubilab is now
 
-Jubilab traces a result back to the run, inputs and parameters that produced it, and forward to what depends on an input. It compares two runs, keeps runs immutable, records Nextflow runs as they happen or imports finished ones, imports Snakemake runs, and wraps other commands with a native bash wrapper. Each fact carries one of the four statuses, so a trace shows what was observed and what was not. Opt-in capture of reference and annotation details from file headers ships with our next release; checks for sample swaps or build mismatches, sample linking and integrations with other platforms are where we are heading, not things you can use today. Jubilab cannot recover the history of a run it never saw. For more on what to record, see [what parameters produced this result](/guides/what-parameters-produced-this-result/), [reference genome builds](/guides/reference-genome-build-vcf-bam/) and [Nextflow provenance and lineage compared](/guides/nextflow-provenance-and-lineage-compared/).
+An earlier Jubilab prototype traced a result back to its run, inputs and parameters, and forward to what depends on an input, with one of the four statuses on each fact, so a trace showed what was observed and what was not. A record cannot recover the history of a run it never saw. Jubilab's earlier run-record prototype is not being offered. Jubilab is now building the order-to-result layer for lab work, which is in design and not released. For more on what to record, see [what parameters produced this result](/guides/what-parameters-produced-this-result/), [reference genome builds](/guides/reference-genome-build-vcf-bam/) and [Nextflow provenance and lineage compared](/guides/nextflow-provenance-and-lineage-compared/).
 
 ## Questions we are still asking
 

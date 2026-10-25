@@ -55,7 +55,7 @@ Whatever rule a project follows, a few things seem useful to a later reader:
 - The versions of the tools and the annotation or reference data in use, since a pipeline's own number may not move when they do.
 - Which convention the pipeline follows, with a link, so the number can be read correctly.
 
-Jubilab records the pipeline version and the parameters of runs it captures, and it lets you compare two runs to see which recorded values differ. It does not interpret version numbers or tell you whether a change was breaking, and opt-in capture of reference and annotation details from file headers is part of our next release rather than something to rely on today. Our guide on [Nextflow provenance and lineage compared](/guides/nextflow-provenance-and-lineage-compared/) covers what the engines themselves record. Jubilab is not affiliated with or endorsed by nf-core, BALSAMIC, Seqera or Nextflow, and this post does not rate either convention.
+An earlier Jubilab prototype recorded the pipeline version and the parameters of the runs it captured. It did not interpret version numbers or tell you whether a change was breaking. Jubilab's earlier run-record prototype is not being offered. Jubilab is now building the order-to-result layer for lab work, which is in design and not released. Our guide on [Nextflow provenance and lineage compared](/guides/nextflow-provenance-and-lineage-compared/) covers what the engines themselves record. Jubilab is not affiliated with or endorsed by nf-core, BALSAMIC, Seqera or Nextflow, and this post does not rate either convention.
 
 ## Questions we are still asking
 

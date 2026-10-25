@@ -113,8 +113,8 @@ for (const s of SLUGS) {
     assert.doesNotMatch(readFileSync(REPO + `blog/${s}/image.svg`, "utf8"), /<text|<script|<image|href=/i);
     assert.match(main, /\d+ min read/);
     assert.match(main, /<h2 id="questions-h">Questions we are still asking/);
-    assert.match(main, /<h2 id="helps-h">How Jubilab helps/);
-    assert.match(main, /Available now/); assert.match(main, /Not available yet/);
+    assert.match(main, /<h2 id="helps-h">Where Jubilab is now/);
+    assert.match(main, /not being offered/); assert.ok(!/Available now|How Jubilab helps/.test(main));
     assert.equal((main.match(/class="btn"/g) || []).length, 1);
     const src = main.match(/<ol class="g-sources">([\s\S]*?)<\/ol>/)[1];
     const n = (src.match(/<li id="src-/g) || []).length;
@@ -122,20 +122,20 @@ for (const s of SLUGS) {
     assert.equal((src.match(/Accessed \d{1,2} [A-Z][a-z]+ \d{4}/g) || []).length, n);
     assert.equal((src.match(/rel="noopener"/g) || []).length, n);
     const t = txt(main);
-    assert.match(t, /sample swap or a reference genome build mismatch/);
+    assert.match(t, /order-to-result layer for lab work/);
     assert.match(t, /not affiliated with or endorsed by/);
     assert.ok(!/(?<!not )(detects?|flags?) sample swaps/i.test(t), "a post may say Jubilab does not detect sample swaps, never that it does");
   });
 }
 
-test("the footer and header nav of every page link to Blog; the home subnav strip still has its six section links", () => {
+test("the footer and header nav of every page link to Blog; the home subnav strip has its seven section links", () => {
   for (const f of ["index.html", "privacy/index.html", "terms/index.html", "thanks/index.html", "404.html", "guides/index.html", ...readdirSync(REPO + "guides").filter((d) => existsSync(REPO + `guides/${d}/index.html`)).map((d) => `guides/${d}/index.html`)]) {
     const h = rd(f);
     assert.match(h, /<footer>[\s\S]*href="[^"]*blog\/">Blog<\/a>/, f);
     assert.match(h, /<nav class="site-nav"[\s\S]*?href="[^"]*blog\/">Blog<\/a>[\s\S]*?<\/nav>/, f);
-    assert.equal((h.match(/<nav class="site-nav"[\s\S]*?<\/nav>/)[0].match(/>Blog<\/a>/g) || []).length, 2, f + ": once in the wide-screen list, once in the menu");
+    assert.equal((h.match(/<nav class="site-nav"[\s\S]*?<\/nav>/)[0].match(/>Blog<\/a>/g) || []).length, f === "index.html" ? 1 : 2, f + ": once in the wide-screen list (not on home), once in the menu");
   }
-  assert.equal((rd("index.html").match(/<nav class="subnav"[\s\S]*?<\/nav>/)[0].match(/<a /g) || []).length, 6);
+  assert.equal((rd("index.html").match(/<nav class="subnav"[\s\S]*?<\/nav>/)[0].match(/<a /g) || []).length, 7);
 });
 
 test("sitemap and llms.txt list the blog index and each post (generated blocks in sync, one entry each)", () => {

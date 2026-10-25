@@ -5,11 +5,11 @@ slug: ro-crate-biocompute-objects-and-prov
 date: 2026-10-19
 updated: 2026-10-19
 tags: provenance, standards, bioinformatics
-summary: PROV, RO-Crate and BioCompute Objects in plain words, what nf-prov writes, and how to choose. Jubilab supports none of them yet.
+summary: PROV, RO-Crate and BioCompute Objects in plain words, what nf-prov writes, and how to choose. Jubilab supports none of them.
 image_alt: Three differently shaped containers in a row, a lidded box, a crate with a lattice front and a tall jar, standing beside one open cabinet with a dotted outline.
 ---
 
-If you search for how to share the history of a workflow run, three names come up again and again: PROV, RO-Crate and BioCompute Objects. They are often mentioned in the same breath, and they are not the same kind of thing. This post puts them side by side in plain words, using each project's own documentation, and ends with questions to ask yourself before choosing. One note up front: Jubilab does not import or export any of these formats today.
+If you search for how to share the history of a workflow run, three names come up again and again: PROV, RO-Crate and BioCompute Objects. They are often mentioned in the same breath, and they are not the same kind of thing. This post puts them side by side in plain words, using each project's own documentation, and ends with questions to ask yourself before choosing. One note up front: Jubilab does not import or export any of these formats.
 
 ## Formats are not stores
 
@@ -49,11 +49,11 @@ We would rather give you questions than a verdict.
 
 It is also worth asking whether you need to pick at all. Some teams may keep an internal store and export a format when someone asks for one. We have not tested how smooth that is.
 
-## What Jubilab does with them today
+## Where Jubilab is now
 
-Nothing. Jubilab does not import or export PROV, RO-Crate or BioCompute Objects, and we are not claiming compatibility with any of them. What it does today is keep its own record: trace a result back to its run, inputs and parameters, compare two runs, mark each fact verified, inferred, manual or unknown, and keep runs as history that cannot be edited. It records Nextflow runs live or imports them, imports Snakemake runs, and wraps other commands with a native bash wrapper.
+Nothing. Jubilab does not import or export PROV, RO-Crate or BioCompute Objects, and we are not claiming compatibility with any of them. The earlier prototype kept its own record, with a status of verified, inferred, manual or unknown on each fact. Jubilab's earlier run-record prototype is not being offered. Jubilab is now building the order-to-result layer for lab work, which is in design and not released.
 
-Whether and how a record like ours should map onto these formats is an open question for us, and we would want to talk to people who hand these files to others before deciding. For the vocabulary, see our post on [provenance versus lineage](/blog/provenance-vs-lineage-in-bioinformatics/) and our guide on [Nextflow provenance and lineage](/guides/nextflow-provenance-and-lineage-compared/). Jubilab is not affiliated with or endorsed by the W3C, the RO-Crate community, the BioCompute project, IEEE, Nextflow or Seqera.
+Whether and how a record like that should map onto these formats is an open question for us, and we would want to talk to people who hand these files to others before deciding. For the vocabulary, see our post on [provenance versus lineage](/blog/provenance-vs-lineage-in-bioinformatics/) and our guide on [Nextflow provenance and lineage](/guides/nextflow-provenance-and-lineage-compared/). Jubilab is not affiliated with or endorsed by the W3C, the RO-Crate community, the BioCompute project, IEEE, Nextflow or Seqera.
 
 ## Questions we are still asking
 

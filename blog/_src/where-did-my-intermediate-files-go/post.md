@@ -54,9 +54,9 @@ None of these lets you resume. They let you say what was done, which is a differ
 
 A record can still say which run made a result, with which parameters and inputs, even if the intermediate files have been purged. What it cannot say is what was inside those files. We think the honest version of a record marks the difference: this fact was seen directly when the run happened; this file used to exist and we can no longer open it.
 
-## Where Jubilab fits
+## Where Jubilab is now
 
-Jubilab is a local-first, self-hostable record of how results are made. Today you can import or live-capture Nextflow runs, import Snakemake runs, and wrap other commands with the native bash wrapper. Runs are immutable history, and each fact carries an evidence status. Jubilab records the locations of the files a run used (and, when you ask for it, their size, timestamp and checksum), never their contents; it is not a data store, so if a purge removes a file, the record can be left pointing to something that no longer exists. We have not confirmed how it presents that today, so we do not claim that it detects missing files. Opt-in capture of reference and annotation details from file headers ships with our next release. Jubilab is not affiliated with or endorsed by Nextflow, Seqera, nf-core, Tufts University, Purdue University or the authors cited here.
+An earlier Jubilab prototype recorded the locations of the files a run used (and, when asked, their size, timestamp and checksum), never their contents. It was not a data store, so if a purge removed a file the record could be left pointing to something that no longer existed. Jubilab's earlier run-record prototype is not being offered. Jubilab is now building the order-to-result layer for lab work, which is in design and not released. Jubilab is not affiliated with or endorsed by Nextflow, Seqera, nf-core, Tufts University, Purdue University or the authors cited here.
 
 ## Questions we are still asking
 

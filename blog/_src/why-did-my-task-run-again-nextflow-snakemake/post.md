@@ -73,7 +73,7 @@ This is a checklist drawn from documentation, not a finding about how often each
 
 When a task reruns, there is a new execution, new outputs and, possibly, a different answer. If the story of a result says "we ran it in March", but half of it was rerun in April, the story has changed in a way that the output files alone will not tell you. The Nextflow lineage documentation says that tasks that failed or were aborted are not recorded, and that when a task is retried the store describes the attempt that succeeded.[^4] That is a sensible design choice, and it also shows why a reader may want an additional record of what happened around it.
 
-Jubilab records runs and keeps them immutable, and it can compare two runs to show which recorded parameters, versions or results differ. It does not explain why an engine decided to rerun a task, and we are not claiming it does. It is not affiliated with or endorsed by Nextflow, Seqera or Snakemake. For the bigger picture of what to write down, see [what parameters produced this result](/guides/what-parameters-produced-this-result/).
+An earlier Jubilab prototype recorded runs and could compare two runs to show which recorded parameters, versions or results differ. It did not explain why an engine decided to rerun a task. Jubilab's earlier run-record prototype is not being offered. Jubilab is now building the order-to-result layer for lab work, which is in design and not released. Jubilab is not affiliated with or endorsed by Nextflow, Seqera or Snakemake. For the bigger picture of what to write down, see [what parameters produced this result](/guides/what-parameters-produced-this-result/).
 
 ## Questions we are still asking
 

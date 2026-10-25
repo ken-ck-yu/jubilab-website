@@ -57,7 +57,7 @@ Checking catches malformed input. It cannot tell you that a correctly formatted 
 
 If the sheet is an input, a record of the run would hold the sheet as it was at launch, or at least a fingerprint of it, next to the pipeline version and parameters. That would let you ask later: which sheet did this run use, and is it the one on disk now?
 
-Jubilab records Nextflow runs, either live or imported, and lets you trace a result back to the inputs and parameters of its run and compare two runs. We have not yet settled how best to present a samplesheet's own contents, and we would rather say that than imply it. Linking individual samples to their files and runs is not available today; it is something we are heading towards. Jubilab also does not check that a row describes the right sample. The guide on [what parameters produced a result](/guides/what-parameters-produced-this-result/) covers the wider idea of what a record should hold. Jubilab is not affiliated with or endorsed by nf-core, Nextflow, DNAnexus or Seqera.
+An earlier Jubilab prototype recorded Nextflow runs and let you trace a result back to the inputs and parameters of its run. We never settled how best to present a samplesheet's own contents. Jubilab does not check that a row describes the right sample. Jubilab's earlier run-record prototype is not being offered. Jubilab is now building the order-to-result layer for lab work, which is in design and not released. The guide on [what parameters produced a result](/guides/what-parameters-produced-this-result/) covers the wider idea of what a record should hold. Jubilab is not affiliated with or endorsed by nf-core, Nextflow, DNAnexus or Seqera.
 
 ## Questions we are still asking
 

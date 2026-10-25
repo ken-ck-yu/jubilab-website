@@ -50,7 +50,7 @@
       },
       "image": "https://jubilab.io/blog/lifting-a-vcf-over-what-to-record/og.png",
       "keywords": "vcf, reference-genome, provenance",
-      "wordCount": 1281,
+      "wordCount": 1203,
       "timeRequired": "PT6M",
       "isPartOf": {
         "@type": "Blog",
@@ -146,17 +146,19 @@
     </a>
     <nav class="site-nav" aria-label="Page sections">
       <ul class="links">
-        <li><a href="../../#how">What it does</a></li>
-        <li><a href="../../#fits">Integrations</a></li>
-        <li><a href="../../#product">Demo</a></li>
+        <li><a href="../../#how">How it works</a></li>
+        <li><a href="../../#labs">For labs</a></li>
+        <li><a href="../../#teams">For teams</a></li>
+        <li><a href="../../#dev">Developers</a></li>
         <li><a href="../../blog/" aria-current="page">Blog</a></li>
       </ul>
       <details class="menu">
         <summary aria-label="Menu"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 7h16M4 12h16M4 17h16"/></svg></summary>
         <ul>
-          <li><a href="../../#how">What it does</a></li>
-          <li><a href="../../#fits">Integrations</a></li>
-          <li><a href="../../#product">Demo</a></li>
+          <li><a href="../../#how">How it works</a></li>
+          <li><a href="../../#labs">For labs</a></li>
+          <li><a href="../../#teams">For teams</a></li>
+          <li><a href="../../#dev">Developers</a></li>
           <li><a href="../../blog/" aria-current="page">Blog</a></li>
         </ul>
       </details>
@@ -219,9 +221,9 @@ records out: 3</code></pre>
 <p>The bcftools manual also notes a <code>--no-version</code> option that leaves version and command line information out of the output header, so if you ever see a VCF without such lines, that alone does not tell you nothing was done to it.<sup class="cite"><a href="#src-5" aria-label="Source 5">[5]</a></sup></p>
 <h2 id="checking-afterwards">Checking afterwards</h2>
 <p>A count tells you how many records went missing, not which ones or why. If the reject file survives, it is a good place to start, because, according to their documentation, Picard and CrossMap write rejected records out with filters or reasons. If it does not, you can only compare the input and output yourself. Our <a href="/guides/reference-genome-build-vcf-bam/">guide on checking the reference build of a VCF or BAM</a> walks through checks such as contig lengths and REF alleles against a FASTA, which work on a lifted file in the same way.</p>
-<h2 id="where-jubilab-fits">Where Jubilab fits</h2>
-<p>Jubilab is being built to keep this kind of record for you, as a local-first, self-hostable history of how results are made. Today you can wrap a liftover command with the native bash wrapper. Jubilab keeps the command, its arguments and the input and output files you declare as an immutable run; the command and times are marked verified, and files you declare are marked manual or inferred. If you declare the lifted file as an output, you can trace it back to that run, and you can compare two runs, for example the same input lifted with two chain files. Opt-in capture of reference and annotation details from file headers ships with our next release.</p>
-<p>Jubilab does not perform or check a liftover, it does not detect that a liftover went wrong, and it does not yet check for reference build mismatches. It is not affiliated with or endorsed by Picard, CrossMap, UCSC, the bcftools project or the authors cited here.</p>
+<h2 id="where-jubilab-is-now">Where Jubilab is now</h2>
+<p>This is the kind of record we wanted a run-record tool to keep: the command, its arguments and the input and output files you declare, with an evidence status on each. Jubilab&#x27;s earlier run-record prototype is not being offered. Jubilab is now building the order-to-result layer for lab work, which is in design and not released.</p>
+<p>Jubilab does not perform or check a liftover. It is not affiliated with or endorsed by Picard, CrossMap, UCSC, the bcftools project or the authors cited here.</p>
 
 <section class="b-questions" aria-labelledby="questions-h">
 <h2 id="questions-h">Questions we are still asking</h2>
@@ -234,24 +236,8 @@ records out: 3</code></pre>
 </ul>
 </section>
 <section class="helps" aria-labelledby="helps-h">
-<h2 id="helps-h">How Jubilab helps</h2>
-
-<div class="helps-cols">
-<div><h3 class="s">Available now</h3>
-<ul>
-<li>Records each run: the command, inputs, parameters and outputs, with an evidence status on every fact (verified, inferred, manual or unknown).</li>
-<li>Trace a result back to its run and parameters; compare two runs to see which recorded values differ.</li>
-<li>Runs are kept as history the application cannot edit.</li>
-<li>Records Nextflow runs as they happen or imports a finished run, imports Snakemake runs, and records any other command with the native bash wrapper.</li>
-<li>Opt-in capture of the reference genome and annotation details written in file headers. It ships with our next release.</li>
-</ul></div>
-<div><h3 class="p">Not available yet</h3>
-<ul>
-<li>Linking every sample to its files and results.</li>
-<li>Checks that flag a sample swap or a reference genome build mismatch. These are not available yet.</li>
-<li>Recovering runs that were never recorded. Jubilab records going forward; it cannot rebuild the history of a run it did not see.</li>
-</ul></div>
-</div>
+<h2 id="helps-h">Where Jubilab is now</h2>
+<p>This post comes from our earlier work on a record of how results are made. Jubilab's earlier run-record prototype is not being offered. Jubilab is now building the order-to-result layer for lab work, which is in design and not released.</p>
 <a class="btn" href="../../#access">Request early access</a>
 </section>
 <h2 id="sources">Sources</h2>
@@ -280,7 +266,7 @@ records out: 3</code></pre>
   <div class="wrap">
     <div>
       <p class="foot-brand">Jubilab</p>
-      <p>Be among the first labs shaping Jubilab. Screenshots and diagrams on this site use synthetic demo data.</p>
+      <p>The order-to-result layer for lab work, in design. Examples on this site are illustrative drafts.</p>
       <p>Contact: <a href="mailto:hello@jubilab.io">hello@jubilab.io</a></p>
     </div>
     <ul aria-label="Footer">

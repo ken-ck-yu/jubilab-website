@@ -56,17 +56,17 @@ Before you finalise the paragraph, go through it and tag each value in your own 
 
 An "unknown" is not a failure. It is better to write "annotation release not recorded" in a draft than to fill the gap with the version you probably used. It is worth asking whether readers and reviewers would also prefer a visible gap to a confident guess; we suspect so but have not tested it.
 
-These four labels are the evidence statuses Jubilab attaches to each fact it records: verified, inferred, manual or unknown. The habit does not depend on any tool, though.
+These four labels are the evidence statuses an earlier Jubilab prototype attached to each fact it recorded: verified, inferred, manual or unknown. The habit does not depend on any tool, though.
 
 ## Keep the record next to the paper
 
 A paragraph has to be short. The record behind it need not be. The guidelines above suggest a table of parameters and versions as supplementary material, and the "Ten Simple Rules" authors also ask for public access to scripts, runs and results.[^1][^2] Whatever you use, keep the full record somewhere that outlives your laptop, and cite the identifiers of the runs in the paragraph so a reader can ask for them.
 
-## Where Jubilab fits
+## Where Jubilab is now
 
-Imagine you open the run behind a figure and find the pipeline, its parameters and the tool versions listed, each marked with how Jubilab learned it. Today you can trace a result back to its run, inputs and parameters, compare two runs, and read the evidence status of each recorded value. Runs are kept as history that cannot be edited. Jubilab records Nextflow runs live or imports finished ones, imports Snakemake runs, and wraps other commands with a native bash wrapper. What a given run record holds depends on what the tool exposed.
+Imagine you open the run behind a figure and find the pipeline, its parameters and the tool versions listed, each marked with how it was learned. An earlier Jubilab prototype recorded runs this way, with an evidence status on each value; what a given run record held depended on what the tool exposed. Jubilab's earlier run-record prototype is not being offered. Jubilab is now building the order-to-result layer for lab work, which is in design and not released.
 
-It does not write your methods paragraph, and we are not suggesting it should do so unreviewed. Opt-in capture of reference and annotation details from file headers ships with our next release, and it is not available yet. Jubilab cannot recover the history of a run it never saw. See also our guide on [what parameters produced a result](/guides/what-parameters-produced-this-result/) and, for the reference build, [checking a VCF or BAM](/guides/reference-genome-build-vcf-bam/). Jubilab is not affiliated with or endorsed by Nextflow, nf-core, Snakemake or the authors cited here.
+It does not write your methods paragraph, and we are not suggesting it should do so unreviewed. A record cannot recover the history of a run it never saw. See also our guide on [what parameters produced a result](/guides/what-parameters-produced-this-result/) and, for the reference build, [checking a VCF or BAM](/guides/reference-genome-build-vcf-bam/). Jubilab is not affiliated with or endorsed by Nextflow, nf-core, Snakemake or the authors cited here.
 
 ## Questions we are still asking
 

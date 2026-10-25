@@ -61,11 +61,11 @@ The bcftools manual also notes a `--no-version` option that leaves version and c
 
 A count tells you how many records went missing, not which ones or why. If the reject file survives, it is a good place to start, because, according to their documentation, Picard and CrossMap write rejected records out with filters or reasons. If it does not, you can only compare the input and output yourself. Our [guide on checking the reference build of a VCF or BAM](/guides/reference-genome-build-vcf-bam/) walks through checks such as contig lengths and REF alleles against a FASTA, which work on a lifted file in the same way.
 
-## Where Jubilab fits
+## Where Jubilab is now
 
-Jubilab is being built to keep this kind of record for you, as a local-first, self-hostable history of how results are made. Today you can wrap a liftover command with the native bash wrapper. Jubilab keeps the command, its arguments and the input and output files you declare as an immutable run; the command and times are marked verified, and files you declare are marked manual or inferred. If you declare the lifted file as an output, you can trace it back to that run, and you can compare two runs, for example the same input lifted with two chain files. Opt-in capture of reference and annotation details from file headers ships with our next release.
+This is the kind of record we wanted a run-record tool to keep: the command, its arguments and the input and output files you declare, with an evidence status on each. Jubilab's earlier run-record prototype is not being offered. Jubilab is now building the order-to-result layer for lab work, which is in design and not released.
 
-Jubilab does not perform or check a liftover, it does not detect that a liftover went wrong, and it does not yet check for reference build mismatches. It is not affiliated with or endorsed by Picard, CrossMap, UCSC, the bcftools project or the authors cited here.
+Jubilab does not perform or check a liftover. It is not affiliated with or endorsed by Picard, CrossMap, UCSC, the bcftools project or the authors cited here.
 
 ## Questions we are still asking
 

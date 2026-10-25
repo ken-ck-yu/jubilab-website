@@ -10,28 +10,21 @@ body{margin:0;width:1200px;height:630px;background:#f4f5f2;color:#17201c;font-fa
 .brand{position:absolute;left:72px;top:60px;display:flex;align-items:center;gap:14px;font-weight:700;font-size:34px;letter-spacing:-.02em}
 .brand svg{width:40px;height:40px}
 .bar{position:absolute;left:72px;top:130px;width:56px;height:8px;background:#e8520a}
-h1{position:absolute;left:72px;top:162px;margin:0;font-weight:800;font-size:64px;line-height:1.06;letter-spacing:-.025em;width:690px}
-p{position:absolute;left:72px;top:408px;margin:0;font-size:30px;line-height:1.35;color:#2c3833;width:620px;text-wrap:balance}
-.url{position:absolute;left:72px;bottom:48px;font:500 22px "IBM Plex Mono",monospace;color:#b73f05;letter-spacing:.04em}
-svg.dag{position:absolute;right:44px;top:220px;width:380px;height:292px}
-.box{fill:#fff;stroke:#6e7f78;stroke-width:2}
-.chg .box{fill:#fbf1e1;stroke:#8a5300;stroke-width:3}
-.e{fill:none;stroke:#6e7f78;stroke-width:2}
-text{font-family:"IBM Plex Mono",monospace;font-size:14px;fill:#55625b}
-.nm{font-family:"Hanken Grotesk",sans-serif;font-weight:600;font-size:17px;fill:#17201c}
-.c{fill:#8a5300;font-weight:500}
+h1{position:absolute;left:72px;top:162px;margin:0;font-weight:800;font-size:60px;line-height:1.06;letter-spacing:-.025em;width:900px}
+p{position:absolute;left:72px;top:318px;margin:0;font-size:28px;line-height:1.35;color:#2c3833;width:1000px}
+.tag{position:absolute;right:72px;top:70px;font:500 20px "IBM Plex Mono",monospace;color:#8a5300;border:2px solid #8a5300;border-radius:999px;padding:6px 16px;background:#fbf1e1}
+.url{position:absolute;left:72px;bottom:40px;font:500 22px "IBM Plex Mono",monospace;color:#b73f05;letter-spacing:.04em}
+.row{position:absolute;left:72px;top:412px;display:flex;gap:28px}
+.st{width:230px;height:84px;border:2px solid #6e7f78;border-radius:8px;background:#fff;padding:14px 16px;font:500 15px "IBM Plex Mono",monospace;color:#55625b;position:relative}
+.st b{display:block;font:600 24px "Hanken Grotesk",sans-serif;color:#17201c;margin-top:6px}
+.st.cur{border-color:#b73f05;border-width:3px}
+.st+.st::before{content:"\2192";position:absolute;left:-26px;top:26px;font:400 22px sans-serif;color:#6e7f78}
 </style></head><body>
 <div class="brand"><svg viewBox="0 0 26 26"><circle cx="5" cy="13" r="3.2" fill="#e8520a"/><circle cx="21" cy="6" r="3.2" fill="none" stroke="#e8520a" stroke-width="1.8"/><circle cx="21" cy="20" r="3.2" fill="none" stroke="#e8520a" stroke-width="1.8"/><path d="M8 12 L18 7 M8 14 L18 19" stroke="#e8520a" stroke-width="1.5" fill="none"/></svg>Jubilab</div>
 <div class="bar"></div>
-<h1>More Science Fewer Data &amp; Admin Headaches</h1>
-<p>The record of how every scientific result was made.</p>
+<h1>Power lab operations, from sample order to result.</h1>
+<p>The order-to-result layer for lab work.</p>
+<div class="tag">In design</div>
 <div class="url">jubilab.io</div>
-<svg class="dag" viewBox="0 0 430 330">
-<path class="e" d="M120 165 H148 V70 H180"/><path class="e" d="M120 165 H148 V260 H180"/><path class="e" d="M280 70 H322"/><path class="e" d="M280 260 H322"/>
-<g><rect class="box" x="4" y="135" width="116" height="60" rx="6"/><text x="14" y="158">DATA ASSET</text><text class="nm" x="14" y="180">Cohort_A</text></g>
-<g><rect class="box" x="180" y="35" width="100" height="70" rx="6"/><text x="190" y="58">RUN</text><text class="nm" x="190" y="82">Run 001</text></g>
-<g class="chg"><rect class="box" x="180" y="225" width="100" height="70" rx="6"/><text x="190" y="248">RUN</text><text class="nm" x="190" y="272">Run 002</text><text class="c" x="190" y="291" style="font-size:12px">Δ CHANGED</text></g>
-<g><rect class="box" x="322" y="35" width="104" height="70" rx="6"/><text x="332" y="58">OUTPUT</text></g>
-<g><rect class="box" x="322" y="225" width="104" height="70" rx="6"/><text x="332" y="248">OUTPUT</text></g>
-</svg>
+<div class="row"><div class="st">sample.received<b>Received</b></div><div class="st">qc.passed<b>QC</b></div><div class="st cur">run.started<b>Run</b></div><div class="st">results.delivered<b>Delivered</b></div></div>
 </body></html>

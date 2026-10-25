@@ -28,7 +28,7 @@ for (const p of PAGES) {
     for (const s of srcs) assert.ok(!/^(https?:)?\/\//.test(s), `external script ${s}`);
     assert.ok(srcs.some((s) => s.endsWith("assets/consent.js")), "consent.js is included");
     assert.match(noComments, /<script src="[^"]*assets\/consent\.js" defer><\/script>/);
-    assert.ok(!/fbq\(|hotjar|clarity|segment|plausible|matomo|cloudflareinsights|doubleclick/i.test(noComments), "other tracker code");
+    assert.ok(!/fbq\(|hotjar|clarity(?! LIMS)|segment|plausible|matomo|cloudflareinsights|doubleclick/i.test(noComments), "other tracker code");
     assert.ok(!/<(iframe|img|link)\b[^>]*(src|href)=["']https?:\/\/(?!jubilab\.io)[^"']*(google|facebook|doubleclick)/i.test(noComments));
   });
 }

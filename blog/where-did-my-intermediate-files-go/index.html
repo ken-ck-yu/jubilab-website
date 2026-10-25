@@ -50,7 +50,7 @@
       },
       "image": "https://jubilab.io/blog/where-did-my-intermediate-files-go/og.png",
       "keywords": "nextflow, storage, provenance",
-      "wordCount": 1282,
+      "wordCount": 1232,
       "timeRequired": "PT6M",
       "isPartOf": {
         "@type": "Blog",
@@ -173,17 +173,19 @@
     </a>
     <nav class="site-nav" aria-label="Page sections">
       <ul class="links">
-        <li><a href="../../#how">What it does</a></li>
-        <li><a href="../../#fits">Integrations</a></li>
-        <li><a href="../../#product">Demo</a></li>
+        <li><a href="../../#how">How it works</a></li>
+        <li><a href="../../#labs">For labs</a></li>
+        <li><a href="../../#teams">For teams</a></li>
+        <li><a href="../../#dev">Developers</a></li>
         <li><a href="../../blog/" aria-current="page">Blog</a></li>
       </ul>
       <details class="menu">
         <summary aria-label="Menu"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 7h16M4 12h16M4 17h16"/></svg></summary>
         <ul>
-          <li><a href="../../#how">What it does</a></li>
-          <li><a href="../../#fits">Integrations</a></li>
-          <li><a href="../../#product">Demo</a></li>
+          <li><a href="../../#how">How it works</a></li>
+          <li><a href="../../#labs">For labs</a></li>
+          <li><a href="../../#teams">For teams</a></li>
+          <li><a href="../../#dev">Developers</a></li>
           <li><a href="../../blog/" aria-current="page">Blog</a></li>
         </ul>
       </details>
@@ -243,8 +245,8 @@
 <p>None of these lets you resume. They let you say what was done, which is a different and smaller promise. Our <a href="/guides/what-parameters-produced-this-result/">guide on what parameters produced a result</a> covers items 2 and 3 in more detail.</p>
 <h2 id="what-a-record-can-say-when-the-files-are-gone">What a record can say when the files are gone</h2>
 <p>A record can still say which run made a result, with which parameters and inputs, even if the intermediate files have been purged. What it cannot say is what was inside those files. We think the honest version of a record marks the difference: this fact was seen directly when the run happened; this file used to exist and we can no longer open it.</p>
-<h2 id="where-jubilab-fits">Where Jubilab fits</h2>
-<p>Jubilab is a local-first, self-hostable record of how results are made. Today you can import or live-capture Nextflow runs, import Snakemake runs, and wrap other commands with the native bash wrapper. Runs are immutable history, and each fact carries an evidence status. Jubilab records the locations of the files a run used (and, when you ask for it, their size, timestamp and checksum), never their contents; it is not a data store, so if a purge removes a file, the record can be left pointing to something that no longer exists. We have not confirmed how it presents that today, so we do not claim that it detects missing files. Opt-in capture of reference and annotation details from file headers ships with our next release. Jubilab is not affiliated with or endorsed by Nextflow, Seqera, nf-core, Tufts University, Purdue University or the authors cited here.</p>
+<h2 id="where-jubilab-is-now">Where Jubilab is now</h2>
+<p>An earlier Jubilab prototype recorded the locations of the files a run used (and, when asked, their size, timestamp and checksum), never their contents. It was not a data store, so if a purge removed a file the record could be left pointing to something that no longer existed. Jubilab&#x27;s earlier run-record prototype is not being offered. Jubilab is now building the order-to-result layer for lab work, which is in design and not released. Jubilab is not affiliated with or endorsed by Nextflow, Seqera, nf-core, Tufts University, Purdue University or the authors cited here.</p>
 
 <section class="b-questions" aria-labelledby="questions-h">
 <h2 id="questions-h">Questions we are still asking</h2>
@@ -257,24 +259,8 @@
 </ul>
 </section>
 <section class="helps" aria-labelledby="helps-h">
-<h2 id="helps-h">How Jubilab helps</h2>
-
-<div class="helps-cols">
-<div><h3 class="s">Available now</h3>
-<ul>
-<li>Records each run: the command, inputs, parameters and outputs, with an evidence status on every fact (verified, inferred, manual or unknown).</li>
-<li>Trace a result back to its run and parameters; compare two runs to see which recorded values differ.</li>
-<li>Runs are kept as history the application cannot edit.</li>
-<li>Records Nextflow runs as they happen or imports a finished run, imports Snakemake runs, and records any other command with the native bash wrapper.</li>
-<li>Opt-in capture of the reference genome and annotation details written in file headers. It ships with our next release.</li>
-</ul></div>
-<div><h3 class="p">Not available yet</h3>
-<ul>
-<li>Linking every sample to its files and results.</li>
-<li>Checks that flag a sample swap or a reference genome build mismatch. These are not available yet.</li>
-<li>Recovering runs that were never recorded. Jubilab records going forward; it cannot rebuild the history of a run it did not see.</li>
-</ul></div>
-</div>
+<h2 id="helps-h">Where Jubilab is now</h2>
+<p>This post comes from our earlier work on a record of how results are made. Jubilab's earlier run-record prototype is not being offered. Jubilab is now building the order-to-result layer for lab work, which is in design and not released.</p>
 <a class="btn" href="../../#access">Request early access</a>
 </section>
 <h2 id="sources">Sources</h2>
@@ -306,7 +292,7 @@
   <div class="wrap">
     <div>
       <p class="foot-brand">Jubilab</p>
-      <p>Be among the first labs shaping Jubilab. Screenshots and diagrams on this site use synthetic demo data.</p>
+      <p>The order-to-result layer for lab work, in design. Examples on this site are illustrative drafts.</p>
       <p>Contact: <a href="mailto:hello@jubilab.io">hello@jubilab.io</a></p>
     </div>
     <ul aria-label="Footer">

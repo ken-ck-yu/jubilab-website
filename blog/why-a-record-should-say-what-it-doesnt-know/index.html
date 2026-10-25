@@ -50,8 +50,8 @@
       },
       "image": "https://jubilab.io/blog/why-a-record-should-say-what-it-doesnt-know/og.png",
       "keywords": "provenance, evidence, bioinformatics",
-      "wordCount": 1156,
-      "timeRequired": "PT6M",
+      "wordCount": 1096,
+      "timeRequired": "PT5M",
       "isPartOf": {
         "@type": "Blog",
         "name": "Jubilab blog",
@@ -128,17 +128,19 @@
     </a>
     <nav class="site-nav" aria-label="Page sections">
       <ul class="links">
-        <li><a href="../../#how">What it does</a></li>
-        <li><a href="../../#fits">Integrations</a></li>
-        <li><a href="../../#product">Demo</a></li>
+        <li><a href="../../#how">How it works</a></li>
+        <li><a href="../../#labs">For labs</a></li>
+        <li><a href="../../#teams">For teams</a></li>
+        <li><a href="../../#dev">Developers</a></li>
         <li><a href="../../blog/" aria-current="page">Blog</a></li>
       </ul>
       <details class="menu">
         <summary aria-label="Menu"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 7h16M4 12h16M4 17h16"/></svg></summary>
         <ul>
-          <li><a href="../../#how">What it does</a></li>
-          <li><a href="../../#fits">Integrations</a></li>
-          <li><a href="../../#product">Demo</a></li>
+          <li><a href="../../#how">How it works</a></li>
+          <li><a href="../../#labs">For labs</a></li>
+          <li><a href="../../#teams">For teams</a></li>
+          <li><a href="../../#dev">Developers</a></li>
           <li><a href="../../blog/" aria-current="page">Blog</a></li>
         </ul>
       </details>
@@ -162,7 +164,7 @@
     <p class="eyebrow">Blog</p>
     <h1>Why a record should say what it doesn&#x27;t know</h1>
     <p class="g-lede">Imagine a methods table for an old analysis. Every row is filled in: tool, version, reference genome, annotation release. It looks complete. Then a colleague asks how the genome build was known, and the answer is that someone assumed it from the lab&#x27;s usual setup. The table did not lie on purpose; it just had no way to say &quot;we assumed this&quot;. This post argues that a record should be able to say what it does not know, describes four statuses we use for that, and shows how to try the idea in a spreadsheet today.</p>
-    <p class="g-meta">By Jubilab &middot; <time datetime="2026-10-19">19 October 2026</time> &middot; 6 min read</p>
+    <p class="g-meta">By Jubilab &middot; <time datetime="2026-10-19">19 October 2026</time> &middot; 5 min read</p>
     <p class="b-tags"><span class="g-tag">provenance</span> <span class="g-tag">evidence</span> <span class="g-tag">bioinformatics</span></p>
   </div>
 </section>
@@ -173,11 +175,11 @@
 <p>A record can fail in two ways. It can leave a field empty, which is visible. Or it can fill the field with something plausible, which is not. We think the second is the more dangerous one, and we say that as a worry rather than a finding, because we have not measured how often it happens.</p>
 <p>The usual advice points in the same direction without using this language. The authors of &quot;Ten Simple Rules for Reproducible Computational Research&quot; say that whenever a result may be of potential interest, you should keep track of how it was produced.<sup class="cite"><a href="#src-1" aria-label="Source 1">[1]</a></sup> Their second rule says that, whenever possible, you should rely on the execution of programs instead of manual procedures to modify data, and that manual procedures are inefficient, error-prone and difficult to reproduce.<sup class="cite"><a href="#src-1" aria-label="Source 1">[1]</a></sup> Both rules assume a record of how a result was made. Neither says what the record should do when a step was manual or half remembered, and that is the gap we want to talk about.</p>
 <h2 id="four-statuses">Four statuses</h2>
-<p>Jubilab attaches an evidence status to each fact it records: verified, inferred, manual or unknown. Here is what we mean by each, with an invented example, a variant-calling run for a made-up sample.</p>
+<p>An earlier Jubilab prototype attached an evidence status to each fact it recorded: verified, inferred, manual or unknown. Here is what we mean by each, with an invented example, a variant-calling run for a made-up sample.</p>
 <ul>
-<li><strong>Verified:</strong> read from something that was observed. For instance, the command line of the run, as the wrapper saw it. (Reading values from file headers is where we are heading; it ships with our next release.)</li>
+<li><strong>Verified:</strong> read from something that was observed. For instance, the command line of the run, as the tool that ran it saw it.</li>
 <li><strong>Inferred:</strong> worked out from something else. For instance, a reference build guessed from the file name <code>sample1.hg38.bam</code>. A file name is a clue, not a measurement, and it can be wrong.</li>
-<li><strong>Manual:</strong> typed in by a person. For instance, &quot;filtered on depth at least 10 in a spreadsheet, then saved as a new file&quot;. It may be accurate, and it could carry the name of whoever said it and when; that is a design wish, not something we have verified in the product.</li>
+<li><strong>Manual:</strong> typed in by a person. For instance, &quot;filtered on depth at least 10 in a spreadsheet, then saved as a new file&quot;. It may be accurate, and it could carry the name of whoever said it and when; that is a design wish, not something we have verified.</li>
 <li><strong>Unknown:</strong> nothing is known. For instance, the annotation release, because nobody wrote it down and the file does not say.</li>
 </ul>
 <p>Imagine all four on one line of a record: tool version verified, reference build inferred, a hand filter manual, annotation release unknown. A reader who sees that line knows where to dig. A reader who sees four tidy values has no such clue.</p>
@@ -193,8 +195,8 @@
 </ol>
 <p>A few habits make it work. Fill the status before you fill the value, so &quot;unknown&quot; is a deliberate choice. Never leave the value cell blank for an unknown; write &quot;unknown&quot; so a blank means &quot;not yet looked at&quot;. When something moves from unknown to verified, change the row and keep a note of the earlier state rather than overwriting it.</p>
 <p>This is a paper version of an idea, and it has the weaknesses of paper. Nobody checks it, and it is easy to skip when you are busy. We think the discipline is still worth practising before any tool is involved.</p>
-<h2 id="where-jubilab-applies-it-and-where-it-does-not">Where Jubilab applies it, and where it does not</h2>
-<p>Jubilab traces a result back to the run, inputs and parameters that produced it, and forward to what depends on an input. It compares two runs, keeps runs immutable, records Nextflow runs as they happen or imports finished ones, imports Snakemake runs, and wraps other commands with a native bash wrapper. Each fact carries one of the four statuses, so a trace shows what was observed and what was not. Opt-in capture of reference and annotation details from file headers ships with our next release; checks for sample swaps or build mismatches, sample linking and integrations with other platforms are where we are heading, not things you can use today. Jubilab cannot recover the history of a run it never saw. For more on what to record, see <a href="/guides/what-parameters-produced-this-result/">what parameters produced this result</a>, <a href="/guides/reference-genome-build-vcf-bam/">reference genome builds</a> and <a href="/guides/nextflow-provenance-and-lineage-compared/">Nextflow provenance and lineage compared</a>.</p>
+<h2 id="where-jubilab-is-now">Where Jubilab is now</h2>
+<p>An earlier Jubilab prototype traced a result back to its run, inputs and parameters, and forward to what depends on an input, with one of the four statuses on each fact, so a trace showed what was observed and what was not. A record cannot recover the history of a run it never saw. Jubilab&#x27;s earlier run-record prototype is not being offered. Jubilab is now building the order-to-result layer for lab work, which is in design and not released. For more on what to record, see <a href="/guides/what-parameters-produced-this-result/">what parameters produced this result</a>, <a href="/guides/reference-genome-build-vcf-bam/">reference genome builds</a> and <a href="/guides/nextflow-provenance-and-lineage-compared/">Nextflow provenance and lineage compared</a>.</p>
 
 <section class="b-questions" aria-labelledby="questions-h">
 <h2 id="questions-h">Questions we are still asking</h2>
@@ -207,24 +209,8 @@
 </ul>
 </section>
 <section class="helps" aria-labelledby="helps-h">
-<h2 id="helps-h">How Jubilab helps</h2>
-
-<div class="helps-cols">
-<div><h3 class="s">Available now</h3>
-<ul>
-<li>Records each run: the command, inputs, parameters and outputs, with an evidence status on every fact (verified, inferred, manual or unknown).</li>
-<li>Trace a result back to its run and parameters; compare two runs to see which recorded values differ.</li>
-<li>Runs are kept as history the application cannot edit.</li>
-<li>Records Nextflow runs as they happen or imports a finished run, imports Snakemake runs, and records any other command with the native bash wrapper.</li>
-<li>Opt-in capture of the reference genome and annotation details written in file headers. It ships with our next release.</li>
-</ul></div>
-<div><h3 class="p">Not available yet</h3>
-<ul>
-<li>Linking every sample to its files and results.</li>
-<li>Checks that flag a sample swap or a reference genome build mismatch. These are not available yet.</li>
-<li>Recovering runs that were never recorded. Jubilab records going forward; it cannot rebuild the history of a run it did not see.</li>
-</ul></div>
-</div>
+<h2 id="helps-h">Where Jubilab is now</h2>
+<p>This post comes from our earlier work on a record of how results are made. Jubilab's earlier run-record prototype is not being offered. Jubilab is now building the order-to-result layer for lab work, which is in design and not released.</p>
 <a class="btn" href="../../#access">Request early access</a>
 </section>
 <h2 id="sources">Sources</h2>
@@ -251,7 +237,7 @@
   <div class="wrap">
     <div>
       <p class="foot-brand">Jubilab</p>
-      <p>Be among the first labs shaping Jubilab. Screenshots and diagrams on this site use synthetic demo data.</p>
+      <p>The order-to-result layer for lab work, in design. Examples on this site are illustrative drafts.</p>
       <p>Contact: <a href="mailto:hello@jubilab.io">hello@jubilab.io</a></p>
     </div>
     <ul aria-label="Footer">

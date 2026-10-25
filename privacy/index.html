@@ -16,12 +16,12 @@
 <meta property="og:image" content="https://jubilab.io/assets/og/jubilab-og.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Jubilab: more science, fewer data and admin headaches. The record of how every scientific result was made, beside a lineage graph from an input file through two runs to their outputs.">
+<meta property="og:image:alt" content="Jubilab: power lab operations, from sample order to result. An order moves from received through QC and run to delivered, with an agent reading each step. Marked: in design.">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Privacy | Jubilab">
 <meta name="twitter:description" content="How the Jubilab website handles your data: what the early-access form collects, what the site keeps in your browser, and how to ask us to delete your details.">
 <meta name="twitter:image" content="https://jubilab.io/assets/og/jubilab-og.png">
-<meta name="twitter:image:alt" content="Jubilab: more science, fewer data and admin headaches. The record of how every scientific result was made, beside a lineage graph from an input file through two runs to their outputs.">
+<meta name="twitter:image:alt" content="Jubilab: power lab operations, from sample order to result. An order moves from received through QC and run to delivered, with an agent reading each step. Marked: in design.">
 <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
 <link rel="preload" href="../assets/fonts/hanken-grotesk-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="../assets/fonts/ibm-plex-mono-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
@@ -38,18 +38,20 @@
     </a>
     <nav class="site-nav" aria-label="Page sections">
       <ul class="links">
-        <li><a href="../#how">What it does</a></li>
-        <li><a href="../#fits">Integrations</a></li>
-        <li><a href="../#product">Demo</a></li>
+        <li><a href="../#how">How it works</a></li>
+        <li><a href="../#labs">For labs</a></li>
+        <li><a href="../#teams">For teams</a></li>
+        <li><a href="../#dev">Developers</a></li>
         <li><a href="../blog/">Blog</a></li>
       </ul>
       <details class="menu">
         <summary aria-label="Menu"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 7h16M4 12h16M4 17h16"/></svg></summary>
         <ul>
-          <li><a href="../#how">What it does</a></li>
-          <li><a href="../#fits">Integrations</a></li>
-        <li><a href="../#product">Demo</a></li>
-        <li><a href="../blog/">Blog</a></li>
+          <li><a href="../#how">How it works</a></li>
+          <li><a href="../#labs">For labs</a></li>
+          <li><a href="../#teams">For teams</a></li>
+          <li><a href="../#dev">Developers</a></li>
+          <li><a href="../blog/">Blog</a></li>
         </ul>
       </details>
     </nav>
@@ -75,19 +77,19 @@
   <p>We also use Cloudflare Web Analytics, a service from Cloudflare, our hosting provider. It counts page views, referrers, countries and browser types. It is set up without cookies and without tracking people across sites. The data is processed by Cloudflare under its own privacy statement. Its script is added by Cloudflare when the page is served, not by us.</p>
 
   <h2>The early-access form</h2>
-  <p>The form asks for your email address and answers to four short questions, all required, plus one optional free-text answer. We use the answers only to choose early-access labs and to write to you about early access. We do not sell them, share them for marketing, or use them for advertising. Please do not put patient data, personal data about other people, or confidential research details in the free-text fields.</p>
+  <p>The form asks for your email address and answers to five short questions, all required, plus one optional free-text answer. We use the answers only to choose early-access teams and labs and to write to you about early access. We do not sell them, share them for marketing, or use them for advertising. Please do not put patient data, personal data about other people, or confidential research details in the free-text fields.</p>
   <table>
     <thead><tr><th scope="col">Stored field</th><th scope="col">What it is</th><th scope="col">Required</th></tr></thead>
     <tbody>
       <tr><th scope="row"><code>email</code></th><td>Your email address</td><td>Yes</td></tr>
       <tr><th scope="row"><code>role</code></th><td>Your role (one choice)</td><td>Yes</td></tr>
       <tr><th scope="row"><code>role_other</code></th><td>Your own words, up to 100 characters, if you chose Other for role</td><td>Only if you chose Other</td></tr>
-      <tr><th scope="row"><code>field</code></th><td>Your field (one choice)</td><td>Yes</td></tr>
-      <tr><th scope="row"><code>field_other</code></th><td>Your own words, up to 100 characters, if you chose Other for field</td><td>Only if you chose Other</td></tr>
-      <tr><th scope="row"><code>runs_on</code></th><td>Where your analysis runs (Windows, macOS, Linux, HPC cluster, AWS, Azure, GCP, Other; choose any)</td><td>Yes, at least one</td></tr>
-      <tr><th scope="row"><code>runs_on_other</code></th><td>Your own words, up to 100 characters, if you chose Other for where your analysis runs</td><td>Only if you chose Other</td></tr>
-      <tr><th scope="row"><code>human_data</code></th><td>Whether your work involves human or patient-derived data (Yes or No)</td><td>Yes</td></tr>
-      <tr><th scope="row"><code>tracking</code></th><td>Free text, up to 300 characters: how you keep track of how a result was made today</td><td>No, optional</td></tr>
+      <tr><th scope="row"><code>org_type</code></th><td>Your organization type (one choice: biotech, pharma, academic, provider or core)</td><td>Yes</td></tr>
+      <tr><th scope="row"><code>providers</code></th><td>Free text, up to 200 characters: which providers you use today</td><td>Yes</td></tr>
+      <tr><th scope="row"><code>volume</code></th><td>How many samples you send out in a month (one of five bands)</td><td>Yes</td></tr>
+      <tr><th scope="row"><code>eln</code></th><td>The ELN you use (Benchling, Labguru, Scispot, Other or None)</td><td>Yes</td></tr>
+      <tr><th scope="row"><code>eln_other</code></th><td>Your own words, up to 100 characters, if you chose Other for ELN</td><td>Only if you chose Other</td></tr>
+      <tr><th scope="row"><code>comment</code></th><td>Free text, up to 300 characters: what you would most like fixed about how you order lab work</td><td>No, optional</td></tr>
       <tr><th scope="row"><code>received_at</code></th><td>The time (UTC) you sent the form</td><td>Set automatically</td></tr>
     </tbody>
   </table>
@@ -104,17 +106,17 @@
   <p>You can ask us what we hold about you, to correct it, or to delete it, and you can object to or withdraw consent for our use of it. Email the address below. If you are in the EU, UK or a similar jurisdiction you may also complain to your local data-protection authority.</p>
 
   <h2>The Jubilab product</h2>
-  <p>This page covers the website only. The Jubilab software runs on your own machine or server and, as designed, makes no outbound network calls. Its data stays with you. Any terms for the software itself come with early access.</p>
+  <p>This page covers the website only. This website collects only what is listed on this page. The order layer is in design and is not released, so no product data is collected through this website. Any terms and data-handling statements for the product itself will come with early access.</p>
 
   <h2>Changes and contact</h2>
   <p>If this page changes in a way that matters, the date below changes. Questions: <a href="mailto:hello@jubilab.io">hello@jubilab.io</a>.</p>
-  <p>Last updated: 15 October 2026.</p>
+  <p>Last updated: 25 October 2026.</p>
 </div>
 </main>
 <footer>
   <div class="wrap">
     <div>
-      <p>Be among the first labs shaping Jubilab. Screenshots and diagrams on this site use synthetic demo data.</p>
+      <p>The order-to-result layer for lab work, in design. Examples on this site are illustrative drafts.</p>
       <p>Contact: <a href="mailto:hello@jubilab.io">hello@jubilab.io</a></p>
     </div>
     <ul aria-label="Footer">

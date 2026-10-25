@@ -50,7 +50,7 @@
       },
       "image": "https://jubilab.io/blog/provenance-vs-lineage-in-bioinformatics/og.png",
       "keywords": "provenance, lineage, bioinformatics",
-      "wordCount": 1183,
+      "wordCount": 1133,
       "timeRequired": "PT6M",
       "isPartOf": {
         "@type": "Blog",
@@ -164,17 +164,19 @@
     </a>
     <nav class="site-nav" aria-label="Page sections">
       <ul class="links">
-        <li><a href="../../#how">What it does</a></li>
-        <li><a href="../../#fits">Integrations</a></li>
-        <li><a href="../../#product">Demo</a></li>
+        <li><a href="../../#how">How it works</a></li>
+        <li><a href="../../#labs">For labs</a></li>
+        <li><a href="../../#teams">For teams</a></li>
+        <li><a href="../../#dev">Developers</a></li>
         <li><a href="../../blog/" aria-current="page">Blog</a></li>
       </ul>
       <details class="menu">
         <summary aria-label="Menu"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 7h16M4 12h16M4 17h16"/></svg></summary>
         <ul>
-          <li><a href="../../#how">What it does</a></li>
-          <li><a href="../../#fits">Integrations</a></li>
-          <li><a href="../../#product">Demo</a></li>
+          <li><a href="../../#how">How it works</a></li>
+          <li><a href="../../#labs">For labs</a></li>
+          <li><a href="../../#teams">For teams</a></li>
+          <li><a href="../../#dev">Developers</a></li>
           <li><a href="../../blog/" aria-current="page">Blog</a></li>
         </ul>
       </details>
@@ -232,9 +234,9 @@
 <p>The difference matters when the two disagree. Imagine someone edited a parameter by hand after launching the pipeline. The definition would not show it, and a record of what the run did might. We wonder how often this happens in practice; we have not measured it.</p>
 <h2 id="how-the-engines-use-the-words">How the engines use the words</h2>
 <p>Nextflow&#x27;s documentation calls its feature data lineage. It says the feature was added in version 25.04, is experimental, and records the workflow run, successful task executions and output files in a lineage store.<sup class="cite"><a href="#src-6" aria-label="Source 6">[6]</a></sup> It also says tasks that failed or were aborted are not recorded.<sup class="cite"><a href="#src-6" aria-label="Source 6">[6]</a></sup> So the word on the label is lineage, while the contents include run details; the labels in real tools do not map neatly onto any one definition. Snakemake, on the other hand, uses the word provenance in its documentation for the information it stores about how files were made.<sup class="cite"><a href="#src-7" aria-label="Source 7">[7]</a></sup></p>
-<h2 id="where-jubilab-sits">Where Jubilab sits</h2>
-<p>Jubilab offers both views of the same history. Today you can trace an output back to its run, inputs and parameters, and trace forward from an input to what depends on it, and compare two runs. Each fact carries an evidence status, so the graph shows what was verified and what was inferred. Runs are kept as history that cannot be edited. It records Nextflow runs live or imports them, imports Snakemake runs, and wraps other commands with a native bash wrapper.</p>
-<p>It does not yet link samples to files or check for sample swaps or reference build mismatches. Opt-in capture of reference and annotation details from file headers ships with our next release. Jubilab is not affiliated with or endorsed by the W3C, DataHub, Nextflow or Snakemake.</p>
+<h2 id="where-jubilab-is-now">Where Jubilab is now</h2>
+<p>An earlier Jubilab prototype offered both views of the same history: tracing an output back to its run, inputs and parameters, and forward from an input to what depends on it, with an evidence status on each fact. Jubilab&#x27;s earlier run-record prototype is not being offered. Jubilab is now building the order-to-result layer for lab work, which is in design and not released.</p>
+<p>Jubilab is not affiliated with or endorsed by the W3C, DataHub, Nextflow or Snakemake.</p>
 
 <section class="b-questions" aria-labelledby="questions-h">
 <h2 id="questions-h">Questions we are still asking</h2>
@@ -247,24 +249,8 @@
 </ul>
 </section>
 <section class="helps" aria-labelledby="helps-h">
-<h2 id="helps-h">How Jubilab helps</h2>
-
-<div class="helps-cols">
-<div><h3 class="s">Available now</h3>
-<ul>
-<li>Records each run: the command, inputs, parameters and outputs, with an evidence status on every fact (verified, inferred, manual or unknown).</li>
-<li>Trace a result back to its run and parameters; compare two runs to see which recorded values differ.</li>
-<li>Runs are kept as history the application cannot edit.</li>
-<li>Records Nextflow runs as they happen or imports a finished run, imports Snakemake runs, and records any other command with the native bash wrapper.</li>
-<li>Opt-in capture of the reference genome and annotation details written in file headers. It ships with our next release.</li>
-</ul></div>
-<div><h3 class="p">Not available yet</h3>
-<ul>
-<li>Linking every sample to its files and results.</li>
-<li>Checks that flag a sample swap or a reference genome build mismatch. These are not available yet.</li>
-<li>Recovering runs that were never recorded. Jubilab records going forward; it cannot rebuild the history of a run it did not see.</li>
-</ul></div>
-</div>
+<h2 id="helps-h">Where Jubilab is now</h2>
+<p>This post comes from our earlier work on a record of how results are made. Jubilab's earlier run-record prototype is not being offered. Jubilab is now building the order-to-result layer for lab work, which is in design and not released.</p>
 <a class="btn" href="../../#access">Request early access</a>
 </section>
 <h2 id="sources">Sources</h2>
@@ -295,7 +281,7 @@
   <div class="wrap">
     <div>
       <p class="foot-brand">Jubilab</p>
-      <p>Be among the first labs shaping Jubilab. Screenshots and diagrams on this site use synthetic demo data.</p>
+      <p>The order-to-result layer for lab work, in design. Examples on this site are illustrative drafts.</p>
       <p>Contact: <a href="mailto:hello@jubilab.io">hello@jubilab.io</a></p>
     </div>
     <ul aria-label="Footer">

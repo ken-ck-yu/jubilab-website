@@ -9,7 +9,7 @@ summary: Agents can run analyses, but a chat transcript is not a record of how a
 image_alt: A small robot hand reaching toward a glass cabinet that holds an open ledger, with one spot on a page left as a dotted blank.
 ---
 
-Imagine asking an AI assistant to rerun last month's variant calling on a new cohort, and getting back a tidy summary and a results folder. A week later a colleague asks which reference build it used. The honest answer is somewhere in a chat transcript, if the assistant said it at all. We think this is going to be an ordinary situation for labs, and that it makes a durable record of how results were made more important, not less. This post is a vision piece. Where we describe what we want to build, we say so, and AI-agent access to Jubilab is not available today.
+Imagine asking an AI assistant to rerun last month's variant calling on a new cohort, and getting back a tidy summary and a results folder. A week later a colleague asks which reference build it used. The honest answer is somewhere in a chat transcript, if the assistant said it at all. We think this is going to be an ordinary situation for labs, and that it makes a durable record of how results were made more important, not less. This post is a vision piece. Where we describe what we want to build, we say so, and none of it exists today.
 
 ## What agents are starting to do
 
@@ -45,13 +45,13 @@ Three ideas keep coming up in what we have read.
 
 The most important property for an agent-facing record may be what it does when it does not know. A language model asked about a result can produce a fluent answer whether or not the facts exist. A record should not do that.
 
-Jubilab's query endpoint already works this way. It answers only from entities it can resolve in the record, and otherwise says it cannot determine the answer. Every recorded fact carries an evidence status, verified, inferred, manual or unknown, so a reader, human or not, can tell a value that was read from a log from one that was guessed. The server makes no outbound network calls and has no AI model in it. These behaviours are the kind of foundation we think an agent would need, and we think they matter more if the reader is a machine that might smooth over gaps.
+An earlier Jubilab prototype worked this way. It answered only from entities it could resolve in the record, and otherwise said it could not determine the answer. Every recorded fact carried an evidence status, verified, inferred, manual or unknown, so a reader, human or not, can tell a value that was read from a log from one that was guessed. That server made no outbound network calls and had no AI model in it. These behaviours are the kind of foundation we think an agent would need, and we think they matter more if the reader is a machine that might smooth over gaps.
 
 ## Where we are heading
 
-We want a lab's agents and its people to read the same history. Our plan is a read-only way for an AI agent to ask Jubilab questions such as "what produced this file?" or "what differs between these two runs?" and to get answers with their evidence statuses, or an honest "cannot determine". We have in mind MCP as one route, and we have not built it. No agent access exists in the product today, and we have not tested any agent against it. We also have not decided what an agent should be allowed to write, if anything; our instinct is that it should start with nothing.
+We want a lab's agents and its people to read the same history. Our earlier plan was a read-only way for an AI agent to ask a record questions such as "what produced this file?" or "what differs between these two runs?" and to get answers with their evidence statuses, or an honest "cannot determine". We have in mind MCP as one route, and we have not built it. No agent access exists today, and we have not tested any agent against it. We also have not decided what an agent should be allowed to write, if anything; our instinct is that it should start with nothing.
 
-What you can use now is the human side: trace a result back to its run, inputs and parameters, compare two runs and see which recorded values differ, with runs kept as history that cannot be edited. Jubilab records Nextflow runs live or from import, imports Snakemake runs, and wraps other commands with a native bash wrapper. For how we think about those records, see our guide on [Nextflow provenance and lineage](/guides/nextflow-provenance-and-lineage-compared/). Jubilab is not affiliated with or endorsed by the authors, LabKey, NAISS or the Model Context Protocol project mentioned here, and it does not integrate with any of them.
+That earlier prototype is not being offered, and Jubilab is now building the order-to-result layer for lab work, which is in design and not released. For how we think about those records, see our guide on [Nextflow provenance and lineage](/guides/nextflow-provenance-and-lineage-compared/). Jubilab is not affiliated with or endorsed by the authors, LabKey, NAISS or the Model Context Protocol project mentioned here, and it does not integrate with any of them.
 
 ## Questions we are still asking
 

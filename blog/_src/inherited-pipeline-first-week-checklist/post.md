@@ -72,11 +72,11 @@ Everything above produces facts of different quality, and a rebuilt record is on
 
 Our reading of the arXiv essay "Be Prospective, Not Retrospective" is that its author proposes making reproducibility a goal from the start of a project instead of fixing documentation at the end.[^8] A handover is the moment that lesson shows up. Whatever you rebuild this week, a good moment to start writing down how new results are made is now.
 
-## Where Jubilab fits
+## Where Jubilab is now
 
-Jubilab is a local-first, self-hostable record of how results are made. Today it can trace a result back to its run, inputs and parameters, compare two runs, and keep each fact with an evidence status (verified, inferred, manual or unknown), which is the same idea as the list above. It records Nextflow runs live or imports finished ones, imports Snakemake runs, and wraps other commands with a native bash wrapper. Runs are kept as history the application cannot edit.
+The status labels in the list above (verified, inferred, manual or unknown) come from our earlier work on a record of how results are made. Jubilab's earlier run-record prototype is not being offered. Jubilab is now building the order-to-result layer for lab work, which is in design and not released.
 
-It cannot recover the history of runs it never saw, and it does not reconstruct what a departed colleague did. What it can do is make the next handover less of a detective story. Capturing reference and annotation details from file headers is opt-in and ships with our next release. Jubilab is not affiliated with or endorsed by Nextflow, Snakemake, Seqera, the bcftools or samtools projects, or the authors cited here.
+No tool can recover the history of runs it never saw or reconstruct what a departed colleague did; a record only makes the next handover less of a detective story. Jubilab is not affiliated with or endorsed by Nextflow, Snakemake, Seqera, the bcftools or samtools projects, or the authors cited here.
 
 ## Questions we are still asking
 

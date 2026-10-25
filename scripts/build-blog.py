@@ -16,7 +16,7 @@ ROOT = os.environ.get("JUBILAB_SITE_ROOT") or os.path.dirname(os.path.dirname(os
 ORIGIN = "https://jubilab.io"
 SRC = "blog/_src"
 DEFAULT_OG = ORIGIN + "/assets/og/jubilab-og.png"
-DEFAULT_OG_ALT = "Jubilab: more science, fewer data and admin headaches. The record of how every scientific result was made, beside a lineage graph from an input file through two runs to their outputs."
+DEFAULT_OG_ALT = "Jubilab: power lab operations, from sample order to result. An order moves from received through QC and run to delivered, with an agent reading each step. Marked: in design."
 MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
 KEYS = ["title", "description", "slug", "date", "updated", "tags", "summary", "image_alt"]
 OPTIONAL = ["reading_time"]
@@ -433,17 +433,19 @@ def header(p):
     </a>
     <nav class="site-nav" aria-label="Page sections">
       <ul class="links">
-        <li><a href="{p}#how">What it does</a></li>
-        <li><a href="{p}#fits">Integrations</a></li>
-        <li><a href="{p}#product">Demo</a></li>
+        <li><a href="{p}#how">How it works</a></li>
+        <li><a href="{p}#labs">For labs</a></li>
+        <li><a href="{p}#teams">For teams</a></li>
+        <li><a href="{p}#dev">Developers</a></li>
         <li><a href="{p}blog/"{cur}>Blog</a></li>
       </ul>
       <details class="menu">
         <summary aria-label="Menu"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 7h16M4 12h16M4 17h16"/></svg></summary>
         <ul>
-          <li><a href="{p}#how">What it does</a></li>
-          <li><a href="{p}#fits">Integrations</a></li>
-          <li><a href="{p}#product">Demo</a></li>
+          <li><a href="{p}#how">How it works</a></li>
+          <li><a href="{p}#labs">For labs</a></li>
+          <li><a href="{p}#teams">For teams</a></li>
+          <li><a href="{p}#dev">Developers</a></li>
           <li><a href="{p}blog/"{cur}>Blog</a></li>
         </ul>
       </details>
@@ -465,7 +467,7 @@ def footer(p):
   <div class="wrap">
     <div>
       <p class="foot-brand">Jubilab</p>
-      <p>Be among the first labs shaping Jubilab. Screenshots and diagrams on this site use synthetic demo data.</p>
+      <p>The order-to-result layer for lab work, in design. Examples on this site are illustrative drafts.</p>
       <p>Contact: <a href="mailto:hello@jubilab.io">hello@jubilab.io</a></p>
     </div>
     <ul aria-label="Footer">
@@ -486,24 +488,8 @@ def footer(p):
 
 # Same wording as the three guides (tests/guides.test.mjs pins it there); keep in step when a release changes what ships.
 HELPS = """<section class="helps" aria-labelledby="helps-h">
-<h2 id="helps-h">How Jubilab helps</h2>
-
-<div class="helps-cols">
-<div><h3 class="s">Available now</h3>
-<ul>
-<li>Records each run: the command, inputs, parameters and outputs, with an evidence status on every fact (verified, inferred, manual or unknown).</li>
-<li>Trace a result back to its run and parameters; compare two runs to see which recorded values differ.</li>
-<li>Runs are kept as history the application cannot edit.</li>
-<li>Records Nextflow runs as they happen or imports a finished run, imports Snakemake runs, and records any other command with the native bash wrapper.</li>
-<li>Opt-in capture of the reference genome and annotation details written in file headers. It ships with our next release.</li>
-</ul></div>
-<div><h3 class="p">Not available yet</h3>
-<ul>
-<li>Linking every sample to its files and results.</li>
-<li>Checks that flag a sample swap or a reference genome build mismatch. These are not available yet.</li>
-<li>Recovering runs that were never recorded. Jubilab records going forward; it cannot rebuild the history of a run it did not see.</li>
-</ul></div>
-</div>
+<h2 id="helps-h">Where Jubilab is now</h2>
+<p>This post comes from our earlier work on a record of how results are made. Jubilab's earlier run-record prototype is not being offered. Jubilab is now building the order-to-result layer for lab work, which is in design and not released.</p>
 <a class="btn" href="../../#access">Request early access</a>
 </section>
 """
@@ -641,8 +627,8 @@ INDEX_TITLE = "Jubilab blog: how scientific results get made"
 INDEX_DESC = "Notes from the Jubilab team on data provenance, lineage and reproducibility in bioinformatics, with sources and open questions where we are not yet sure."
 assert 150 <= len(INDEX_DESC) <= 160 and len(INDEX_TITLE) <= 65
 INDEX_H1 = "The Jubilab blog"
-INDEX_LEDE = ("We are building the record of how every scientific result was made, and we want to think in the open while we do. These posts look at provenance, lineage "
-              "and the everyday questions behind a result. Each one cites its sources, says what we could not check, and separates what Jubilab does now from where we are heading.")
+INDEX_LEDE = ("Notes on provenance, lineage and the everyday questions behind a result, from our earlier work on a record of how results are made. "
+              "Each post cites its sources and says what we could not check.")
 
 
 def render_index(posts):
@@ -674,7 +660,8 @@ def render_index(posts):
         out.append("</ul>")
     else:
         out.append("<p>The first posts are on the way.</p>")
-    out.append("""<p class="g-review">Posts are written by the Jubilab team. Product names belong to their owners; Jubilab is not affiliated with or endorsed by them. If you spot a mistake, email <a href="mailto:hello@jubilab.io">hello@jubilab.io</a>.</p>
+    out.append("""<p class="g-review">These articles come from our earlier work on data provenance. Jubilab is now building the <a href="../">order-to-result layer for lab work</a>.</p>
+<p class="g-review">Posts are written by the Jubilab team. Product names belong to their owners; Jubilab is not affiliated with or endorsed by them. If you spot a mistake, email <a href="mailto:hello@jubilab.io">hello@jubilab.io</a>.</p>
 </div>
 </div>
 </main>
@@ -699,7 +686,7 @@ def sitemap_block(posts):
 
 def llms_block(posts):
     lines = [START, "## Blog", "",
-             f"- [Blog]({ORIGIN}/blog/): notes on data provenance, lineage and reproducibility in bioinformatics, each with sources, open questions and a clear line between what Jubilab does now and what is planned"]
+             f"- [Blog]({ORIGIN}/blog/): notes on data provenance, lineage and reproducibility in bioinformatics from our earlier work, each with sources and open questions. Jubilab is now building the order-to-result layer for lab work"]
     for p in sorted(posts, key=lambda p: p["slug"]):
         lines.append(f"- [{p['meta']['title']}]({ORIGIN}/blog/{p['slug']}/): {p['meta']['summary']}")
     return "\n".join(lines) + "\n\n" + END + "\n"

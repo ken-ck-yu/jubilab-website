@@ -1,6 +1,6 @@
 ---
 title: Local-first for lab data: what stays on your machine
-description: What local-first software means for sequencing labs, which of its ideals fit a provenance record, where the cloud still helps, and what Jubilab does today.
+description: What local-first software means for sequencing labs, which of its ideals fit a provenance record, where the cloud still helps, and what our prototype did.
 slug: local-first-for-lab-data
 date: 2026-10-19
 updated: 2026-10-19
@@ -9,7 +9,7 @@ summary: Local-first ideas applied to lab records: what should stay on your own 
 image_alt: A laptop with a small house-shaped roof on its screen, and a thin cloud far away at the edge of the picture, joined to it by a dotted line.
 ---
 
-A sequencing run produces files that are large, sometimes sensitive, and sometimes sit on a cluster with no route to the wider internet. The record of how those files were made is small by comparison, but it is only useful if you can still read it in five years. This post asks what "local-first" software, an idea from the programming world, would mean for that record. It is partly a vision piece, so we separate what Jubilab does today from what we are only asking about.
+A sequencing run produces files that are large, sometimes sensitive, and sometimes sit on a cluster with no route to the wider internet. The record of how those files were made is small by comparison, but it is only useful if you can still read it in five years. This post asks what "local-first" software, an idea from the programming world, would mean for that record. It is partly a vision piece, so we separate what an earlier Jubilab prototype did from what we are only asking about.
 
 ## The seven ideals, in plain words
 
@@ -29,11 +29,11 @@ The essay is about collaborative documents and apps, not genomics, and we are bo
 
 We find four of the seven most relevant to a record of how results were made. This is our judgement, not a finding.
 
-**The network is optional.** Some clusters restrict outbound access; we have not measured how common that is. A record that needs a connection to a vendor's service before it can be written or read is awkward there. Jubilab's command line tool always writes records to a local spool file first and sends them with a separate sync command, so recording works with no network at all.
+**The network is optional.** Some clusters restrict outbound access; we have not measured how common that is. A record that needs a connection to a vendor's service before it can be written or read is awkward there. The earlier prototype's command line tool always wrote records to a local spool file first and sent them with a separate sync command, so recording worked with no network at all.
 
-**Security and privacy by default.** The record of a run can include file names, paths and parameters that you would rather not send anywhere. Jubilab's design is that it records metadata about your data, not the data itself, and that it links to files where they already live. The command line tool sends metadata only. We deliberately do not describe this in terms of any law, since that is a question for specialists and we are not one.
+**Security and privacy by default.** The record of a run can include file names, paths and parameters that you would rather not send anywhere. That prototype's design was that it recorded metadata about your data, not the data itself, and linked to files where they already lived. Its command line tool sent metadata only. We deliberately do not describe this in terms of any law, since that is a question for specialists and we are not one.
 
-**The Long Now.** Will you be able to open this record in ten years? We chose plain, documented storage: each Jubilab project is a single SQLite file in a data directory you control. The SQLite team says it cannot absolutely promise this, but that it plans as if it will support SQLite until 2050, and that database files created today should be readable by future versions.[^2] That is a plan by the SQLite team, and it says nothing about Jubilab itself surviving. It does mean the file is not locked inside our application.
+**The Long Now.** Will you be able to open this record in ten years? The earlier prototype used plain, documented storage: each project was a single SQLite file in a data directory you controlled. The SQLite team says it cannot absolutely promise this, but that it plans as if it will support SQLite until 2050, and that database files created today should be readable by future versions.[^2] That is a plan by the SQLite team, and it says nothing about Jubilab itself surviving. It does mean the file is not locked inside our application.
 
 **Ownership and control.** If the record sits in a file on a machine you run, you decide who has it, where it is backed up and when it is deleted.
 
@@ -47,17 +47,9 @@ Several workflow tools already write provenance to local disk. Snakemake, accord
 
 It would be unfair to treat the cloud as the enemy. Shared services are easier to start, easier to give a collaborator access to, and do not need a person to keep a server running. A team with no one to run a service, or a consortium that needs one shared view across institutions, may reasonably choose a hosted option. We wonder where the line sits for different labs, and we do not think there is one answer.
 
-## What Jubilab does today
+## Where Jubilab is now
 
-Only things we can point to:
-
-- It is self-hosted and runs on your own machine or server, with the server bound to the local address by default.
-- The server makes no outbound network calls and needs no AI model. It asks you to sign in.
-- It records metadata and links to data where it lives; it does not copy your sequencing files.
-- Each project is one SQLite file in a data directory.
-- Records carry evidence statuses, and runs are kept as history the application cannot edit.
-
-It is not a hosted service. Protecting the data directory, for example with disk encryption and file permissions, is something we have not covered here and that you would decide for your own setup. See our guide on [Nextflow provenance and lineage](/guides/nextflow-provenance-and-lineage-compared/) for how Jubilab relates to each engine's own records. Jubilab is not affiliated with or endorsed by Ink & Switch, SQLite, Nextflow or Snakemake.
+The points above about spool files, a local data directory and a single SQLite file describe the earlier prototype, not something you can use today. Jubilab's earlier run-record prototype is not being offered. Jubilab is now building the order-to-result layer for lab work, which is in design and not released. See our guide on [Nextflow provenance and lineage](/guides/nextflow-provenance-and-lineage-compared/) for how run records relate to each engine's own. Jubilab is not affiliated with or endorsed by Ink & Switch, SQLite, Nextflow or Snakemake.
 
 ## Questions we are still asking
 

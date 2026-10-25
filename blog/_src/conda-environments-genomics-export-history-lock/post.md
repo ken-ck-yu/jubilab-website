@@ -67,7 +67,7 @@ None of these says why a version was chosen or which analysis used the environme
 
 ## Where a run record fits
 
-An environment file describes software. A run record would also say which run used it. Imagine opening a result a year later with an environment file in the folder but no way to tell whether it is the one that ran. Jubilab records runs and their parameters, and it lets you trace a result to the run that made it. We have not yet decided how best to attach an environment definition to a run, and we would not want to claim more than that. The guide on [what parameters produced a result](/guides/what-parameters-produced-this-result/) discusses what a good record contains. Jubilab is not affiliated with or endorsed by Conda, Anaconda, Bioconda or Snakemake.
+An environment file describes software. A run record would also say which run used it. Imagine opening a result a year later with an environment file in the folder but no way to tell whether it is the one that ran. An earlier Jubilab prototype recorded runs and their parameters. We never settled how best to attach an environment definition to a run, and we would not want to claim more than that. The guide on [what parameters produced a result](/guides/what-parameters-produced-this-result/) discusses what a good record contains. Jubilab is not affiliated with or endorsed by Conda, Anaconda, Bioconda or Snakemake.
 
 ## Questions we are still asking
 

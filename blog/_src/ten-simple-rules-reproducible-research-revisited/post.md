@@ -42,9 +42,9 @@ Reading the ten rules this way, a pattern shows up, though we hold it loosely. T
 
 ## Where a record might help, and where it does not
 
-Rule 1 asks, in a sentence, for a record of how each result was made. That is the idea behind Jubilab. Today it records Nextflow runs live or by import, imports Snakemake runs, and wraps other commands with a bash wrapper. You can trace a result back to its run, inputs and parameters, compare two runs, and see a status on each fact that says whether it was verified, inferred, entered by hand or unknown. Runs cannot be edited after the fact.
+Rule 1 asks, in a sentence, for a record of how each result was made. That was the idea behind Jubilab's earlier work. Jubilab's earlier run-record prototype is not being offered. Jubilab is now building the order-to-result layer for lab work, which is in design and not released.
 
-That touches rule 1 and a little of rule 2, because a status of "manual" at least marks a hand-entered fact as such. It does nothing for rules 5 to 10 that we would want to promise, and it does not make a result reproducible by itself. Jubilab is not affiliated with or endorsed by the authors of the paper, PLOS, Nextflow, Seqera or Snakemake, and we are not saying any tool satisfies the rules.
+Such a record touches rule 1 and a little of rule 2. It does nothing for rules 5 to 10 that we would want to promise, and it does not make a result reproducible by itself. Jubilab is not affiliated with or endorsed by the authors of the paper, PLOS, Nextflow, Seqera or Snakemake, and we are not saying any tool satisfies the rules.
 
 For the engine side of rule 1, our guide on [Nextflow provenance and lineage compared](/guides/nextflow-provenance-and-lineage-compared/) goes through what each system records, and [what parameters produced this result](/guides/what-parameters-produced-this-result/) looks at what a good record contains.
 

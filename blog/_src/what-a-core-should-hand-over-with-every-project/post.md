@@ -57,11 +57,11 @@ If the core's record lives in one person's shell history, it leaves with that pe
 
 Our [guide on what parameters produced a result](/guides/what-parameters-produced-this-result/) describes what tends to be lost between a run and a result, and the [guide comparing what Nextflow, Seqera Platform and Snakemake record](/guides/nextflow-provenance-and-lineage-compared/) looks at what the workflow engines already keep.
 
-## Where Jubilab fits
+## Where Jubilab is now
 
-Jubilab is a local-first, self-hostable record of how results are made. Today it can record Nextflow runs live or import finished ones, import Snakemake runs, and wrap other commands with a native bash wrapper. Each run is immutable history, each fact carries an evidence status, and you can trace a result back to its run, inputs and parameters, and compare two runs. Self-hosted installs have per-user accounts, and each entry records which signed-in account submitted it; this is not an electronic signature. Opt-in capture of reference and annotation details from file headers ships with our next release.
+An earlier Jubilab prototype kept runs as immutable history, with an evidence status on each fact and per-user accounts on self-hosted installs. Jubilab's earlier run-record prototype is not being offered. Jubilab is now building the order-to-result layer for lab work, which is in design and not released.
 
-It does not hand projects over to clients, it has no client portal, it does not link samples to their files, and while it can export a project as JSON, it has no formatted client report today. Those are things we wonder about and where we are heading, not things you can use today. Jubilab is not affiliated with or endorsed by Nextflow, Seqera, nf-core or any core cited here.
+Jubilab does not hand projects over to clients, has no client portal and no formatted client report. Jubilab is not affiliated with or endorsed by Nextflow, Seqera, nf-core or any core cited here.
 
 ## Questions we are still asking
 

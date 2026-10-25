@@ -50,7 +50,7 @@
       },
       "image": "https://jubilab.io/blog/sample-swaps-tools-and-what-a-run-record-says/og.png",
       "keywords": "sample-swaps, quality-control, provenance",
-      "wordCount": 1102,
+      "wordCount": 1113,
       "timeRequired": "PT6M",
       "isPartOf": {
         "@type": "Blog",
@@ -128,17 +128,19 @@
     </a>
     <nav class="site-nav" aria-label="Page sections">
       <ul class="links">
-        <li><a href="../../#how">What it does</a></li>
-        <li><a href="../../#fits">Integrations</a></li>
-        <li><a href="../../#product">Demo</a></li>
+        <li><a href="../../#how">How it works</a></li>
+        <li><a href="../../#labs">For labs</a></li>
+        <li><a href="../../#teams">For teams</a></li>
+        <li><a href="../../#dev">Developers</a></li>
         <li><a href="../../blog/" aria-current="page">Blog</a></li>
       </ul>
       <details class="menu">
         <summary aria-label="Menu"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 7h16M4 12h16M4 17h16"/></svg></summary>
         <ul>
-          <li><a href="../../#how">What it does</a></li>
-          <li><a href="../../#fits">Integrations</a></li>
-          <li><a href="../../#product">Demo</a></li>
+          <li><a href="../../#how">How it works</a></li>
+          <li><a href="../../#labs">For labs</a></li>
+          <li><a href="../../#teams">For teams</a></li>
+          <li><a href="../../#dev">Developers</a></li>
           <li><a href="../../blog/" aria-current="page">Blog</a></li>
         </ul>
       </details>
@@ -192,10 +194,10 @@
 <li>Which pipeline version, parameters and reference were used in each, so you can rerun the right ones?</li>
 <li>Did anyone enter a fact by hand rather than capturing it from a run?</li>
 </ul>
-<p>That is tracing, and it is what Jubilab does today for the runs it has seen: it lets you follow a result back to its run, inputs and parameters and forward from an input to what depends on it, and each fact carries an evidence status. Runs are kept as history the application cannot edit.</p>
+<p>That is tracing, and it is what an earlier Jubilab prototype did for the runs it saw: it let you follow a result back to its run, inputs and parameters and forward from an input to what depends on it, with an evidence status on each fact. Jubilab&#x27;s earlier run-record prototype is not being offered. Jubilab is now building the order-to-result layer for lab work, which is in design and not released.</p>
 <h2 id="what-a-run-record-cannot-tell-you">What a run record cannot tell you</h2>
 <p>A record of a run says what the run was given. It does not know whether the input files were labelled correctly before they arrived. If a FASTQ file was swapped at the bench, the record will faithfully describe a run on the wrong sample. We wonder how much of the swap problem lives upstream of any pipeline, where a record cannot see; we have not measured it.</p>
-<p>Linking samples to their files and runs is where we are heading, and we think it would make the tracing questions above easier to answer. We do not know when it will exist and we are not promising a date. Even then, it would record a link someone declared, not prove that the link is true. See also our post on <a href="/blog/samplesheet-traps-that-change-your-run/">samplesheet traps</a> and the guide on <a href="/guides/reference-genome-build-vcf-bam/">reference genome builds in VCF and BAM files</a>.</p>
+<p>Linking samples to their files and runs was where we were heading in our earlier work, and we think it would make the tracing questions above easier to answer. We are not promising it. Even then, it would record a link someone declared, not prove that the link is true. See also our post on <a href="/blog/samplesheet-traps-that-change-your-run/">samplesheet traps</a> and the guide on <a href="/guides/reference-genome-build-vcf-bam/">reference genome builds in VCF and BAM files</a>.</p>
 
 <section class="b-questions" aria-labelledby="questions-h">
 <h2 id="questions-h">Questions we are still asking</h2>
@@ -208,24 +210,8 @@
 </ul>
 </section>
 <section class="helps" aria-labelledby="helps-h">
-<h2 id="helps-h">How Jubilab helps</h2>
-
-<div class="helps-cols">
-<div><h3 class="s">Available now</h3>
-<ul>
-<li>Records each run: the command, inputs, parameters and outputs, with an evidence status on every fact (verified, inferred, manual or unknown).</li>
-<li>Trace a result back to its run and parameters; compare two runs to see which recorded values differ.</li>
-<li>Runs are kept as history the application cannot edit.</li>
-<li>Records Nextflow runs as they happen or imports a finished run, imports Snakemake runs, and records any other command with the native bash wrapper.</li>
-<li>Opt-in capture of the reference genome and annotation details written in file headers. It ships with our next release.</li>
-</ul></div>
-<div><h3 class="p">Not available yet</h3>
-<ul>
-<li>Linking every sample to its files and results.</li>
-<li>Checks that flag a sample swap or a reference genome build mismatch. These are not available yet.</li>
-<li>Recovering runs that were never recorded. Jubilab records going forward; it cannot rebuild the history of a run it did not see.</li>
-</ul></div>
-</div>
+<h2 id="helps-h">Where Jubilab is now</h2>
+<p>This post comes from our earlier work on a record of how results are made. Jubilab's earlier run-record prototype is not being offered. Jubilab is now building the order-to-result layer for lab work, which is in design and not released.</p>
 <a class="btn" href="../../#access">Request early access</a>
 </section>
 <h2 id="sources">Sources</h2>
@@ -252,7 +238,7 @@
   <div class="wrap">
     <div>
       <p class="foot-brand">Jubilab</p>
-      <p>Be among the first labs shaping Jubilab. Screenshots and diagrams on this site use synthetic demo data.</p>
+      <p>The order-to-result layer for lab work, in design. Examples on this site are illustrative drafts.</p>
       <p>Contact: <a href="mailto:hello@jubilab.io">hello@jubilab.io</a></p>
     </div>
     <ul aria-label="Footer">

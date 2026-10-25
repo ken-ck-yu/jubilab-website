@@ -59,9 +59,9 @@ That last line is the one people skip. "ClinVar 2025-09, read from the cache inf
 
 We do not have a universal answer. Freezing the sources keeps results comparable over time but leaves you behind on new evidence; refreshing keeps you current but changes old answers. Some teams may freeze for the length of a project and refresh between projects, though we have not surveyed what teams actually do. What we think matters most is that the choice is written down with a date.
 
-## Where Jubilab is today
+## Where Jubilab is now
 
-Jubilab traces a result back to the run, inputs and parameters that produced it, compares two runs, and puts an evidence status on each fact (verified, inferred, manual or unknown). Opt-in capture of reference and annotation details from file headers ships with our next release, so it is not something you can use today, and sample linking and build-mismatch checks are where we are heading. A record could include the four lines above; we are not claiming that Jubilab stores each of them. Jubilab is not affiliated with or endorsed by Ensembl, EMBL-EBI, NCBI or the gnomAD project.
+An earlier Jubilab prototype traced a result back to its run, inputs and parameters, with an evidence status on each fact. A record could include the four lines above; we are not claiming that it stored each of them. Jubilab's earlier run-record prototype is not being offered. Jubilab is now building the order-to-result layer for lab work, which is in design and not released. Jubilab is not affiliated with or endorsed by Ensembl, EMBL-EBI, NCBI or the gnomAD project.
 
 ## Questions we are still asking
 

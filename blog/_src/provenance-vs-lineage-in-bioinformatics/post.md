@@ -54,11 +54,11 @@ The difference matters when the two disagree. Imagine someone edited a parameter
 
 Nextflow's documentation calls its feature data lineage. It says the feature was added in version 25.04, is experimental, and records the workflow run, successful task executions and output files in a lineage store.[^6] It also says tasks that failed or were aborted are not recorded.[^6] So the word on the label is lineage, while the contents include run details; the labels in real tools do not map neatly onto any one definition. Snakemake, on the other hand, uses the word provenance in its documentation for the information it stores about how files were made.[^7]
 
-## Where Jubilab sits
+## Where Jubilab is now
 
-Jubilab offers both views of the same history. Today you can trace an output back to its run, inputs and parameters, and trace forward from an input to what depends on it, and compare two runs. Each fact carries an evidence status, so the graph shows what was verified and what was inferred. Runs are kept as history that cannot be edited. It records Nextflow runs live or imports them, imports Snakemake runs, and wraps other commands with a native bash wrapper.
+An earlier Jubilab prototype offered both views of the same history: tracing an output back to its run, inputs and parameters, and forward from an input to what depends on it, with an evidence status on each fact. Jubilab's earlier run-record prototype is not being offered. Jubilab is now building the order-to-result layer for lab work, which is in design and not released.
 
-It does not yet link samples to files or check for sample swaps or reference build mismatches. Opt-in capture of reference and annotation details from file headers ships with our next release. Jubilab is not affiliated with or endorsed by the W3C, DataHub, Nextflow or Snakemake.
+Jubilab is not affiliated with or endorsed by the W3C, DataHub, Nextflow or Snakemake.
 
 ## Questions we are still asking
 

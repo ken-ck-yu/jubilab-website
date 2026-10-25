@@ -50,15 +50,15 @@ Putting the sources above together, a record that would help a stranger answer "
 5. Who or what ran it, and when.
 6. A clear mark on anything that was not recorded, so that a gap looks like a gap.
 
-That last item is easy to forget. A record that silently skips what it did not see can be more misleading than no record at all. This is why every fact in Jubilab carries an evidence status: verified, inferred, manual or unknown. It is a small habit with a large effect on how much you trust a page of history.
+That last item is easy to forget. A record that silently skips what it did not see can be more misleading than no record at all. This is why every fact in an earlier Jubilab prototype carried an evidence status: verified, inferred, manual or unknown. It is a small habit with a large effect on how much you trust a page of history.
 
-## Where Jubilab fits, and where it does not
+## Where Jubilab is now
 
-Jubilab is being built as a record of how results are made, across the tools a lab already uses. What exists today is narrower than that ambition, and we would rather say so plainly. You can trace a result back to its run, inputs and parameters, and forward to what depends on an input. You can compare two runs and see which recorded values differ. Runs are kept as history the application cannot edit. It records Nextflow runs as they happen or imports finished ones, imports Snakemake runs, and wraps any other command with a native bash wrapper.
+Jubilab began as a record of how results are made across the tools a lab already uses. Jubilab's earlier run-record prototype is not being offered. Jubilab is now building the order-to-result layer for lab work, which is in design and not released.
 
-It does not yet link every sample to its files, and it does not yet check for sample swaps or reference genome build mismatches. Opt-in capture of reference and annotation details from file headers ships with our next release. Integrations with other platforms, access for AI agents and notebook support are where we are heading, not things you can use today. Jubilab also cannot recover the history of a run it never saw; it records going forward.
+Jubilab does not link samples to files or check for sample swaps or reference genome build mismatches, and a record cannot recover the history of a run that was never captured.
 
-Jubilab is not a replacement for a workflow engine, a LIMS or an electronic lab notebook, and it is not affiliated with or endorsed by Nextflow, Snakemake, Seqera or the W3C. We think of it as a layer that sits beside them.
+Jubilab is not a replacement for a workflow engine, a LIMS or an electronic lab notebook, and it is not affiliated with or endorsed by Nextflow, Snakemake, Seqera or the W3C.
 
 ## Questions we are still asking
 

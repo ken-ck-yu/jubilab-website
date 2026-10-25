@@ -50,7 +50,7 @@
       },
       "image": "https://jubilab.io/blog/inherited-pipeline-first-week-checklist/og.png",
       "keywords": "handover, provenance, bioinformatics",
-      "wordCount": 1380,
+      "wordCount": 1332,
       "timeRequired": "PT7M",
       "isPartOf": {
         "@type": "Blog",
@@ -173,17 +173,19 @@
     </a>
     <nav class="site-nav" aria-label="Page sections">
       <ul class="links">
-        <li><a href="../../#how">What it does</a></li>
-        <li><a href="../../#fits">Integrations</a></li>
-        <li><a href="../../#product">Demo</a></li>
+        <li><a href="../../#how">How it works</a></li>
+        <li><a href="../../#labs">For labs</a></li>
+        <li><a href="../../#teams">For teams</a></li>
+        <li><a href="../../#dev">Developers</a></li>
         <li><a href="../../blog/" aria-current="page">Blog</a></li>
       </ul>
       <details class="menu">
         <summary aria-label="Menu"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 7h16M4 12h16M4 17h16"/></svg></summary>
         <ul>
-          <li><a href="../../#how">What it does</a></li>
-          <li><a href="../../#fits">Integrations</a></li>
-          <li><a href="../../#product">Demo</a></li>
+          <li><a href="../../#how">How it works</a></li>
+          <li><a href="../../#labs">For labs</a></li>
+          <li><a href="../../#teams">For teams</a></li>
+          <li><a href="../../#dev">Developers</a></li>
           <li><a href="../../blog/" aria-current="page">Blog</a></li>
         </ul>
       </details>
@@ -251,9 +253,9 @@ ALIGN	COMPLETED	/tmp/.../work/12/1eae96959500d83e943f31adae10dc</code></pre>
 <li><strong>Unknown:</strong> the gaps, written as gaps.</li>
 </ol>
 <p>Our reading of the arXiv essay &quot;Be Prospective, Not Retrospective&quot; is that its author proposes making reproducibility a goal from the start of a project instead of fixing documentation at the end.<sup class="cite"><a href="#src-8" aria-label="Source 8">[8]</a></sup> A handover is the moment that lesson shows up. Whatever you rebuild this week, a good moment to start writing down how new results are made is now.</p>
-<h2 id="where-jubilab-fits">Where Jubilab fits</h2>
-<p>Jubilab is a local-first, self-hostable record of how results are made. Today it can trace a result back to its run, inputs and parameters, compare two runs, and keep each fact with an evidence status (verified, inferred, manual or unknown), which is the same idea as the list above. It records Nextflow runs live or imports finished ones, imports Snakemake runs, and wraps other commands with a native bash wrapper. Runs are kept as history the application cannot edit.</p>
-<p>It cannot recover the history of runs it never saw, and it does not reconstruct what a departed colleague did. What it can do is make the next handover less of a detective story. Capturing reference and annotation details from file headers is opt-in and ships with our next release. Jubilab is not affiliated with or endorsed by Nextflow, Snakemake, Seqera, the bcftools or samtools projects, or the authors cited here.</p>
+<h2 id="where-jubilab-is-now">Where Jubilab is now</h2>
+<p>The status labels in the list above (verified, inferred, manual or unknown) come from our earlier work on a record of how results are made. Jubilab&#x27;s earlier run-record prototype is not being offered. Jubilab is now building the order-to-result layer for lab work, which is in design and not released.</p>
+<p>No tool can recover the history of runs it never saw or reconstruct what a departed colleague did; a record only makes the next handover less of a detective story. Jubilab is not affiliated with or endorsed by Nextflow, Snakemake, Seqera, the bcftools or samtools projects, or the authors cited here.</p>
 
 <section class="b-questions" aria-labelledby="questions-h">
 <h2 id="questions-h">Questions we are still asking</h2>
@@ -266,24 +268,8 @@ ALIGN	COMPLETED	/tmp/.../work/12/1eae96959500d83e943f31adae10dc</code></pre>
 </ul>
 </section>
 <section class="helps" aria-labelledby="helps-h">
-<h2 id="helps-h">How Jubilab helps</h2>
-
-<div class="helps-cols">
-<div><h3 class="s">Available now</h3>
-<ul>
-<li>Records each run: the command, inputs, parameters and outputs, with an evidence status on every fact (verified, inferred, manual or unknown).</li>
-<li>Trace a result back to its run and parameters; compare two runs to see which recorded values differ.</li>
-<li>Runs are kept as history the application cannot edit.</li>
-<li>Records Nextflow runs as they happen or imports a finished run, imports Snakemake runs, and records any other command with the native bash wrapper.</li>
-<li>Opt-in capture of the reference genome and annotation details written in file headers. It ships with our next release.</li>
-</ul></div>
-<div><h3 class="p">Not available yet</h3>
-<ul>
-<li>Linking every sample to its files and results.</li>
-<li>Checks that flag a sample swap or a reference genome build mismatch. These are not available yet.</li>
-<li>Recovering runs that were never recorded. Jubilab records going forward; it cannot rebuild the history of a run it did not see.</li>
-</ul></div>
-</div>
+<h2 id="helps-h">Where Jubilab is now</h2>
+<p>This post comes from our earlier work on a record of how results are made. Jubilab's earlier run-record prototype is not being offered. Jubilab is now building the order-to-result layer for lab work, which is in design and not released.</p>
 <a class="btn" href="../../#access">Request early access</a>
 </section>
 <h2 id="sources">Sources</h2>
@@ -305,7 +291,7 @@ ALIGN	COMPLETED	/tmp/.../work/12/1eae96959500d83e943f31adae10dc</code></pre>
 <section class="b-related" aria-labelledby="related"><h2 id="related">Related posts</h2><ul class="b-grid">
 <li class="b-card"><a class="b-img" href="../how-to-compare-two-pipeline-runs/" tabindex="-1" aria-hidden="true"><img src="../how-to-compare-two-pipeline-runs/image.svg" width="1600" height="900" alt="" loading="lazy" decoding="async"></a><div class="b-card-body"><h2 class="b-card-t"><a href="../how-to-compare-two-pipeline-runs/">How to compare two pipeline runs</a></h2><p class="b-sum">What counts as a difference between two runs, a manual way to diff them, and what lineage diff and nf-diff showed on a toy pair.</p><p class="b-card-meta"><time datetime="2026-10-19">19 October 2026</time> &middot; 6 min read</p></div></li>
 <li class="b-card"><a class="b-img" href="../provenance-vs-lineage-in-bioinformatics/" tabindex="-1" aria-hidden="true"><img src="../provenance-vs-lineage-in-bioinformatics/image.svg" width="1600" height="900" alt="" loading="lazy" decoding="async"></a><div class="b-card-body"><h2 class="b-card-t"><a href="../provenance-vs-lineage-in-bioinformatics/">Provenance vs lineage in bioinformatics: examples</a></h2><p class="b-sum">Two overlapping words, one toy variant calling pipeline, and the questions each one helps you answer about a VCF.</p><p class="b-card-meta"><time datetime="2026-10-19">19 October 2026</time> &middot; 6 min read</p></div></li>
-<li class="b-card"><a class="b-img" href="../ro-crate-biocompute-objects-and-prov/" tabindex="-1" aria-hidden="true"><img src="../ro-crate-biocompute-objects-and-prov/image.svg" width="1600" height="900" alt="" loading="lazy" decoding="async"></a><div class="b-card-body"><h2 class="b-card-t"><a href="../ro-crate-biocompute-objects-and-prov/">RO-Crate, BioCompute Objects and PROV: which one?</a></h2><p class="b-sum">PROV, RO-Crate and BioCompute Objects in plain words, what nf-prov writes, and how to choose. Jubilab supports none of them yet.</p><p class="b-card-meta"><time datetime="2026-10-19">19 October 2026</time> &middot; 6 min read</p></div></li>
+<li class="b-card"><a class="b-img" href="../ro-crate-biocompute-objects-and-prov/" tabindex="-1" aria-hidden="true"><img src="../ro-crate-biocompute-objects-and-prov/image.svg" width="1600" height="900" alt="" loading="lazy" decoding="async"></a><div class="b-card-body"><h2 class="b-card-t"><a href="../ro-crate-biocompute-objects-and-prov/">RO-Crate, BioCompute Objects and PROV: which one?</a></h2><p class="b-sum">PROV, RO-Crate and BioCompute Objects in plain words, what nf-prov writes, and how to choose. Jubilab supports none of them.</p><p class="b-card-meta"><time datetime="2026-10-19">19 October 2026</time> &middot; 6 min read</p></div></li>
 </ul></section>
 </div>
 </div>
@@ -315,7 +301,7 @@ ALIGN	COMPLETED	/tmp/.../work/12/1eae96959500d83e943f31adae10dc</code></pre>
   <div class="wrap">
     <div>
       <p class="foot-brand">Jubilab</p>
-      <p>Be among the first labs shaping Jubilab. Screenshots and diagrams on this site use synthetic demo data.</p>
+      <p>The order-to-result layer for lab work, in design. Examples on this site are illustrative drafts.</p>
       <p>Contact: <a href="mailto:hello@jubilab.io">hello@jubilab.io</a></p>
     </div>
     <ul aria-label="Footer">

@@ -50,7 +50,7 @@
       },
       "image": "https://jubilab.io/blog/pin-your-containers-by-digest-not-by-tag/og.png",
       "keywords": "containers, nextflow, bioinformatics",
-      "wordCount": 1167,
+      "wordCount": 1168,
       "timeRequired": "PT6M",
       "isPartOf": {
         "@type": "Blog",
@@ -155,17 +155,19 @@
     </a>
     <nav class="site-nav" aria-label="Page sections">
       <ul class="links">
-        <li><a href="../../#how">What it does</a></li>
-        <li><a href="../../#fits">Integrations</a></li>
-        <li><a href="../../#product">Demo</a></li>
+        <li><a href="../../#how">How it works</a></li>
+        <li><a href="../../#labs">For labs</a></li>
+        <li><a href="../../#teams">For teams</a></li>
+        <li><a href="../../#dev">Developers</a></li>
         <li><a href="../../blog/" aria-current="page">Blog</a></li>
       </ul>
       <details class="menu">
         <summary aria-label="Menu"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 7h16M4 12h16M4 17h16"/></svg></summary>
         <ul>
-          <li><a href="../../#how">What it does</a></li>
-          <li><a href="../../#fits">Integrations</a></li>
-          <li><a href="../../#product">Demo</a></li>
+          <li><a href="../../#how">How it works</a></li>
+          <li><a href="../../#labs">For labs</a></li>
+          <li><a href="../../#teams">For teams</a></li>
+          <li><a href="../../#dev">Developers</a></li>
           <li><a href="../../blog/" aria-current="page">Blog</a></li>
         </ul>
       </details>
@@ -233,7 +235,7 @@ docker inspect python:3.12-slim --format &#x27;{{index .RepoDigests 0}}&#x27;</c
 </ol>
 <h2 id="what-a-record-could-include">What a record could include</h2>
 <p>When a result is questioned later, &quot;the container was <code>python:3.12-slim</code>&quot; is a weaker answer than &quot;the container was this digest&quot;. A record could include the image reference exactly as the pipeline asked for it, the digest if one was available, and a note on whether the digest was observed from the run or supplied by someone afterwards. If you only know the tag, that is a fact too, and it deserves a label that says it is less precise.</p>
-<p>Jubilab records runs with evidence statuses on each fact (verified, inferred, manual or unknown), keeps runs immutable, and can compare two runs. We are not claiming it captures container digests today; this post is about the habit, and we are still working out which container details belong in a record. Jubilab is not affiliated with or endorsed by Docker, Nextflow, Seqera or Snakemake. For the wider question of what produced a result, see <a href="/guides/what-parameters-produced-this-result/">our guide on parameters</a> and <a href="/guides/nextflow-provenance-and-lineage-compared/">the Nextflow lineage comparison</a>.</p>
+<p>An earlier Jubilab prototype recorded runs with evidence statuses on each fact. We are not claiming it captured container digests; this post is about the habit. Jubilab&#x27;s earlier run-record prototype is not being offered. Jubilab is now building the order-to-result layer for lab work, which is in design and not released. Jubilab is not affiliated with or endorsed by Docker, Nextflow, Seqera or Snakemake. For the wider question of what produced a result, see <a href="/guides/what-parameters-produced-this-result/">our guide on parameters</a> and <a href="/guides/nextflow-provenance-and-lineage-compared/">the Nextflow lineage comparison</a>.</p>
 
 <section class="b-questions" aria-labelledby="questions-h">
 <h2 id="questions-h">Questions we are still asking</h2>
@@ -246,24 +248,8 @@ docker inspect python:3.12-slim --format &#x27;{{index .RepoDigests 0}}&#x27;</c
 </ul>
 </section>
 <section class="helps" aria-labelledby="helps-h">
-<h2 id="helps-h">How Jubilab helps</h2>
-
-<div class="helps-cols">
-<div><h3 class="s">Available now</h3>
-<ul>
-<li>Records each run: the command, inputs, parameters and outputs, with an evidence status on every fact (verified, inferred, manual or unknown).</li>
-<li>Trace a result back to its run and parameters; compare two runs to see which recorded values differ.</li>
-<li>Runs are kept as history the application cannot edit.</li>
-<li>Records Nextflow runs as they happen or imports a finished run, imports Snakemake runs, and records any other command with the native bash wrapper.</li>
-<li>Opt-in capture of the reference genome and annotation details written in file headers. It ships with our next release.</li>
-</ul></div>
-<div><h3 class="p">Not available yet</h3>
-<ul>
-<li>Linking every sample to its files and results.</li>
-<li>Checks that flag a sample swap or a reference genome build mismatch. These are not available yet.</li>
-<li>Recovering runs that were never recorded. Jubilab records going forward; it cannot rebuild the history of a run it did not see.</li>
-</ul></div>
-</div>
+<h2 id="helps-h">Where Jubilab is now</h2>
+<p>This post comes from our earlier work on a record of how results are made. Jubilab's earlier run-record prototype is not being offered. Jubilab is now building the order-to-result layer for lab work, which is in design and not released.</p>
 <a class="btn" href="../../#access">Request early access</a>
 </section>
 <h2 id="sources">Sources</h2>
@@ -293,7 +279,7 @@ docker inspect python:3.12-slim --format &#x27;{{index .RepoDigests 0}}&#x27;</c
   <div class="wrap">
     <div>
       <p class="foot-brand">Jubilab</p>
-      <p>Be among the first labs shaping Jubilab. Screenshots and diagrams on this site use synthetic demo data.</p>
+      <p>The order-to-result layer for lab work, in design. Examples on this site are illustrative drafts.</p>
       <p>Contact: <a href="mailto:hello@jubilab.io">hello@jubilab.io</a></p>
     </div>
     <ul aria-label="Footer">

@@ -44,13 +44,13 @@ Suppose a check flags a sample. Imagine you now need to know what else is affect
 - Which pipeline version, parameters and reference were used in each, so you can rerun the right ones?
 - Did anyone enter a fact by hand rather than capturing it from a run?
 
-That is tracing, and it is what Jubilab does today for the runs it has seen: it lets you follow a result back to its run, inputs and parameters and forward from an input to what depends on it, and each fact carries an evidence status. Runs are kept as history the application cannot edit.
+That is tracing, and it is what an earlier Jubilab prototype did for the runs it saw: it let you follow a result back to its run, inputs and parameters and forward from an input to what depends on it, with an evidence status on each fact. Jubilab's earlier run-record prototype is not being offered. Jubilab is now building the order-to-result layer for lab work, which is in design and not released.
 
 ## What a run record cannot tell you
 
 A record of a run says what the run was given. It does not know whether the input files were labelled correctly before they arrived. If a FASTQ file was swapped at the bench, the record will faithfully describe a run on the wrong sample. We wonder how much of the swap problem lives upstream of any pipeline, where a record cannot see; we have not measured it.
 
-Linking samples to their files and runs is where we are heading, and we think it would make the tracing questions above easier to answer. We do not know when it will exist and we are not promising a date. Even then, it would record a link someone declared, not prove that the link is true. See also our post on [samplesheet traps](/blog/samplesheet-traps-that-change-your-run/) and the guide on [reference genome builds in VCF and BAM files](/guides/reference-genome-build-vcf-bam/).
+Linking samples to their files and runs was where we were heading in our earlier work, and we think it would make the tracing questions above easier to answer. We are not promising it. Even then, it would record a link someone declared, not prove that the link is true. See also our post on [samplesheet traps](/blog/samplesheet-traps-that-change-your-run/) and the guide on [reference genome builds in VCF and BAM files](/guides/reference-genome-build-vcf-bam/).
 
 ## Questions we are still asking
 

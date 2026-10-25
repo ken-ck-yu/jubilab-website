@@ -1,3 +1,5 @@
+> SUPERSEDED 2026-10-25: this spec describes the retired provenance-product hero (screenshot frame). The frame, tokens and layout rules still apply; the content does not. See the pivot brief.
+
 # Jubilab website v2.1: hero product visual (UXD spec)
 
 Status: draft, 2026-10-15, UXD. Not reviewed by the owner. Amends `design-spec-v2.md` (kept in the sibling repo `jubilab-website`, branch `site-v1`) for the hero visual only. Website only. Builds on the 37 passing checks in `review/check-site.py`.

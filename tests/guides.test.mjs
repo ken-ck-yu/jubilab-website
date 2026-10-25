@@ -78,21 +78,21 @@ for (const { path, file, kind } of PAGES) {
 
 for (const g of GUIDES) {
   const h = rd(`guides/${g}/index.html`);
-  test(`guide ${g}: intro, What gets lost, helps box with shipped and not-yet lists, one CTA, review date, sources`, () => {
+  test(`guide ${g}: intro, What gets lost, 'Where Jubilab is now' box, one CTA, review date, sources`, () => {
     assert.match(h, /class="g-lede"/);
     assert.match(h, /<h2 id="lost">What gets lost/);
-    assert.match(h, /<h2 id="helps-h">How Jubilab helps/);
-    assert.match(h, /Available now/); assert.match(h, /Not available yet/);
+    assert.match(h, /<h2 id="helps-h">Where Jubilab is now/);
+    assert.match(h, /not being offered/); assert.ok(!/Available now|How Jubilab helps/.test(h));
     assert.equal((h.match(/class="btn"/g) || []).length, 1, "one early-access call to action");
     assert.match(h, /Last reviewed \d{1,2} [A-Z][a-z]+ \d{4}/);
     const src = h.match(/<ol class="g-sources">([\s\S]*?)<\/ol>/)[1];
     assert.ok((src.match(/<li>/g) || []).length >= 3);
     assert.equal((src.match(/href="https:\/\//g) || []).length, (src.match(/<li>/g) || []).length);
   });
-  test(`guide ${g}: says what is not available yet (sample linking, swap and build-mismatch checks) and not that they exist`, () => {
+  test(`guide ${g}: says the old run-record prototype is not offered and what Jubilab is building now`, () => {
     const t = txt(h);
-    assert.match(t, /sample swap or a reference genome build mismatch|reference genome build mismatch or a sample swap/);
-    assert.match(t, /not available yet/i);
+    assert.match(t, /earlier run-record prototype is not being offered/);
+    assert.match(t, /order-to-result layer for lab work, which is in design and not released/);
     assert.ok(!/(detects|detect) sample swaps|flags? sample swaps today/i.test(t));
   });
 }

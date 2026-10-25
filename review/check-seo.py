@@ -277,7 +277,7 @@ def main():
                 rec("PASS" if not re.search(r'"(aggregateRating|review|offers|sameAs|logo)"', "".join(p.ldjson)) else "FAIL", f"{g} JSON-LD has no rating, review, offers, sameAs or logo")
                 rec("PASS" if re.search(r"Last reviewed \d{1,2} \w+ \d{4}", re.sub(r"<[^>]+>", " ", html)) else "FAIL", f"{g} shows a 'Last reviewed' date")
                 rec("PASS" if p.ids >= {"sources", "lost"} else "FAIL", f"{g} has Sources and 'What gets lost' sections")
-                rec("PASS" if "How Jubilab helps" in html and "Available now" in html and "Not available yet" in html and html.count('class="btn"') == 1 else "FAIL", f"{g} has the shipped/not-yet box and exactly one early-access CTA")
+                rec("PASS" if "Where Jubilab is now" in html and "not being offered" in html and html.count('class="btn"') == 1 else "FAIL", f"{g} has the 'Where Jubilab is now' box and exactly one early-access CTA")
                 srcs = re.findall(r'<ol class="g-sources">(.*?)</ol>', html, re.S)
                 rec("PASS" if srcs and srcs[0].count("<li>") >= 3 and srcs[0].count('href="https://') == srcs[0].count("<li>") else "FAIL", f"{g} sources list has https URLs", str(srcs[0].count("<li>") if srcs else 0))
             for it in next((n for n in nodes if n["@type"] == "BreadcrumbList"), {}).get("itemListElement", []):
@@ -325,7 +325,7 @@ def main():
                 rec("PASS" if m and len(m.group(1)) >= 30 else "FAIL", f"{g} has a post image with real alt text")
                 srcs = re.findall(r'<ol class="g-sources">(.*?)</ol>', html, re.S)
                 rec("PASS" if srcs and srcs[0].count("<li ") >= 3 and srcs[0].count('rel="noopener"') == srcs[0].count("<li ") else "FAIL", f"{g} sources list has at least 3 outbound links with rel=noopener")
-                rec("PASS" if "How Jubilab helps" in html and "Not available yet" in html and html.count('class="btn"') == 1 else "FAIL", f"{g} has the shipped/not-yet box and one early-access CTA")
+                rec("PASS" if "Where Jubilab is now" in html and "not being offered" in html and html.count('class="btn"') == 1 else "FAIL", f"{g} has the 'Where Jubilab is now' box and one early-access CTA")
             for it in next((n for n in nodes if n["@type"] == "BreadcrumbList"), {}).get("itemListElement", []):
                 s2, _, _ = get(local(base, it["item"]))
                 rec("PASS" if s2 == 200 else "FAIL", f"{g} breadcrumb URL resolves: {it['item']}", str(s2))
@@ -361,12 +361,7 @@ def main():
                     if isinstance(v, str) and v.startswith("http"):
                         urls.add(v.split("#")[0])
                 if node.get("@type") == "SoftwareApplication":
-                    desc = node.get("description", "")
-                    hero = re.search(r'class="hero-lede">(.*?)</p>', get(base + "/")[1], re.S)
-                    hero_txt = re.sub(r"<[^>]+>", "", hero.group(1)).replace("&rsquo;", "'") if hero else ""
-                    rec("PASS" if " ".join(hero_txt.split()) == " ".join(desc.split()) else "FAIL", "SoftwareApplication description equals the visible hero text")
-                    for banned in ("offers", "aggregateRating", "review"):
-                        rec("PASS" if banned not in node else "FAIL", f"SoftwareApplication has no unverified '{banned}'")
+                    rec("FAIL", "no SoftwareApplication JSON-LD while the product is unreleased")
         # FAQPage must match the visible FAQ text exactly (Google requires the marked-up text to be visible on the page)
         _html = get(base + "/")[1]
         _vis = {}
@@ -380,7 +375,7 @@ def main():
                     for q in node.get("mainEntity", []):
                         _ld[" ".join(q["name"].split())] = " ".join(q["acceptedAnswer"]["text"].split())
         rec("PASS" if _ld and _ld == _vis and 5 <= len(_ld) <= 7 else "FAIL", "FAQPage JSON-LD equals the visible questions and answers", f"{len(_ld)} in JSON-LD, {len(_vis)} visible")
-        for need in ("Organization", "WebSite", "SoftwareApplication"):
+        for need in ("Organization", "WebSite", "FAQPage"):
             rec("PASS" if need in types else "FAIL", f"JSON-LD has {need}")
         for u in sorted(urls):
             s2, _, _ = get(local(base, u))

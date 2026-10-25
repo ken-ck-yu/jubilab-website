@@ -5,13 +5,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Local-first for lab data: what stays on your machine | Jubilab</title>
-<meta name="description" content="What local-first software means for sequencing labs, which of its ideals fit a provenance record, where the cloud still helps, and what Jubilab does today.">
+<meta name="description" content="What local-first software means for sequencing labs, which of its ideals fit a provenance record, where the cloud still helps, and what our prototype did.">
 <meta name="theme-color" content="#f4f5f2">
 <link rel="canonical" href="https://jubilab.io/blog/local-first-for-lab-data/">
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="Jubilab">
 <meta property="og:title" content="Local-first for lab data: what stays on your machine | Jubilab">
-<meta property="og:description" content="What local-first software means for sequencing labs, which of its ideals fit a provenance record, where the cloud still helps, and what Jubilab does today.">
+<meta property="og:description" content="What local-first software means for sequencing labs, which of its ideals fit a provenance record, where the cloud still helps, and what our prototype did.">
 <meta property="og:url" content="https://jubilab.io/blog/local-first-for-lab-data/">
 <meta property="og:image" content="https://jubilab.io/blog/local-first-for-lab-data/og.png">
 <meta property="og:image:width" content="1200">
@@ -19,7 +19,7 @@
 <meta property="og:image:alt" content="A laptop with a small house-shaped roof on its screen, and a thin cloud far away at the edge of the picture, joined to it by a dotted line.">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Local-first for lab data: what stays on your machine | Jubilab">
-<meta name="twitter:description" content="What local-first software means for sequencing labs, which of its ideals fit a provenance record, where the cloud still helps, and what Jubilab does today.">
+<meta name="twitter:description" content="What local-first software means for sequencing labs, which of its ideals fit a provenance record, where the cloud still helps, and what our prototype did.">
 <meta name="twitter:image" content="https://jubilab.io/blog/local-first-for-lab-data/og.png">
 <meta name="twitter:image:alt" content="A laptop with a small house-shaped roof on its screen, and a thin cloud far away at the edge of the picture, joined to it by a dotted line.">
 <link rel="icon" href="../../assets/favicon.svg" type="image/svg+xml">
@@ -32,7 +32,7 @@
     {
       "@type": "BlogPosting",
       "headline": "Local-first for lab data: what stays on your machine",
-      "description": "What local-first software means for sequencing labs, which of its ideals fit a provenance record, where the cloud still helps, and what Jubilab does today.",
+      "description": "What local-first software means for sequencing labs, which of its ideals fit a provenance record, where the cloud still helps, and what our prototype did.",
       "url": "https://jubilab.io/blog/local-first-for-lab-data/",
       "mainEntityOfPage": "https://jubilab.io/blog/local-first-for-lab-data/",
       "inLanguage": "en",
@@ -50,8 +50,8 @@
       },
       "image": "https://jubilab.io/blog/local-first-for-lab-data/og.png",
       "keywords": "local-first, provenance, vision",
-      "wordCount": 1115,
-      "timeRequired": "PT6M",
+      "wordCount": 1049,
+      "timeRequired": "PT5M",
       "isPartOf": {
         "@type": "Blog",
         "name": "Jubilab blog",
@@ -137,17 +137,19 @@
     </a>
     <nav class="site-nav" aria-label="Page sections">
       <ul class="links">
-        <li><a href="../../#how">What it does</a></li>
-        <li><a href="../../#fits">Integrations</a></li>
-        <li><a href="../../#product">Demo</a></li>
+        <li><a href="../../#how">How it works</a></li>
+        <li><a href="../../#labs">For labs</a></li>
+        <li><a href="../../#teams">For teams</a></li>
+        <li><a href="../../#dev">Developers</a></li>
         <li><a href="../../blog/" aria-current="page">Blog</a></li>
       </ul>
       <details class="menu">
         <summary aria-label="Menu"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 7h16M4 12h16M4 17h16"/></svg></summary>
         <ul>
-          <li><a href="../../#how">What it does</a></li>
-          <li><a href="../../#fits">Integrations</a></li>
-          <li><a href="../../#product">Demo</a></li>
+          <li><a href="../../#how">How it works</a></li>
+          <li><a href="../../#labs">For labs</a></li>
+          <li><a href="../../#teams">For teams</a></li>
+          <li><a href="../../#dev">Developers</a></li>
           <li><a href="../../blog/" aria-current="page">Blog</a></li>
         </ul>
       </details>
@@ -170,8 +172,8 @@
     <nav class="g-crumbs" aria-label="Breadcrumb"><ol><li><a href="../../">Jubilab</a></li><li><a href="../">Blog</a></li><li aria-current="page">Local-first for lab data: what stays on your machine</li></ol></nav>
     <p class="eyebrow">Blog</p>
     <h1>Local-first for lab data: what stays on your machine</h1>
-    <p class="g-lede">A sequencing run produces files that are large, sometimes sensitive, and sometimes sit on a cluster with no route to the wider internet. The record of how those files were made is small by comparison, but it is only useful if you can still read it in five years. This post asks what &quot;local-first&quot; software, an idea from the programming world, would mean for that record. It is partly a vision piece, so we separate what Jubilab does today from what we are only asking about.</p>
-    <p class="g-meta">By Jubilab &middot; <time datetime="2026-10-19">19 October 2026</time> &middot; 6 min read</p>
+    <p class="g-lede">A sequencing run produces files that are large, sometimes sensitive, and sometimes sit on a cluster with no route to the wider internet. The record of how those files were made is small by comparison, but it is only useful if you can still read it in five years. This post asks what &quot;local-first&quot; software, an idea from the programming world, would mean for that record. It is partly a vision piece, so we separate what an earlier Jubilab prototype did from what we are only asking about.</p>
+    <p class="g-meta">By Jubilab &middot; <time datetime="2026-10-19">19 October 2026</time> &middot; 5 min read</p>
     <p class="b-tags"><span class="g-tag">local-first</span> <span class="g-tag">provenance</span> <span class="g-tag">vision</span></p>
   </div>
 </section>
@@ -192,25 +194,17 @@
 <p>The essay is about collaborative documents and apps, not genomics, and we are borrowing its vocabulary rather than claiming it endorses anything here. It also asks a hard question of its own: how to get the benefits of cloud collaboration without giving up ownership. We have not seen a genomics-specific treatment, and we would be glad to be pointed to one.</p>
 <h2 id="which-ideals-seem-to-matter-for-a-lab-record">Which ideals seem to matter for a lab record</h2>
 <p>We find four of the seven most relevant to a record of how results were made. This is our judgement, not a finding.</p>
-<p><strong>The network is optional.</strong> Some clusters restrict outbound access; we have not measured how common that is. A record that needs a connection to a vendor&#x27;s service before it can be written or read is awkward there. Jubilab&#x27;s command line tool always writes records to a local spool file first and sends them with a separate sync command, so recording works with no network at all.</p>
-<p><strong>Security and privacy by default.</strong> The record of a run can include file names, paths and parameters that you would rather not send anywhere. Jubilab&#x27;s design is that it records metadata about your data, not the data itself, and that it links to files where they already live. The command line tool sends metadata only. We deliberately do not describe this in terms of any law, since that is a question for specialists and we are not one.</p>
-<p><strong>The Long Now.</strong> Will you be able to open this record in ten years? We chose plain, documented storage: each Jubilab project is a single SQLite file in a data directory you control. The SQLite team says it cannot absolutely promise this, but that it plans as if it will support SQLite until 2050, and that database files created today should be readable by future versions.<sup class="cite"><a href="#src-2" aria-label="Source 2">[2]</a></sup> That is a plan by the SQLite team, and it says nothing about Jubilab itself surviving. It does mean the file is not locked inside our application.</p>
+<p><strong>The network is optional.</strong> Some clusters restrict outbound access; we have not measured how common that is. A record that needs a connection to a vendor&#x27;s service before it can be written or read is awkward there. The earlier prototype&#x27;s command line tool always wrote records to a local spool file first and sent them with a separate sync command, so recording worked with no network at all.</p>
+<p><strong>Security and privacy by default.</strong> The record of a run can include file names, paths and parameters that you would rather not send anywhere. That prototype&#x27;s design was that it recorded metadata about your data, not the data itself, and linked to files where they already lived. Its command line tool sent metadata only. We deliberately do not describe this in terms of any law, since that is a question for specialists and we are not one.</p>
+<p><strong>The Long Now.</strong> Will you be able to open this record in ten years? The earlier prototype used plain, documented storage: each project was a single SQLite file in a data directory you controlled. The SQLite team says it cannot absolutely promise this, but that it plans as if it will support SQLite until 2050, and that database files created today should be readable by future versions.<sup class="cite"><a href="#src-2" aria-label="Source 2">[2]</a></sup> That is a plan by the SQLite team, and it says nothing about Jubilab itself surviving. It does mean the file is not locked inside our application.</p>
 <p><strong>Ownership and control.</strong> If the record sits in a file on a machine you run, you decide who has it, where it is backed up and when it is deleted.</p>
 <p>Ideals about real-time collaboration and syncing across many devices are less obvious for this problem. We wonder whether a lab needs them for a provenance record or only for the documents around it.</p>
 <h2 id="local-records-are-not-new">Local records are not new</h2>
 <p>Several workflow tools already write provenance to local disk. Snakemake, according to its documentation, stores provenance information by default in the <code>.snakemake/metadata</code> directory, and notes that this can cause problems on networked filesystems.<sup class="cite"><a href="#src-3" aria-label="Source 3">[3]</a></sup> Nextflow&#x27;s experimental data lineage feature, added in version 25.04, keeps its store in a <code>.lineage</code> directory in the current working directory, which can be moved with a configuration setting.<sup class="cite"><a href="#src-4" aria-label="Source 4">[4]</a></sup> Local is not new, and we do not claim it is unique to us. The difference we are aiming for is one record across tools, rather than one per engine.</p>
 <h2 id="where-the-cloud-still-makes-sense">Where the cloud still makes sense</h2>
 <p>It would be unfair to treat the cloud as the enemy. Shared services are easier to start, easier to give a collaborator access to, and do not need a person to keep a server running. A team with no one to run a service, or a consortium that needs one shared view across institutions, may reasonably choose a hosted option. We wonder where the line sits for different labs, and we do not think there is one answer.</p>
-<h2 id="what-jubilab-does-today">What Jubilab does today</h2>
-<p>Only things we can point to:</p>
-<ul>
-<li>It is self-hosted and runs on your own machine or server, with the server bound to the local address by default.</li>
-<li>The server makes no outbound network calls and needs no AI model. It asks you to sign in.</li>
-<li>It records metadata and links to data where it lives; it does not copy your sequencing files.</li>
-<li>Each project is one SQLite file in a data directory.</li>
-<li>Records carry evidence statuses, and runs are kept as history the application cannot edit.</li>
-</ul>
-<p>It is not a hosted service. Protecting the data directory, for example with disk encryption and file permissions, is something we have not covered here and that you would decide for your own setup. See our guide on <a href="/guides/nextflow-provenance-and-lineage-compared/">Nextflow provenance and lineage</a> for how Jubilab relates to each engine&#x27;s own records. Jubilab is not affiliated with or endorsed by Ink &amp; Switch, SQLite, Nextflow or Snakemake.</p>
+<h2 id="where-jubilab-is-now">Where Jubilab is now</h2>
+<p>The points above about spool files, a local data directory and a single SQLite file describe the earlier prototype, not something you can use today. Jubilab&#x27;s earlier run-record prototype is not being offered. Jubilab is now building the order-to-result layer for lab work, which is in design and not released. See our guide on <a href="/guides/nextflow-provenance-and-lineage-compared/">Nextflow provenance and lineage</a> for how run records relate to each engine&#x27;s own. Jubilab is not affiliated with or endorsed by Ink &amp; Switch, SQLite, Nextflow or Snakemake.</p>
 
 <section class="b-questions" aria-labelledby="questions-h">
 <h2 id="questions-h">Questions we are still asking</h2>
@@ -224,24 +218,8 @@
 </ul>
 </section>
 <section class="helps" aria-labelledby="helps-h">
-<h2 id="helps-h">How Jubilab helps</h2>
-
-<div class="helps-cols">
-<div><h3 class="s">Available now</h3>
-<ul>
-<li>Records each run: the command, inputs, parameters and outputs, with an evidence status on every fact (verified, inferred, manual or unknown).</li>
-<li>Trace a result back to its run and parameters; compare two runs to see which recorded values differ.</li>
-<li>Runs are kept as history the application cannot edit.</li>
-<li>Records Nextflow runs as they happen or imports a finished run, imports Snakemake runs, and records any other command with the native bash wrapper.</li>
-<li>Opt-in capture of the reference genome and annotation details written in file headers. It ships with our next release.</li>
-</ul></div>
-<div><h3 class="p">Not available yet</h3>
-<ul>
-<li>Linking every sample to its files and results.</li>
-<li>Checks that flag a sample swap or a reference genome build mismatch. These are not available yet.</li>
-<li>Recovering runs that were never recorded. Jubilab records going forward; it cannot rebuild the history of a run it did not see.</li>
-</ul></div>
-</div>
+<h2 id="helps-h">Where Jubilab is now</h2>
+<p>This post comes from our earlier work on a record of how results are made. Jubilab's earlier run-record prototype is not being offered. Jubilab is now building the order-to-result layer for lab work, which is in design and not released.</p>
 <a class="btn" href="../../#access">Request early access</a>
 </section>
 <h2 id="sources">Sources</h2>
@@ -269,7 +247,7 @@
   <div class="wrap">
     <div>
       <p class="foot-brand">Jubilab</p>
-      <p>Be among the first labs shaping Jubilab. Screenshots and diagrams on this site use synthetic demo data.</p>
+      <p>The order-to-result layer for lab work, in design. Examples on this site are illustrative drafts.</p>
       <p>Contact: <a href="mailto:hello@jubilab.io">hello@jubilab.io</a></p>
     </div>
     <ul aria-label="Footer">

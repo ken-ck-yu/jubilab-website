@@ -50,7 +50,7 @@
       },
       "image": "https://jubilab.io/blog/what-is-data-provenance-in-bioinformatics/og.png",
       "keywords": "provenance, lineage, bioinformatics",
-      "wordCount": 1236,
+      "wordCount": 1122,
       "timeRequired": "PT6M",
       "isPartOf": {
         "@type": "Blog",
@@ -137,17 +137,19 @@
     </a>
     <nav class="site-nav" aria-label="Page sections">
       <ul class="links">
-        <li><a href="../../#how">What it does</a></li>
-        <li><a href="../../#fits">Integrations</a></li>
-        <li><a href="../../#product">Demo</a></li>
+        <li><a href="../../#how">How it works</a></li>
+        <li><a href="../../#labs">For labs</a></li>
+        <li><a href="../../#teams">For teams</a></li>
+        <li><a href="../../#dev">Developers</a></li>
         <li><a href="../../blog/" aria-current="page">Blog</a></li>
       </ul>
       <details class="menu">
         <summary aria-label="Menu"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 7h16M4 12h16M4 17h16"/></svg></summary>
         <ul>
-          <li><a href="../../#how">What it does</a></li>
-          <li><a href="../../#fits">Integrations</a></li>
-          <li><a href="../../#product">Demo</a></li>
+          <li><a href="../../#how">How it works</a></li>
+          <li><a href="../../#labs">For labs</a></li>
+          <li><a href="../../#teams">For teams</a></li>
+          <li><a href="../../#dev">Developers</a></li>
           <li><a href="../../blog/" aria-current="page">Blog</a></li>
         </ul>
       </details>
@@ -206,11 +208,11 @@
 <li>Who or what ran it, and when.</li>
 <li>A clear mark on anything that was not recorded, so that a gap looks like a gap.</li>
 </ol>
-<p>That last item is easy to forget. A record that silently skips what it did not see can be more misleading than no record at all. This is why every fact in Jubilab carries an evidence status: verified, inferred, manual or unknown. It is a small habit with a large effect on how much you trust a page of history.</p>
-<h2 id="where-jubilab-fits-and-where-it-does-not">Where Jubilab fits, and where it does not</h2>
-<p>Jubilab is being built as a record of how results are made, across the tools a lab already uses. What exists today is narrower than that ambition, and we would rather say so plainly. You can trace a result back to its run, inputs and parameters, and forward to what depends on an input. You can compare two runs and see which recorded values differ. Runs are kept as history the application cannot edit. It records Nextflow runs as they happen or imports finished ones, imports Snakemake runs, and wraps any other command with a native bash wrapper.</p>
-<p>It does not yet link every sample to its files, and it does not yet check for sample swaps or reference genome build mismatches. Opt-in capture of reference and annotation details from file headers ships with our next release. Integrations with other platforms, access for AI agents and notebook support are where we are heading, not things you can use today. Jubilab also cannot recover the history of a run it never saw; it records going forward.</p>
-<p>Jubilab is not a replacement for a workflow engine, a LIMS or an electronic lab notebook, and it is not affiliated with or endorsed by Nextflow, Snakemake, Seqera or the W3C. We think of it as a layer that sits beside them.</p>
+<p>That last item is easy to forget. A record that silently skips what it did not see can be more misleading than no record at all. This is why every fact in an earlier Jubilab prototype carried an evidence status: verified, inferred, manual or unknown. It is a small habit with a large effect on how much you trust a page of history.</p>
+<h2 id="where-jubilab-is-now">Where Jubilab is now</h2>
+<p>Jubilab began as a record of how results are made across the tools a lab already uses. Jubilab&#x27;s earlier run-record prototype is not being offered. Jubilab is now building the order-to-result layer for lab work, which is in design and not released.</p>
+<p>Jubilab does not link samples to files or check for sample swaps or reference genome build mismatches, and a record cannot recover the history of a run that was never captured.</p>
+<p>Jubilab is not a replacement for a workflow engine, a LIMS or an electronic lab notebook, and it is not affiliated with or endorsed by Nextflow, Snakemake, Seqera or the W3C.</p>
 
 <section class="b-questions" aria-labelledby="questions-h">
 <h2 id="questions-h">Questions we are still asking</h2>
@@ -224,24 +226,8 @@
 </ul>
 </section>
 <section class="helps" aria-labelledby="helps-h">
-<h2 id="helps-h">How Jubilab helps</h2>
-
-<div class="helps-cols">
-<div><h3 class="s">Available now</h3>
-<ul>
-<li>Records each run: the command, inputs, parameters and outputs, with an evidence status on every fact (verified, inferred, manual or unknown).</li>
-<li>Trace a result back to its run and parameters; compare two runs to see which recorded values differ.</li>
-<li>Runs are kept as history the application cannot edit.</li>
-<li>Records Nextflow runs as they happen or imports a finished run, imports Snakemake runs, and records any other command with the native bash wrapper.</li>
-<li>Opt-in capture of the reference genome and annotation details written in file headers. It ships with our next release.</li>
-</ul></div>
-<div><h3 class="p">Not available yet</h3>
-<ul>
-<li>Linking every sample to its files and results.</li>
-<li>Checks that flag a sample swap or a reference genome build mismatch. These are not available yet.</li>
-<li>Recovering runs that were never recorded. Jubilab records going forward; it cannot rebuild the history of a run it did not see.</li>
-</ul></div>
-</div>
+<h2 id="helps-h">Where Jubilab is now</h2>
+<p>This post comes from our earlier work on a record of how results are made. Jubilab's earlier run-record prototype is not being offered. Jubilab is now building the order-to-result layer for lab work, which is in design and not released.</p>
 <a class="btn" href="../../#access">Request early access</a>
 </section>
 <h2 id="sources">Sources</h2>
@@ -269,7 +255,7 @@
   <div class="wrap">
     <div>
       <p class="foot-brand">Jubilab</p>
-      <p>Be among the first labs shaping Jubilab. Screenshots and diagrams on this site use synthetic demo data.</p>
+      <p>The order-to-result layer for lab work, in design. Examples on this site are illustrative drafts.</p>
       <p>Contact: <a href="mailto:hello@jubilab.io">hello@jubilab.io</a></p>
     </div>
     <ul aria-label="Footer">

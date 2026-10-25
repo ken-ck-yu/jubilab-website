@@ -63,11 +63,11 @@ The last column shows which file held the record: in our test, `10` meant only f
 
 Our [guide on what parameters produced a result](/guides/what-parameters-produced-this-result/) covers why command-line settings can go missing.
 
-## Where Jubilab fits
+## Where Jubilab is now
 
-Jubilab is a local-first, self-hostable record of how results are made. Today you can import Nextflow or Snakemake runs, capture Nextflow runs live, or wrap other commands with the native bash wrapper. Each run is kept as immutable history, each fact carries an evidence status, and you can compare two runs to see which recorded values differ, such as a command-line setting you passed. Opt-in capture of reference and annotation details from file headers ships with our next release.
+An earlier Jubilab prototype let you compare two runs to see which recorded values differ, such as a command-line setting you passed, with an evidence status on each fact. Jubilab's earlier run-record prototype is not being offered. Jubilab is now building the order-to-result layer for lab work, which is in design and not released.
 
-Jubilab does not make a pipeline deterministic, and it cannot tell you why two outputs differ. It can only show you which recorded inputs and settings were different, and which were never recorded. It is not affiliated with or endorsed by GATK, bcftools, samtools or the authors cited here.
+Jubilab does not make a pipeline deterministic, and a run record cannot tell you why two outputs differ. It can only show which recorded inputs and settings were different, and which were never recorded. Jubilab is not affiliated with or endorsed by GATK, bcftools, samtools or the authors cited here.
 
 ## Questions we are still asking
 

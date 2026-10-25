@@ -1,45 +1,45 @@
 # Jubilab
 
-> Jubilab is building the record of how every scientific result was made. It is data provenance and lineage for bioinformatics pipelines: trace a result to its run and inputs, compare two runs, and see what the record does not know. It works alongside Nextflow and Snakemake, complements a lab's LIMS or ELN, runs on your own machine or server, and its server makes no outbound network calls. Our goal is to become the record of how genetic discoveries are made, so labs spend more time on science and less on data and admin. Early-access requests are accepted from a small group of labs, starting with genetics researchers. The demo project on the website uses synthetic data.
+> Jubilab is the order-to-result layer for lab work: one order format, one status feed and one result schema across every lab you use, for every scientist and agent who orders. It is in design and not yet released. Sequencing comes first, research biomarker assays next. Early-access requests are accepted from a small group of teams and labs.
 
-## What exists now
+## What we are building
 
-- Trace a result back to the run, inputs and parameters behind it, and forward to what depends on an input (data lineage).
-- Compare two runs and see which recorded parameters, versions or results differ.
-- Every fact carries an evidence status: verified, inferred, manual or unknown. Gaps show up as gaps.
-- Runs are kept as history the application cannot edit.
-- Record Nextflow runs as they happen or import a finished run; import Snakemake runs; record any other command with the native bash wrapper.
-- Opt-in capture of the reference genome and annotation details written in file headers (for example GRCh37 or GRCh38), with a warning when two runs are not comparable. This ships with our next release.
-- Links to your data where it lives instead of copying it. Self-hosted, with per-user accounts and a record of every change.
+- Order spec: what the requester sends. Platform, chemistry, depth or output target, a sample manifest, deliverables, turnaround and use tier.
+- Event model: a shared status vocabulary (order.accepted, kit.shipped, sample.received, qc.passed, qc.failed with a reason, library.prepped, run.started, run.progress, results.delivered, invoice.issued).
+- Result manifest: a results.json with files and checksums, per-sample QC as structured fields, provider IDs mapped back to the requester's sample names, and a certainty tag (verified, inferred or unknown) on every fact.
+- For labs, four ways to join, none live yet: we read the lab's existing emails and courier tracking; a four-button status page; a webhook from the lab's LIMS; instrument telemetry. Nothing changes on the lab's side on day one.
+- For teams: a planned Benchling integration, one MSA, a history of every order, and an MCP server and REST API (quote, create_order, get_status, list_results, fetch_result) plus webhooks. All planned; none released.
+- The JSON examples on the site are illustrative version 0 drafts, not real orders.
 
-## Where we are heading
+## What Jubilab does not do
 
-- Linking every sample to its files, runs and results, and checks that flag sample swaps and reference genome build mismatches.
-- Read-only access for AI agents (MCP), so an agent can ask the record which samples, which build and which run.
-- Seqera Platform, NVIDIA Parabricks, NVIDIA BioNeMo, DeepMind models, notebooks and GitHub as further sources. None of these is available yet.
-- Jubilab is not a LIMS, an ELN or a workflow engine, and it is not integrated with any of them beyond the Nextflow and Snakemake imports above. Product names belong to their owners; Jubilab is not affiliated with or endorsed by them.
+- It does not control instruments.
+- It is not a marketplace and does not broker price.
+- It does not handle human clinical diagnostics.
+- Product names belong to their owners; Jubilab is not affiliated with them.
 
 ## Pages
 
-- [Jubilab home page](https://jubilab.io/): what Jubilab is, what it does now and what is being built, a demo project on synthetic data, and the early-access request form
-- [Frequently asked questions](https://jubilab.io/#faq): what data provenance means in bioinformatics, how to track Nextflow and Snakemake runs, how to tell which reference genome build a result used, how Jubilab differs from a LIMS or ELN, whether it stores your data, and how to get early access
-- [How it works](https://jubilab.io/#how): the problem (results whose history lives in shell histories and memories) and the four ideas: trace, compare, connect and catch
-- [Integrations](https://jubilab.io/#fits): available now are Nextflow, Snakemake and native bash scripts; Seqera, NVIDIA Parabricks and BioNeMo, DeepMind models, AI agents over MCP, notebooks and GitHub are where we are heading, not available
-- [See it on a demo project](https://jubilab.io/#product): trace a result, compare two runs, and how each fact is marked verified, inferred, manual or unknown
-- [Where this is going](https://jubilab.io/#next): our goal of speeding up the genetics discovery loop, described as what we are building toward
-- [Request early access](https://jubilab.io/#access): the early-access form for being among the first labs shaping Jubilab
+- [Jubilab home page](https://jubilab.io/): what we are building, the three objects with draft JSON examples, how labs and teams join, why now, and the early-access form
+- [Today](https://jubilab.io/#problem): what we found about how sequencing and assay orders move today (October 2026)
+- [How it works](https://jubilab.io/#how): order spec, event model, result manifest and the certainty tags
+- [For labs](https://jubilab.io/#labs): the four ways to join
+- [For teams](https://jubilab.io/#teams): what teams that send samples out would get
+- [For developers](https://jubilab.io/#dev): the planned tool surface and webhooks
+- [Questions](https://jubilab.io/#faq): answers to common questions
+- [Request early access](https://jubilab.io/#access): the early-access form
 
 ## Guides
 
-- [Guides](https://jubilab.io/guides/): practical how-tos for bioinformatics teams, written to be useful without Jubilab, each with tested commands, sources and a review date
-- [How to check which reference genome build a VCF or BAM used](https://jubilab.io/guides/reference-genome-build-vcf-bam/): read VCF and BAM headers with bcftools and samtools, compare contig lengths for GRCh37 and GRCh38, test REF alleles, and avoid chr-prefix and hg19 versus b37 mistakes
+- [Guides](https://jubilab.io/guides/): practical how-tos for bioinformatics teams, written to be useful without Jubilab, each with tested commands, sources and a review date, from our earlier work on data provenance
+- [How to check which reference genome build a VCF or BAM used](https://jubilab.io/guides/reference-genome-build-vcf-bam/): read VCF and BAM headers with bcftools and samtools, compare contig lengths and test REF alleles
 - [What parameters produced this result?](https://jubilab.io/guides/what-parameters-produced-this-result/): finding the parameters of a Nextflow, Snakemake or shell run, what gets lost, and what a good record contains
-- [Nextflow provenance and lineage: what each tool records](https://jubilab.io/guides/nextflow-provenance-and-lineage-compared/): what Nextflow's log, trace, report and experimental lineage feature, Seqera Platform and Snakemake record, with links to their official documentation
+- [Nextflow provenance and lineage: what each tool records](https://jubilab.io/guides/nextflow-provenance-and-lineage-compared/): what Nextflow's log, trace, report and experimental lineage feature record, compared with Snakemake
 
 <!-- blog:start -->
 ## Blog
 
-- [Blog](https://jubilab.io/blog/): notes on data provenance, lineage and reproducibility in bioinformatics, each with sources, open questions and a clear line between what Jubilab does now and what is planned
+- [Blog](https://jubilab.io/blog/): notes on data provenance, lineage and reproducibility in bioinformatics from our earlier work, each with sources and open questions. Jubilab is now building the order-to-result layer for lab work
 - [AI agents in the lab need a record, not a chat history](https://jubilab.io/blog/ai-agents-need-a-record-not-just-chat-history/): Agents can run analyses, but a chat transcript is not a record of how a result was made. Our vision, and what is not built yet.
 - [Conda for genomics: export, history or lock file?](https://jubilab.io/blog/conda-environments-genomics-export-history-lock/): Three ways to save a conda environment, what each keeps in a small test, and what we still wonder about for genomics.
 - [How to compare two pipeline runs](https://jubilab.io/blog/how-to-compare-two-pipeline-runs/): What counts as a difference between two runs, a manual way to diff them, and what lineage diff and nf-diff showed on a toy pair.
@@ -49,7 +49,7 @@
 - [Pin your containers by digest, not by tag](https://jubilab.io/blog/pin-your-containers-by-digest-not-by-tag/): A tag is a label that can move; a digest names one image. How to find, use and write down the digest a pipeline ran with.
 - [When should a pipeline get a new version number?](https://jubilab.io/blog/pipeline-version-numbers-two-conventions/): Two published pipeline versioning conventions side by side, where they differ, and why we treat it as an open question.
 - [Provenance vs lineage in bioinformatics: examples](https://jubilab.io/blog/provenance-vs-lineage-in-bioinformatics/): Two overlapping words, one toy variant calling pipeline, and the questions each one helps you answer about a VCF.
-- [RO-Crate, BioCompute Objects and PROV: which one?](https://jubilab.io/blog/ro-crate-biocompute-objects-and-prov/): PROV, RO-Crate and BioCompute Objects in plain words, what nf-prov writes, and how to choose. Jubilab supports none of them yet.
+- [RO-Crate, BioCompute Objects and PROV: which one?](https://jubilab.io/blog/ro-crate-biocompute-objects-and-prov/): PROV, RO-Crate and BioCompute Objects in plain words, what nf-prov writes, and how to choose. Jubilab supports none of them.
 - [Same FASTQs, different variants: where it creeps in](https://jubilab.io/blog/same-fastqs-different-variants/): Same FASTQs, different VCFs? What published studies report, how to isolate the stage, and what to record to explain it.
 - [Sample swaps: the tools, and what a run record can say](https://jubilab.io/blog/sample-swaps-tools-and-what-a-run-record-says/): How swaps are found, per three papers, and what a run record can and cannot tell you once one is suspected.
 - [Samplesheet traps that quietly change your run](https://jubilab.io/blog/samplesheet-traps-that-change-your-run/): A samplesheet is an input like any other. Five ways a small CSV goes wrong, and what to keep with the run.

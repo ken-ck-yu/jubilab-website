@@ -50,7 +50,7 @@
       },
       "image": "https://jubilab.io/blog/write-methods-paragraph-from-run-record/og.png",
       "keywords": "provenance, bioinformatics, reporting",
-      "wordCount": 1249,
+      "wordCount": 1218,
       "timeRequired": "PT6M",
       "isPartOf": {
         "@type": "Blog",
@@ -155,17 +155,19 @@
     </a>
     <nav class="site-nav" aria-label="Page sections">
       <ul class="links">
-        <li><a href="../../#how">What it does</a></li>
-        <li><a href="../../#fits">Integrations</a></li>
-        <li><a href="../../#product">Demo</a></li>
+        <li><a href="../../#how">How it works</a></li>
+        <li><a href="../../#labs">For labs</a></li>
+        <li><a href="../../#teams">For teams</a></li>
+        <li><a href="../../#dev">Developers</a></li>
         <li><a href="../../blog/" aria-current="page">Blog</a></li>
       </ul>
       <details class="menu">
         <summary aria-label="Menu"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 7h16M4 12h16M4 17h16"/></svg></summary>
         <ul>
-          <li><a href="../../#how">What it does</a></li>
-          <li><a href="../../#fits">Integrations</a></li>
-          <li><a href="../../#product">Demo</a></li>
+          <li><a href="../../#how">How it works</a></li>
+          <li><a href="../../#labs">For labs</a></li>
+          <li><a href="../../#teams">For teams</a></li>
+          <li><a href="../../#dev">Developers</a></li>
           <li><a href="../../blog/" aria-current="page">Blog</a></li>
         </ul>
       </details>
@@ -222,12 +224,12 @@
 <li><strong>Unknown:</strong> you cannot say.</li>
 </ol>
 <p>An &quot;unknown&quot; is not a failure. It is better to write &quot;annotation release not recorded&quot; in a draft than to fill the gap with the version you probably used. It is worth asking whether readers and reviewers would also prefer a visible gap to a confident guess; we suspect so but have not tested it.</p>
-<p>These four labels are the evidence statuses Jubilab attaches to each fact it records: verified, inferred, manual or unknown. The habit does not depend on any tool, though.</p>
+<p>These four labels are the evidence statuses an earlier Jubilab prototype attached to each fact it recorded: verified, inferred, manual or unknown. The habit does not depend on any tool, though.</p>
 <h2 id="keep-the-record-next-to-the-paper">Keep the record next to the paper</h2>
 <p>A paragraph has to be short. The record behind it need not be. The guidelines above suggest a table of parameters and versions as supplementary material, and the &quot;Ten Simple Rules&quot; authors also ask for public access to scripts, runs and results.<sup class="cite"><a href="#src-1" aria-label="Source 1">[1]</a></sup><sup class="cite"><a href="#src-2" aria-label="Source 2">[2]</a></sup> Whatever you use, keep the full record somewhere that outlives your laptop, and cite the identifiers of the runs in the paragraph so a reader can ask for them.</p>
-<h2 id="where-jubilab-fits">Where Jubilab fits</h2>
-<p>Imagine you open the run behind a figure and find the pipeline, its parameters and the tool versions listed, each marked with how Jubilab learned it. Today you can trace a result back to its run, inputs and parameters, compare two runs, and read the evidence status of each recorded value. Runs are kept as history that cannot be edited. Jubilab records Nextflow runs live or imports finished ones, imports Snakemake runs, and wraps other commands with a native bash wrapper. What a given run record holds depends on what the tool exposed.</p>
-<p>It does not write your methods paragraph, and we are not suggesting it should do so unreviewed. Opt-in capture of reference and annotation details from file headers ships with our next release, and it is not available yet. Jubilab cannot recover the history of a run it never saw. See also our guide on <a href="/guides/what-parameters-produced-this-result/">what parameters produced a result</a> and, for the reference build, <a href="/guides/reference-genome-build-vcf-bam/">checking a VCF or BAM</a>. Jubilab is not affiliated with or endorsed by Nextflow, nf-core, Snakemake or the authors cited here.</p>
+<h2 id="where-jubilab-is-now">Where Jubilab is now</h2>
+<p>Imagine you open the run behind a figure and find the pipeline, its parameters and the tool versions listed, each marked with how it was learned. An earlier Jubilab prototype recorded runs this way, with an evidence status on each value; what a given run record held depended on what the tool exposed. Jubilab&#x27;s earlier run-record prototype is not being offered. Jubilab is now building the order-to-result layer for lab work, which is in design and not released.</p>
+<p>It does not write your methods paragraph, and we are not suggesting it should do so unreviewed. A record cannot recover the history of a run it never saw. See also our guide on <a href="/guides/what-parameters-produced-this-result/">what parameters produced a result</a> and, for the reference build, <a href="/guides/reference-genome-build-vcf-bam/">checking a VCF or BAM</a>. Jubilab is not affiliated with or endorsed by Nextflow, nf-core, Snakemake or the authors cited here.</p>
 
 <section class="b-questions" aria-labelledby="questions-h">
 <h2 id="questions-h">Questions we are still asking</h2>
@@ -240,24 +242,8 @@
 </ul>
 </section>
 <section class="helps" aria-labelledby="helps-h">
-<h2 id="helps-h">How Jubilab helps</h2>
-
-<div class="helps-cols">
-<div><h3 class="s">Available now</h3>
-<ul>
-<li>Records each run: the command, inputs, parameters and outputs, with an evidence status on every fact (verified, inferred, manual or unknown).</li>
-<li>Trace a result back to its run and parameters; compare two runs to see which recorded values differ.</li>
-<li>Runs are kept as history the application cannot edit.</li>
-<li>Records Nextflow runs as they happen or imports a finished run, imports Snakemake runs, and records any other command with the native bash wrapper.</li>
-<li>Opt-in capture of the reference genome and annotation details written in file headers. It ships with our next release.</li>
-</ul></div>
-<div><h3 class="p">Not available yet</h3>
-<ul>
-<li>Linking every sample to its files and results.</li>
-<li>Checks that flag a sample swap or a reference genome build mismatch. These are not available yet.</li>
-<li>Recovering runs that were never recorded. Jubilab records going forward; it cannot rebuild the history of a run it did not see.</li>
-</ul></div>
-</div>
+<h2 id="helps-h">Where Jubilab is now</h2>
+<p>This post comes from our earlier work on a record of how results are made. Jubilab's earlier run-record prototype is not being offered. Jubilab is now building the order-to-result layer for lab work, which is in design and not released.</p>
 <a class="btn" href="../../#access">Request early access</a>
 </section>
 <h2 id="sources">Sources</h2>
@@ -287,7 +273,7 @@
   <div class="wrap">
     <div>
       <p class="foot-brand">Jubilab</p>
-      <p>Be among the first labs shaping Jubilab. Screenshots and diagrams on this site use synthetic demo data.</p>
+      <p>The order-to-result layer for lab work, in design. Examples on this site are illustrative drafts.</p>
       <p>Contact: <a href="mailto:hello@jubilab.io">hello@jubilab.io</a></p>
     </div>
     <ul aria-label="Footer">

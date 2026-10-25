@@ -1,6 +1,6 @@
 # Image credits and licence log
 
-**Current state (2026-10-17): no third-party photo ships on the website.** Every image on the home page other than the product screenshots (`hero-*.webp`, from the real product on synthetic data) is an original SVG illustration drawn for Jubilab: `card-trace.svg`, `card-compare.svg`, `card-connect.svg`, `card-catch.svg` and `vision-agent.svg` (friendly flat style, no text, own background, no external references). Nothing below needs crediting. The rest of this file is a historical log of the stock photos the Image Researcher evaluated and the owner decided not to use; their WebP files were removed from `assets/img/`. Licence quotes are kept in case any photo is used later.
+**Current state (2026-10-25): no third-party photo or screenshot ships on the website.** The home page diagram is inline HTML/SVG drawn for Jubilab, and the old product images in `assets/img/` were removed with the order-layer pivot (they are in git history). Nothing below needs crediting. The rest of this file is a historical log of the stock photos the Image Researcher evaluated and the owner decided not to use; their WebP files were removed from `assets/img/`. Licence quotes are kept in case any photo is used later.
 
 Historical log. Accessed 2026-10-17 by the Image Researcher. Originals were downloaded to a scratch directory outside the repo.
 
