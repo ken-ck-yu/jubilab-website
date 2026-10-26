@@ -59,7 +59,7 @@ Our [guide on what parameters produced a result](/guides/what-parameters-produce
 
 ## Where Jubilab is now
 
-An earlier Jubilab prototype kept runs as immutable history, with an evidence status on each fact and per-user accounts on self-hosted installs. Jubilab's earlier run-record prototype is not being offered. Jubilab is now building the order-to-result layer for lab work. Early access is open and we are setting up with early adopters, but the order layer is still being built and nothing is released yet.
+An earlier Jubilab prototype kept runs as immutable history, with an evidence status on each fact and per-user accounts on self-hosted installs. Jubilab's earlier run-record prototype is not being offered. Jubilab is now building the order-to-result layer for lab work. We are recruiting early adopters (request access and we invite small groups first), but the order layer is still being built and nothing is released yet.
 
 Jubilab does not hand projects over to clients, has no client portal and no formatted client report. Jubilab is not affiliated with or endorsed by Nextflow, Seqera, nf-core or any core cited here.
 

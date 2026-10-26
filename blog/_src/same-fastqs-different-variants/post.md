@@ -65,7 +65,7 @@ Our [guide on what parameters produced a result](/guides/what-parameters-produce
 
 ## Where Jubilab is now
 
-An earlier Jubilab prototype let you compare two runs to see which recorded values differ, such as a command-line setting you passed, with an evidence status on each fact. Jubilab's earlier run-record prototype is not being offered. Jubilab is now building the order-to-result layer for lab work. Early access is open and we are setting up with early adopters, but the order layer is still being built and nothing is released yet.
+An earlier Jubilab prototype let you compare two runs to see which recorded values differ, such as a command-line setting you passed, with an evidence status on each fact. Jubilab's earlier run-record prototype is not being offered. Jubilab is now building the order-to-result layer for lab work. We are recruiting early adopters (request access and we invite small groups first), but the order layer is still being built and nothing is released yet.
 
 Jubilab does not make a pipeline deterministic, and a run record cannot tell you why two outputs differ. It can only show which recorded inputs and settings were different, and which were never recorded. Jubilab is not affiliated with or endorsed by GATK, bcftools, samtools or the authors cited here.
 

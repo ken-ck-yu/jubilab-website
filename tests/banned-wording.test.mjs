@@ -48,7 +48,7 @@ for (const f of CONTENT) {
     const t = rd(f);
     for (const re of [/data provenance and lineage for bioinformatics pipelines/i, /Be among the first labs shaping/, /synthetic demo data/i, /more science, fewer data/i, /How Jubilab helps/, /Available now<\/h3>/, /\.\.\/#(fits|product|next)\b/, /\/#(fits|product|next)\b/]) assert.ok(!re.test(t), String(re));
     assert.match(t, /href="[^"]*#how">How it works/);
-    assert.match(t, /order-to-result layer for lab work\. Early access is open; the order layer is still being built and nothing is released yet\./);
+    assert.match(t, /order-to-result layer for lab work\. We are accepting early adopters: request access and we invite small groups first\. The order layer is still being built and nothing is released yet\./);
     assert.match(t, /A product of Billy BioTech Ltd\. \(<span lang="zh-Hant" class="cjk">比利生物科技有限公司<\/span>\), Taipei/);
     assert.ok(!/in design/.test(t.replace(/<script[\s\S]*?<\/script>/g, "")));
   });
@@ -88,7 +88,8 @@ test("home page labels every JSON example as a draft and promises nothing is rel
   const html = rd("index.html");
   assert.equal((html.match(/Draft v0, illustrative/g) || []).length, 3);
   assert.match(html, /nothing is released yet/i);
-  assert.match(html, /Early access is open/);
+  assert.match(html, /We are accepting early adopters by invitation/);
+  assert.ok(!/Early access is open/.test(html));
   assert.ok(!/npm install|pip install|docker run|curl |api\.jubilab|mcp\.jubilab/i.test(html), "no install command or endpoint");
 });
 
@@ -119,7 +120,7 @@ test("labs section has the three groups, no tiers, and the toolset sentence", ()
 
 test("audience: early adopters, UK startups and university groups, UCL and Cambridge only as examples", () => {
   const h = rd("index.html"), l = rd("llms.txt");
-  for (const t of [h, l]) assert.match(t, /early adopters, mainly UK biotech startups and university research groups/);
+  for (const t of [h, l]) assert.match(t, /early adopters[^.]*mainly UK biotech startups and university research groups/);
   assert.match(h, /examples of the kind of group, not customers or partners/);
   assert.match(h, /non-clinical genetics samples/);
   // UCL / Cambridge may appear only inside the two "example, not customer" sentences
@@ -140,4 +141,28 @@ test("dry lab / wet lab framing and the Submit sample step exist in both diagram
   }
   const twin = h.match(/<details class="twin hero-twin">[\s\S]*?<\/details>/)[0];
   assert.ok(twin.indexOf("Submit sample") < twin.indexOf("<b>Received."));
+});
+
+test("event vocabulary lists sample.submitted (sample sent to the lab) and the hero uses it, not kit.shipped", () => {
+  const h = rd("index.html");
+  assert.match(h, /<span class="mono-inline">kit\.shipped<\/span>, <span class="mono-inline">sample\.submitted<\/span>, <span class="mono-inline">sample\.received<\/span>/);
+  assert.match(rd("llms.txt"), /kit\.shipped, sample\.submitted, sample\.received/);
+  const hero = h.match(/<section class="hero"[\s\S]*?<\/section>/)[0];
+  assert.ok(!/kit\.shipped/.test(hero));
+  assert.equal((hero.match(/sample\.submitted/g) || []).length, 5);
+});
+
+test("no customer or availability claims; UCL and Cambridge only as examples; no 'setting up with' wording", () => {
+  for (const f of ["index.html", "404.html", "thanks/index.html", "llms.txt"]) {
+    const t = rd(f);
+    assert.ok(!/available now|our customers|our customer\b|trusted by|setting up with/i.test(t), f);
+    assert.ok(!/Early access is open/.test(t), f);
+  }
+  for (const f of ["index.html", "llms.txt"]) {
+    const h = rd(f);
+    for (const m of h.matchAll(/UCL|Cambridge/g)) {
+      const ctx = h.slice(Math.max(0, m.index - 220), m.index + 220);
+      assert.match(ctx, /(as examples only, not as customers or partners|examples of the kind of group, not customers or partners)/, f);
+    }
+  }
 });
