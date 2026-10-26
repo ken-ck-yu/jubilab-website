@@ -16,7 +16,7 @@ ROOT = os.environ.get("JUBILAB_SITE_ROOT") or os.path.dirname(os.path.dirname(os
 ORIGIN = "https://jubilab.io"
 SRC = "blog/_src"
 DEFAULT_OG = ORIGIN + "/assets/og/jubilab-og.png"
-DEFAULT_OG_ALT = "Jubilab: power lab operations, from sample order to result. An order moves from received through QC and run to delivered, with an agent reading each step. Marked: in design."
+DEFAULT_OG_ALT = "Jubilab: power lab operations, from sample order to result. An order moves from sample submission through received, QC and run to delivered, with an agent reading each step. Marked: early access open, nothing released yet."
 MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
 KEYS = ["title", "description", "slug", "date", "updated", "tags", "summary", "image_alt"]
 OPTIONAL = ["reading_time"]
@@ -467,7 +467,8 @@ def footer(p):
   <div class="wrap">
     <div>
       <p class="foot-brand">Jubilab</p>
-      <p>The order-to-result layer for lab work, in design. Examples on this site are illustrative drafts.</p>
+      <p>The order-to-result layer for lab work. Early access is open; the order layer is still being built and nothing is released yet. Examples on this site are illustrative drafts.</p>
+      <p class="foot-co">A product of Billy BioTech Ltd. (<span lang="zh-Hant" class="cjk">比利生物科技有限公司</span>), Taipei</p>
       <p>Contact: <a href="mailto:hello@jubilab.io">hello@jubilab.io</a></p>
     </div>
     <ul aria-label="Footer">
@@ -489,7 +490,7 @@ def footer(p):
 # Same wording as the three guides (tests/guides.test.mjs pins it there); keep in step when a release changes what ships.
 HELPS = """<section class="helps" aria-labelledby="helps-h">
 <h2 id="helps-h">Where Jubilab is now</h2>
-<p>This post comes from our earlier work on a record of how results are made. Jubilab's earlier run-record prototype is not being offered. Jubilab is now building the order-to-result layer for lab work, which is in design and not released.</p>
+<p>This post comes from our earlier work on a record of how results are made. Jubilab's earlier run-record prototype is not being offered. Jubilab is now building the order-to-result layer for lab work. Early access is open and we are setting up with early adopters, but the order layer is still being built and nothing is released yet.</p>
 <a class="btn" href="../../#access">Request early access</a>
 </section>
 """

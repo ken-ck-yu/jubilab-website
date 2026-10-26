@@ -92,7 +92,7 @@ for (const g of GUIDES) {
   test(`guide ${g}: says the old run-record prototype is not offered and what Jubilab is building now`, () => {
     const t = txt(h);
     assert.match(t, /earlier run-record prototype is not being offered/);
-    assert.match(t, /order-to-result layer for lab work, which is in design and not released/);
+    assert.match(t, /order-to-result layer for lab work\. Early access is open and we are setting up with early adopters, but the order layer is still being built and nothing is released yet/);
     assert.ok(!/(detects|detect) sample swaps|flags? sample swaps today/i.test(t));
   });
 }

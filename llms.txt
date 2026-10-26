@@ -1,13 +1,14 @@
 # Jubilab
 
-> Jubilab is the order-to-result layer for lab work: one order format, one status feed and one result schema across every lab you use, for every scientist and agent who orders. It is in design and not yet released. Sequencing comes first, research biomarker assays next. Early-access requests are accepted from a small group of teams and labs.
+> Jubilab is the order-to-result layer for lab work: one order format, one status feed and one result schema across every lab you use, for every scientist and agent who orders. Early access is open: we are recruiting early adopters, mainly UK biotech startups and university research groups, together with the wet labs that run their samples, starting with non-clinical genetics samples. The order layer is still being built and nothing is released yet. Sequencing comes first, research biomarker assays next.
 
 ## What we are building
 
 - Order spec: what the requester sends. Platform, chemistry, depth or output target, a sample manifest, deliverables, turnaround and use tier.
 - Event model: a shared status vocabulary (order.accepted, kit.shipped, sample.received, qc.passed, qc.failed with a reason, library.prepped, run.started, run.progress, results.delivered, invoice.issued).
 - Result manifest: a results.json with files and checksums, per-sample QC as structured fields, provider IDs mapped back to the requester's sample names, and a certainty tag (verified, inferred or unknown) on every fact.
-- For labs, four ways to join, none live yet: we read the lab's existing emails and courier tracking; a four-button status page; a webhook from the lab's LIMS; instrument telemetry. Nothing changes on the lab's side on day one.
+- For labs, three ways to join, none live yet, and a lab can stop at any step: (1) your existing tools: we read the order emails and courier tracking you already have (facts tagged inferred) and take a webhook from your LIMS (facts tagged verified); (2) a Jubilab UI, API and MCP: a status page with four buttons (received, QC, run started, results ready) and drag-and-drop result upload that writes a valid result manifest, plus an API and MCP for labs that want them; (3) your instruments, for labs we partner with or own: run data from MinKNOW or BaseSpace read live (we read it, we do not control the instrument). We work with your existing toolset without disruption and give AI agents a workflow they can call.
+- Today an order moves between two sides that are managed separately and joined only by email and Excel: the dry lab side (scientists, researchers and the people who consume results) and the wet lab side (lab staff and logistics).
 - For teams: a planned Benchling integration, one MSA, a history of every order, and an MCP server and REST API (quote, create_order, get_status, list_results, fetch_result) plus webhooks. All planned; none released.
 - The JSON examples on the site are illustrative version 0 drafts, not real orders.
 
@@ -20,10 +21,10 @@
 
 ## Pages
 
-- [Jubilab home page](https://jubilab.io/): what we are building, the three objects with draft JSON examples, how labs and teams join, why now, and the early-access form
+- [Jubilab home page](https://jubilab.io/): what we are building, who we are recruiting, the three objects with draft JSON examples, how labs and teams join, why now, and the early-access form
 - [Today](https://jubilab.io/#problem): what we found about how sequencing and assay orders move today (October 2026)
 - [How it works](https://jubilab.io/#how): order spec, event model, result manifest and the certainty tags
-- [For labs](https://jubilab.io/#labs): the four ways to join
+- [For labs](https://jubilab.io/#labs): the three ways to join
 - [For teams](https://jubilab.io/#teams): what teams that send samples out would get
 - [For developers](https://jubilab.io/#dev): the planned tool surface and webhooks
 - [Questions](https://jubilab.io/#faq): answers to common questions
@@ -72,3 +73,5 @@
 ## Contact
 
 hello@jubilab.io
+
+A product of Billy BioTech Ltd., Taipei.

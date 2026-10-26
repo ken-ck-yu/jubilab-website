@@ -48,7 +48,9 @@ for (const f of CONTENT) {
     const t = rd(f);
     for (const re of [/data provenance and lineage for bioinformatics pipelines/i, /Be among the first labs shaping/, /synthetic demo data/i, /more science, fewer data/i, /How Jubilab helps/, /Available now<\/h3>/, /\.\.\/#(fits|product|next)\b/, /\/#(fits|product|next)\b/]) assert.ok(!re.test(t), String(re));
     assert.match(t, /href="[^"]*#how">How it works/);
-    assert.match(t, /order-to-result layer for lab work, in design/);
+    assert.match(t, /order-to-result layer for lab work\. Early access is open; the order layer is still being built and nothing is released yet\./);
+    assert.match(t, /A product of Billy BioTech Ltd\. \(<span lang="zh-Hant" class="cjk">比利生物科技有限公司<\/span>\), Taipei/);
+    assert.ok(!/in design/.test(t.replace(/<script[\s\S]*?<\/script>/g, "")));
   });
 }
 test("blog index carries the neutral earlier-work line with a link home", () => {
@@ -85,6 +87,57 @@ test("no prices and no open questions on the home page", () => {
 test("home page labels every JSON example as a draft and promises nothing is released", () => {
   const html = rd("index.html");
   assert.equal((html.match(/Draft v0, illustrative/g) || []).length, 3);
-  assert.match(html, /not released/i);
+  assert.match(html, /nothing is released yet/i);
+  assert.match(html, /Early access is open/);
   assert.ok(!/npm install|pip install|docker run|curl |api\.jubilab|mcp\.jubilab/i.test(html), "no install command or endpoint");
+});
+
+test("every page with the site footer names the operator in the footer", () => {
+  const pages = ["index.html", "404.html", "thanks/index.html", "privacy/index.html", "terms/index.html", ...CONTENT];
+  for (const f of pages) assert.match(rd(f).match(/<footer>[\s\S]*?<\/footer>/)[0], /A product of Billy BioTech Ltd\. \(<span lang="zh-Hant" class="cjk">比利生物科技有限公司<\/span>\), Taipei/, f);
+});
+
+test("brand is Biligene, never Bili Gene; the forty-email-threads line and 'run through it first' stay", () => {
+  for (const f of [...ALL, ...CONTENT]) assert.ok(!/Bili Gene/.test(rd(f)), f);
+  const h = rd("index.html");
+  assert.match(h, /At Biligene, our own sequencing orders lived in forty email threads/);
+  assert.match(h, /planned to run through it first/);
+});
+
+test("labs section has the three groups, no tiers, and the toolset sentence", () => {
+  const h = rd("index.html");
+  const labs = h.match(/<section id="labs"[\s\S]*?<\/section>/)[0];
+  assert.ok(!/Tier [0-3]/i.test(h) && !/Tier [0-3]/i.test(rd("llms.txt")));
+  assert.equal((labs.match(/<li class="card">/g) || []).length, 3);
+  for (const t of ["Your existing tools", "A Jubilab UI, API and MCP", "Your instruments"]) assert.ok(labs.includes(t), t);
+  assert.ok(labs.includes("We work with your existing toolset without disruption and give AI agents a workflow they can call."));
+  assert.match(labs, /stop at any step/);
+  assert.match(labs, /tagged inferred/);
+  assert.match(labs, /tagged verified/);
+  assert.match(labs, /We do not control the instrument/);
+});
+
+test("audience: early adopters, UK startups and university groups, UCL and Cambridge only as examples", () => {
+  const h = rd("index.html"), l = rd("llms.txt");
+  for (const t of [h, l]) assert.match(t, /early adopters, mainly UK biotech startups and university research groups/);
+  assert.match(h, /examples of the kind of group, not customers or partners/);
+  assert.match(h, /non-clinical genetics samples/);
+  // UCL / Cambridge may appear only inside the two "example, not customer" sentences
+  const rest = h.replace(/\([^)]*UCL[^)]*\)/g, "");
+  assert.ok(!/UCL|Cambridge/.test(rest.replace(/<script[\s\S]*?<\/script>/g, "")) || /as examples only, not as customers or partners/.test(h));
+});
+
+test("dry lab / wet lab framing and the Submit sample step exist in both diagram variants and the text twin", () => {
+  const h = rd("index.html");
+  assert.match(h, /joined only by email and Excel/);
+  assert.match(h, /dry lab side/);
+  assert.match(h, /wet lab side/);
+  for (const cls of ["flow-wide", "flow-tall"]) {
+    const svg = h.match(new RegExp(`<svg class="${cls}"[\\s\\S]*?</svg>`))[0];
+    assert.match(svg, /Submit sample/);
+    assert.match(svg, /five steps/);
+    assert.ok(svg.indexOf("Submit sample") < svg.indexOf(">Received<"));
+  }
+  const twin = h.match(/<details class="twin hero-twin">[\s\S]*?<\/details>/)[0];
+  assert.ok(twin.indexOf("Submit sample") < twin.indexOf("<b>Received."));
 });

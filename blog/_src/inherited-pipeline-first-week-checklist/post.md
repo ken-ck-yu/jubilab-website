@@ -74,7 +74,7 @@ Our reading of the arXiv essay "Be Prospective, Not Retrospective" is that its a
 
 ## Where Jubilab is now
 
-The status labels in the list above (verified, inferred, manual or unknown) come from our earlier work on a record of how results are made. Jubilab's earlier run-record prototype is not being offered. Jubilab is now building the order-to-result layer for lab work, which is in design and not released.
+The status labels in the list above (verified, inferred, manual or unknown) come from our earlier work on a record of how results are made. Jubilab's earlier run-record prototype is not being offered. Jubilab is now building the order-to-result layer for lab work. Early access is open and we are setting up with early adopters, but the order layer is still being built and nothing is released yet.
 
 No tool can recover the history of runs it never saw or reconstruct what a departed colleague did; a record only makes the next handover less of a detective story. Jubilab is not affiliated with or endorsed by Nextflow, Snakemake, Seqera, the bcftools or samtools projects, or the authors cited here.
 

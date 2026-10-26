@@ -42,7 +42,7 @@ Reading the ten rules this way, a pattern shows up, though we hold it loosely. T
 
 ## Where a record might help, and where it does not
 
-Rule 1 asks, in a sentence, for a record of how each result was made. That was the idea behind Jubilab's earlier work. Jubilab's earlier run-record prototype is not being offered. Jubilab is now building the order-to-result layer for lab work, which is in design and not released.
+Rule 1 asks, in a sentence, for a record of how each result was made. That was the idea behind Jubilab's earlier work. Jubilab's earlier run-record prototype is not being offered. Jubilab is now building the order-to-result layer for lab work. Early access is open and we are setting up with early adopters, but the order layer is still being built and nothing is released yet.
 
 Such a record touches rule 1 and a little of rule 2. It does nothing for rules 5 to 10 that we would want to promise, and it does not make a result reproducible by itself. Jubilab is not affiliated with or endorsed by the authors of the paper, PLOS, Nextflow, Seqera or Snakemake, and we are not saying any tool satisfies the rules.
 
