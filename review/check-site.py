@@ -54,7 +54,7 @@ MEASURE = r"""
   out.sub_nav = [...document.querySelectorAll('.subnav a')].filter(vis).map(a => [a.textContent.trim(), a.getAttribute('href'), !!document.querySelector(a.getAttribute('href'))]);
   const menu = q('.menu'); out.menuVisible = vis(menu); out.menuBtn = q('.menu summary').getBoundingClientRect().width; out.menuLinks = [...menu.querySelectorAll('a')].map(a => [a.textContent.trim(), a.getAttribute('href')]);
   const svgs = [...document.querySelectorAll('.flow svg')].filter(vis);
-  out.flow = svgs.map(s => { const sb = s.getBoundingClientRect(), vb = s.viewBox.baseVal, sc = sb.width / vb.width; let min = 999; for (const t of s.querySelectorAll('text')) min = Math.min(min, px(t) * sc); return {cls: s.getAttribute('class'), w: Math.round(sb.width), minFont: Math.round(min * 10) / 10, role: s.getAttribute('role'), title: !!s.querySelector('title'), desc: !!s.querySelector('desc')}; });
+  out.flow = svgs.map(s => { const sb = s.getBoundingClientRect(), vb = s.viewBox.baseVal, sc = sb.width / vb.width; let min = 999; for (const t of s.querySelectorAll('text')) min = Math.min(min, px(t) * sc); return {cls: s.getAttribute('class'), w: Math.round(sb.width), minFont: Math.round(min * 10) / 10, role: s.getAttribute('role'), title: !!s.querySelector('title'), desc: !!s.querySelector('desc'), steps: s.querySelectorAll('g.n:not(.ag)').length, submit: /Submit sample/.test(s.textContent), five: /five steps/.test(s.querySelector('desc').textContent)}; });
   out.twinClosed = [...document.querySelectorAll('details.twin')].every(d => !d.open);
   const small = [];
   for (const e of document.body.querySelectorAll('*')) {
@@ -133,7 +133,7 @@ def run():
                     rec(5, [x[:2] for x in m["sub_nav"]] == [list(n) for n in NAV] and all(x[2] for x in m["sub_nav"]), f"{t} sticky nav {m['sub_nav']}")
                 else:
                     rec(5, m["menuVisible"] and m["menuBtn"] >= 44 and [x[0] for x in m["menuLinks"]] == [n[0] for n in NAV] + ["Blog"], f"{t} menu {m['menuBtn']} {m['menuLinks']}")
-                rec(6, len(m["flow"]) == 1 and all(f["role"] == "img" and f["title"] and f["desc"] and f["minFont"] >= 11.9 and f["w"] <= m["iw"] for f in m["flow"]) and m["twinClosed"], f"{t} flow {m['flow']}")
+                rec(6, len(m["flow"]) == 1 and all(f["role"] == "img" and f["title"] and f["desc"] and f["minFont"] >= 11.9 and f["w"] <= m["iw"] and f["steps"] == 5 and f["submit"] and f["five"] for f in m["flow"]) and m["twinClosed"], f"{t} flow {m['flow']}")
                 rec(7, not m["small"], f"{t} text under 12px: {m['small']}")
                 rec(8, not m["failC"] and m["uiMin"][1] >= 3, f"{t} min text contrast {m['minC']:.2f} ({m['minWhere']}); fails {m['failC']}; weakest UI {m['uiMin'][0]} {m['uiMin'][1]:.2f}")
                 if w in (360, 390):

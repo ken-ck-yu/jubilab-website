@@ -51,7 +51,7 @@ An earlier Jubilab prototype worked this way. It answered only from entities it 
 
 We want a lab's agents and its people to read the same history. Our earlier plan was a read-only way for an AI agent to ask a record questions such as "what produced this file?" or "what differs between these two runs?" and to get answers with their evidence statuses, or an honest "cannot determine". We have in mind MCP as one route, and we have not built it. No agent access exists today, and we have not tested any agent against it. We also have not decided what an agent should be allowed to write, if anything; our instinct is that it should start with nothing.
 
-That earlier prototype is not being offered, and Jubilab is now building the order-to-result layer for lab work, which is in design and not released. For how we think about those records, see our guide on [Nextflow provenance and lineage](/guides/nextflow-provenance-and-lineage-compared/). Jubilab is not affiliated with or endorsed by the authors, LabKey, NAISS or the Model Context Protocol project mentioned here, and it does not integrate with any of them.
+That earlier prototype is not being offered, and Jubilab is now building the order-to-result layer for lab work. We are recruiting early adopters (request access and we invite small groups first), but the order layer is still being built and nothing is released yet. For how we think about those records, see our guide on [Nextflow provenance and lineage](/guides/nextflow-provenance-and-lineage-compared/). Jubilab is not affiliated with or endorsed by the authors, LabKey, NAISS or the Model Context Protocol project mentioned here, and it does not integrate with any of them.
 
 ## Questions we are still asking
 

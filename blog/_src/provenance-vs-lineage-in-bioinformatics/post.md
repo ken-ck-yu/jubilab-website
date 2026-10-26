@@ -56,7 +56,7 @@ Nextflow's documentation calls its feature data lineage. It says the feature was
 
 ## Where Jubilab is now
 
-An earlier Jubilab prototype offered both views of the same history: tracing an output back to its run, inputs and parameters, and forward from an input to what depends on it, with an evidence status on each fact. Jubilab's earlier run-record prototype is not being offered. Jubilab is now building the order-to-result layer for lab work, which is in design and not released.
+An earlier Jubilab prototype offered both views of the same history: tracing an output back to its run, inputs and parameters, and forward from an input to what depends on it, with an evidence status on each fact. Jubilab's earlier run-record prototype is not being offered. Jubilab is now building the order-to-result layer for lab work. We are recruiting early adopters (request access and we invite small groups first), but the order layer is still being built and nothing is released yet.
 
 Jubilab is not affiliated with or endorsed by the W3C, DataHub, Nextflow or Snakemake.
 

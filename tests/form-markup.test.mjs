@@ -87,6 +87,6 @@ test("free text drops bidi and zero-width format characters (U+202E and friends)
   assert.equal(o.error, "role-other");
 });
 
-test("OG source carries the In design marker", () => {
-  assert.match(rd2("assets/og/og-source.html"), /class="tag">In design</);
+test("OG source carries the early-access marker", () => {
+  assert.match(rd2("assets/og/og-source.html"), /class="tag">Early access by invitation</);
 });
