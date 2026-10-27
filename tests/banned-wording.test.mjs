@@ -171,12 +171,17 @@ test("merged Why use Jubilab / For teams section: one h2, owner order, no separa
   assert.ok(!/id="why"|The problem|From lab samples to result|<section id="teams"[\s\S]*<section id="teams"/.test(h));
   assert.equal((h.match(/id="teams"/g) || []).length, 1);
   assert.match(s, /<span class="eyebrow">Why use Jubilab<\/span>\s*<h2 id="h-teams">Every external lab, one workflow\.<\/h2>/);
-  assert.match(s, /Today, ordering sequencing from an external lab often means a new spreadsheet, email updates, and results that need manual reconciliation\. Jubilab connects the order, status and result in one workflow, and you keep the tools you already use\./);
+  assert.match(s, /Today, ordering sequencing from an external lab often means a new spreadsheet, email updates, and results that need manual reconciliation\. Jubilab, the sample operations layer, connects the order, status and result in one workflow, and you keep the tools you already use\./);
   const order = ["class=\"comparison\"", "<strong>One order. One place to follow it. One clean result.</strong><br>One interface for people and software.", "class=\"three-grid\"", "Register for early access &rarr;", "Explore the workflow &rarr;", "One connected path"].map((x) => s.indexOf(x));
   assert.ok(order.every((x) => x > 0) && order.every((x, i) => i === 0 || x > order[i - 1]), "order: panels, summary line, cards, buttons, path strip: " + order);
-  assert.match(s, /Today &middot; Joined by email and Excel/);
-  assert.match(s, /With Jubilab &middot; One connected workflow/);
-  for (const t of ["For scientists and research teams", "For laboratories", "Scientists and AI agents", "Laboratories", "One order structure", "Clearer status", "Results tied to your samples"]) assert.ok(s.includes(`<h3>${t}</h3>`), t);
+  const cmp = s.match(/<div class="comparison">[\s\S]*?<\/ul>\s*<\/div>\s*<\/div>/)[0];
+  assert.match(cmp, /<h3>Today<\/h3>\s*<p class="panel-sub">Joined by email and Excel<\/p>/);
+  assert.match(cmp, /<h3>With Jubilab<\/h3>\s*<p class="panel-sub">One connected workflow<\/p>/);
+  const lis = (re) => [...cmp.match(re)[0].matchAll(/<li>([^<]+)<\/li>/g)].map((m) => m[1]);
+  assert.deepEqual(lis(/<div class="panel">[\s\S]*?<\/ul>/), ["Email and back-and-forth communication", "A different spreadsheet for every provider", "Custom-built pipelines and scripts", "Manual tracking and status updates by researchers", "ELN and HPC kept separate from lab orders"]);
+  assert.deepEqual(lis(/<div class="panel highlight">[\s\S]*?<\/ul>/), ["One standard sample request", "Status updates from every lab in one place", "Results linked to your own sample names", "Ready for AI agents through API and MCP"]);
+  assert.ok(!/For scientists and research teams|For laboratories|<h3>Laboratories/.test(s), "audience sub-groups removed");
+  for (const t of ["One order structure", "Clearer status", "Results tied to your samples"]) assert.ok(s.includes(`<h3>${t}</h3>`), t);
   assert.match(s, /<a class="button" href="#access">Register for early access &rarr;<\/a> <a class="button secondary" href="#how">Explore the workflow &rarr;<\/a>/);
   assert.ok(!/One order format|one status feed|result schema/i.test(h));
 });
@@ -254,7 +259,7 @@ test("home page: no code blocks; API, MCP and webhooks appear only in the owner-
   assert.ok(!/<pre\b|<code\b/i.test(h));
   const vis = h.replace(/<script[\s\S]*?<\/script>/g, "").replace(/<form[\s\S]*?<\/form>/, "");
   const text = vis.replace(/<[^>]+>/g, " ");
-  for (const [re, max] of [[/\bMCP\b/g, 2], [/\bAPI\b/g, 2], [/webhooks?/gi, 1]]) assert.ok((text.match(re) || []).length <= max, String(re));
+  for (const [re, max] of [[/\bMCP\b/g, 3], [/\bAPI\b/g, 3], [/webhooks?/gi, 1]]) assert.ok((text.match(re) || []).length <= max, String(re));
   assert.ok(!/JSON|endpoints?|SFTP|SDK|\btokens?\b|create_order|get_status|fetch_result|REST/.test(text));
 });
 
@@ -299,4 +304,18 @@ test("self-hosted fonts and no third-party request in the home page's head or cs
   assert.ok(readFileSync(REPO + "assets/fonts/OFL-Inter.txt", "utf8").includes("SIL OPEN FONT LICENSE"));
   assert.ok(!/data:image/.test(h), "the hero art is a file, not a data URI");
   assert.ok(readFileSync(REPO + "assets/img/hero-art.webp").length > 1000);
+});
+
+// Product descriptor (owner idea, T-050). One phrase so it can be swapped in one commit.
+const DESCRIPTOR = "the sample operations layer";
+test("product descriptor: eyebrow, merged intro, meta, llms.txt; never a named-company comparison", () => {
+  const h = rd("index.html"), l = rd("llms.txt");
+  assert.match(h, /<span class="eyebrow">The sample operations layer<\/span>/);
+  assert.ok(h.includes(`Jubilab, ${DESCRIPTOR}, connects the order, status and result in one workflow`));
+  const meta = "Early access by invitation. Jubilab is the sample operations layer that connects the people, labs, couriers and AI agents handling a sample, from order to data.";
+  for (const k of ['name="description"', 'property="og:description"', 'name="twitter:description"']) assert.ok(h.includes(`<meta ${k} content="${meta}">`), k);
+  assert.ok(meta.length >= 150 && meta.length <= 160);
+  assert.ok(l.includes("Jubilab is the sample operations layer: one layer that connects the people, labs, couriers and AI agents that handle a sample, from order to data."));
+  assert.ok(!/order-to-result layer/i.test(h));
+  assert.ok(!/like stripe|basically like|the stripe of/i.test(h + l));
 });

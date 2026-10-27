@@ -394,3 +394,5 @@ blockquote.story-quote { margin:0; }
     .teams-section .callout { margin-bottom:30px; }
     .teams-section .cta-p { display:flex; flex-wrap:wrap; gap:12px; margin:28px 0 0; }
     .teams-section .visual-band { margin-top:44px; }
+    .panel-sub { margin:-4px 0 14px; color:var(--muted); font-size:.92rem; }
+    .comparison .panel h3 { font-size:1.35rem; }
