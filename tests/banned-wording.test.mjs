@@ -80,8 +80,8 @@ test("hero does not lead with researcher or academia, and carries the owner-appr
   assert.ok(hero.includes("Order sequencing from outside labs once, see every step, and get results with your own sample names. For scientists and AI agents."));
   assert.ok(hero.includes("For teams that send samples to outside labs, and the labs that run them. UK genetics first."));
   assert.ok(!/dry lab|wet lab|logistics/i.test(hero), "no dry/wet lab or logistics wording on the first screen (it stays in the diagram)");
-  assert.match(hero, /By Billy BioTech, the company behind Biligene\./);
-  assert.match(hero, /Investors\? <a href="mailto:hello@jubilab\.io">Email us<\/a>/);
+  // Owner removed the status, company and investor lines from the hero (T-049); they must stay out of the first screen.
+  assert.ok(!/early adopters|Nothing is released|By Billy BioTech|Investors\?/i.test(hero), "no status, company or investor line in the hero");
   assert.ok(!/<h2/.test(hero));
   assert.ok(!/schema|order layer|one shape|\bAPI\b|\bMCP\b/i.test(hero), "no schema words, API or MCP in the hero");
   assert.equal((hero.match(/class="btn[ "]/g) || []).length, 1, "one primary call to action in the hero");
@@ -95,7 +95,7 @@ test("no prices and no open questions on the home page", () => {
 test("home page promises nothing is released, is not defensive about it, and has no install command or endpoint", () => {
   const html = rd("index.html");
   assert.match(html, /nothing is released yet/i);
-  assert.match(html, /We are accepting early adopters by invitation/);
+  assert.match(html, /We are accepting early adopters: request access and we invite small groups first/);
   assert.ok(!/Early access is open/.test(html));
   assert.ok(!/npm install|pip install|docker run|curl |api\.jubilab|mcp\.jubilab/i.test(html), "no install command or endpoint");
   const vis = html.replace(/<script[\s\S]*?<\/script>/g, "");
