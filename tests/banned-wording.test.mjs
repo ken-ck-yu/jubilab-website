@@ -48,7 +48,7 @@ for (const f of CONTENT) {
     const t = rd(f);
     for (const re of [/data provenance and lineage for bioinformatics pipelines/i, /Be among the first labs shaping/, /synthetic demo data/i, /more science, fewer data/i, /How Jubilab helps/, /Available now<\/h3>/, /\.\.\/#(fits|product|next)\b/, /\/#(fits|product|next)\b/]) assert.ok(!re.test(t), String(re));
     assert.match(t, /href="[^"]*#how">How it works/);
-    assert.match(t, /Order lab work once and follow it to results\. We are accepting early adopters: request access and we invite small groups first\. The product is still being built and nothing is released yet\./);
+    assert.match(t, /One order, one status feed, one result across every lab you use\. We are accepting early adopters: request access and we invite small groups first\. The product is still being built and nothing is released yet\./);
     assert.match(t, /A product of Billy BioTech Ltd\. \(<span lang="zh-Hant" class="cjk">比利生物科技有限公司<\/span>\), Taipei/);
     assert.ok(!/in design/.test(t.replace(/<script[\s\S]*?<\/script>/g, "")));
   });
@@ -71,15 +71,15 @@ test("\"marketplace\" appears only to say what Jubilab is not, or in a factual d
   }
 });
 
-test("hero does not lead with researcher or academia, and carries the headline verbatim and a plain sub-line (no schema words)", () => {
+test("hero does not lead with researcher or academia, and carries the owner-approved headline verbatim and a plain sub-line (no schema words, API or MCP)", () => {
   const html = rd("index.html");
   const hero = html.match(/<section class="hero"[\s\S]*?<\/section>/)[0];
   assert.ok(!/researcher|academi/i.test(hero));
-  assert.ok(hero.includes("<h1 id=\"h1\">Order lab work once. Follow it all the way to results.</h1>"));
+  assert.ok(hero.includes("<h1 id=\"h1\">One order, one status feed, one result. Across every lab you use.</h1>"));
   // Owner-delegated headline (T-047 round 2); the owner can reverse it. Sub-line is one plain sentence pair that mentions AI assistants but does not lead with them.
-  assert.ok(hero.includes("One order form for every outside lab, and one place to follow it. AI assistants can help too."));
+  assert.ok(hero.includes("So scientists and AI agents can order, track and read results across dry labs, wet labs and logistics."));
   assert.ok(hero.includes("For research teams and startups that send samples to outside labs, and the labs that receive them. Starting with genetics, UK first."));
-  assert.ok(!/schema|order layer|status feed|one shape/i.test(hero));
+  assert.ok(!/schema|order layer|one shape|\bAPI\b|\bMCP\b/i.test(hero), "no schema words, API or MCP in the hero");
   assert.equal((hero.match(/class="btn[ "]/g) || []).length, 1, "one primary call to action in the hero");
 });
 
@@ -176,7 +176,7 @@ test("home page: no code blocks and none of the banned technical terms in the vi
   const m = text.match(BAN);
   assert.equal(m, null, `found "${m?.[0]}"`);
   assert.ok((text.match(/\bLIMS\b/g) || []).length <= 1 && (text.match(/\bELN\b/g) || []).length <= 1, "LIMS and ELN named at most once each (plain-words rule, owner-requested mentions)");
-  assert.ok(!/order layer|status feed|result schema|one shape/i.test(text), "plain-words rule");
+  assert.ok(!/order layer|result schema|one shape/i.test(text), "plain-words rule");
   assert.ok(!/href="#dev"|id="dev"|For developers/i.test(h));
 });
 
@@ -187,21 +187,6 @@ test("home nav: How it works, For labs, For teams, Why now, Early access; Blog o
   assert.deepEqual(sub, ["How it works", "For labs", "For teams", "Why now", "Early access"]);
   const menu = [...h.match(/<details class="menu">[\s\S]*?<\/details>/)[0].matchAll(/<a href="([^"]+)">([^<]+)<\/a>/g)].map((m) => m[2]);
   assert.deepEqual(menu, ["How it works", "For labs", "For teams", "Why now", "Early access", "Blog"]);
-});
-
-test("Who is behind this strip: short, not in the nav; Billy BioTech, Taipei, Biligene first user, founder; no unverified numbers; no About section", () => {
-  const h = rd("index.html");
-  assert.ok(!/id="about"/.test(h));
-  const sec = h.match(/<section id="behind"[\s\S]*?<\/section>/)[0];
-  const t = sec.replace(/&rsquo;/g, "’").replace(/<[^>]+>/g, " ").replace(/\s+/g, " ");
-  assert.ok((t.match(/[.!?](?=\s+[A-Z])/g) || []).length + 1 <= 3, "three sentences at most");
-  assert.match(t, /Billy BioTech Ltd\. \(\s*比利生物科技有限公司\s*\) in Taipei/);
-  assert.match(t, /Biligene, is planned to be Jubilab’s first user/);
-  assert.match(t, /Ken Cheng-Kai Yu/);
-  assert.match(t, /MSc in computer science \(UCL\)/);
-  assert.match(t, /AWS in London’s financial sector/);
-  assert.match(t, /bioinformatics/);
-  assert.ok(!/dozens|hundreds|thousands|\d+ (customers|clinics|labs)/i.test(h.replace(/<script[\s\S]*?<\/script>/g, "")));
 });
 
 test("no separate what-we-do-not-do block, no roadmap or timeline block; the limits are folded into How it works; early access names the audience", () => {
@@ -229,14 +214,34 @@ test("plain-words commitments: fits with tools, data commitment, planned fee, no
   assert.match(h, /We expect labs to say yes because orders arrive tidier and nothing changes in how they work/);
   assert.match(h, /In 2025 Benchling began direct ordering for a few suppliers and left sequencing and assays out/);
     assert.match(h.match(/<footer>[\s\S]*?<\/footer>/)[0], /mailto:hello@jubilab\.io">Investors and partners/);
-  assert.match(h, /Result links that expire/);
-  assert.match(h, /Sample names that do not match/);
   assert.match(h, /Genetics sequencing first, then any lab service\./);
-  assert.match(h, /<b>Today:<\/b> a spreadsheet per provider and a trail of emails\. <b>With Jubilab:<\/b> one order, one place to follow it, one clean result\./);
 });
 
-test("FAQ has four questions", () => {
-  assert.equal((rd("index.html").match(/<summary><h3>/g) || []).length, 4);
+test("the three removed sections (founder strip, FAQ, problem tiles) and the FAQPage JSON-LD are gone, with no dangling anchors", () => {
+  const h = rd("index.html"), l = rd("llms.txt");
+  for (const id of ["behind", "faq", "problem"]) assert.ok(!new RegExp(`id="${id}"|href="#${id}"`).test(h), id);
+  for (const s of ["Who is behind this", ">Questions<", "What we found when we looked", "about 70 public sources", "FAQPage", "<summary><h3>", "Ken Cheng-Kai Yu"]) assert.ok(!h.includes(s), s);
+  assert.ok(!/#faq|#problem|#behind|FAQPage|Who is behind it|What we found/.test(l));
+  assert.ok(!/class="faq|class="behind|class="stat"[^>]*>(?:0 of 12|4\.5 months|30 days|By hand|6 states)/.test(h));
+  // the forty-email-threads line survives in Why now
+  assert.match(h.match(/<section id="why"[\s\S]*?<\/section>/)[0], /forty email threads/);
+});
+
+test("effort section: aims not measured results, four tiles, no invented numbers, no savings claims", () => {
+  const h = rd("index.html");
+  const s = h.match(/<section id="effort"[\s\S]*?<\/section>/)[0];
+  assert.match(s, /<h2 id="h-effort">The effort you get back\.<\/h2>/);
+  assert.match(s, /What we are building to take off your plate\. These are our aims, not measured results; we will measure them with our first users\./);
+  assert.equal((s.match(/<li class="card">/g) || []).length, 4);
+  assert.deepEqual([...s.matchAll(/<p class="stat">([^<]*)<\/p>/g)].map((m) => m[1]), ["1", "5", "0", "1 to 2 hours"]);
+  const t = s.replace(/<[^>]+>/g, " ").replace(/&rsquo;/g, "\u2019");
+  assert.equal((t.match(/Our aim:/g) || []).length, 3);
+  assert.match(t, /About what one large sequencing provider spends checking each order sheet by hand today\. We aim to take that off the lab\u2019s plate\./);
+  assert.ok(!/%|percent|[$\u20ac\u00a3]|\bsaves?\b|\bsaved\b|\bsaving|faster|per order|fewer emails/i.test(t), "no percentages, money or savings claims");
+  assert.ok(!/\b\d+ (?:hours?|days?|emails?)\b/i.test(t.replace("1 to 2 hours", "")), "no other hour, day or email counts");
+  // sits right after How it works and before the labs section
+  assert.ok(h.indexOf('<section id="how"') < h.indexOf('<section id="effort"') && h.indexOf('<section id="effort"') < h.indexOf('<section id="labs"'));
+  assert.match(rd("llms.txt"), /The effort you get back \(our aims, not measured results\)/);
 });
 
 test("no customer or availability claims; UCL and Cambridge only as examples; no 'setting up with' wording", () => {
@@ -259,13 +264,11 @@ test("home page h2 headings are exactly this list; no roadmap, timeline or extra
   const h2 = [...h.matchAll(/<h2[^>]*>([\s\S]*?)<\/h2>/g)].map((m) => m[1].replace(/<[^>]+>/g, "").replace(/&rsquo;/g, "\u2019").replace(/&amp;/g, "&"));
   assert.deepEqual(h2, [
     "Two sides that should be one.",
-    "What we found when we looked.",
     "Order once. Follow every step.",
+    "The effort you get back.",
     "Nothing changes on your side on day one.",
     "Every outside lab, one order format.",
     "Why now: every AI agent stops at the lab door.",
-    "Who is behind this",
-    "Questions",
     "Request early access",
   ]);
   const text = h.replace(/<[^>]+>/g, " ").replace(/&rsquo;|&#8217;|\u2019/g, "'");

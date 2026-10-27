@@ -19,7 +19,7 @@ EXE = os.path.expanduser("~/.cache/ms-playwright/chromium_headless_shell-1248/ch
 WIDTHS = [320, 360, 390, 768, 1024, 1280, 1440, 1920]
 THEMES = ["light", "dark"]
 NAV = [("How it works", "#how"), ("For labs", "#labs"), ("For teams", "#teams"), ("Why now", "#why"), ("Early access", "#access")]
-SECTIONS = ["compare", "usecases", "problem", "how", "labs", "teams", "why", "behind", "faq", "access"]
+SECTIONS = ["compare", "usecases", "how", "effort", "labs", "teams", "why", "access"]
 FORBIDDEN = ["revolutionis", "revolutioniz", "seamless", "unlock", "empower", "stripe for", "sample-to-result", "outsourced lab work",
              "with automation and scale", "provenance", "lineage", "nextflow", "snakemake", "testimonial", "trusted by", "guarantee"]
 R = []
@@ -128,7 +128,7 @@ def run():
                 m = pg.evaluate(MEASURE); t = f"{w}/{th}"
                 rec(1, abs(m["sw"] - m["iw"]) <= 1 and m["overflowN"] == 0, f"{t} scrollWidth {m['sw']}/{m['iw']}, {m['overflowN']} elements outside viewport {m['overflow'][:2]}")
                 rec(2, m["pre"]["n"] == 0, f"{t} code blocks {m['pre']}")
-                rec(3, m["h1"]["n"] == 1 and m["h1"]["text"] == "Order lab work once. Follow it all the way to results." and m["sub"].startswith("One order form for every outside lab") and not m["skip"] and not m["h2Outside"], f"{t} h1 {m['h1']['n']} skip {m['skip']}")
+                rec(3, m["h1"]["n"] == 1 and m["h1"]["text"] == "One order, one status feed, one result. Across every lab you use." and m["sub"].startswith("So scientists and AI agents can order, track and read results") and not m["skip"] and not m["h2Outside"], f"{t} h1 {m['h1']['n']} skip {m['skip']}")
                 rec(4, m["secIds"] == SECTIONS, f"{t} sections {m['secIds']}")
                 if w >= 900:
                     rec(5, [x[:2] for x in m["sub_nav"]] == [list(n) for n in NAV] and all(x[2] for x in m["sub_nav"]), f"{t} sticky nav {m['sub_nav']}")

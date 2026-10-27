@@ -4,13 +4,15 @@ Replaces the 2026-10-18 list (data provenance, lineage, Nextflow, Snakemake; ret
 
 | Term | Why it matters | Where used |
 |---|---|---|
-| lab order, sequencing order | What the buyer does today | title, hero lede, FAQ 1, "What we found" section |
+| lab order, sequencing order | What the buyer does today | title, hero lede, "The effort you get back" |
 | order-to-result | Our category name | title, llms.txt |
-| sample status, order status | The pain: no status | "What we found" section, "How it works" |
-| sequencing provider, sequencing service, core facility | Who takes the orders | "What we found", "For labs", FAQ |
-| Benchling, Labguru, Scispot, ELN, LIMS | Tools buyers combine with | "For teams", FAQ 5, form (names only; non-affiliation sentence next to them) |
+| sample status, order status | The pain: no status | "How it works" |
+| sequencing provider, sequencing service, core facility | Who takes the orders | "The effort you get back", "For labs" |
+| Benchling, Labguru, Scispot, ELN, LIMS | Tools buyers combine with | "For teams", form (names only; non-affiliation sentence next to them) |
 | AI assistants, AI agents | Builder and investor searches | hero sub-line, "Why now", "For teams" one-line developer note (T-047 removed MCP, REST API and webhooks from the page by owner decision) |
 | order, status, results | Plain names for the three things we standardise | "How it works", hero sub-line, llms.txt |
-| biomarker assays, proteomics, metabolomics | Next scope | llms.txt, FAQ 3 |
+| biomarker assays, proteomics, metabolomics | Next scope | llms.txt |
 
 Not used on purpose: marketplace (as what we are), "Stripe for X", sample-to-result on its own, outsourced lab work, anything about provenance or lineage as a headline.
+
+Note (T-048): the FAQ and the "What we found" section were removed from the home page; the rows above name the sections that remain.

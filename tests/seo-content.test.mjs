@@ -1,4 +1,4 @@
-// Pins the search-facing copy: title and description limits, hero lede = JSON-LD description, FAQPage = visible FAQ text.
+// Pins the search-facing copy: title and description limits, no FAQPage.
 import test from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
@@ -16,14 +16,12 @@ test("title <= 65 characters and description 150-160, same in Open Graph and Twi
   for (const k of ["og:description", "twitter:description"]) assert.equal(html.match(new RegExp(`"${k}" content="(.*?)"`))[1], desc);
 });
 
-test("FAQPage JSON-LD matches the visible questions and answers exactly, and is in the raw HTML", () => {
-  const faq = ld.find((n) => n["@type"] === "FAQPage");
-  const vis = [...html.matchAll(/<summary><h3>(.*?)<\/h3><\/summary><p>(.*?)<\/p>/gs)].map((m) => [txt(m[1]), txt(m[2])]);
-  assert.equal(vis.length, 4);
-  assert.deepEqual(faq.mainEntity.map((q) => [q.name, q.acceptedAnswer.text]), vis);
+test("no FAQPage JSON-LD and no FAQ markup (the Questions section was removed)", () => {
+  assert.ok(!ld.some((n) => n["@type"] === "FAQPage"));
+  assert.ok(!/<summary><h3>|id="faq"/.test(html));
 });
 
-test("Organization, WebSite and FAQPage nodes exist; no SoftwareApplication (unreleased), sameAs, offers or ratings", () => {
-  assert.deepEqual(ld.map((n) => n["@type"]).sort(), ["FAQPage", "Organization", "WebSite"]);
+test("Organization and WebSite nodes exist; no SoftwareApplication (unreleased), sameAs, offers or ratings", () => {
+  assert.deepEqual(ld.map((n) => n["@type"]).sort(), ["Organization", "WebSite"]);
   assert.ok(!JSON.stringify(ld).match(/sameAs|aggregateRating|"offers"/));
 });
