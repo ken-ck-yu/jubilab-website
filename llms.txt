@@ -11,7 +11,6 @@
 - Every fact shows who told us: the lab's own system, an email we read, or nobody yet. A gap stays a gap.
 - Today an order moves between two sides that are managed separately and joined only by email and Excel: the dry lab side (scientists, researchers and the people who consume results) and the wet lab side (lab staff and logistics).
 - For labs, three ways to join, none live yet, and a lab can stop at any step: (1) we read the order emails and courier updates you already have, with your permission (facts from email are marked as less certain until you confirm them); (2) a simple status page with four buttons (received, QC done, run started, results ready) and result upload; (3) your instruments, for labs we work with or own: we read run progress, we do not control the instrument. We work with your existing tools without disruption.
-- For research teams and startups: every outside lab in one place; results that land in the tools you use, with Benchling the first one planned; one agreement with us (planned, terms not set); AI assistants that can place and follow orders under the same rules as a person; a history of every order. All planned; none released. We plan to charge a subscription for each team or lab, not a cut of what you spend; the price is still to be tested with early adopters. We plan to keep your order details, supplier prices and contacts yours; the terms come with early access. Week one, as we plan it: you send the order sheet you already use, we turn it into one order, the lab updates the status in a way that suits them, and you get one clean result back. Developers building AI tools can tell us what they need through the early-access form.
 
 ## The effort you get back (our aims, not measured results)
 
@@ -30,10 +29,9 @@
 
 ## Pages
 
-- [Jubilab home page](https://jubilab.io/): what we are building, the effort we aim to take off your plate, who we are recruiting, how labs and teams join, and the early-access form
+- [Jubilab home page](https://jubilab.io/): what we are building, the effort we aim to take off your plate, who we are recruiting, how labs join, and the early-access form
 - [How it works](https://jubilab.io/#how): order once, follow every step, get clean results back
 - [For labs](https://jubilab.io/#labs): the three ways to join
-- [For teams](https://jubilab.io/#teams): what teams that send samples out would get
 - [Why now](https://jubilab.io/#why): why AI assistants stop at the lab door
 - [Request early access](https://jubilab.io/#access): the early-access form
 

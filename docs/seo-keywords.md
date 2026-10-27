@@ -8,8 +8,8 @@ Replaces the 2026-10-18 list (data provenance, lineage, Nextflow, Snakemake; ret
 | order-to-result | Our category name | title, llms.txt |
 | sample status, order status | The pain: no status | "How it works" |
 | sequencing provider, sequencing service, core facility | Who takes the orders | "The effort you get back", "For labs" |
-| Benchling, Labguru, Scispot, ELN, LIMS | Tools buyers combine with | "For teams", form (names only; non-affiliation sentence next to them) |
-| AI assistants, AI agents | Builder and investor searches | hero sub-line, "Why now", "For teams" one-line developer note (T-047 removed MCP, REST API and webhooks from the page by owner decision) |
+| Benchling, Labguru, Scispot, ELN, LIMS | Tools buyers combine with | form (names only; non-affiliation sentence next to them) |
+| AI assistants, AI agents | Builder and investor searches | hero sub-line, "Why now" (T-047 removed MCP, REST API and webhooks from the page by owner decision; T-049 removed the For teams section and its developer line) |
 | order, status, results | Plain names for the three things we standardise | "How it works", hero sub-line, llms.txt |
 | biomarker assays, proteomics, metabolomics | Next scope | llms.txt |
 

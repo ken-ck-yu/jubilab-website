@@ -435,7 +435,6 @@ def header(p):
       <ul class="links">
         <li><a href="{p}#how">How it works</a></li>
         <li><a href="{p}#labs">For labs</a></li>
-        <li><a href="{p}#teams">For teams</a></li>
         <li><a href="{p}#why">Why now</a></li>
         <li><a href="{p}blog/"{cur}>Blog</a></li>
       </ul>
@@ -444,7 +443,6 @@ def header(p):
         <ul>
           <li><a href="{p}#how">How it works</a></li>
           <li><a href="{p}#labs">For labs</a></li>
-          <li><a href="{p}#teams">For teams</a></li>
           <li><a href="{p}#why">Why now</a></li>
           <li><a href="{p}blog/"{cur}>Blog</a></li>
         </ul>

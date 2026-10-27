@@ -99,7 +99,7 @@ test("home page promises nothing is released, is not defensive about it, and has
   assert.ok(!/Early access is open/.test(html));
   assert.ok(!/npm install|pip install|docker run|curl |api\.jubilab|mcp\.jubilab/i.test(html), "no install command or endpoint");
   const vis = html.replace(/<script[\s\S]*?<\/script>/g, "");
-  assert.equal((vis.match(/[Ii]llustrative[^<]*[Nn]ot real order/g) || []).length >= 3, true, "hero strip caption, diagram caption and text alternative say illustrative");
+  assert.ok((vis.match(/[Ii]llustrative[^<]*[Nn]ot real order/g) || []).length >= 1, "the hero strip caption still says the example is illustrative");
 });
 
 test("every page with the site footer names the operator in the footer", () => {
@@ -143,7 +143,11 @@ test("comparison diagram: right after the hero, both lanes, both variants, aria 
   assert.deepEqual(secs.slice(0, 3), ["hero", "compare", "usecases"]);
   const sec = h.match(/<section id="compare"[\s\S]*?<\/section>/)[0];
   assert.match(sec, /joined only by email and Excel/);
-  assert.match(sec, /Illustrative, based on what we found at the providers we looked at\. Not real orders\./);
+  assert.match(sec, /<h2 id="h-compare">From lab samples to result\.<\/h2>/);
+  assert.ok(!/<figcaption>|<details|Read this diagram as text|based on what we found at the providers/.test(sec.replace(/<svg[\s\S]*?<\/svg>/g, "")), "no caption and no visible text alternative");
+  assert.equal((sec.match(/>DRY LAB</g) || []).length, 2);
+  assert.equal((sec.match(/>WET LAB</g) || []).length, 2);
+  assert.ok(!/WHO ORDERS|WHO RUNS THE SAMPLES|Who orders|Who runs the samples/i.test(sec), "old lane labels gone");
   for (const cls of ["dg-wide", "dg-tall"]) {
     const svg = sec.match(new RegExp(`<svg class="dg ${cls}"[\\s\\S]*?</svg>`))[0];
     assert.match(svg, /role="img" aria-labelledby="dg[wt]-t dg[wt]-d"/);
@@ -157,7 +161,6 @@ test("comparison diagram: right after the hero, both lanes, both variants, aria 
     assert.ok(!/<script|<image|href=/.test(svg));
     assert.ok(!/(fill|stroke)="#|#[0-9a-fA-F]{6}\b/.test(svg), cls + ": colours come from the CSS tokens, not the SVG");
   }
-  assert.match(sec, /<details class="twin dg-twin">[\s\S]*?<b>Today\.<\/b>[\s\S]*?<b>With Jubilab\.<\/b>/);
 });
 
 test("hero journey strip has five plain steps and no event or function names", () => {
@@ -184,13 +187,13 @@ test("home page: no code blocks and none of the banned technical terms in the vi
   assert.ok(!/href="#dev"|id="dev"|For developers/i.test(h));
 });
 
-test("home nav: How it works, For labs, For teams, Why now, Early access; Blog only in the menu; no Developers or About", () => {
+test("home nav: How it works, For labs, Why now, Early access; Blog only in the menu; no Developers or About", () => {
   const h = rd("index.html");
   assert.ok(!/Developers/.test(h) && !/href="#about"/.test(h));
   const sub = [...h.match(/<nav class="subnav"[\s\S]*?<\/nav>/)[0].matchAll(/<a href="([^"]+)">([^<]+)<\/a>/g)].map((m) => m[2]);
-  assert.deepEqual(sub, ["How it works", "For labs", "For teams", "Why now", "Early access"]);
+  assert.deepEqual(sub, ["How it works", "For labs", "Why now", "Early access"]);
   const menu = [...h.match(/<details class="menu">[\s\S]*?<\/details>/)[0].matchAll(/<a href="([^"]+)">([^<]+)<\/a>/g)].map((m) => m[2]);
-  assert.deepEqual(menu, ["How it works", "For labs", "For teams", "Why now", "Early access", "Blog"]);
+  assert.deepEqual(menu, ["How it works", "For labs", "Why now", "Early access", "Blog"]);
 });
 
 test("no separate what-we-do-not-do block, no roadmap or timeline block; the limits are folded into How it works; early access names the audience", () => {
@@ -206,13 +209,11 @@ test("no separate what-we-do-not-do block, no roadmap or timeline block; the lim
   assert.equal((acc.match(/mailto:hello@jubilab\.io/g) || []).length, 1);
 });
 
-test("plain-words commitments: fits with tools, data commitment, planned fee, no pricing numbers", () => {
+test("plain-words commitments: no data line, no For teams section, no planned fee, no pricing numbers", () => {
   const h = rd("index.html");
-  assert.match(h, /Works with the tools you already use:<\/b> Excel, email, your lab software \(LIMS\) and Benchling \(first, planned\)/);
-  assert.match(h, /You do not need lab software to start/);
-  assert.match(h, /We plan to keep your order details, supplier prices and contacts yours\. The terms come with early access\./);
-  assert.ok(!/will not sell|say-so|delete your data|stay yours/.test(h), "data wording stays a plan");
-  assert.match(h, /We plan to charge a subscription for each team or lab, not a cut of what you spend\. The price is still to be tested with early adopters\./);
+  assert.ok(!/Your data\.|We plan to keep your order details|supplier prices and contacts yours/.test(h), "data line removed");
+  assert.ok(!/id="teams"|#teams|h-teams|For teams<|Every outside lab, one order format|We plan to charge a subscription|Building AI tools|Works with the tools you already use|What teams get/.test(h), "For teams section removed");
+  assert.ok(!/#teams|For teams\]|We plan to keep your order details|We plan to charge a subscription|Building AI tools/.test(rd("llms.txt")), "llms.txt: no teams, data or fee lines");
   assert.match(h, /What week one looks like, as we plan it:/);
   assert.match(h, /If you send samples out[\s\S]*If you run a lab or core/);
   assert.ok(!/say yes/.test(h), "presumptuous line removed");
@@ -267,11 +268,10 @@ test("home page h2 headings are exactly this list; no roadmap, timeline or extra
   const h = rd("index.html").replace(/<script[\s\S]*?<\/script>/g, "");
   const h2 = [...h.matchAll(/<h2[^>]*>([\s\S]*?)<\/h2>/g)].map((m) => m[1].replace(/<[^>]+>/g, "").replace(/&rsquo;/g, "\u2019").replace(/&amp;/g, "&"));
   assert.deepEqual(h2, [
-    "Two sides that should be one.",
+    "From lab samples to result.",
     "Order once. Follow every step.",
     "The effort you get back.",
     "Nothing changes on your side on day one.",
-    "Every outside lab, one order format.",
     "Why now: every AI agent stops at the lab door.",
     "Request early access",
   ]);

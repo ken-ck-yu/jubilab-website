@@ -128,14 +128,14 @@ for (const s of SLUGS) {
   });
 }
 
-test("the footer and header nav of every page link to Blog; the home subnav strip has its five section links", () => {
+test("the footer and header nav of every page link to Blog; the home subnav strip has its four section links", () => {
   for (const f of ["index.html", "privacy/index.html", "terms/index.html", "thanks/index.html", "404.html", "guides/index.html", ...readdirSync(REPO + "guides").filter((d) => existsSync(REPO + `guides/${d}/index.html`)).map((d) => `guides/${d}/index.html`)]) {
     const h = rd(f);
     assert.match(h, /<footer>[\s\S]*href="[^"]*blog\/">Blog<\/a>/, f);
     assert.match(h, /<nav class="site-nav"[\s\S]*?href="[^"]*blog\/">Blog<\/a>[\s\S]*?<\/nav>/, f);
     assert.equal((h.match(/<nav class="site-nav"[\s\S]*?<\/nav>/)[0].match(/>Blog<\/a>/g) || []).length, f === "index.html" ? 1 : 2, f + ": once in the wide-screen list (not on home), once in the menu");
   }
-  assert.equal((rd("index.html").match(/<nav class="subnav"[\s\S]*?<\/nav>/)[0].match(/<a /g) || []).length, 5);
+  assert.equal((rd("index.html").match(/<nav class="subnav"[\s\S]*?<\/nav>/)[0].match(/<a /g) || []).length, 4);
 });
 
 test("sitemap and llms.txt list the blog index and each post (generated blocks in sync, one entry each)", () => {
