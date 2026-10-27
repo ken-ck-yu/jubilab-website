@@ -51,7 +51,7 @@ It is also worth asking whether you need to pick at all. Some teams may keep an 
 
 ## Where Jubilab is now
 
-Nothing. Jubilab does not import or export PROV, RO-Crate or BioCompute Objects, and we are not claiming compatibility with any of them. The earlier prototype kept its own record, with a status of verified, inferred, manual or unknown on each fact. Jubilab's earlier run-record prototype is not being offered. Jubilab is now building a way to order lab work once and follow it to results. We are accepting early adopters by invitation (request access and we invite small groups first). The product is still being built and nothing is released yet.
+Nothing. Jubilab does not import or export PROV, RO-Crate or BioCompute Objects, and we are not claiming compatibility with any of them. The earlier prototype kept its own record, with a status of verified, inferred, manual or unknown on each fact. Jubilab is one place to order lab work and follow it to results. Register for early access: we invite small groups first.
 
 Whether and how a record like that should map onto these formats is an open question for us, and we would want to talk to people who hand these files to others before deciding. For the vocabulary, see our post on [provenance versus lineage](/blog/provenance-vs-lineage-in-bioinformatics/) and our guide on [Nextflow provenance and lineage](/guides/nextflow-provenance-and-lineage-compared/). Jubilab is not affiliated with or endorsed by the W3C, the RO-Crate community, the BioCompute project, IEEE, Nextflow or Seqera.
 

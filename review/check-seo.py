@@ -277,7 +277,7 @@ def main():
                 rec("PASS" if not re.search(r'"(aggregateRating|review|offers|sameAs|logo)"', "".join(p.ldjson)) else "FAIL", f"{g} JSON-LD has no rating, review, offers, sameAs or logo")
                 rec("PASS" if re.search(r"Last reviewed \d{1,2} \w+ \d{4}", re.sub(r"<[^>]+>", " ", html)) else "FAIL", f"{g} shows a 'Last reviewed' date")
                 rec("PASS" if p.ids >= {"sources", "lost"} else "FAIL", f"{g} has Sources and 'What gets lost' sections")
-                rec("PASS" if "Where Jubilab is now" in html and "not being offered" in html and html.count('class="btn"') == 1 else "FAIL", f"{g} has the 'Where Jubilab is now' box and exactly one early-access CTA")
+                rec("PASS" if "Where Jubilab is now" in html and "Jubilab is one place to order lab work and follow it to results" in html and html.count('class="btn"') == 1 else "FAIL", f"{g} has the 'Where Jubilab is now' box and exactly one early-access CTA")
                 srcs = re.findall(r'<ol class="g-sources">(.*?)</ol>', html, re.S)
                 rec("PASS" if srcs and srcs[0].count("<li>") >= 3 and srcs[0].count('href="https://') == srcs[0].count("<li>") else "FAIL", f"{g} sources list has https URLs", str(srcs[0].count("<li>") if srcs else 0))
             for it in next((n for n in nodes if n["@type"] == "BreadcrumbList"), {}).get("itemListElement", []):
@@ -325,7 +325,7 @@ def main():
                 rec("PASS" if m and len(m.group(1)) >= 30 else "FAIL", f"{g} has a post image with real alt text")
                 srcs = re.findall(r'<ol class="g-sources">(.*?)</ol>', html, re.S)
                 rec("PASS" if srcs and srcs[0].count("<li ") >= 3 and srcs[0].count('rel="noopener"') == srcs[0].count("<li ") else "FAIL", f"{g} sources list has at least 3 outbound links with rel=noopener")
-                rec("PASS" if "Where Jubilab is now" in html and "not being offered" in html and html.count('class="btn"') == 1 else "FAIL", f"{g} has the 'Where Jubilab is now' box and one early-access CTA")
+                rec("PASS" if "Where Jubilab is now" in html and "Jubilab is one place to order lab work and follow it to results" in html and html.count('class="btn"') == 1 else "FAIL", f"{g} has the 'Where Jubilab is now' box and one early-access CTA")
             for it in next((n for n in nodes if n["@type"] == "BreadcrumbList"), {}).get("itemListElement", []):
                 s2, _, _ = get(local(base, it["item"]))
                 rec("PASS" if s2 == 200 else "FAIL", f"{g} breadcrumb URL resolves: {it['item']}", str(s2))
@@ -339,7 +339,7 @@ def main():
             rec("PASS" if not hits else "FAIL", f"{g} has none of the banned words or claim words", str(hits))
         for pg in ["/", "/privacy/", "/terms/", "/thanks/", "/404.html"] + GUIDES:
             if pg in raw:
-                rec("PASS" if re.search(r'<footer>.*?href="[^"]*blog/">Blog</a>', raw[pg], re.S) and re.search(r'<nav class="site-nav".*?href="[^"]*blog/">Blog</a>', raw[pg], re.S) else "FAIL", f"{pg} header nav and footer link to Blog")
+                rec("PASS" if re.search(r'<footer>.*?href="[^"]*blog/">Blog</a>', raw[pg], re.S) and (pg == "/" or re.search(r'<nav class="site-nav".*?href="[^"]*blog/">Blog</a>', raw[pg], re.S)) else "FAIL", f"{pg} footer links to Blog (header nav too, except on the home page)")
 
     # JSON-LD (home)
     home = pages.get("/")

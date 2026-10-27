@@ -5,13 +5,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Local-first for lab data: what stays on your machine | Jubilab</title>
-<meta name="description" content="What local-first software means for sequencing labs, which of its ideals fit a provenance record, where the cloud still helps, and what our prototype did.">
+<meta name="description" content="What local-first software means for sequencing labs, which of its ideals fit a provenance record, where the cloud still helps, and how our earlier work used it.">
 <meta name="theme-color" content="#f4f5f2">
 <link rel="canonical" href="https://jubilab.io/blog/local-first-for-lab-data/">
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="Jubilab">
 <meta property="og:title" content="Local-first for lab data: what stays on your machine | Jubilab">
-<meta property="og:description" content="What local-first software means for sequencing labs, which of its ideals fit a provenance record, where the cloud still helps, and what our prototype did.">
+<meta property="og:description" content="What local-first software means for sequencing labs, which of its ideals fit a provenance record, where the cloud still helps, and how our earlier work used it.">
 <meta property="og:url" content="https://jubilab.io/blog/local-first-for-lab-data/">
 <meta property="og:image" content="https://jubilab.io/blog/local-first-for-lab-data/og.png">
 <meta property="og:image:width" content="1200">
@@ -19,7 +19,7 @@
 <meta property="og:image:alt" content="A laptop with a small house-shaped roof on its screen, and a thin cloud far away at the edge of the picture, joined to it by a dotted line.">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Local-first for lab data: what stays on your machine | Jubilab">
-<meta name="twitter:description" content="What local-first software means for sequencing labs, which of its ideals fit a provenance record, where the cloud still helps, and what our prototype did.">
+<meta name="twitter:description" content="What local-first software means for sequencing labs, which of its ideals fit a provenance record, where the cloud still helps, and how our earlier work used it.">
 <meta name="twitter:image" content="https://jubilab.io/blog/local-first-for-lab-data/og.png">
 <meta name="twitter:image:alt" content="A laptop with a small house-shaped roof on its screen, and a thin cloud far away at the edge of the picture, joined to it by a dotted line.">
 <link rel="icon" href="../../assets/favicon.svg" type="image/svg+xml">
@@ -32,7 +32,7 @@
     {
       "@type": "BlogPosting",
       "headline": "Local-first for lab data: what stays on your machine",
-      "description": "What local-first software means for sequencing labs, which of its ideals fit a provenance record, where the cloud still helps, and what our prototype did.",
+      "description": "What local-first software means for sequencing labs, which of its ideals fit a provenance record, where the cloud still helps, and how our earlier work used it.",
       "url": "https://jubilab.io/blog/local-first-for-lab-data/",
       "mainEntityOfPage": "https://jubilab.io/blog/local-first-for-lab-data/",
       "inLanguage": "en",
@@ -50,7 +50,7 @@
       },
       "image": "https://jubilab.io/blog/local-first-for-lab-data/og.png",
       "keywords": "local-first, provenance, vision",
-      "wordCount": 1074,
+      "wordCount": 1046,
       "timeRequired": "PT5M",
       "isPartOf": {
         "@type": "Blog",
@@ -138,18 +138,18 @@
     <nav class="site-nav" aria-label="Page sections">
       <ul class="links">
         <li><a href="../../#how">How it works</a></li>
-        <li><a href="../../#labs">For labs</a></li>
         <li><a href="../../#teams">For teams</a></li>
-        <li><a href="../../#why">Why now</a></li>
+        <li><a href="../../#labs">For labs</a></li>
+        <li><a href="../../#developers">AI &amp; developers</a></li>
         <li><a href="../../blog/" aria-current="page">Blog</a></li>
       </ul>
       <details class="menu">
         <summary aria-label="Menu"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 7h16M4 12h16M4 17h16"/></svg></summary>
         <ul>
           <li><a href="../../#how">How it works</a></li>
-          <li><a href="../../#labs">For labs</a></li>
           <li><a href="../../#teams">For teams</a></li>
-          <li><a href="../../#why">Why now</a></li>
+          <li><a href="../../#labs">For labs</a></li>
+          <li><a href="../../#developers">AI &amp; developers</a></li>
           <li><a href="../../blog/" aria-current="page">Blog</a></li>
         </ul>
       </details>
@@ -204,7 +204,7 @@
 <h2 id="where-the-cloud-still-makes-sense">Where the cloud still makes sense</h2>
 <p>It would be unfair to treat the cloud as the enemy. Shared services are easier to start, easier to give a collaborator access to, and do not need a person to keep a server running. A team with no one to run a service, or a consortium that needs one shared view across institutions, may reasonably choose a hosted option. We wonder where the line sits for different labs, and we do not think there is one answer.</p>
 <h2 id="where-jubilab-is-now">Where Jubilab is now</h2>
-<p>The points above about spool files, a local data directory and a single SQLite file describe the earlier prototype, not something you can use today. Jubilab&#x27;s earlier run-record prototype is not being offered. Jubilab is now building a way to order lab work once and follow it to results. We are accepting early adopters by invitation (request access and we invite small groups first). The product is still being built and nothing is released yet. See our guide on <a href="/guides/nextflow-provenance-and-lineage-compared/">Nextflow provenance and lineage</a> for how run records relate to each engine&#x27;s own. Jubilab is not affiliated with or endorsed by Ink &amp; Switch, SQLite, Nextflow or Snakemake.</p>
+<p>The points above about spool files, a local data directory and a single SQLite file describe the earlier prototype, not something you can use today. Jubilab is one place to order lab work and follow it to results. Register for early access: we invite small groups first. See our guide on <a href="/guides/nextflow-provenance-and-lineage-compared/">Nextflow provenance and lineage</a> for how run records relate to each engine&#x27;s own. Jubilab is not affiliated with or endorsed by Ink &amp; Switch, SQLite, Nextflow or Snakemake.</p>
 
 <section class="b-questions" aria-labelledby="questions-h">
 <h2 id="questions-h">Questions we are still asking</h2>
@@ -219,7 +219,7 @@
 </section>
 <section class="helps" aria-labelledby="helps-h">
 <h2 id="helps-h">Where Jubilab is now</h2>
-<p>This post comes from our earlier work on a record of how results are made. Jubilab's earlier run-record prototype is not being offered. Jubilab is now building a way to order lab work once and follow it to results. We are accepting early adopters by invitation (request access and we invite small groups first). The product is still being built and nothing is released yet.</p>
+<p>This post comes from our earlier work on a record of how results are made. Jubilab is one place to order lab work and follow it to results. Register for early access: we invite small groups first.</p>
 <a class="btn" href="../../#access">Request early access</a>
 </section>
 <h2 id="sources">Sources</h2>
@@ -235,7 +235,7 @@
 <a class="b-next" href="../lifting-a-vcf-over-what-to-record/" rel="next"><span class="b-dir">Older</span><span class="b-t">Lifting a VCF over: what to record</span></a>
 </nav>
 <section class="b-related" aria-labelledby="related"><h2 id="related">Related posts</h2><ul class="b-grid">
-<li class="b-card"><a class="b-img" href="../ai-agents-need-a-record-not-just-chat-history/" tabindex="-1" aria-hidden="true"><img src="../ai-agents-need-a-record-not-just-chat-history/image.svg" width="1600" height="900" alt="" loading="lazy" decoding="async"></a><div class="b-card-body"><h2 class="b-card-t"><a href="../ai-agents-need-a-record-not-just-chat-history/">AI agents in the lab need a record, not a chat history</a></h2><p class="b-sum">Agents can run analyses, but a chat transcript is not a record of how a result was made. Our vision, and what is not built yet.</p><p class="b-card-meta"><time datetime="2026-10-19">19 October 2026</time> &middot; 6 min read</p></div></li>
+<li class="b-card"><a class="b-img" href="../ai-agents-need-a-record-not-just-chat-history/" tabindex="-1" aria-hidden="true"><img src="../ai-agents-need-a-record-not-just-chat-history/image.svg" width="1600" height="900" alt="" loading="lazy" decoding="async"></a><div class="b-card-body"><h2 class="b-card-t"><a href="../ai-agents-need-a-record-not-just-chat-history/">AI agents in the lab need a record, not a chat history</a></h2><p class="b-sum">Agents can run analyses, but a chat transcript is not a record of how a result was made. Our view on what a record for lab agents holds.</p><p class="b-card-meta"><time datetime="2026-10-19">19 October 2026</time> &middot; 6 min read</p></div></li>
 <li class="b-card"><a class="b-img" href="../conda-environments-genomics-export-history-lock/" tabindex="-1" aria-hidden="true"><img src="../conda-environments-genomics-export-history-lock/image.svg" width="1600" height="900" alt="" loading="lazy" decoding="async"></a><div class="b-card-body"><h2 class="b-card-t"><a href="../conda-environments-genomics-export-history-lock/">Conda for genomics: export, history or lock file?</a></h2><p class="b-sum">Three ways to save a conda environment, what each keeps in a small test, and what we still wonder about for genomics.</p><p class="b-card-meta"><time datetime="2026-10-19">19 October 2026</time> &middot; 5 min read</p></div></li>
 <li class="b-card"><a class="b-img" href="../how-to-compare-two-pipeline-runs/" tabindex="-1" aria-hidden="true"><img src="../how-to-compare-two-pipeline-runs/image.svg" width="1600" height="900" alt="" loading="lazy" decoding="async"></a><div class="b-card-body"><h2 class="b-card-t"><a href="../how-to-compare-two-pipeline-runs/">How to compare two pipeline runs</a></h2><p class="b-sum">What counts as a difference between two runs, a manual way to diff them, and what lineage diff and nf-diff showed on a toy pair.</p><p class="b-card-meta"><time datetime="2026-10-19">19 October 2026</time> &middot; 6 min read</p></div></li>
 </ul></section>
@@ -247,8 +247,7 @@
   <div class="wrap">
     <div>
       <p class="foot-brand">Jubilab</p>
-      <p>One order, one status feed, one result. We are accepting early adopters: request access and we invite small groups first. The product is still being built and nothing is released yet. Examples on this site are illustrative drafts.</p>
-      <p class="foot-co">A product of Billy BioTech Ltd. (<span lang="zh-Hant" class="cjk">比利生物科技有限公司</span>), Taipei</p>
+      <p class="foot-co">A product of Billy BioTech Ltd.</p>
       <p>Contact: <a href="mailto:hello@jubilab.io">hello@jubilab.io</a></p>
     </div>
     <ul aria-label="Footer">

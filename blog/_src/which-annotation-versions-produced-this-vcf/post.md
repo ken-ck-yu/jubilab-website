@@ -61,7 +61,7 @@ We do not have a universal answer. Freezing the sources keeps results comparable
 
 ## Where Jubilab is now
 
-An earlier Jubilab prototype traced a result back to its run, inputs and parameters, with an evidence status on each fact. A record could include the four lines above; we are not claiming that it stored each of them. Jubilab's earlier run-record prototype is not being offered. Jubilab is now building a way to order lab work once and follow it to results. We are accepting early adopters by invitation (request access and we invite small groups first). The product is still being built and nothing is released yet. Jubilab is not affiliated with or endorsed by Ensembl, EMBL-EBI, NCBI or the gnomAD project.
+An earlier Jubilab prototype traced a result back to its run, inputs and parameters, with an evidence status on each fact. A record could include the four lines above; we are not claiming that it stored each of them. Jubilab is one place to order lab work and follow it to results. Register for early access: we invite small groups first. Jubilab is not affiliated with or endorsed by Ensembl, EMBL-EBI, NCBI or the gnomAD project.
 
 ## Questions we are still asking
 

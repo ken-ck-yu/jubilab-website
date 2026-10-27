@@ -56,7 +56,7 @@ A record can still say which run made a result, with which parameters and inputs
 
 ## Where Jubilab is now
 
-An earlier Jubilab prototype recorded the locations of the files a run used (and, when asked, their size, timestamp and checksum), never their contents. It was not a data store, so if a purge removed a file the record could be left pointing to something that no longer existed. Jubilab's earlier run-record prototype is not being offered. Jubilab is now building a way to order lab work once and follow it to results. We are accepting early adopters by invitation (request access and we invite small groups first). The product is still being built and nothing is released yet. Jubilab is not affiliated with or endorsed by Nextflow, Seqera, nf-core, Tufts University, Purdue University or the authors cited here.
+An earlier Jubilab prototype recorded the locations of the files a run used (and, when asked, their size, timestamp and checksum), never their contents. It was not a data store, so if a purge removed a file the record could be left pointing to something that no longer existed. Jubilab is one place to order lab work and follow it to results. Register for early access: we invite small groups first. Jubilab is not affiliated with or endorsed by Nextflow, Seqera, nf-core, Tufts University, Purdue University or the authors cited here.
 
 ## Questions we are still asking
 

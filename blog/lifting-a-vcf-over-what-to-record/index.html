@@ -50,7 +50,7 @@
       },
       "image": "https://jubilab.io/blog/lifting-a-vcf-over-what-to-record/og.png",
       "keywords": "vcf, reference-genome, provenance",
-      "wordCount": 1228,
+      "wordCount": 1200,
       "timeRequired": "PT6M",
       "isPartOf": {
         "@type": "Blog",
@@ -147,18 +147,18 @@
     <nav class="site-nav" aria-label="Page sections">
       <ul class="links">
         <li><a href="../../#how">How it works</a></li>
-        <li><a href="../../#labs">For labs</a></li>
         <li><a href="../../#teams">For teams</a></li>
-        <li><a href="../../#why">Why now</a></li>
+        <li><a href="../../#labs">For labs</a></li>
+        <li><a href="../../#developers">AI &amp; developers</a></li>
         <li><a href="../../blog/" aria-current="page">Blog</a></li>
       </ul>
       <details class="menu">
         <summary aria-label="Menu"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 7h16M4 12h16M4 17h16"/></svg></summary>
         <ul>
           <li><a href="../../#how">How it works</a></li>
-          <li><a href="../../#labs">For labs</a></li>
           <li><a href="../../#teams">For teams</a></li>
-          <li><a href="../../#why">Why now</a></li>
+          <li><a href="../../#labs">For labs</a></li>
+          <li><a href="../../#developers">AI &amp; developers</a></li>
           <li><a href="../../blog/" aria-current="page">Blog</a></li>
         </ul>
       </details>
@@ -222,7 +222,7 @@ records out: 3</code></pre>
 <h2 id="checking-afterwards">Checking afterwards</h2>
 <p>A count tells you how many records went missing, not which ones or why. If the reject file survives, it is a good place to start, because, according to their documentation, Picard and CrossMap write rejected records out with filters or reasons. If it does not, you can only compare the input and output yourself. Our <a href="/guides/reference-genome-build-vcf-bam/">guide on checking the reference build of a VCF or BAM</a> walks through checks such as contig lengths and REF alleles against a FASTA, which work on a lifted file in the same way.</p>
 <h2 id="where-jubilab-is-now">Where Jubilab is now</h2>
-<p>This is the kind of record we wanted a run-record tool to keep: the command, its arguments and the input and output files you declare, with an evidence status on each. Jubilab&#x27;s earlier run-record prototype is not being offered. Jubilab is now building a way to order lab work once and follow it to results. We are accepting early adopters by invitation (request access and we invite small groups first). The product is still being built and nothing is released yet.</p>
+<p>This is the kind of record we wanted a run-record tool to keep: the command, its arguments and the input and output files you declare, with an evidence status on each. Jubilab is one place to order lab work and follow it to results. Register for early access: we invite small groups first.</p>
 <p>Jubilab does not perform or check a liftover. It is not affiliated with or endorsed by Picard, CrossMap, UCSC, the bcftools project or the authors cited here.</p>
 
 <section class="b-questions" aria-labelledby="questions-h">
@@ -237,7 +237,7 @@ records out: 3</code></pre>
 </section>
 <section class="helps" aria-labelledby="helps-h">
 <h2 id="helps-h">Where Jubilab is now</h2>
-<p>This post comes from our earlier work on a record of how results are made. Jubilab's earlier run-record prototype is not being offered. Jubilab is now building a way to order lab work once and follow it to results. We are accepting early adopters by invitation (request access and we invite small groups first). The product is still being built and nothing is released yet.</p>
+<p>This post comes from our earlier work on a record of how results are made. Jubilab is one place to order lab work and follow it to results. Register for early access: we invite small groups first.</p>
 <a class="btn" href="../../#access">Request early access</a>
 </section>
 <h2 id="sources">Sources</h2>
@@ -254,7 +254,7 @@ records out: 3</code></pre>
 <a class="b-next" href="../inherited-pipeline-first-week-checklist/" rel="next"><span class="b-dir">Older</span><span class="b-t">Inherited a pipeline? A first-week checklist</span></a>
 </nav>
 <section class="b-related" aria-labelledby="related"><h2 id="related">Related posts</h2><ul class="b-grid">
-<li class="b-card"><a class="b-img" href="../ai-agents-need-a-record-not-just-chat-history/" tabindex="-1" aria-hidden="true"><img src="../ai-agents-need-a-record-not-just-chat-history/image.svg" width="1600" height="900" alt="" loading="lazy" decoding="async"></a><div class="b-card-body"><h2 class="b-card-t"><a href="../ai-agents-need-a-record-not-just-chat-history/">AI agents in the lab need a record, not a chat history</a></h2><p class="b-sum">Agents can run analyses, but a chat transcript is not a record of how a result was made. Our vision, and what is not built yet.</p><p class="b-card-meta"><time datetime="2026-10-19">19 October 2026</time> &middot; 6 min read</p></div></li>
+<li class="b-card"><a class="b-img" href="../ai-agents-need-a-record-not-just-chat-history/" tabindex="-1" aria-hidden="true"><img src="../ai-agents-need-a-record-not-just-chat-history/image.svg" width="1600" height="900" alt="" loading="lazy" decoding="async"></a><div class="b-card-body"><h2 class="b-card-t"><a href="../ai-agents-need-a-record-not-just-chat-history/">AI agents in the lab need a record, not a chat history</a></h2><p class="b-sum">Agents can run analyses, but a chat transcript is not a record of how a result was made. Our view on what a record for lab agents holds.</p><p class="b-card-meta"><time datetime="2026-10-19">19 October 2026</time> &middot; 6 min read</p></div></li>
 <li class="b-card"><a class="b-img" href="../conda-environments-genomics-export-history-lock/" tabindex="-1" aria-hidden="true"><img src="../conda-environments-genomics-export-history-lock/image.svg" width="1600" height="900" alt="" loading="lazy" decoding="async"></a><div class="b-card-body"><h2 class="b-card-t"><a href="../conda-environments-genomics-export-history-lock/">Conda for genomics: export, history or lock file?</a></h2><p class="b-sum">Three ways to save a conda environment, what each keeps in a small test, and what we still wonder about for genomics.</p><p class="b-card-meta"><time datetime="2026-10-19">19 October 2026</time> &middot; 5 min read</p></div></li>
 <li class="b-card"><a class="b-img" href="../how-to-compare-two-pipeline-runs/" tabindex="-1" aria-hidden="true"><img src="../how-to-compare-two-pipeline-runs/image.svg" width="1600" height="900" alt="" loading="lazy" decoding="async"></a><div class="b-card-body"><h2 class="b-card-t"><a href="../how-to-compare-two-pipeline-runs/">How to compare two pipeline runs</a></h2><p class="b-sum">What counts as a difference between two runs, a manual way to diff them, and what lineage diff and nf-diff showed on a toy pair.</p><p class="b-card-meta"><time datetime="2026-10-19">19 October 2026</time> &middot; 6 min read</p></div></li>
 </ul></section>
@@ -266,8 +266,7 @@ records out: 3</code></pre>
   <div class="wrap">
     <div>
       <p class="foot-brand">Jubilab</p>
-      <p>One order, one status feed, one result. We are accepting early adopters: request access and we invite small groups first. The product is still being built and nothing is released yet. Examples on this site are illustrative drafts.</p>
-      <p class="foot-co">A product of Billy BioTech Ltd. (<span lang="zh-Hant" class="cjk">比利生物科技有限公司</span>), Taipei</p>
+      <p class="foot-co">A product of Billy BioTech Ltd.</p>
       <p>Contact: <a href="mailto:hello@jubilab.io">hello@jubilab.io</a></p>
     </div>
     <ul aria-label="Footer">

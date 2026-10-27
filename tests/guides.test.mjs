@@ -82,17 +82,16 @@ for (const g of GUIDES) {
     assert.match(h, /class="g-lede"/);
     assert.match(h, /<h2 id="lost">What gets lost/);
     assert.match(h, /<h2 id="helps-h">Where Jubilab is now/);
-    assert.match(h, /not being offered/); assert.ok(!/Available now|How Jubilab helps/.test(h));
+    assert.ok(!/Available now|How Jubilab helps|not being offered|being built|released yet/.test(h.match(/<section class="helps"[\s\S]*?<\/section>/)[0]));
     assert.equal((h.match(/class="btn"/g) || []).length, 1, "one early-access call to action");
     assert.match(h, /Last reviewed \d{1,2} [A-Z][a-z]+ \d{4}/);
     const src = h.match(/<ol class="g-sources">([\s\S]*?)<\/ol>/)[1];
     assert.ok((src.match(/<li>/g) || []).length >= 3);
     assert.equal((src.match(/href="https:\/\//g) || []).length, (src.match(/<li>/g) || []).length);
   });
-  test(`guide ${g}: says the old run-record prototype is not offered and what Jubilab is building now`, () => {
+  test(`guide ${g}: neutral box says what Jubilab is and never claims the old tool ships`, () => {
     const t = txt(h);
-    assert.match(t, /earlier run-record prototype is not being offered/);
-    assert.match(t, /building a way to order lab work once and follow it to results\. We are accepting early adopters by invitation \(request access and we invite small groups first\)\. The product is still being built and nothing is released yet/);
+    assert.match(t, /Jubilab is one place to order lab work and follow it to results\. Register for early access: we invite small groups first\./);
     assert.ok(!/(detects|detect) sample swaps|flags? sample swaps today/i.test(t));
   });
 }
@@ -102,7 +101,7 @@ test("the hub lists all three guides with a sentence each", () => {
   for (const g of GUIDES) assert.match(h, new RegExp(`<li><h2><a href="${g}/">`));
 });
 
-test("the footer of every page links to Guides; the home page header nav is unchanged", () => {
+test("the footer of every page links to Guides; the home page keeps its own header", () => {
   for (const f of ["index.html", "privacy/index.html", "terms/index.html", "thanks/index.html", "404.html"]) assert.match(rd(f), /<footer>[\s\S]*href="[^"]*guides\/">Guides<\/a>/, f);
   assert.ok(!/href="[^"]*guides\/"[^>]*>Guides<\/a><\/li>\s*<\/ul>\s*<details/.test(rd("index.html")));
 });
