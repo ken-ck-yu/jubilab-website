@@ -18,8 +18,8 @@ BASE = (_args[0] if _args else "http://127.0.0.1:18300/").rstrip("/") + "/"
 EXE = os.path.expanduser("~/.cache/ms-playwright/chromium_headless_shell-1248/chrome-headless-shell-linux64/chrome-headless-shell")
 WIDTHS = [320, 360, 390, 768, 1024, 1280, 1440, 1920]
 THEMES = ["light", "dark"]
-NAV = [("Today", "#problem"), ("How it works", "#how"), ("For labs", "#labs"), ("For teams", "#teams"), ("Why now", "#why"), ("Developers", "#dev"), ("Early access", "#access")]
-SECTIONS = ["problem", "how", "labs", "teams", "why", "dev", "scope", "faq", "access"]
+NAV = [("How it works", "#how"), ("For labs", "#labs"), ("For teams", "#teams"), ("About", "#about"), ("Early access", "#access")]
+SECTIONS = ["compare", "problem", "how", "labs", "teams", "why", "about", "scope", "faq", "access"]
 FORBIDDEN = ["revolutionis", "revolutioniz", "seamless", "unlock", "empower", "stripe for", "sample-to-result", "outsourced lab work",
              "with automation and scale", "provenance", "lineage", "nextflow", "snakemake", "testimonial", "trusted by", "guarantee"]
 R = []
@@ -53,8 +53,9 @@ MEASURE = r"""
   out.h2Outside = document.querySelectorAll('footer h2, header h2').length;
   out.sub_nav = [...document.querySelectorAll('.subnav a')].filter(vis).map(a => [a.textContent.trim(), a.getAttribute('href'), !!document.querySelector(a.getAttribute('href'))]);
   const menu = q('.menu'); out.menuVisible = vis(menu); out.menuBtn = q('.menu summary').getBoundingClientRect().width; out.menuLinks = [...menu.querySelectorAll('a')].map(a => [a.textContent.trim(), a.getAttribute('href')]);
-  const svgs = [...document.querySelectorAll('.flow svg')].filter(vis);
-  out.flow = svgs.map(s => { const sb = s.getBoundingClientRect(), vb = s.viewBox.baseVal, sc = sb.width / vb.width; let min = 999; for (const t of s.querySelectorAll('text')) min = Math.min(min, px(t) * sc); return {cls: s.getAttribute('class'), w: Math.round(sb.width), minFont: Math.round(min * 10) / 10, role: s.getAttribute('role'), title: !!s.querySelector('title'), desc: !!s.querySelector('desc'), steps: s.querySelectorAll('g.n:not(.ag)').length, submit: /Submit sample/.test(s.textContent), five: /five steps/.test(s.querySelector('desc').textContent)}; });
+  const svgs = [...document.querySelectorAll('.dg-fig svg.dg')].filter(vis);
+  out.flow = svgs.map(s => { const sb = s.getBoundingClientRect(), vb = s.viewBox.baseVal, sc = sb.width / vb.width; let min = 999; for (const t of s.querySelectorAll('text')) min = Math.min(min, px(t) * sc); return {cls: s.getAttribute('class'), w: Math.round(sb.width), minFont: Math.round(min * 10) / 10, role: s.getAttribute('role'), title: !!s.querySelector('title'), desc: s.querySelector('desc') ? s.querySelector('desc').textContent.length : 0, lanes: /DRY LAB SIDE/.test(s.textContent) && /WET LAB SIDE/.test(s.textContent)}; });
+  out.journey = [...document.querySelectorAll('.hero .journey li')].map(l => l.querySelector('b').textContent);
   out.twinClosed = [...document.querySelectorAll('details.twin')].every(d => !d.open);
   const small = [];
   for (const e of document.body.querySelectorAll('*')) {
@@ -126,14 +127,14 @@ def run():
                 pg.wait_for_function("document.fonts.status === 'loaded'")
                 m = pg.evaluate(MEASURE); t = f"{w}/{th}"
                 rec(1, abs(m["sw"] - m["iw"]) <= 1 and m["overflowN"] == 0, f"{t} scrollWidth {m['sw']}/{m['iw']}, {m['overflowN']} elements outside viewport {m['overflow'][:2]}")
-                rec(2, m["pre"]["ok"] and m["pre"]["fit"] and m["pre"]["n"] == 4, f"{t} code blocks {m['pre']}")
-                rec(3, m["h1"]["n"] == 1 and m["h1"]["text"] == "Power lab operations, from sample order to result." and m["sub"].startswith("One order format, one status feed, one result schema") and not m["skip"] and not m["h2Outside"], f"{t} h1 {m['h1']['n']} skip {m['skip']}")
+                rec(2, m["pre"]["n"] == 0, f"{t} code blocks {m['pre']}")
+                rec(3, m["h1"]["n"] == 1 and m["h1"]["text"] == "Power lab operations, from sample order to result." and m["sub"].startswith("One order format, one status feed, one result \u2014 across every lab") and not m["skip"] and not m["h2Outside"], f"{t} h1 {m['h1']['n']} skip {m['skip']}")
                 rec(4, m["secIds"] == SECTIONS, f"{t} sections {m['secIds']}")
                 if w >= 900:
                     rec(5, [x[:2] for x in m["sub_nav"]] == [list(n) for n in NAV] and all(x[2] for x in m["sub_nav"]), f"{t} sticky nav {m['sub_nav']}")
                 else:
                     rec(5, m["menuVisible"] and m["menuBtn"] >= 44 and [x[0] for x in m["menuLinks"]] == [n[0] for n in NAV] + ["Blog"], f"{t} menu {m['menuBtn']} {m['menuLinks']}")
-                rec(6, len(m["flow"]) == 1 and all(f["role"] == "img" and f["title"] and f["desc"] and f["minFont"] >= 11.9 and f["w"] <= m["iw"] and f["steps"] == 5 and f["submit"] and f["five"] for f in m["flow"]) and m["twinClosed"], f"{t} flow {m['flow']}")
+                rec(6, len(m["flow"]) == 1 and all(f["role"] == "img" and f["title"] and f["desc"] > 200 and f["minFont"] >= 11.9 and f["w"] <= m["iw"] and f["lanes"] and f["cls"] == ("dg dg-wide" if w >= 1000 else "dg dg-tall") for f in m["flow"]) and m["twinClosed"] and m["journey"] == ["Submit sample", "Received", "QC", "Run", "Delivered"], f"{t} diagram {m['flow']} journey {m['journey']}")
                 rec(7, not m["small"], f"{t} text under 12px: {m['small']}")
                 rec(8, not m["failC"] and m["uiMin"][1] >= 3, f"{t} min text contrast {m['minC']:.2f} ({m['minWhere']}); fails {m['failC']}; weakest UI {m['uiMin'][0]} {m['uiMin'][1]:.2f}")
                 if w in (360, 390):
@@ -150,7 +151,7 @@ def run():
                 rec(16, not ext, f"{t} requests outside the site before consent: {ext}")
                 if w == 1440 and th == "light":
                     rec(17, m["h1"]["bottom"] <= 900 and m["cta"] <= 900 and 40 <= m["h1"]["px"] <= 60, f"{t} h1 bottom {m['h1']['bottom']:.0f}, CTA {m['cta']:.0f}, h1 {m['h1']['px']:.0f}px")
-                    rec(18, m["words"] <= 2600, f"{t} {m['words']} words in main, page height {m['height']}")
+                    rec(18, m["words"] <= 2000, f"{t} {m['words']} words in main, page height {m['height']}")
                 ctx.close()
         for th in THEMES:
             ctx = mk(b, viewport={"width": 1280, "height": 900}); pg = ctx.new_page(); pg.goto(BASE); pg.wait_for_timeout(300)
@@ -172,7 +173,7 @@ def run():
                       const links = [...document.querySelectorAll('.site-nav .menu a')].map(a => a.textContent.trim());
                       const foot = [...document.querySelectorAll('footer a')].map(a => a.textContent.trim());
                       return {sw: document.documentElement.scrollWidth, iw, bad, links, foot, old: /Be among the first labs|synthetic demo data|How Jubilab helps/.test(document.body.innerText)}; }""")
-                    ok = r["sw"] <= r["iw"] + 1 and not r["bad"] and r["links"] == ["How it works", "For labs", "For teams", "Developers", "Blog"] and {"Guides", "Blog", "Privacy", "Terms"} <= set(r["foot"]) and not r["old"]
+                    ok = r["sw"] <= r["iw"] + 1 and not r["bad"] and r["links"] == ["How it works", "For labs", "For teams", "About", "Blog"] and {"Guides", "Blog", "Privacy", "Terms"} <= set(r["foot"]) and not r["old"]
                     rec(26, ok, f"{path} {w}/{th} {r}")
                     ctx.close()
         ctx = mk(b, viewport={"width": 390, "height": 800}, java_script_enabled=False); pg = ctx.new_page(); pg.goto(BASE)

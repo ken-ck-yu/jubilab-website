@@ -1,16 +1,27 @@
 # Jubilab
 
-> Jubilab is the order-to-result layer for lab work: one order format, one status feed and one result schema across every lab you use, for every scientist and agent who orders. We are recruiting early adopters by invitation (request access and we invite small groups first), mainly UK biotech startups and university research groups, together with the wet labs that run their samples, starting with non-clinical genetics samples. The order layer is still being built and nothing is released yet. Sequencing comes first, research biomarker assays next.
+> Jubilab connects the people who send samples to outside labs with the labs that run them: one order, one status feed and one result across every lab you use, for every scientist and AI assistant who orders. We are accepting early adopters by invitation (request access and we invite small groups first), mainly UK biotech startups and university research groups, together with the wet labs that run their samples, starting with non-clinical genetics samples. The order layer is still being built and nothing is released yet. Sequencing comes first, research biomarker assays next.
 
 ## What we are building
 
-- Order spec: what the requester sends. Platform, chemistry, depth or output target, a sample manifest, deliverables, turnaround and use tier.
-- Event model: a shared status vocabulary (order.accepted, kit.shipped, sample.submitted, sample.received, qc.passed, qc.failed with a reason, library.prepped, run.started, run.progress, results.delivered, invoice.issued).
-- Result manifest: a results.json with files and checksums, per-sample QC as structured fields, provider IDs mapped back to the requester's sample names, and a certainty tag (verified, inferred or unknown) on every fact.
-- For labs, three ways to join, none live yet, and a lab can stop at any step: (1) your existing tools: we read the order emails and courier tracking you already have (facts tagged inferred) and take a webhook from your LIMS (facts tagged verified); (2) a Jubilab UI, API and MCP: a status page with four buttons (received, QC, run started, results ready) and drag-and-drop result upload that writes a valid result manifest, plus an API and MCP for labs that want them; (3) your instruments, for labs we partner with or own: run data from MinKNOW or BaseSpace read live (we read it, we do not control the instrument). We work with your existing toolset without disruption and give AI agents a workflow they can call.
+- Order once: describe your samples and what you want one time; Jubilab passes it to the lab in the form that lab needs.
+- Follow every step: see when the sample is received, whether it passed QC, when the run starts and when results are ready.
+- Get clean results back: results come with your own sample names, and a failed sample shows up as failed, not as missing.
+- Every fact shows who told us: the lab's own system, an email we read, or nobody yet. A gap stays a gap.
 - Today an order moves between two sides that are managed separately and joined only by email and Excel: the dry lab side (scientists, researchers and the people who consume results) and the wet lab side (lab staff and logistics).
-- For teams: a planned Benchling integration, one MSA, a history of every order, and an MCP server and REST API (quote, create_order, get_status, list_results, fetch_result) plus webhooks. All planned; none released.
-- The JSON examples on the site are illustrative version 0 drafts, not real orders.
+- For labs, three ways to join, none live yet, and a lab can stop at any step: (1) we read the order emails and courier updates you already have, with your permission (facts from email are marked as less certain until you confirm them); (2) a simple status page with four buttons (received, QC done, run started, results ready) and result upload; (3) your instruments, for labs we partner with or own: we read run progress, we do not control the instrument. We work with your existing tools without disruption.
+- For research teams and startups: every outside lab in one place; results that land in the tools you use, with Benchling the first one planned; one agreement with us (planned, terms not set); AI assistants that can place and follow orders under the same rules as a person; a history of every order. All planned; none released. Developers building AI tools can tell us what they need through the early-access form.
+
+## What we found (our own research, about 70 public sources, October 2026)
+
+- Novogene reviews every order sheet by hand, in one to two hours, and approves by email.
+- Genohub, the most structured marketplace we looked at, has no order state called "received" or "QC passed".
+- At the sequencing and assay providers we opened, we found no way for software to place an order.
+- In one documented case an order ran 4.5 months against a 10 to 12 week promise, with no delay notice. We do not name the provider.
+
+## Who is behind it
+
+Jubilab is a product of Billy BioTech Ltd. (比利生物科技有限公司), a company in Taipei founded in 2024. Its first brand, Biligene, is a live pet-genetics business (a DNA test for dogs and cats). Biligene's own sequencing orders are planned to run through Jubilab first. Founder: Ken Cheng-Kai Yu, MSc computer science (UCL), more than six years as a cloud and IT infrastructure engineer, including AWS in London's financial sector, and two years in bioinformatics engineering.
 
 ## What Jubilab does not do
 
@@ -21,12 +32,11 @@
 
 ## Pages
 
-- [Jubilab home page](https://jubilab.io/): what we are building, who we are recruiting, the three objects with draft JSON examples, how labs and teams join, why now, and the early-access form
-- [Today](https://jubilab.io/#problem): what we found about how sequencing and assay orders move today (October 2026)
-- [How it works](https://jubilab.io/#how): order spec, event model, result manifest and the certainty tags
+- [Jubilab home page](https://jubilab.io/): what we are building, who we are recruiting, how labs and teams join, who is behind it, and the early-access form
+- [How it works](https://jubilab.io/#how): order once, follow every step, get clean results back
 - [For labs](https://jubilab.io/#labs): the three ways to join
 - [For teams](https://jubilab.io/#teams): what teams that send samples out would get
-- [For developers](https://jubilab.io/#dev): the planned tool surface and webhooks
+- [About](https://jubilab.io/#about): who is behind Jubilab
 - [Questions](https://jubilab.io/#faq): answers to common questions
 - [Request early access](https://jubilab.io/#access): the early-access form
 

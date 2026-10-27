@@ -54,22 +54,22 @@ test("privacy no longer describes the old local-first product", () => {
   for (const f of ["privacy/index.html", "terms/index.html"]) assert.match(rd2(f), /Last updated: 25 October 2026/);
 });
 
-test("evidence facts are present as intended, and the 4.5-month case is not attributed to Genohub", () => {
+test("evidence facts are present as intended in plain words, and the 4.5-month case is not attributed to Genohub", () => {
   const h = rd2("index.html").replace(/&ldquo;|&rdquo;/g, '"').replace(/&rsquo;/g, "’");
-  assert.match(h, /Novogene reviews every manifest by hand in one to two hours and approves by email/);
-  assert.match(h, /TU Dresden’s purpose-built portal falls back to emailed Excel above 30 samples/);
-  assert.match(h, /Genohub, the most structured marketplace we looked at, shows six coarse states/);
-  assert.match(h, /Separately, in one documented case an order ran 4\.5 months against a 10 to 12 week promise/);
+  assert.match(h, /Novogene reviews every order sheet by hand, in one to two hours, and approves by email/);
+  assert.match(h, /Genohub is the most structured marketplace we looked at\. None of its order states is "received" or "QC passed"/);
+  assert.match(h, /we found no way for software to place an order/);
+  assert.match(h, /One documented order ran 4\.5 months against a 10 to 12 week promise, with no delay notice\. We do not name the provider/);
+  assert.match(h, /Our research, about 70 public sources, October 2026/);
+  assert.match(h, /Jubilab is not affiliated with them/);
   assert.ok(!/Genohub[^<.]*4\.5 months/.test(h));
+  assert.ok(!/<table/.test(h));
 });
 
-test("the hero diagram and every JSON snippet are labelled illustrative or draft", () => {
+test("the hero journey strip and the diagram are labelled illustrative", () => {
   const h = rd2("index.html");
-  assert.equal((h.match(/EXAMPLE ORDER[^<]*ILLUSTRATIVE/g) || []).length, 2); // wide and tall svg
-  const pre = [...h.matchAll(/<pre tabindex="0" aria-label="([^"]+)">[\s\S]*?<\/pre>\s*<figcaption>([^<]*)<\/figcaption>/g)];
-  assert.equal(pre.length, 4);
-  for (const m of pre) assert.match(m[1] + " " + m[2], /[Dd]raft|illustrative|In design/);
-  assert.equal(pre.filter((m) => /Draft v0, illustrative/.test(m[2])).length, 3);
+  assert.match(h.match(/<figure class="hero-shot journey-fig">[\s\S]*?<\/figure>/)[0], /Illustrative example, not a real order\./);
+  assert.match(h.match(/<figure class="dg-fig">[\s\S]*?<\/figure>/)[0], /<figcaption>Illustrative, not real orders\.<\/figcaption>/);
 });
 
 test("claims consistency: agents do not 'place an order' next to 'no API'; no actor/'who placed' claim", () => {
