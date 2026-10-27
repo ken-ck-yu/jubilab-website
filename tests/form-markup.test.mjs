@@ -68,7 +68,7 @@ test("privacy no longer describes the old local-first product", () => {
 
 test("no figcaption and no illustrative wording near the hero card or the diagrams", () => {
   const h = rd2("index.html");
-  assert.ok(!/<figcaption|<figure/.test(h.match(/<section class="hero"[\s\S]*?<\/section>/)[0]));
+  assert.ok(!/<figcaption/.test(h.match(/<section class="hero"[\s\S]*?<\/section>/)[0]));
   assert.ok(!/<figcaption>/.test(h.match(/<section id="how"[\s\S]*?<\/section>/)[0]));
 });
 

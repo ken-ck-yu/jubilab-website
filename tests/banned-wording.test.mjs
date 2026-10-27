@@ -2,7 +2,7 @@
 // list but not from the old-positioning list.
 import test from "node:test";
 import assert from "node:assert/strict";
-import { readFileSync, readdirSync } from "node:fs";
+import { readFileSync, readdirSync, existsSync } from "node:fs";
 
 const REPO = new URL("..", import.meta.url).pathname;
 const rd = (f) => readFileSync(REPO + f, "utf8");
@@ -76,7 +76,7 @@ test("\"marketplace\" appears only to say what Jubilab is not, or in a factual d
   }
 });
 
-test("hero carries the owner's headline, lede and sub-line, one eyebrow, two calls to action and the order card", () => {
+test("hero carries the owner's headline, lede and sub-line, one eyebrow, two calls to action and the Orders dashboard", () => {
   const html = rd("index.html");
   const hero = html.match(/<section class="hero"[\s\S]*?<\/section>/)[0];
   assert.ok(hero.includes('<h1 id="h1">Streamline biological sample to data with AI enablement.</h1>'));
@@ -86,15 +86,10 @@ test("hero carries the owner's headline, lede and sub-line, one eyebrow, two cal
   assert.ok(/Request early access/.test(hero) && /See how it works/.test(hero));
   assert.equal((html.match(/<h1\b/g) || []).length, 1);
   assert.ok(!/<h2/.test(hero));
-  // the card: label "Sample", no concept badge, no caption, no green, step 4 shares the ticked icon colour
-  assert.match(hero, /<div class="small-label">Sample<\/div><div class="order-id">ORD-1042<\/div>/);
-  assert.ok(!/Illustrative order|Product concept|Illustrative interface|class="pill/i.test(html));
-  assert.deepEqual([...hero.matchAll(/<div class="event-name">([^<]+)<\/div>/g)].map((m) => m[1]), ["Order submitted", "Sample received", "Quality control", "Sequencing run", "Results delivered"]);
-  const css = rd("home.css");
-  assert.match(css, /\.event\.done \.dot, \.event\.active \.dot \{ background:var\(--green-soft\)/);
-  assert.ok(!/\.event\.active \.dot \{[^}]*--lime/.test(css), "step 4 badge is not green");
-  const cardCss = css.match(/\.status-card[^{]*\{[^}]*\}|\.event[^{]*\{[^}]*\}|\.dot[^{]*\{[^}]*\}|\.card-foot[^{]*\{[^}]*\}|\.card-top[^{]*\{[^}]*\}/g).join("\n");
-  assert.ok(!/#(?:c7f9e5|cfe2d3|d7e4da|f5f8f5|d6f8ee)|--lime/i.test(cardCss), "no green in the hero card styles");
+  // the old hero card (Sample ORD-1042 with the five-step timeline) and the hero art are gone; the Orders dashboard is the hero visual
+  assert.ok(!/status-card|class="timeline"|small-label|Built for traceability|hero-art/.test(html + rd("home.css")), "old hero card and art removed");
+  assert.ok(!existsSync(REPO + "assets/img/hero-art.webp"));
+  assert.match(hero, /<div class="hero-visual">\s*<figure class="dash"/);
 });
 
 test("no prices, fees or open questions on the home page", () => {
@@ -172,7 +167,7 @@ test("merged Why use Jubilab / For teams section: one h2, owner order, no separa
   assert.equal((h.match(/id="teams"/g) || []).length, 1);
   assert.match(s, /<span class="eyebrow">Why use Jubilab<\/span>\s*<h2 id="h-teams">Every external lab, one workflow\.<\/h2>/);
   assert.match(s, /Today, ordering sequencing from an external lab often means a new spreadsheet, email updates, and results that need manual reconciliation\. Jubilab, the sample operations layer, connects the order, status and result in one workflow, and you keep the tools you already use\./);
-  const order = ["class=\"comparison\"", "<strong>One order. One place to follow it. One clean result.</strong><br>One interface for people and software.", "class=\"three-grid\"", "Register for early access &rarr;", "Explore the workflow &rarr;", "One connected path"].map((x) => s.indexOf(x));
+  const order = ["class=\"comparison\"", "<strong>One order. One place to follow it. One clean result.</strong><br>One interface for people and software.", "class=\"three-grid\"", "Register for early access &rarr;", "One connected path"].map((x) => s.indexOf(x));
   assert.ok(order.every((x) => x > 0) && order.every((x, i) => i === 0 || x > order[i - 1]), "order: panels, summary line, cards, buttons, path strip: " + order);
   const cmp = s.match(/<div class="comparison">[\s\S]*?<\/ul>\s*<\/div>\s*<\/div>/)[0];
   assert.match(cmp, /<h3>Today<\/h3>\s*<p class="panel-sub">Joined by email and Excel<\/p>/);
@@ -182,7 +177,8 @@ test("merged Why use Jubilab / For teams section: one h2, owner order, no separa
   assert.deepEqual(lis(/<div class="panel highlight">[\s\S]*?<\/ul>/), ["One standard sample request", "Status updates from every lab in one place", "Results linked to your own sample names", "Ready for AI agents through API and MCP"]);
   assert.ok(!/For scientists and research teams|For laboratories|<h3>Laboratories/.test(s), "audience sub-groups removed");
   for (const t of ["One order structure", "Clearer status", "Results tied to your samples"]) assert.ok(s.includes(`<h3>${t}</h3>`), t);
-  assert.match(s, /<a class="button" href="#access">Register for early access &rarr;<\/a> <a class="button secondary" href="#how">Explore the workflow &rarr;<\/a>/);
+  assert.match(s, /<p class="cta-p"><a class="button" href="#access">Register for early access &rarr;<\/a><\/p>/);
+  assert.ok(!/Explore the workflow/.test(h + rd("llms.txt")), "secondary button removed");
   assert.ok(!/One order format|one status feed|result schema/i.test(h));
 });
 
@@ -303,7 +299,6 @@ test("self-hosted fonts and no third-party request in the home page's head or cs
   assert.match(css, /font-family: "Inter"; src: url\("assets\/fonts\/inter-latin-wght-normal\.woff2"\)/);
   assert.ok(readFileSync(REPO + "assets/fonts/OFL-Inter.txt", "utf8").includes("SIL OPEN FONT LICENSE"));
   assert.ok(!/data:image/.test(h), "the hero art is a file, not a data URI");
-  assert.ok(readFileSync(REPO + "assets/img/hero-art.webp").length > 1000);
 });
 
 // Product descriptor (owner idea, T-050). One phrase so it can be swapped in one commit.
@@ -327,22 +322,22 @@ test("typography: Manrope headings (owner pick), Inter body, both self-hosted; n
   assert.match(css, /h1, h2 \{ font-family:var\(--head\); font-weight:500; \}/);
   assert.match(css, /h1 \{ letter-spacing:-\.025em; line-height:1\.1; \}/);
   assert.match(css, /h2 \{ letter-spacing:-\.015em; line-height:1\.18; \}/);
-  assert.match(css, /h3, h4, \.order-id \{ font-weight:600;/);
+  assert.match(css, /h3, h4 \{ font-weight:600;/);
   assert.match(rd("index.html"), /rel="preload" href="assets\/fonts\/manrope-latin-wght-normal\.woff2"/);
 });
 
 test("illustrations: every <img> has width, height and alt; flat-colour svg files, small, no text, no external requests; below-the-fold ones are lazy", () => {
   const h = rd("index.html");
   const imgs = [...h.matchAll(/<img\b[^>]*>/g)].map((m) => m[0]);
-  assert.ok(imgs.length >= 9, "hero art plus the illustrations");
+  assert.ok(imgs.length >= 7, "the illustrations");
   for (const t of imgs) {
     assert.match(t, /\swidth="\d+"/, t); assert.match(t, /\sheight="\d+"/, t); assert.match(t, /\salt="/, t);
     assert.ok(!/src="(?:https?:)?\/\//.test(t) && !/src="data:/.test(t), "no external or data-URI image: " + t);
-    if (!/hero-art/.test(t)) assert.match(t, /loading="lazy"/, t);
+    assert.match(t, /loading="lazy"/, t);
   }
   for (const m of h.matchAll(/srcset="([^"]+)"/g)) assert.ok(!/^(https?:)?\/\//.test(m[1]));
   const files = readdirSync(REPO + "assets/img").filter((f) => f.startsWith("illus-") && f.endsWith(".svg"));
-  assert.ok(files.length >= 9, files.join());
+  assert.ok(files.length >= 8 && !files.includes("illus-plane.svg"), files.join());
   for (const f of files) {
     const t = readFileSync(REPO + "assets/img/" + f, "utf8");
     assert.ok(t.length < 15000, f + " size");
@@ -352,7 +347,7 @@ test("illustrations: every <img> has width, height and alt; flat-colour svg file
   }
 });
 
-test("Orders dashboard: one decorative HTML product picture with the four orders; generic names; no caption; no external requests", () => {
+test("Orders dashboard in the hero: one decorative HTML product picture with the four orders; generic names; no caption; no external requests", () => {
   const h = rd("index.html");
   assert.equal((h.match(/class="dash"/g) || []).length, 1);
   const f = h.match(/<figure class="dash"[\s\S]*?<\/figure>/)[0];
@@ -368,9 +363,10 @@ test("Orders dashboard: one decorative HTML product picture with the four orders
   assert.match(f, /<th>Order<\/th><th>Service<\/th><th>Lab<\/th><th>Status<\/th>/);
   assert.ok(!/illustrative|example|concept|mock|demo|prototype/i.test(f.replace(/aria-label="[^"]*"/, "")), "no caption words");
   assert.ok(!/https?:|src=/.test(f));
-  // placed in the merged section, under the intro and above the Today / With Jubilab panels
-  const s = h.match(/<section id="teams"[\s\S]*?<\/section>/)[0];
-  assert.ok(s.indexOf("section-intro") < s.indexOf('class="dash"') && s.indexOf('class="dash"') < s.indexOf('class="comparison"'));
-  assert.match(rd("home.css"), /\.dash \{ margin:0 auto 40px; max-width:880px; \}/);
+  // the hero visual, right of the headline: once, in the hero, not in the merged section
+  const hero = h.match(/<section class="hero"[\s\S]*?<\/section>/)[0];
+  assert.ok(hero.includes('class="dash"') && hero.indexOf('<h1') < hero.indexOf('class="dash"'));
+  assert.ok(!h.match(/<section id="teams"[\s\S]*?<\/section>/)[0].includes("dash"));
+  assert.match(rd("home.css"), /\.dash \{ margin:0 auto; max-width:620px; \}/);
   assert.match(rd("home.css"), /\.dash-bar em \{ font:600/);
 });

@@ -89,20 +89,23 @@
       </div>
     </div>
     <div class="hero-visual">
-      <img class="hero-art" alt="" width="1774" height="887" src="assets/img/hero-art.webp">
-      <div class="status-card" role="group" aria-label="Order ORD-1042, step by step">
-        <div class="card-top">
-          <div><div class="small-label">Sample</div><div class="order-id">ORD-1042</div></div>
+      <figure class="dash" role="img" aria-label="Orders dashboard showing four orders from different labs and their current status">
+        <div class="dash-stage" aria-hidden="true">
+          <div class="dash-win">
+            <div class="dash-bar"><i></i><i></i><i></i><em>Orders</em></div>
+            <div class="dash-body">
+              <div class="dash-row"><div class="dash-h">All orders</div><div class="dash-sp"></div><span class="dash-btn">New order</span></div>
+              <table class="dash-t">
+                <tr><th>Order</th><th>Service</th><th>Lab</th><th>Status</th></tr>
+                <tr><td><b>ORD-1042</b><div class="dash-sm">24 samples</div></td><td>Whole-genome sequencing</td><td>Sequencing lab</td><td><span class="dash-chip c-run">Sequencing</span></td></tr>
+                <tr><td><b>ORD-1041</b><div class="dash-sm">12 samples</div></td><td>Whole-genome sequencing</td><td>Genomics core</td><td><span class="dash-chip c-ok">QC passed</span></td></tr>
+                <tr><td><b>ORD-1039</b><div class="dash-sm">48 samples</div></td><td>Targeted sequencing</td><td>Sequencing lab</td><td><span class="dash-chip c-done">Delivered</span></td></tr>
+                <tr><td><b>ORD-1037</b><div class="dash-sm">8 samples</div></td><td>Whole-genome sequencing</td><td>Nanopore lab</td><td><span class="dash-chip c-wait">Sample received</span></td></tr>
+              </table>
+            </div>
+          </div>
         </div>
-        <ol class="timeline">
-          <li class="event done"><span class="dot" aria-hidden="true">&#10003;</span><div><div class="event-name">Order submitted</div><div class="event-detail">24 samples &middot; Research sequencing</div></div><span class="event-state">Submitted</span></li>
-          <li class="event done"><span class="dot" aria-hidden="true">&#10003;</span><div><div class="event-name">Sample received</div><div class="event-detail">Provider-reported status</div></div><span class="event-state">Received</span></li>
-          <li class="event done"><span class="dot" aria-hidden="true">&#10003;</span><div><div class="event-name">Quality control</div><div class="event-detail">Status and reason from the lab</div></div><span class="event-state">Passed</span></li>
-          <li class="event active" aria-current="step"><span class="dot" aria-hidden="true">4</span><div><div class="event-name">Sequencing run</div><div class="event-detail">Next expected event</div></div><span class="event-state">In progress</span></li>
-          <li class="event"><span class="dot" aria-hidden="true">5</span><div><div class="event-name">Results delivered</div><div class="event-detail">Files linked to your sample IDs</div></div><span class="event-state">Pending</span></li>
-        </ol>
-        <div class="card-foot"><strong>Built for traceability:</strong> each status keeps its source, so reported facts are never confused with assumptions.</div>
-      </div>
+      </figure>
     </div>
   </div>
 </section>
@@ -114,23 +117,6 @@
       <h2 id="h-teams">Every external lab, one workflow.</h2>
       <p class="section-intro">Today, ordering sequencing from an external lab often means a new spreadsheet, email updates, and results that need manual reconciliation. Jubilab, the sample operations layer, connects the order, status and result in one workflow, and you keep the tools you already use.</p>
     </div>
-    <figure class="dash" role="img" aria-label="Orders dashboard showing four orders from different labs and their current status">
-      <div class="dash-stage" aria-hidden="true">
-        <div class="dash-win">
-          <div class="dash-bar"><i></i><i></i><i></i><em>Orders</em></div>
-          <div class="dash-body">
-            <div class="dash-row"><div class="dash-h">All orders</div><div class="dash-sp"></div><span class="dash-btn">New order</span></div>
-            <table class="dash-t">
-              <tr><th>Order</th><th>Service</th><th>Lab</th><th>Status</th></tr>
-              <tr><td><b>ORD-1042</b><div class="dash-sm">24 samples</div></td><td>Whole-genome sequencing</td><td>Sequencing lab</td><td><span class="dash-chip c-run">Sequencing</span></td></tr>
-              <tr><td><b>ORD-1041</b><div class="dash-sm">12 samples</div></td><td>Whole-genome sequencing</td><td>Genomics core</td><td><span class="dash-chip c-ok">QC passed</span></td></tr>
-              <tr><td><b>ORD-1039</b><div class="dash-sm">48 samples</div></td><td>Targeted sequencing</td><td>Sequencing lab</td><td><span class="dash-chip c-done">Delivered</span></td></tr>
-              <tr><td><b>ORD-1037</b><div class="dash-sm">8 samples</div></td><td>Whole-genome sequencing</td><td>Nanopore lab</td><td><span class="dash-chip c-wait">Sample received</span></td></tr>
-            </table>
-          </div>
-        </div>
-      </div>
-    </figure>
     <div class="comparison">
       <div class="panel">
         <h3>Today</h3>
@@ -174,7 +160,7 @@
         <p>Keep provider output connected to your original sample identifiers, with QC information and file checks.</p>
       </article>
     </div>
-    <p class="cta-p"><a class="button" href="#access">Register for early access &rarr;</a> <a class="button secondary" href="#how">Explore the workflow &rarr;</a></p>
+    <p class="cta-p"><a class="button" href="#access">Register for early access &rarr;</a></p>
     <picture class="illus-wide"><source media="(max-width:700px)" srcset="assets/img/illus-journey-sm.svg" width="600" height="380"><img class="illus" src="assets/img/illus-journey.svg" alt="A sample's journey: tubes in a rack, a courier parcel, a sequencing instrument and a laptop showing a finished result with a tick." width="1200" height="260" loading="lazy"></picture>
     <div class="visual-band" role="group" aria-label="The order to result path">
       <div>
@@ -364,7 +350,6 @@
       <p>We start with non-clinical genetics sequencing and invite small groups first, so Jubilab is shaped by real orders and real laboratory workflows.</p>
       <p>Tell us how you order today. Every question is required except the last one, a short free-text answer. The answers help us choose who to invite first.</p>
       <p><strong>Prefer to talk first?</strong><br><a class="text-link" href="mailto:hello@jubilab.io">hello@jubilab.io</a></p>
-      <img class="illus illus-plane" src="assets/img/illus-plane.svg" alt="" width="400" height="240" loading="lazy">
     </div>
     <form class="form form-card" id="early-access-form" action="/api/early-access" method="post" aria-labelledby="h-access">
       <p class="form-error" id="form-error" role="alert" tabindex="-1" hidden>That email address does not look right. Please check it and send the form again.</p>

@@ -38,7 +38,7 @@ MEASURE = r"""
   out.iw = iw; out.sw = document.documentElement.scrollWidth; out.height = document.documentElement.scrollHeight;
   const bad = [];
   for (const e of document.body.querySelectorAll('*')) {
-    if (e.closest('pre') || e.classList.contains('hero-art') || isHp(e) || !vis(e)) continue;  // hero-art is decorative and clipped by .hero{overflow:hidden}
+    if (e.closest('pre') || isHp(e) || !vis(e)) continue;
     const b = e.getBoundingClientRect();
     if (b.right > iw + 1 || b.left < -1) bad.push(e.tagName + '.' + (e.className && e.className.baseVal === undefined ? e.className : '') + ' ' + Math.round(b.left) + '..' + Math.round(b.right));
   }
@@ -55,7 +55,7 @@ MEASURE = r"""
   out.themeToggle = !!document.getElementById('theme-toggle');
   const svgs = [...document.querySelectorAll('.flow-panel svg.dg')].filter(vis);
   out.flow = svgs.map(s => { const sb = s.getBoundingClientRect(), vb = s.viewBox.baseVal, sc = sb.width / vb.width; let min = 999; for (const t of s.querySelectorAll('text')) min = Math.min(min, px(t) * sc); return {cls: s.getAttribute('class'), w: Math.round(sb.width), minFont: Math.round(min * 10) / 10, role: s.getAttribute('role'), title: !!s.querySelector('title'), desc: s.querySelector('desc') ? s.querySelector('desc').textContent.length : 0, lanes: /DRY LAB/.test(s.textContent) && /WET LAB/.test(s.textContent)}; });
-  out.journey = [...document.querySelectorAll('.hero .event-name')].map(l => l.textContent);
+  out.journey = [...document.querySelectorAll('.hero .dash-t b')].map(l => l.textContent);
   out.twinClosed = true;
   const small = [];
   for (const e of document.body.querySelectorAll('*')) {
@@ -129,7 +129,7 @@ def run():
                 rec(3, m["h1"]["n"] == 1 and m["h1"]["text"] == "Streamline biological sample to data with AI enablement." and m["lead"] == "So scientists and AI agents can order, track and read results across dry labs, wet labs and logistics." and m["sub"].startswith("Order sequencing from external labs") and not m["themeToggle"] and not m["skip"] and not m["h2Outside"], f"{t} h1 {m['h1']['n']} skip {m['skip']}")
                 rec(4, m["secIds"] == SECTIONS, f"{t} sections {m['secIds']}")
                 rec(5, [x[:2] for x in m["sub_nav"]] == [list(n) for n in NAV] and all(x[2] for x in m["sub_nav"]), f"{t} nav {m['sub_nav']}")
-                rec(6, len(m["flow"]) == 2 and all(f["role"] == "img" and f["title"] and f["desc"] > 200 and f["minFont"] >= 11.9 and f["w"] <= m["iw"] and f["lanes"] and f["cls"] == ("dg dg-wide" if w >= 1000 else "dg dg-tall") for f in m["flow"]) and m["journey"] == ["Order submitted", "Sample received", "Quality control", "Sequencing run", "Results delivered"], f"{t} diagrams {m['flow']} card steps {m['journey']}")
+                rec(6, len(m["flow"]) == 2 and all(f["role"] == "img" and f["title"] and f["desc"] > 200 and f["minFont"] >= 11.9 and f["w"] <= m["iw"] and f["lanes"] and f["cls"] == ("dg dg-wide" if w >= 1000 else "dg dg-tall") for f in m["flow"]) and m["journey"] == ["ORD-1042", "ORD-1041", "ORD-1039", "ORD-1037"], f"{t} diagrams {m['flow']} hero dashboard orders {m['journey']}")
                 rec(7, not m["small"], f"{t} text under 12px: {m['small']}")
                 rec(8, not m["failC"] and m["uiMin"][1] >= 3, f"{t} min text contrast {m['minC']:.2f} ({m['minWhere']}); fails {m['failC']}; weakest UI {m['uiMin'][0]} {m['uiMin'][1]:.2f}")
                 if w in (360, 390):
