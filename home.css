@@ -531,3 +531,9 @@ blockquote.story-quote { margin:0; }
     .head-split-hub { grid-template-columns:minmax(0,1fr) minmax(0,580px); align-items:center; }
     .hub-img { background:#eef1f6; aspect-ratio:1400 / 788; object-fit:cover; }
     @media (max-width:850px) { .head-split-hub { grid-template-columns:1fr; gap:26px; } .head-split-hub .hub-img { max-width:none; } }
+
+    /* ---- Text-only section headers use the full container width (heading balanced, intro about 920px) ---- */
+    .how-section .section-head, .labs-section .section-head, .value-section .section-head, .dark-section .section-head { max-width:none; }
+    .how-section .section-head h2, .labs-section .section-head h2, .value-section .section-head h2, .dark-section .section-head h2 { text-wrap:balance; }
+    .how-section .section-intro, .labs-section .section-intro, .value-section .section-intro, .dark-section .section-intro { max-width:920px; }
+    .how-section .section-intro, .labs-section .section-intro, .value-section .section-intro, .dark-section .section-intro { text-wrap:pretty; }
