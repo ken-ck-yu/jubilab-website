@@ -122,7 +122,7 @@ for (const s of SLUGS) {
     assert.equal((src.match(/Accessed \d{1,2} [A-Z][a-z]+ \d{4}/g) || []).length, n);
     assert.equal((src.match(/rel="noopener"/g) || []).length, n);
     const t = txt(main);
-    assert.match(t, /order-to-result layer for lab work/);
+    assert.match(t, /building a way to order lab work once and follow it to results\. We are accepting early adopters by invitation[^.]*\. The product is still being built and nothing is released yet/);
     assert.match(t, /not affiliated with or endorsed by/);
     assert.ok(!/(?<!not )(detects?|flags?) sample swaps/i.test(t), "a post may say Jubilab does not detect sample swaps, never that it does");
   });

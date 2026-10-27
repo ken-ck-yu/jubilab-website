@@ -92,7 +92,7 @@ for (const g of GUIDES) {
   test(`guide ${g}: says the old run-record prototype is not offered and what Jubilab is building now`, () => {
     const t = txt(h);
     assert.match(t, /earlier run-record prototype is not being offered/);
-    assert.match(t, /order-to-result layer for lab work\. We are recruiting early adopters \(request access and we invite small groups first\), but the order layer is still being built and nothing is released yet/);
+    assert.match(t, /building a way to order lab work once and follow it to results\. We are accepting early adopters by invitation \(request access and we invite small groups first\)\. The product is still being built and nothing is released yet/);
     assert.ok(!/(detects|detect) sample swaps|flags? sample swaps today/i.test(t));
   });
 }

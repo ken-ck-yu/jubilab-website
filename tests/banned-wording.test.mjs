@@ -54,7 +54,7 @@ for (const f of CONTENT) {
   });
 }
 test("blog index carries the neutral earlier-work line with a link home", () => {
-  assert.match(rd("blog/index.html"), /These articles come from our earlier work on data provenance\. Jubilab is now building the <a href="\.\.\/">order-to-result layer for lab work<\/a>\./);
+  assert.match(rd("blog/index.html"), /These articles come from our earlier work on data provenance\. Jubilab is now building a way to <a href="\.\.\/">order lab work once and follow it to results<\/a>\./);
 });
 test("every post and guide has an honest 'Where Jubilab is now' box and no claim that Jubilab ships the old tool", () => {
   for (const f of CONTENT.filter((x) => x !== "blog/index.html" && x !== "guides/index.html")) {
@@ -95,7 +95,7 @@ test("home page promises nothing is released, is not defensive about it, and has
   assert.ok(!/Early access is open/.test(html));
   assert.ok(!/npm install|pip install|docker run|curl |api\.jubilab|mcp\.jubilab/i.test(html), "no install command or endpoint");
   const vis = html.replace(/<script[\s\S]*?<\/script>/g, "");
-  assert.equal((vis.match(/Illustrative[^<]*not real order/g) || []).length >= 3, true, "hero strip caption, diagram caption and text alternative say illustrative");
+  assert.equal((vis.match(/[Ii]llustrative[^<]*[Nn]ot real order/g) || []).length >= 3, true, "hero strip caption, diagram caption and text alternative say illustrative");
 });
 
 test("every page with the site footer names the operator in the footer", () => {
@@ -139,7 +139,7 @@ test("comparison diagram: right after the hero, both lanes, both variants, aria 
   assert.deepEqual(secs.slice(0, 3), ["hero", "compare", "usecases"]);
   const sec = h.match(/<section id="compare"[\s\S]*?<\/section>/)[0];
   assert.match(sec, /joined only by email and Excel/);
-  assert.match(sec, /Illustrative, not real orders\./);
+  assert.match(sec, /Illustrative, based on what we found at the providers we looked at\. Not real orders\./);
   for (const cls of ["dg-wide", "dg-tall"]) {
     const svg = sec.match(new RegExp(`<svg class="dg ${cls}"[\\s\\S]*?</svg>`))[0];
     assert.match(svg, /role="img" aria-labelledby="dg[wt]-t dg[wt]-d"/);
@@ -196,7 +196,7 @@ test("Who is behind this strip: short, not in the nav; Billy BioTech, Taipei, Bi
   const t = sec.replace(/&rsquo;/g, "’").replace(/<[^>]+>/g, " ").replace(/\s+/g, " ");
   assert.ok((t.match(/[.!?](?=\s+[A-Z])/g) || []).length + 1 <= 3, "three sentences at most");
   assert.match(t, /Billy BioTech Ltd\. \(\s*比利生物科技有限公司\s*\) in Taipei/);
-  assert.match(t, /Biligene, will be Jubilab’s first user/);
+  assert.match(t, /Biligene, is planned to be Jubilab’s first user/);
   assert.match(t, /Ken Cheng-Kai Yu/);
   assert.match(t, /MSc in computer science \(UCL\)/);
   assert.match(t, /AWS in London’s financial sector/);
@@ -213,22 +213,22 @@ test("no separate what-we-do-not-do block, no roadmap or timeline block; the lim
   const acc = h.match(/<section id="access"[\s\S]*?<\/section>/)[0];
   assert.match(acc, /early adopters, mainly UK biotech startups and university research groups, together with the wet labs that run their samples/);
   assert.match(acc, /We invite small groups first/);
-  assert.match(acc, /Investors and partners: write to <a href="mailto:hello@jubilab\.io">/);
+  assert.match(acc, /Investors and partners, or prefer to talk first\? Email <a href="mailto:hello@jubilab\.io">/);
+  assert.equal((acc.match(/mailto:hello@jubilab\.io/g) || []).length, 1);
 });
 
 test("plain-words commitments: fits with tools, data commitment, planned fee, no pricing numbers", () => {
   const h = rd("index.html");
   assert.match(h, /Works with the tools you already use:<\/b> Excel, email, your lab software \(LIMS\) and Benchling \(first, planned\)/);
   assert.match(h, /You do not need lab software to start/);
-  assert.match(h, /we will not sell or share them/);
-  assert.match(h, /How we plan to charge: a subscription for each team or lab, never a cut of what you spend with labs\. The price is still to be tested with early adopters\./);
-  assert.match(h, /We will not contact your suppliers without your say-so\. You can ask us to delete your data at any time\./);
+  assert.match(h, /We plan to keep your order details, supplier prices and contacts yours\. The terms come with early access\./);
+  assert.ok(!/will not sell|say-so|delete your data|stay yours/.test(h), "data wording stays a plan");
+  assert.match(h, /We plan to charge a subscription for each team or lab, not a cut of what you spend\. The price is still to be tested with early adopters\./);
   assert.match(h, /What week one looks like, as we plan it:/);
   assert.match(h, /If you send samples out[\s\S]*If you run a lab or core/);
-  assert.match(h, /Labs say yes because orders arrive tidier and nothing changes in how they work/);
+  assert.match(h, /We expect labs to say yes because orders arrive tidier and nothing changes in how they work/);
   assert.match(h, /In 2025 Benchling began direct ordering for a few suppliers and left sequencing and assays out/);
-  assert.match(h, /Prefer to talk first\? Email/);
-  assert.match(h.match(/<footer>[\s\S]*?<\/footer>/)[0], /mailto:hello@jubilab\.io">Investors and partners/);
+    assert.match(h.match(/<footer>[\s\S]*?<\/footer>/)[0], /mailto:hello@jubilab\.io">Investors and partners/);
   assert.match(h, /Result links that expire/);
   assert.match(h, /Sample names that do not match/);
   assert.match(h, /Genetics sequencing first, then any lab service\./);
@@ -252,4 +252,23 @@ test("no customer or availability claims; UCL and Cambridge only as examples; no
       assert.match(ctx, /(as examples only, not as customers or partners|MSc (?:in )?computer science \(UCL\))/, f);
     }
   }
+});
+
+test("home page h2 headings are exactly this list; no roadmap, timeline or extra sections (owner rule, YC discipline)", () => {
+  const h = rd("index.html").replace(/<script[\s\S]*?<\/script>/g, "");
+  const h2 = [...h.matchAll(/<h2[^>]*>([\s\S]*?)<\/h2>/g)].map((m) => m[1].replace(/<[^>]+>/g, "").replace(/&rsquo;/g, "\u2019").replace(/&amp;/g, "&"));
+  assert.deepEqual(h2, [
+    "Two sides that should be one.",
+    "What we found when we looked.",
+    "Order once. Follow every step.",
+    "Nothing changes on your side on day one.",
+    "Every outside lab, one order format.",
+    "Why now: every AI agent stops at the lab door.",
+    "Who is behind this",
+    "Questions",
+    "Request early access",
+  ]);
+  const text = h.replace(/<[^>]+>/g, " ").replace(/&rsquo;|&#8217;|\u2019/g, "'");
+  const m = text.match(/roadmap|timeline|what'?s next|coming soon|where this is going|meet the team|what we (do not|don't|dont) do/i);
+  assert.equal(m, null, `found "${m?.[0]}"`);
 });

@@ -69,7 +69,7 @@ test("evidence facts are present as intended in plain words, with no provider or
 test("the hero journey strip and the diagram are labelled illustrative", () => {
   const h = rd2("index.html");
   assert.match(h.match(/<figure class="hero-shot journey-fig">[\s\S]*?<\/figure>/)[0], /Illustrative example, not a real order\./);
-  assert.match(h.match(/<figure class="dg-fig">[\s\S]*?<\/figure>/)[0], /<figcaption>Illustrative, not real orders\.<\/figcaption>/);
+  assert.match(h.match(/<figure class="dg-fig">[\s\S]*?<\/figure>/)[0], /<figcaption>Illustrative, based on what we found at the providers we looked at\. Not real orders\.<\/figcaption>/);
 });
 
 test("claims consistency: agents do not 'place an order' next to 'no API'; no actor/'who placed' claim", () => {

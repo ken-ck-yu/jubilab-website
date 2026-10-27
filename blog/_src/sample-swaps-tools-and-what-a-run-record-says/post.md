@@ -44,7 +44,7 @@ Suppose a check flags a sample. Imagine you now need to know what else is affect
 - Which pipeline version, parameters and reference were used in each, so you can rerun the right ones?
 - Did anyone enter a fact by hand rather than capturing it from a run?
 
-That is tracing, and it is what an earlier Jubilab prototype did for the runs it saw: it let you follow a result back to its run, inputs and parameters and forward from an input to what depends on it, with an evidence status on each fact. Jubilab's earlier run-record prototype is not being offered. Jubilab is now building the order-to-result layer for lab work. We are recruiting early adopters (request access and we invite small groups first), but the order layer is still being built and nothing is released yet.
+That is tracing, and it is what an earlier Jubilab prototype did for the runs it saw: it let you follow a result back to its run, inputs and parameters and forward from an input to what depends on it, with an evidence status on each fact. Jubilab's earlier run-record prototype is not being offered. Jubilab is now building a way to order lab work once and follow it to results. We are accepting early adopters by invitation (request access and we invite small groups first). The product is still being built and nothing is released yet.
 
 ## What a run record cannot tell you
 
