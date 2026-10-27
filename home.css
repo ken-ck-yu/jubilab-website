@@ -343,11 +343,9 @@ body:has(.cookie-notice:not([hidden])) { padding-bottom:150px; }
 .band-h { font-size:1.35rem; margin:8px 0; }
 .band-p { margin:0; font-size:.91rem; }
 .dev-note { margin-top:28px; max-width:760px; }
-.story-note { margin-top:15px; font-size:.88rem; }
 blockquote.story-quote { margin:0; }
 @media (min-width:700px) and (max-width:999px) { .flows { grid-template-columns:1fr 1fr; } }
     @media (max-width:600px) { h1 { letter-spacing:-.05em; } }
-    .story-section .story-quote:before { content:none; }
     footer .foot-brand { font-size:1.12rem; }
     footer ul { max-width:680px; }
     .dg-tall .t12, .dg-tall .t13 { font-size:14.5px; } .dg-tall .t14 { font-size:15.5px; } .dg-tall .t18 { font-size:20px; }
@@ -374,7 +372,6 @@ blockquote.story-quote { margin:0; }
     h3, h4 { font-weight:600; letter-spacing:-.005em; }
     .flow-panel h3, .comparison .panel h3, .labs-section .integration-card h3 { font-weight:600; letter-spacing:-.005em; }
     .metric-value { font-weight:600; letter-spacing:-.03em; }
-    .story-section .story-quote { font-weight:500; letter-spacing:-.015em; }
     .eyebrow, .panel-label, .micro-label, .labs-section .integration-card .step { font-family:var(--head); font-weight:600; }
     @media (max-width:600px) { h1 { letter-spacing:-.025em; } }
 
@@ -428,9 +425,6 @@ blockquote.story-quote { margin:0; }
     }
     .head-split:not(:has(.illus)) { grid-template-columns:1fr; margin-bottom:36px; }  /* text-only until a photo is chosen */
     h1, h2 { text-wrap:balance; }
-    .story-photo { display:block; width:100%; height:auto; border-radius:16px; margin:0 0 22px; }
-    img.biligene-logo { display:block; width:240px; max-width:100%; height:auto; margin:22px 0 0 -10px; }
-    @media (max-width:600px) { img.biligene-logo { width:180px; } }
     .h1-tail { white-space:nowrap; }
 
     .journey { margin:48px 0 20px; }
@@ -515,4 +509,22 @@ blockquote.story-quote { margin:0; }
       .eco-dry-chips, .eco-wet-chips { width:auto; flex:0 0 auto; flex-direction:row; flex-wrap:wrap; justify-content:center; }
       .eco-chips { gap:5px; }
       .eco-chip { flex:1 1 40%; min-height:28px; font-size:.7188rem; }
+    }
+
+    /* ---- Story section: text and photo, then one quote card with the Biligene logo as its attribution ---- */
+    .story-section .story-grid { align-items:stretch; gap:56px; }
+    .story-section .story-text { align-self:center; }
+    .story-media { position:relative; min-height:300px; }
+    .story-photo { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:30% 50%; border-radius:16px; display:block; }
+    .story-quote-card { display:flex; align-items:center; gap:28px; margin-top:32px; padding:26px 30px; border-radius:20px; background:linear-gradient(140deg,#fff0e8,#fffaf6); border:1px solid #f6dccb; }
+    img.biligene-logo { flex:0 0 auto; display:block; width:160px; height:auto; margin:0; }
+    .story-divider { flex:0 0 1px; align-self:stretch; background:rgba(154,52,18,.28); }
+    .story-section .story-quote { margin:0; padding:0; border:0; border-radius:0; background:none; font:500 clamp(1.125rem,1.7vw,1.5rem)/1.35 var(--head); letter-spacing:-.01em; color:#7c2d12; text-wrap:balance; max-width:680px; }
+    .story-section .story-quote:before { content:none; }
+    @media (max-width:850px) { .story-section .story-grid { gap:26px; } .story-media { min-height:0; aspect-ratio:4 / 3; } }
+    @media (max-width:720px) {
+      .story-quote-card { flex-direction:column; align-items:flex-start; gap:14px; padding:20px; }
+      img.biligene-logo { width:130px; }
+      .story-divider { display:none; }
+      .story-section .story-quote { font-size:1.125rem; }
     }

@@ -372,13 +372,17 @@ test("Orders dashboard in the hero: one decorative HTML product picture with the
   assert.match(rd("home.css"), /\.dash-bar em \{ font:600/);
 });
 
-test("story section right column: lab photo, quote card, Biligene logo (plain image); no external links anywhere on the home page", () => {
-  const h = rd("index.html");
+test("story section: text and photo in row 1, then one quote card with the Biligene logo (plain image) before the quote; no external links anywhere on the home page", () => {
+  const h = rd("index.html"), css = rd("home.css");
   const sec = h.match(/<section class="story-section"[\s\S]*?<\/section>/)[0];
-  const p = sec.indexOf("genomics-lab.webp"), q = sec.indexOf("story-quote"), l = sec.indexOf("biligene-logo.webp");
-  assert.ok(p > sec.indexOf("</h2>") && p < q && q < l, "order: photo, quote, logo");
+  const t = sec.indexOf('class="story-text"'), p = sec.indexOf("genomics-lab.webp"), card = sec.indexOf('class="story-quote-card"'), l = sec.indexOf("biligene-logo.webp"), q = sec.indexOf('<blockquote class="story-quote"');
+  assert.ok(t > 0 && t < p && p < card && card < l && l < q, "order: text, photo, then the card with logo before the quote");
+  assert.ok(sec.indexOf("</div>\n    </div>\n    <div class=\"story-quote-card\"") > 0, "photo is in row 1, the card is its own row");
   assert.match(sec, /<img class="story-photo" src="assets\/img\/genomics-lab\.webp" alt="A scientist pipetting samples at a bench in a modern genomics laboratory, with sequencing instruments behind" width="1400" height="896" loading="lazy">/);
   assert.match(sec, /<img class="biligene-logo" src="assets\/img\/biligene-logo\.webp" alt="Biligene" width="520" height="207" loading="lazy">/);
+  assert.match(css, /\.story-section \.story-quote \{[^}]*font:500 clamp\(1\.125rem,1\.7vw,1\.5rem\)\/1\.35/, "quote at most 24px at 1440");
+  assert.match(css, /\.story-photo \{[^}]*object-fit:cover/);
+  assert.ok(!/story-note|Our own sequencing workflows/.test(h + css));
   assert.ok(!/<a[^>]*biligene/i.test(sec), "logo is not linked");
   assert.ok(!/<a\b[^>]*href="(?:https?:)?\/\//i.test(h), "no external link on the home page");
   assert.ok(!/biligene\.com/.test(h));
