@@ -539,6 +539,5 @@ blockquote.story-quote { margin:0; }
     .how-section .section-intro, .labs-section .section-intro, .value-section .section-intro, .dark-section .section-intro { text-wrap:pretty; }
     .value-section .head-split-value .section-head { max-width:620px; }
     .value-section .head-split-value .section-intro { max-width:none; }
-    .hub-img-crop { object-fit:cover; object-position:78% 50%; transform-origin:right center; }
-    .head-split-value .hub-img-crop { aspect-ratio:1 / 1; object-position:82% 50%; }
-    @media (max-width:850px) { .head-split-value .hub-img-crop { aspect-ratio:4 / 3; } }
+    .pip-img { object-fit:cover; object-position:60% 50%; aspect-ratio:5 / 4; background:#eef1f6; }
+    @media (max-width:850px) { .pip-img { aspect-ratio:4 / 3; } }

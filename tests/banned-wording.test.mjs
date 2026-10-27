@@ -485,14 +485,17 @@ test("AI & developers section: no 'built around API and MCP' line", () => {
   assert.ok(!/built around API and MCP|compatible clients/.test(h + rd("llms.txt")));
 });
 
-test("hub picture used twice: descriptive alt on the first section, empty alt (decorative) beside the value-tiles heading, which is narrow again", () => {
+test("one hub image (first section, descriptive alt); the value-tiles heading has the pipetting picture beside it with its own descriptive alt", () => {
   const h = rd("index.html");
-  const imgs = [...h.matchAll(/<img class="illus hub-img[^"]*"[^>]*>/g)].map((m) => m[0]);
-  assert.equal(imgs.length, 2);
-  assert.match(imgs[0], /alt="AI assistants, lab instruments and sample tubes connected to one central hub by glowing lines"/);
-  assert.match(imgs[1], /alt="" width="1400" height="788" loading="lazy"/);
+  assert.equal((h.match(/ai-lab-hub\.webp/g) || []).length, 1);
+  assert.match(h, /<img class="illus hub-img" src="assets\/img\/ai-lab-hub\.webp" alt="AI assistants, lab instruments and sample tubes connected to one central hub by glowing lines"/);
   const v = h.match(/<section class="value-section"[\s\S]*?<\/section>/)[0];
-  assert.match(v, /<div class="head-split head-split-hub head-split-value">\s*<div class="section-head">[\s\S]*?<\/div>\s*<img class="illus hub-img hub-img-crop" src="assets\/img\/ai-lab-hub\.webp"/);
-  assert.ok(v.indexOf("hub-img-crop") < v.indexOf('class="metrics"'));
+  assert.match(v, /<div class="head-split head-split-hub head-split-value">\s*<div class="section-head">[\s\S]*?<\/div>\s*<img class="illus pip-img" src="assets\/img\/pipetting-lab\.webp" alt="A gloved hand pipetting into sample tubes on a sunlit lab bench, with a DNA helix model and a microscope behind" width="1400" height="788" loading="lazy">/);
+  assert.ok(v.indexOf("pip-img") < v.indexOf('class="metrics"'));
+  assert.ok(!/hub-img-crop/.test(h + rd("home.css")), "cropped-hub rules removed");
+  const f = readFileSync(REPO + "assets/img/pipetting-lab.webp");
+  assert.ok(f.length < 140000, "under 140 KB: " + f.length);
+  assert.equal(f.subarray(8, 12).toString(), "WEBP");
   assert.match(rd("home.css"), /\.value-section \.head-split-value \.section-head \{ max-width:620px; \}/);
+  assert.ok(!/<a\b[^>]*>\s*<img[^>]*pip-img/.test(h), "not linked");
 });
