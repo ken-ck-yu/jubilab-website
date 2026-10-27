@@ -128,15 +128,15 @@ for (const s of SLUGS) {
   });
 }
 
-test("the footer and header nav of every page link to Blog; the other pages carry the new nav (How it works, For teams, For labs, AI & developers, Blog)", () => {
+test("the footer and header nav of every page link to Blog; the other pages carry the new nav (How it works, For labs, For teams, AI & developers, Blog)", () => {
   for (const f of ["index.html", "privacy/index.html", "terms/index.html", "thanks/index.html", "404.html", "guides/index.html", ...readdirSync(REPO + "guides").filter((d) => existsSync(REPO + `guides/${d}/index.html`)).map((d) => `guides/${d}/index.html`)]) {
     const h = rd(f);
     assert.match(h, /<footer>[\s\S]*href="[^"]*blog\/">Blog<\/a>/, f);
     if (f === "index.html") continue; // the home page header is the owner's four links plus the early-access button; Blog is in its footer
     assert.match(h, /<nav class="site-nav"[\s\S]*?href="[^"]*blog\/">Blog<\/a>[\s\S]*?<\/nav>/, f);
     assert.equal((h.match(/<nav class="site-nav"[\s\S]*?<\/nav>/)[0].match(/>Blog<\/a>/g) || []).length, 2, f + ": once in the wide-screen list, once in the menu");
-    assert.deepEqual([...h.match(/<ul class="links">[\s\S]*?<\/ul>/)[0].matchAll(/<a href="([^"]+)"[^>]*>([^<]+)<\/a>/g)].map((m) => m[2]), ["How it works", "For teams", "For labs", "AI & developers", "Blog"].map((x) => x.replace("&", "&amp;")), f + ": nav");
-    for (const m of h.match(/<nav class="site-nav"[\s\S]*?<\/nav>/)[0].matchAll(/href="((?:\.\.\/)*)#([a-z]+)"/g)) assert.ok(["how", "teams", "labs", "developers", "access"].includes(m[2]), f + " nav anchor " + m[2]);
+    assert.deepEqual([...h.match(/<ul class="links">[\s\S]*?<\/ul>/)[0].matchAll(/<a href="([^"]+)"[^>]*>([^<]+)<\/a>/g)].map((m) => m[2]), ["How it works", "For labs", "For teams", "AI & developers", "Blog"].map((x) => x.replace("&", "&amp;")), f + ": nav");
+    for (const m of h.match(/<nav class="site-nav"[\s\S]*?<\/nav>/)[0].matchAll(/href="((?:\.\.\/)*)#([a-z]+)"/g)) assert.ok(["how", "labs", "teams", "developers", "access"].includes(m[2]), f + " nav anchor " + m[2]);
   }
 });
 

@@ -18,8 +18,8 @@ BASE = (_args[0] if _args else "http://127.0.0.1:18300/").rstrip("/") + "/"
 EXE = os.path.expanduser("~/.cache/ms-playwright/chromium_headless_shell-1248/chrome-headless-shell-linux64/chrome-headless-shell")
 WIDTHS = [320, 360, 390, 768, 1024, 1280, 1440, 1920]
 THEMES = ["light", "dark"]  # the home page is light only; blog, guide and legal pages keep both
-NAV = [("How it works", "#how"), ("For teams", "#teams"), ("For labs", "#labs"), ("AI & developers", "#developers")]
-SECTIONS = ["teams", "how", "labs", "developers", "access"]
+NAV = [("How it works", "#how"), ("For labs", "#labs"), ("For teams", "#teams"), ("AI & developers", "#developers")]
+SECTIONS = ["how", "labs", "teams", "developers", "access"]
 FORBIDDEN = ["revolutionis", "revolutioniz", "unlock", "empower", "stripe for", "sample-to-result", "outsourced lab work",
              "with automation and scale", "provenance", "lineage", "nextflow", "snakemake", "testimonial", "trusted by", "guarantee", "stripe", "illustrative", "not a real order", "product concept", "in development", "being built", "nothing is released", "not yet released", "prototype"]
 R = []
@@ -167,7 +167,7 @@ def run():
                       const links = [...document.querySelectorAll('.site-nav .menu a')].map(a => a.textContent.trim());
                       const foot = [...document.querySelectorAll('footer a')].map(a => a.textContent.trim());
                       return {sw: document.documentElement.scrollWidth, iw, bad, links, foot, old: /Be among the first labs|synthetic demo data|How Jubilab helps/.test(document.body.innerText)}; }""")
-                    ok = r["sw"] <= r["iw"] + 1 and not r["bad"] and r["links"] == ["How it works", "For teams", "For labs", "AI & developers", "Blog"] and {"Guides", "Blog", "Privacy", "Terms"} <= set(r["foot"]) and not r["old"]
+                    ok = r["sw"] <= r["iw"] + 1 and not r["bad"] and r["links"] == ["How it works", "For labs", "For teams", "AI & developers", "Blog"] and {"Guides", "Blog", "Privacy", "Terms"} <= set(r["foot"]) and not r["old"]
                     rec(26, ok, f"{path} {w}/{th} {r}")
                     ctx.close()
         ctx = mk(b, viewport={"width": 390, "height": 800}, java_script_enabled=False); pg = ctx.new_page(); pg.goto(BASE + "blog/")

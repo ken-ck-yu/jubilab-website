@@ -155,10 +155,10 @@ test("labs section: owner heading, three options in plain words, existing tools 
   assert.equal((h.match(/seamless/gi) || []).length, 1, "'seamless' only in the owner-approved labs heading");
 });
 
-test("section order and ids: hero, teams (merged Why use Jubilab), how, labs, value, developers, story, access", () => {
+test("section order and ids: hero, how, labs, teams (merged Why use Jubilab), value, value, developers, story, access", () => {
   const h = rd("index.html");
   const secs = [...h.matchAll(/<section (?:id="([a-z]+)" )?class="([^"]*)"|<section id="([a-z]+)"/g)].map((m) => m[1] || m[3] || m[2]);
-  assert.deepEqual(secs, ["hero", "teams", "how", "labs", "value-section", "developers", "story-section", "access"]);
+  assert.deepEqual(secs, ["hero", "how", "labs", "teams", "value-section", "developers", "story-section", "access"]);
 });
 
 test("merged Why use Jubilab / For teams section: one h2, owner order, no separate For-teams or 'From lab samples to result' section", () => {
@@ -263,7 +263,7 @@ test("home page: no code blocks; API, MCP and webhooks appear only in the owner-
 test("home nav: How it works, For teams, For labs, AI & developers and the Request early access button; every link has a target", () => {
   const h = rd("index.html");
   const nav = h.match(/<nav class="nav"[\s\S]*?<\/nav>/)[0];
-  assert.deepEqual([...nav.match(/<div class="navlinks">[\s\S]*?<\/div>/)[0].matchAll(/<a href="([^"]+)">([^<]+)<\/a>/g)].map((m) => m[1] + "|" + m[2]), ["#how|How it works", "#teams|For teams", "#labs|For labs", "#developers|AI &amp; developers"]);
+  assert.deepEqual([...nav.match(/<div class="navlinks">[\s\S]*?<\/div>/)[0].matchAll(/<a href="([^"]+)">([^<]+)<\/a>/g)].map((m) => m[1] + "|" + m[2]), ["#how|How it works", "#labs|For labs", "#teams|For teams", "#developers|AI &amp; developers"]);
   assert.match(nav, /<a class="button" href="#access">Request early access/);
   const ids = new Set([...h.matchAll(/\sid="([^"]+)"/g)].map((m) => m[1]));
   for (const m of h.matchAll(/href="#([^"]+)"/g)) assert.ok(ids.has(m[1]), "dangling anchor #" + m[1]);
@@ -280,9 +280,9 @@ test("home page h2 headings are exactly this list; no roadmap, timeline or extra
   const h = rd("index.html").replace(/<script[\s\S]*?<\/script>/g, "");
   const h2 = [...h.matchAll(/<h2[^>]*>([\s\S]*?)<\/h2>/g)].map((m) => m[1].replace(/<[^>]+>/g, "").replace(/&rsquo;/g, "\u2019").replace(/&amp;/g, "&"));
   assert.deepEqual(h2, [
-    "Every lab, accessible to AI.",
     "Standardise the request. Follow the sample. Get the data.",
     "Seamless integration into your existing tools with AI enablement.",
+    "Every lab, accessible to AI.",
     "Less time managing orders. More time doing science.",
     "Every AI agent stops at the lab door.",
     "Built from a problem we know firsthand.",
