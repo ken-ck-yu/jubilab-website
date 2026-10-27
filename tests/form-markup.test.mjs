@@ -54,15 +54,15 @@ test("privacy no longer describes the old local-first product", () => {
   for (const f of ["privacy/index.html", "terms/index.html"]) assert.match(rd2(f), /Last updated: 25 October 2026/);
 });
 
-test("evidence facts are present as intended in plain words, and the 4.5-month case is not attributed to Genohub", () => {
+test("evidence facts are present as intended in plain words, with no provider or marketplace named", () => {
   const h = rd2("index.html").replace(/&ldquo;|&rdquo;/g, '"').replace(/&rsquo;/g, "’");
-  assert.match(h, /Novogene reviews every order sheet by hand, in one to two hours, and approves by email/);
-  assert.match(h, /Genohub is the most structured marketplace we looked at\. None of its order states is "received" or "QC passed"/);
-  assert.match(h, /we found no way for software to place an order/);
+  assert.match(h, /One large sequencing provider reviews every order sheet by hand, in one to two hours, and approves by email/);
+  assert.match(h, /The most structured marketplace we looked at shows six coarse order states\. None is "received" or "QC passed"/);
+  assert.match(h, /We opened 12 services: 7 sequencing providers and 5 research biomarker services\. We found no way for software to place an order at any of them/);
   assert.match(h, /One documented order ran 4\.5 months against a 10 to 12 week promise, with no delay notice\. We do not name the provider/);
   assert.match(h, /Our research, about 70 public sources, October 2026/);
   assert.match(h, /Jubilab is not affiliated with them/);
-  assert.ok(!/Genohub[^<.]*4\.5 months/.test(h));
+  assert.ok(!/Novogene|Genohub|Azenta|Eurofins|Olink|Metabolon/.test(h.match(/<section id="problem"[\s\S]*?<\/section>/)[0]));
   assert.ok(!/<table/.test(h));
 });
 

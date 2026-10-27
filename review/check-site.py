@@ -18,8 +18,8 @@ BASE = (_args[0] if _args else "http://127.0.0.1:18300/").rstrip("/") + "/"
 EXE = os.path.expanduser("~/.cache/ms-playwright/chromium_headless_shell-1248/chrome-headless-shell-linux64/chrome-headless-shell")
 WIDTHS = [320, 360, 390, 768, 1024, 1280, 1440, 1920]
 THEMES = ["light", "dark"]
-NAV = [("How it works", "#how"), ("For labs", "#labs"), ("For teams", "#teams"), ("About", "#about"), ("Early access", "#access")]
-SECTIONS = ["compare", "problem", "how", "labs", "teams", "why", "about", "scope", "faq", "access"]
+NAV = [("How it works", "#how"), ("For labs", "#labs"), ("For teams", "#teams"), ("Why now", "#why"), ("Early access", "#access")]
+SECTIONS = ["compare", "problem", "how", "labs", "teams", "why", "behind", "faq", "access"]
 FORBIDDEN = ["revolutionis", "revolutioniz", "seamless", "unlock", "empower", "stripe for", "sample-to-result", "outsourced lab work",
              "with automation and scale", "provenance", "lineage", "nextflow", "snakemake", "testimonial", "trusted by", "guarantee"]
 R = []
@@ -128,7 +128,7 @@ def run():
                 m = pg.evaluate(MEASURE); t = f"{w}/{th}"
                 rec(1, abs(m["sw"] - m["iw"]) <= 1 and m["overflowN"] == 0, f"{t} scrollWidth {m['sw']}/{m['iw']}, {m['overflowN']} elements outside viewport {m['overflow'][:2]}")
                 rec(2, m["pre"]["n"] == 0, f"{t} code blocks {m['pre']}")
-                rec(3, m["h1"]["n"] == 1 and m["h1"]["text"] == "Power lab operations, from sample order to result." and m["sub"].startswith("One order format, one status feed, one result \u2014 across every lab") and not m["skip"] and not m["h2Outside"], f"{t} h1 {m['h1']['n']} skip {m['skip']}")
+                rec(3, m["h1"]["n"] == 1 and m["h1"]["text"] == "Order lab work once. Follow it all the way to results." and m["sub"].startswith("One order form for every outside lab") and not m["skip"] and not m["h2Outside"], f"{t} h1 {m['h1']['n']} skip {m['skip']}")
                 rec(4, m["secIds"] == SECTIONS, f"{t} sections {m['secIds']}")
                 if w >= 900:
                     rec(5, [x[:2] for x in m["sub_nav"]] == [list(n) for n in NAV] and all(x[2] for x in m["sub_nav"]), f"{t} sticky nav {m['sub_nav']}")
@@ -173,7 +173,7 @@ def run():
                       const links = [...document.querySelectorAll('.site-nav .menu a')].map(a => a.textContent.trim());
                       const foot = [...document.querySelectorAll('footer a')].map(a => a.textContent.trim());
                       return {sw: document.documentElement.scrollWidth, iw, bad, links, foot, old: /Be among the first labs|synthetic demo data|How Jubilab helps/.test(document.body.innerText)}; }""")
-                    ok = r["sw"] <= r["iw"] + 1 and not r["bad"] and r["links"] == ["How it works", "For labs", "For teams", "About", "Blog"] and {"Guides", "Blog", "Privacy", "Terms"} <= set(r["foot"]) and not r["old"]
+                    ok = r["sw"] <= r["iw"] + 1 and not r["bad"] and r["links"] == ["How it works", "For labs", "For teams", "Why now", "Blog"] and {"Guides", "Blog", "Privacy", "Terms"} <= set(r["foot"]) and not r["old"]
                     rec(26, ok, f"{path} {w}/{th} {r}")
                     ctx.close()
         ctx = mk(b, viewport={"width": 390, "height": 800}, java_script_enabled=False); pg = ctx.new_page(); pg.goto(BASE)

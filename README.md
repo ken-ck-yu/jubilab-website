@@ -2,7 +2,7 @@
 
 Content and code for the public Jubilab website, hosted on Cloudflare at `jubilab.io`. The product itself lives in a separate, private repository; this repository holds **only** the website.
 
-Status: audience rewrite of the home page (2026-10-27, tracker T-047: plain language for lab managers and investors, comparison diagram, no technical vocabulary on the page; `review/audience-metrics.py` measures it). Earlier: order-to-result pivot content (2026-10-25, tracker T-045), aligned with the owner's NVIDIA Inception pitch (2026-10-26, tracker T-046: status wording, audience, Biligene brand, Billy BioTech footer, three lab-join groups, five-step hero diagram), pending validation and release. See `docs/launch-checklist.md` for the steps to launch.
+Status: audience rewrite of the home page (2026-10-27, tracker T-047, round 2 after persona scoring: specific headline, who-it's-for line, at-a-glance numbers, tools and data lines, no About or what-we-don't-do blocks, four FAQ questions, a three-sentence team strip; plain language for lab managers and investors, comparison diagram, no technical vocabulary on the page; `review/audience-metrics.py` measures it). Earlier: order-to-result pivot content (2026-10-25, tracker T-045), aligned with the owner's NVIDIA Inception pitch (2026-10-26, tracker T-046: status wording, audience, Biligene brand, Billy BioTech footer, three lab-join groups, five-step hero diagram), pending validation and release. See `docs/launch-checklist.md` for the steps to launch.
 
 ## Layout
 

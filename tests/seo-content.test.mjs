@@ -19,8 +19,7 @@ test("title <= 65 characters and description 150-160, same in Open Graph and Twi
 test("FAQPage JSON-LD matches the visible questions and answers exactly, and is in the raw HTML", () => {
   const faq = ld.find((n) => n["@type"] === "FAQPage");
   const vis = [...html.matchAll(/<summary><h3>(.*?)<\/h3><\/summary><p>(.*?)<\/p>/gs)].map((m) => [txt(m[1]), txt(m[2])]);
-  assert.ok(vis.length >= 3 && vis.length <= 5);
-  assert.equal(vis.length, 5);
+  assert.equal(vis.length, 4);
   assert.deepEqual(faq.mainEntity.map((q) => [q.name, q.acceptedAnswer.text]), vis);
 });
 

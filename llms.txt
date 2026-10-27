@@ -1,30 +1,31 @@
 # Jubilab
 
-> Jubilab connects the people who send samples to outside labs with the labs that run them: one order, one status feed and one result across every lab you use, for every scientist and AI assistant who orders. We are accepting early adopters by invitation (request access and we invite small groups first), mainly UK biotech startups and university research groups, together with the wet labs that run their samples, starting with non-clinical genetics samples. The order layer is still being built and nothing is released yet. Sequencing comes first, research biomarker assays next.
+> Jubilab lets research teams and startups order lab work once and follow it all the way to clean results, across every outside lab, with their own sample names. It is for teams that send samples to outside labs and for the labs that receive them. Starting with genetics, UK first. AI assistants can place and follow orders too. We are accepting early adopters by invitation (request access and we invite small groups first), mainly UK biotech startups and university research groups, together with the wet labs that run their samples, starting with non-clinical genetics samples. Nothing is released yet. Genetics sequencing first, then any lab service.
 
 ## What we are building
 
-- Order once: describe your samples and what you want one time; Jubilab passes it to the lab in the form that lab needs.
+- Order once: one order form for every outside lab; describe your samples and what you want one time; Jubilab passes it to the lab in the form that lab needs.
 - Follow every step: see when the sample is received, whether it passed QC, when the run starts and when results are ready.
 - Get clean results back: results come with your own sample names, and a failed sample shows up as failed, not as missing.
 - Every fact shows who told us: the lab's own system, an email we read, or nobody yet. A gap stays a gap.
 - Today an order moves between two sides that are managed separately and joined only by email and Excel: the dry lab side (scientists, researchers and the people who consume results) and the wet lab side (lab staff and logistics).
 - For labs, three ways to join, none live yet, and a lab can stop at any step: (1) we read the order emails and courier updates you already have, with your permission (facts from email are marked as less certain until you confirm them); (2) a simple status page with four buttons (received, QC done, run started, results ready) and result upload; (3) your instruments, for labs we partner with or own: we read run progress, we do not control the instrument. We work with your existing tools without disruption.
-- For research teams and startups: every outside lab in one place; results that land in the tools you use, with Benchling the first one planned; one agreement with us (planned, terms not set); AI assistants that can place and follow orders under the same rules as a person; a history of every order. All planned; none released. Developers building AI tools can tell us what they need through the early-access form.
+- For research teams and startups: every outside lab in one place; results that land in the tools you use, with Benchling the first one planned; one agreement with us (planned, terms not set); AI assistants that can place and follow orders under the same rules as a person; a history of every order. All planned; none released. Planned: a fee for each team or lab and no cut of what you spend; prices are not set. Your order details, supplier prices and contacts stay yours. Developers building AI tools can tell us what they need through the early-access form.
 
 ## What we found (our own research, about 70 public sources, October 2026)
 
-- Novogene reviews every order sheet by hand, in one to two hours, and approves by email.
-- Genohub, the most structured marketplace we looked at, has no order state called "received" or "QC passed".
-- At the sequencing and assay providers we opened, we found no way for software to place an order.
+- One large sequencing provider reviews every order sheet by hand, in one to two hours, and approves by email.
+- The most structured marketplace we looked at shows six coarse order states; none is "received" or "QC passed".
+- We opened 12 services (7 sequencing providers, 5 research biomarker services) and found no way for software to place an order at any of them.
 - In one documented case an order ran 4.5 months against a 10 to 12 week promise, with no delay notice. We do not name the provider.
 
 ## Who is behind it
 
-Jubilab is a product of Billy BioTech Ltd. (比利生物科技有限公司), a company in Taipei founded in 2024. Its first brand, Biligene, is a live pet-genetics business (a DNA test for dogs and cats). Biligene's own sequencing orders are planned to run through Jubilab first. Founder: Ken Cheng-Kai Yu, MSc computer science (UCL), more than six years as a cloud and IT infrastructure engineer, including AWS in London's financial sector, and two years in bioinformatics engineering.
+Jubilab is built by Billy BioTech Ltd. (比利生物科技有限公司) in Taipei. Its live pet-genetics business, Biligene, will be Jubilab's first user. Founder: Ken Cheng-Kai Yu, MSc computer science (UCL), more than six years as a cloud and IT infrastructure engineer, including AWS in London's financial sector, and two years in bioinformatics engineering.
 
 ## What Jubilab does not do
 
+- It is not an ELN and does not set prices.
 - It does not control instruments.
 - It is not a marketplace and does not broker price.
 - It does not handle human clinical diagnostics.
@@ -36,7 +37,7 @@ Jubilab is a product of Billy BioTech Ltd. (比利生物科技有限公司), a c
 - [How it works](https://jubilab.io/#how): order once, follow every step, get clean results back
 - [For labs](https://jubilab.io/#labs): the three ways to join
 - [For teams](https://jubilab.io/#teams): what teams that send samples out would get
-- [About](https://jubilab.io/#about): who is behind Jubilab
+- [Why now](https://jubilab.io/#why): why AI assistants stop at the lab door
 - [Questions](https://jubilab.io/#faq): answers to common questions
 - [Request early access](https://jubilab.io/#access): the early-access form
 
