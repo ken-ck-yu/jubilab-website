@@ -496,6 +496,8 @@ test("one hub image (first section, descriptive alt); the value-tiles heading ha
   const f = readFileSync(REPO + "assets/img/pipetting-lab.webp");
   assert.ok(f.length < 140000, "under 140 KB: " + f.length);
   assert.equal(f.subarray(8, 12).toString(), "WEBP");
-  assert.match(rd("home.css"), /\.value-section \.head-split-value \.section-head \{ max-width:620px; \}/);
+  assert.match(rd("home.css"), /\.value-section \.head-split-value \.section-head \{ max-width:680px; \}/);
+  assert.ok(!/pip-img[^{]*\{[^}]*(object-fit|aspect-ratio)/.test(rd("home.css")), "natural 16:9 ratio, no cropping");
+  assert.match(rd("home.css"), /\.head-split-value \{ grid-template-columns:minmax\(0,1fr\) minmax\(0,460px\); \}/);
   assert.ok(!/<a\b[^>]*>\s*<img[^>]*pip-img/.test(h), "not linked");
 });
