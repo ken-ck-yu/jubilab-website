@@ -200,7 +200,7 @@ test("How it works: three steps, then the Today and With Jubilab diagrams as two
   const today = svgs.filter((x) => /Today/.test(x.match(/<title[^>]*>([^<]*)/)[1]));
   const with_ = svgs.filter((x) => /With Jubilab/.test(x.match(/<title[^>]*>([^<]*)/)[1]));
   assert.equal(today.length, 2); assert.equal(with_.length, 2);
-  for (const svg of today) for (const t of ["Scientist", "Excel sheet", "Submit biology sample", "Wet lab staff", "Status by email", "Lab results", "new format each time", "reviewed by hand", "IDs mapped by hand", "QC passed", "DRY LAB SIDE", "WET LAB SIDE"]) assert.ok(svg.includes(t), t);
+  for (const svg of today) for (const t of ["Scientist", "Excel sheet", "Submit biology sample", "Wet lab processing", "instruments run", "Status by email", "Lab results", "new format each time", "reviewed by hand", "IDs mapped by hand", "QC passed", "DRY LAB SIDE", "WET LAB SIDE"]) assert.ok(svg.includes(t), t);
   for (const svg of with_) for (const t of ["Scientists and researchers", "AI assistants", "Jubilab", "one place to follow it", "lab software", "status page", "Lab instruments", ">DRY LAB<", ">WET LAB<"]) assert.ok(svg.includes(t), t);
   assert.ok(!/WHO ORDERS|WHO RUNS THE SAMPLES/i.test(h));
   const css = rd("home.css");
