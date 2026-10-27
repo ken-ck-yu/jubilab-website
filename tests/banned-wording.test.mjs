@@ -256,7 +256,7 @@ test("home page: no code blocks; API, MCP and webhooks appear only in the owner-
   assert.ok(!/<pre\b|<code\b/i.test(h));
   const vis = h.replace(/<script[\s\S]*?<\/script>/g, "").replace(/<form[\s\S]*?<\/form>/, "");
   const text = vis.replace(/<[^>]+>/g, " ");
-  for (const [re, max] of [[/\bMCP\b/g, 3], [/\bAPI\b/g, 3], [/webhooks?/gi, 1]]) assert.ok((text.match(re) || []).length <= max, String(re));
+  for (const [re, max] of [[/\bMCP\b/g, 4], [/\bAPI\b/g, 4], [/webhooks?/gi, 1]]) assert.ok((text.match(re) || []).length <= max, String(re));
   assert.ok(!/JSON|endpoints?|SFTP|SDK|\btokens?\b|create_order|get_status|fetch_result|REST/.test(text));
 });
 
@@ -338,7 +338,7 @@ test("illustrations: every <img> has width, height and alt; flat-colour svg file
   }
   for (const m of h.matchAll(/srcset="([^"]+)"/g)) assert.ok(!/^(https?:)?\/\//.test(m[1]));
   const files = readdirSync(REPO + "assets/img").filter((f) => f.startsWith("illus-") && f.endsWith(".svg"));
-  assert.ok(files.length >= 6 && !files.some((f) => /plane|agent-door|pets/.test(f)), files.join());
+  assert.ok(files.length >= 5 && !files.some((f) => /plane|agent-door|pets/.test(f)), files.join());
   for (const f of files) {
     const t = readFileSync(REPO + "assets/img/" + f, "utf8");
     assert.ok(t.length < 15000, f + " size");
@@ -405,4 +405,30 @@ test("favicon set (T-051): orange svg with a white mark, ico with 16/32/48, 180p
     assert.ok(head.includes('<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">'), f + " apple");
   }
   assert.match(rd("index.html"), /<meta name="theme-color" content="#ffffff">/);
+});
+
+// Ecosystem diagram (owner, T-051). One constant for the core wording so it can be swapped in one place.
+const ECO_CORE_TITLE = "Sample operations layer";
+test("ecosystem diagram: once, inside the For labs section above the option cards; decorative figure; static svg wires; stacked on mobile; no hedge wording", () => {
+  const h = rd("index.html");
+  assert.equal((h.match(/class="eco"/g) || []).length, 1);
+  const labs = h.match(/<section id="labs"[\s\S]*?<\/section>/)[0];
+  assert.ok(labs.includes('<figure class="eco"'));
+  assert.ok(labs.indexOf("<h2") < labs.indexOf('class="eco"') && labs.indexOf('class="eco"') < labs.indexOf('class="integration"'), "under the heading and intro, above the options");
+  assert.ok(!/illus-bench|bench/i.test(labs) && !existsSync(REPO + "assets/img/illus-bench.svg"), "bench picture removed");
+  const f = labs.match(/<figure class="eco"[\s\S]*?<\/figure>/)[0];
+  assert.match(f, /role="img" aria-label="Jubilab connects the dry lab, the wet lab, courier and logistics, and cloud and data infrastructure through one API and MCP layer"/);
+  assert.match(f, /<div class="eco-stage" aria-hidden="true">/);
+  assert.ok(!/<(a|button|input|select|textarea|script)\b|tabindex|https?:|src=/.test(f), "nothing focusable, no script, no external request");
+  assert.ok(f.includes(`<span class="eco-core-title">${ECO_CORE_TITLE}</span><span class="eco-core-if">API · MCP</span>`));
+  for (const t of ["Courier &amp; Logistics", "Dry Lab", "Wet Lab", "Cloud &amp; Data Infrastructure", "ELN / Research Management", "Sample &amp; Project Records", "LIMS", "Lab Instruments", "Shipment Tracking Services", "Cloud Storage", "Data Access"]) assert.ok(f.includes(t), t);
+  assert.equal((f.match(/<path class="w/g) || []).length, 8, "static wires");
+  assert.ok(!/conceptual|potential connection|illustrative|not a claim/i.test(f + rd("home.css").match(/Ecosystem diagram[\s\S]*$/)[0]), "no hedge wording");
+  const css = rd("home.css");
+  assert.match(css, /\.eco-chip \{[^}]*font-size:\.75rem/, "12px minimum");
+  assert.match(css, /@media \(max-width:900px\) \{\s*\.eco \{[\s\S]*?\.eco-core \{ order:0;[\s\S]*?\.eco-courier \{ order:1; \}/, "mobile stack, core first");
+  assert.match(css, /@media \(prefers-reduced-motion:no-preference\) \{ \.eco-wires \.w \{ animation/);
+  assert.ok(!/<script[^>]*>[^<]*eco/.test(h));
+  assert.match(rd("llms.txt"), /Through API and MCP, Jubilab connects ELN and research management, LIMS, lab instruments, couriers and logistics, and cloud and data infrastructure\./);
+  assert.ok(!/preview-b/.test(rd("sitemap.xml")));
 });
