@@ -338,7 +338,7 @@ test("illustrations: every <img> has width, height and alt; flat-colour svg file
   }
   for (const m of h.matchAll(/srcset="([^"]+)"/g)) assert.ok(!/^(https?:)?\/\//.test(m[1]));
   const files = readdirSync(REPO + "assets/img").filter((f) => f.startsWith("illus-") && f.endsWith(".svg"));
-  assert.ok(files.length >= 5 && !files.some((f) => /plane|agent-door|pets/.test(f)), files.join());
+  assert.ok(files.length >= 3 && !files.some((f) => /plane|agent-door|pets/.test(f)), files.join());
   for (const f of files) {
     const t = readFileSync(REPO + "assets/img/" + f, "utf8");
     assert.ok(t.length < 15000, f + " size");
@@ -413,8 +413,8 @@ test("favicon set (T-051): orange svg with a white mark, ico with 16/32/48, 180p
 
 // Ecosystem diagram (owner, T-051). One constant for the core wording so it can be swapped in one place.
 const ECO_CORE_TITLE = "Jubilab"; const ECO_CORE_SUB = "Sample operations layer";
-test("ecosystem diagram: once, inside the For labs section above the option cards; decorative figure; static svg wires; stacked on mobile; no hedge wording", () => {
-  const h = rd("index.html");
+test("ecosystem diagram: once, inside the For labs section above the option cards; dark stage; decorative figure; CSS-only glowing connectors with no arrowheads and no lines inside the panels; stacked on mobile; no hedge wording", () => {
+  const h = rd("index.html"), css = rd("home.css");
   assert.equal((h.match(/class="eco"/g) || []).length, 1);
   const labs = h.match(/<section id="labs"[\s\S]*?<\/section>/)[0];
   assert.ok(labs.includes('<figure class="eco"'));
@@ -423,22 +423,41 @@ test("ecosystem diagram: once, inside the For labs section above the option card
   const f = labs.match(/<figure class="eco"[\s\S]*?<\/figure>/)[0];
   assert.match(f, /role="img" aria-label="Jubilab connects the dry lab, the wet lab, courier and logistics, and cloud and data infrastructure through one API and MCP layer"/);
   assert.match(f, /<div class="eco-stage" aria-hidden="true">/);
-  assert.ok(!/<(a|button|input|select|textarea|script)\b|tabindex|https?:|src=/.test(f), "nothing focusable, no script, no external request");
+  assert.ok(!/<(a|button|input|select|textarea|script|svg\sclass="eco-wires")\b|tabindex|https?:|src=|<path|<polygon|marker-|eco-ah/.test(f.replace(/<svg class="(?:eco-mark|eco-ico)"[\s\S]*?<\/svg>/g, "")), "nothing focusable, no script, no external request, no arrowheads");
   assert.ok(f.includes(`<span class="eco-core-name">${ECO_CORE_TITLE}</span><span class="eco-core-title">${ECO_CORE_SUB}</span><span class="eco-core-if">API · MCP</span>`));
   for (const t of ["Courier &amp; Logistics", "Dry Lab", "Wet Lab", "Cloud &amp; Data Infrastructure", "ELN / Research Management", "Sample &amp; Project Records", "LIMS", "Lab Instruments", "Shipment Tracking Services", "Cloud Storage", "Data Access"]) assert.ok(f.includes(t), t);
-  assert.equal((f.match(/<path class="[tc]"/g) || []).length, 8, "static wires");
   assert.deepEqual([...f.match(/<div class="eco-chips eco-wet-chips">[\s\S]*?<\/div>/)[0].matchAll(/<span class="eco-chip">([^<]+)<\/span>/g)].map((m) => m[1]), ["LIMS", "Lab Instruments", "Emails, APIs &amp; Portals", "Services &amp; Pipelines", "AI Agents"]);
   assert.deepEqual([...f.match(/<div class="eco-chips eco-dry-chips">[\s\S]*?<\/div>/)[0].matchAll(/<span class="eco-chip">([^<]+)<\/span>/g)].map((m) => m[1]), ["ELN / Research Management", "AI Agents", "Analysis Tools", "Compute Infrastructure", "Sample &amp; Project Records"]);
-  assert.ok(!/conceptual|potential connection|illustrative|not a claim/i.test(f + rd("home.css").match(/Ecosystem diagram[\s\S]*$/)[0]), "no hedge wording");
-  const css = rd("home.css");
-  assert.match(css, /\.eco-chip \{[^}]*font-size:\.6875rem/, "11px minimum inside the ecosystem diagram (owner override; every other text stays at 12px)");
-  assert.ok(!/eco[^{]*\{[^}]*font-size:\.(?:[0-5]\d*|6[0-7]\d*)rem/.test(css), "no eco text under 11px");
-  assert.match(css, /@media \(max-width:900px\) \{\s*\.eco \{[\s\S]*?\.eco-core \{ order:0;[\s\S]*?\.eco-courier-side \{ order:1; \}/, "mobile stack, core first");
-  assert.match(css, /@media \(prefers-reduced-motion:no-preference\) \{[\s\S]*?\.eco-wires \.t \{[^}]*animation:eco-flow[\s\S]*?\.eco-wires \.c\.f1 \{ animation:eco-flow[\s\S]*?\.eco-wires \.c\.f2 \{ animation:eco-flow-rev/, "wires animate only when motion is allowed");
-  assert.match(css, /\.eco-wires \.f1, \.eco-wires \.f2 \{ display:none; \}/, "overlays hidden by default, so reduced motion shows static wires");
-  assert.ok(!/animation/.test(css.replace(/@media \(prefers-reduced-motion:no-preference\) \{[\s\S]*?\n    \}\n/, "").match(/Ecosystem diagram[\s\S]*$/)[0]), "no animation outside the motion media query");
-  assert.equal((f.match(/<path class="c f[12]"/g) || []).length, 8, "two travelling-dot overlays per core link");
-  assert.ok(!/<script[^>]*>[^<]*eco/.test(h));
+  assert.equal((f.match(/<span class="eco-link eco-link-[rldu]"><i><\/i><i><\/i><\/span>/g) || []).length, 4, "one connector per title card, to the centre only (nothing between a title card and its chips)");
+  assert.ok(!/eco-wires|eco-ah|\.eco-dot/.test(css), "no svg wires, arrowheads or inner grey links");
+  assert.match(css, /\.eco \{[^}]*background-color:#0b1730/, "dark stage");
+  assert.match(css, /\.eco-chip \{[^}]*background:#101e3c[^}]*font-size:\.6875rem[^}]*color:#d6def0/, "11px chips, light text on dark navy");
+  assert.ok(!/eco[^{]*\{[^}]*font-size:\.(?:[0-5]\d*|6[0-7]\d*)rem/.test(css), "no eco text under 11px (owner override for this diagram only)");
+  assert.match(css, /@media \(max-width:900px\) \{[\s\S]*?\.eco-core \{ order:0;[\s\S]*?\.eco-courier-side \{ order:1; \}/, "mobile stack, core first");
+  assert.match(css, /\.eco-link::before, \.eco-link::after \{[^}]*display:none/, "travelling dots hidden by default (static glowing lines under reduced motion)");
+  assert.match(css, /@media \(prefers-reduced-motion:no-preference\) \{\s*\.eco-link::before, \.eco-link::after \{ display:block; \}[\s\S]*?animation:eco-x 2\.8s/, "dots move only when motion is allowed");
+  assert.ok(!/conceptual|potential connection|illustrative|not a claim/i.test(f + css.match(/Ecosystem diagram[\s\S]*$/)[0]), "no hedge wording");
   assert.match(rd("llms.txt"), /Through API and MCP, Jubilab connects ELN and research management, LIMS, lab instruments, couriers and logistics, and cloud and data infrastructure\./);
   assert.ok(!/preview-b/.test(rd("sitemap.xml")));
+});
+
+test("moving arrows on the other diagrams: CSS only, enabled only under prefers-reduced-motion: no-preference, no scripts", () => {
+  const css = rd("home.css"), h = rd("index.html");
+  const blocks = [...css.matchAll(/@media \(prefers-reduced-motion:no-preference\) \{[\s\S]*?\n    \}\n/g)].map((m) => m[0]).join("\n");
+  assert.match(blocks, /\.dg \.ln \{ stroke-dasharray:[^}]*animation:dg-flow/);
+  assert.match(blocks, /\.dg \.lo\.f1 \{ animation:dg-flow/);
+  assert.match(blocks, /\.flow-arrow \{ animation:path-nudge/);
+  const rest = css.replace(/@media \(prefers-reduced-motion:no-preference\) \{[\s\S]*?\n    \}\n/g, "");
+  assert.ok(!/animation\s*:/.test(rest), "no animation outside the motion media query");
+  assert.match(css, /\.dg \.lo\.f1, \.dg \.lo\.f2 \{ display:none; \}/, "travelling-dot overlays hidden by default (static under reduced motion)");
+  const how = h.match(/<section id="how"[\s\S]*?<\/section>/)[0];
+  assert.equal((how.match(/<line class="lo f1"/g) || []).length, 8);
+  assert.ok(!/<script/.test(how) && !/<script/.test(h.match(/<div class="visual-band"[\s\S]*?<\/div>\s*<\/div>/)[0]));
+  const jn = h.match(/<figure class="journey"[\s\S]*?<\/figure>/)[0];
+  assert.match(jn, /role="img" aria-label="A sample's journey:/);
+  assert.equal((jn.match(/<svg class="jny-(wide|sm)" aria-hidden="true"/g) || []).length, 2, "wide and small inline svgs");
+  assert.ok(!/<script|<style|<image|href=/.test(jn));
+  assert.ok((jn.match(/class="d d[123]"/g) || []).length >= 12, "travelling dots carry the chase classes");
+  assert.match(blocks, /\.journey \.d \{ animation:jny-chase/);
+  assert.ok(!existsSync(REPO + "assets/img/illus-journey.svg") && !existsSync(REPO + "assets/img/illus-journey-sm.svg"), "journey is inline so reduced-motion applies from the page");
 });

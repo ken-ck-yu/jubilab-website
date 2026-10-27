@@ -380,15 +380,10 @@ blockquote.story-quote { margin:0; }
 
     /* ---- illustrations (flat colour, assets/img/illus-*.svg) ---- */
     .illus { display:block; width:100%; height:auto; border-radius:22px; }
-    .teams-section .illus-wide + .visual-band { margin-top:20px; }
     img.mini-art { background:none; }
     .head-split { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,440px); gap:44px; align-items:center; margin-bottom:42px; }
     .head-split .section-head { margin-bottom:0; }
     @media (max-width:850px) { .head-split { grid-template-columns:1fr; gap:26px; margin-bottom:32px; } .head-split .illus { max-width:460px; } }
-    picture.illus-wide { display:block; margin-top:44px; }
-    .illus-wide img.illus { margin:0; }
-    .teams-section picture.illus-wide + .visual-band { margin-top:20px; }
-    @media (max-width:700px) { picture.illus-wide { max-width:480px; } }
 
     /* ---- product visual: Orders dashboard (owner pick, T-050). A picture of the product built in HTML; aria-hidden, nothing focusable. ---- */
     .dash { margin:0 auto; max-width:620px; }
@@ -432,73 +427,92 @@ blockquote.story-quote { margin:0; }
       .dash-chip { padding:2px 9px; }
     }
     .head-split:not(:has(.illus)) { grid-template-columns:1fr; margin-bottom:36px; }  /* text-only until a photo is chosen */
-    .teams-section .three-grid + picture.illus-wide { margin-top:48px; }
     h1, h2 { text-wrap:balance; }
     .story-photo { display:block; width:100%; height:auto; border-radius:16px; margin:0 0 22px; }
     img.biligene-logo { display:block; width:240px; max-width:100%; height:auto; margin:22px 0 0 -10px; }
     @media (max-width:600px) { img.biligene-logo { width:180px; } }
     .h1-tail { white-space:nowrap; }
 
-    /* ---- Ecosystem diagram: Jubilab core and the systems it connects (owner diagram, polished; static markup, no layout script) ---- */
-    .eco { margin:0 0 44px; padding:34px 30px; border-radius:26px; background:#fff; border:1px solid #e0e8f1; box-shadow:0 12px 38px rgba(15,28,58,.06); }
-    .eco-stage { position:relative; height:580px; max-width:1120px; margin:0 auto; }
-    .eco-side { position:absolute; border-radius:22px; background:#f3f5f9; border:1px solid #e3e8f1; }
-    .eco-dry-side { left:0; width:35%; top:171px; height:236px; background:#e9f1fa; border-color:#d6e3f2; }
-    .eco-wet-side { left:65%; width:35%; top:171px; height:236px; background:#fff0e8; border-color:#f3d9c8; }
-    .eco-courier-side { left:29%; width:42%; top:0; height:136px; }
-    .eco-cloud-side { left:29%; width:42%; top:430px; height:136px; }
-    .eco-chips { position:absolute; display:flex; gap:7px; }
-    .eco-dry-chips { left:6.3%; width:42.9%; top:12px; height:212px; flex-direction:column; }
-    .eco-wet-chips { left:50.9%; width:42.9%; top:12px; height:212px; flex-direction:column; }
-    .eco-courier-chips { left:4.8%; width:90.4%; top:14px; height:34px; justify-content:center; }
-    .eco-cloud-chips { left:4.8%; width:90.4%; top:88px; height:34px; justify-content:center; }
-    .eco-chip { flex:1 1 0; display:flex; align-items:center; justify-content:center; text-align:center; border:1px solid #d9e1ee; border-radius:9px; background:#fff; padding:3px 7px; font-size:.6875rem; line-height:1.25; font-weight:600; color:#26334c; }
-    .eco-courier-chips .eco-chip, .eco-cloud-chips .eco-chip { flex:0 1 auto; }
-    .eco-card { position:absolute; display:flex; align-items:center; justify-content:center; gap:8px; text-align:center; background:#fff; border:1px solid #d9e1ee; border-radius:14px; box-shadow:0 4px 12px rgba(15,28,58,.07); padding:5px 10px; }
-    .eco-card b { font:600 .8125rem/1.2 var(--head); color:#101d3a; }
-    .eco-ico { flex:0 0 auto; width:20px; height:20px; fill:none; stroke:#101d3a; stroke-width:1.7; stroke-linecap:round; stroke-linejoin:round; }
-    .eco-ico .o { stroke:#e8520a; }
-    .eco-dry-card { left:61.4%; width:32.3%; top:97px; height:44px; }
-    .eco-wet-card { left:6.3%; width:32.3%; top:97px; height:44px; }
-    .eco-courier-card { left:29.8%; width:40.4%; top:72px; height:44px; }
-    .eco-cloud-card { left:29.8%; width:40.4%; top:14px; height:44px; }
-        .eco-core { position:absolute; left:42%; width:16%; top:239px; height:100px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:3px; text-align:center; border:1.5px solid #e8520a; border-radius:18px; background:linear-gradient(160deg,#fff3ea,#ffe3d1); box-shadow:0 12px 28px rgba(232,82,10,.15); padding:8px; }
-        .eco-mark { width:24px; height:24px; }
-    .eco-core-name { font:600 1.25rem/1.05 var(--head); letter-spacing:-.01em; color:#101d3a; }
-        .eco-core-title { font-size:.6875rem; line-height:1.2; font-weight:500; color:#55657e; }
-        .eco-core-if { margin-top:3px; font-size:.6875rem; line-height:1.2; font-weight:700; letter-spacing:.06em; color:#9a3412; background:#fff; border:1px solid #f3cdb6; border-radius:999px; padding:2px 10px; }
-    .eco-links { position:absolute; inset:0; pointer-events:none; }
-    .eco-wires { position:absolute; inset:0; width:100%; height:100%; overflow:visible; }
-    .eco-wires path { fill:none; stroke-linecap:butt; vector-effect:non-scaling-stroke; stroke-width:1.5px; }
-    .eco-wires .t { stroke:rgba(16,29,58,.35); }
-    .eco-wires .c { stroke:#e8520a; }
-    .eco-wires .f1, .eco-wires .f2 { display:none; }
-    /* Moving connectors (CSS only): grey tool links flow slowly; on the orange core links small dots travel in both directions. Static under prefers-reduced-motion. */
+    .journey { margin:48px 0 20px; }
+    .journey svg { display:block; width:100%; height:auto; border-radius:22px; }
+    .journey .jny-sm { display:none; }
+    @media (max-width:700px) { .journey { max-width:480px; } .journey .jny-wide { display:none; } .journey .jny-sm { display:block; } }
+    /* ---- Moving arrows on the other diagrams (CSS only, calm, 2.5 to 4 s loops; completely static under prefers-reduced-motion) ---- */
+    .dg .lo.f1, .dg .lo.f2 { display:none; }
     @media (prefers-reduced-motion:no-preference) {
-      .eco-wires .t { stroke-dasharray:4 4; animation:eco-flow 3.6s linear infinite; }
-      .eco-wires .c { stroke:rgba(232,82,10,.4); }
-      .eco-wires .c.f1, .eco-wires .c.f2 { display:inline; stroke:#e8520a; stroke-width:3.5px; stroke-linecap:round; stroke-dasharray:.1 16; }
-      .eco-wires .c.f1 { animation:eco-flow 2.8s linear infinite; }
-      .eco-wires .c.f2 { animation:eco-flow-rev 2.8s linear infinite; animation-delay:-1.4s; }
+      .dg .ln { stroke-dasharray:6 5; animation:dg-flow 3s linear infinite; }
+      .dg .lo { stroke:rgba(194,65,12,.4); }
+      .dg .lo.f1, .dg .lo.f2 { display:inline; stroke:#c2410c; stroke-width:3.5px; stroke-linecap:round; stroke-dasharray:.1 16; }
+      .dg .lo.f1 { animation:dg-flow 2.8s linear infinite; }
+      .dg .lo.f2 { animation:dg-flow-rev 2.8s linear infinite; animation-delay:-1.4s; }
+      .flow-arrow { animation:path-nudge 3s ease-in-out infinite; }
+      .journey .d { animation:jny-chase 2.4s ease-in-out infinite; }
+      .journey .d2 { animation-delay:.35s; } .journey .d3 { animation-delay:.7s; }
+      .flow-node + .flow-arrow + .flow-node + .flow-arrow { animation-delay:.5s; }
     }
-    @keyframes eco-flow { to { stroke-dashoffset:-16; } }
-    @keyframes eco-flow-rev { to { stroke-dashoffset:16; } }
-    .eco-dot { position:absolute; width:7px; height:7px; border-radius:50%; background:rgba(16,29,58,.5); transform:translate(-50%,-50%); }
-    .eco-ah { position:absolute; width:0; height:0; border:5px solid transparent; }
-    .eco-ah-up { border-top:0; border-bottom:8px solid #e8520a; transform:translate(-50%,0); }
-    .eco-ah-down { border-bottom:0; border-top:8px solid #e8520a; transform:translate(-50%,-100%); }
-    .eco-ah-left { border-left:0; border-right:8px solid #e8520a; transform:translate(0,-50%); }
-    .eco-ah-right { border-right:0; border-left:8px solid #e8520a; transform:translate(-100%,-50%); }
+    @keyframes dg-flow { to { stroke-dashoffset:-11; } }
+    @keyframes dg-flow-rev { to { stroke-dashoffset:16; } }
+    @keyframes jny-chase { 0%,100% { opacity:.25; } 40% { opacity:1; } }
+    @keyframes path-nudge { 0%,100% { transform:translateX(-3px); opacity:.45; } 50% { transform:translateX(4px); opacity:1; } }
+    /* ---- Ecosystem diagram: Jubilab core and the systems it connects (dark stage; owner diagram; static markup and CSS, no script) ---- */
+    .eco { margin:0 0 40px; padding:22px; border-radius:20px; border:1px solid rgba(255,255,255,.06); box-shadow:0 18px 44px rgba(11,23,48,.28); overflow:hidden; background-color:#0b1730; background-image:radial-gradient(ellipse 380px 230px at 50% 50%, rgba(232,82,10,.15), transparent 72%), radial-gradient(rgba(255,255,255,.055) 1px, transparent 1.2px), linear-gradient(160deg,#0b1730,#0f2146); background-size:auto, 18px 18px, auto; }
+    .eco-stage { --g:35px; display:grid; grid-template-columns:minmax(0,1fr) 190px minmax(0,1fr); gap:24px; align-items:center; max-width:1100px; margin:0 auto; }
+    .eco-side { display:flex; border-radius:14px; background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.10); padding:10px; gap:12px; max-width:100%; }
+    .eco-dry-side { grid-column:1; grid-row:2; justify-self:end; background:linear-gradient(135deg,rgba(96,140,255,.12),rgba(255,255,255,.03)); align-items:center; }
+    .eco-wet-side { grid-column:3; grid-row:2; justify-self:start; background:linear-gradient(225deg,rgba(255,138,77,.14),rgba(255,255,255,.03)); align-items:center; }
+    .eco-courier-side { grid-column:1 / -1; grid-row:1; justify-self:center; flex-direction:column; align-items:center; }
+    .eco-cloud-side { grid-column:1 / -1; grid-row:3; justify-self:center; flex-direction:column; align-items:center; }
+    .eco-chips { display:flex; gap:5px; }
+    .eco-dry-chips, .eco-wet-chips { flex-direction:column; width:190px; min-width:0; flex:0 1 190px; }
+    .eco-courier-chips, .eco-cloud-chips { flex-wrap:wrap; justify-content:center; }
+    .eco-chip { display:flex; align-items:center; justify-content:center; text-align:center; min-height:26px; border:1px solid rgba(255,255,255,.12); border-radius:8px; background:#101e3c; padding:3px 9px; font-size:.6875rem; line-height:1.25; font-weight:600; color:#d6def0; }
+    .eco-card { position:relative; display:flex; align-items:center; justify-content:center; gap:8px; text-align:center; background:#17284d; border:1px solid rgba(255,255,255,.14); border-radius:12px; box-shadow:0 4px 14px rgba(0,0,0,.25); padding:7px 12px; min-height:38px; flex:0 0 auto; }
+    .eco-card b { font:600 .8125rem/1.2 var(--head); color:#fff; }
+    .eco-ico { flex:0 0 auto; width:20px; height:20px; fill:none; stroke:#c8d4ee; stroke-width:1.7; stroke-linecap:round; stroke-linejoin:round; }
+    .eco-ico .o { stroke:#ff8a4d; }
+    .eco-dry-card, .eco-wet-card { width:118px; flex-direction:column; gap:4px; padding:10px 8px; }
+    .eco-core { grid-column:2; grid-row:2; align-self:stretch; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:3px; text-align:center; border:1.5px solid transparent; border-radius:18px; padding:10px; min-height:110px; background:linear-gradient(#0d1a36,#0d1a36) padding-box, linear-gradient(135deg,#e8520a,#ff8a4d) border-box; background-color:#0d1a36; box-shadow:0 0 28px rgba(232,82,10,.35); }
+    .eco-mark { width:26px; height:26px; }
+    .eco-core-name { font:600 1.25rem/1.05 var(--head); letter-spacing:-.01em; color:#fff; }
+    .eco-core-title { font-size:.6875rem; line-height:1.2; font-weight:500; color:#aab7d3; }
+    .eco-core-if { margin-top:4px; font-size:.6875rem; line-height:1.2; font-weight:700; letter-spacing:.06em; color:#ff8a4d; background:#14244a; border:1px solid #e8520a; border-radius:999px; padding:2px 10px; }
+    /* glowing connectors from each title card to the centre card (length = panel padding + border + grid gap) */
+    .eco-link { position:absolute; pointer-events:none; background:linear-gradient(90deg,#ff8a4d,#e8520a); box-shadow:0 0 9px rgba(255,138,77,.7); }
+    .eco-link-r { left:100%; top:50%; width:var(--g); height:2px; margin-top:-1px; }
+    .eco-link-l { right:100%; top:50%; width:var(--g); height:2px; margin-top:-1px; background:linear-gradient(270deg,#ff8a4d,#e8520a); }
+    .eco-link-d { top:100%; left:50%; height:var(--g); width:2px; margin-left:-1px; background:linear-gradient(180deg,#ff8a4d,#e8520a); }
+    .eco-link-u { bottom:100%; left:50%; height:var(--g); width:2px; margin-left:-1px; background:linear-gradient(0deg,#ff8a4d,#e8520a); }
+    .eco-link i { position:absolute; width:7px; height:7px; border-radius:50%; background:#ffd9c2; box-shadow:0 0 9px #ff8a4d; }
+    .eco-link-r i:first-child, .eco-link-l i:first-child { top:50%; margin-top:-3.5px; } .eco-link-r i:first-child { left:-3.5px; } .eco-link-l i:first-child { right:-3.5px; }
+    .eco-link-r i:last-child { right:-3.5px; top:50%; margin-top:-3.5px; } .eco-link-l i:last-child { left:-3.5px; top:50%; margin-top:-3.5px; }
+    .eco-link-d i, .eco-link-u i { left:50%; margin-left:-3.5px; }
+    .eco-link-d i:first-child { top:-3.5px; } .eco-link-d i:last-child { bottom:-3.5px; }
+    .eco-link-u i:first-child { bottom:-3.5px; } .eco-link-u i:last-child { top:-3.5px; }
+    .eco-link::before, .eco-link::after { content:""; position:absolute; display:none; width:5px; height:5px; border-radius:50%; background:#fff3ea; box-shadow:0 0 8px 1px #ff8a4d; }
+    .eco-link-r::before, .eco-link-r::after, .eco-link-l::before, .eco-link-l::after { top:50%; margin-top:-2.5px; }
+    .eco-link-d::before, .eco-link-d::after, .eco-link-u::before, .eco-link-u::after { left:50%; margin-left:-2.5px; }
+    /* Moving dots (CSS only): two dots per connector in opposite directions; static glowing lines under prefers-reduced-motion */
+    @media (prefers-reduced-motion:no-preference) {
+      .eco-link::before, .eco-link::after { display:block; }
+      .eco-link-r::before, .eco-link-l::before { animation:eco-x 2.8s linear infinite; }
+      .eco-link-r::after, .eco-link-l::after { animation:eco-x-rev 2.8s linear infinite; animation-delay:-1.4s; }
+      .eco-link-d::before, .eco-link-u::before { animation:eco-y 2.8s linear infinite; }
+      .eco-link-d::after, .eco-link-u::after { animation:eco-y-rev 2.8s linear infinite; animation-delay:-1.4s; }
+    }
+    @keyframes eco-x { from { left:0; } to { left:calc(100% - 5px); } }
+    @keyframes eco-x-rev { from { left:calc(100% - 5px); } to { left:0; } }
+    @keyframes eco-y { from { top:0; } to { top:calc(100% - 5px); } }
+    @keyframes eco-y-rev { from { top:calc(100% - 5px); } to { top:0; } }
     @media (max-width:900px) {
-      .eco { padding:16px 12px; border-radius:20px; }
-      .eco-stage { height:auto; max-width:560px; display:flex; flex-direction:column; gap:12px; }
-      .eco-links { display:none; }
-      .eco-side, .eco-core, .eco-chips, .eco-card { position:static; width:auto; height:auto; left:auto; top:auto; }
-      .eco-core { order:0; min-height:110px; }
+      .eco { padding:14px 12px; border-radius:18px; background-image:radial-gradient(ellipse 260px 120px at 50% 12%, rgba(232,82,10,.12), transparent 72%), radial-gradient(rgba(255,255,255,.05) 1px, transparent 1.2px), linear-gradient(160deg,#0b1730,#0f2146); }
+      .eco-stage { display:flex; flex-direction:column; align-items:stretch; gap:10px; max-width:560px; }
+      .eco-link { display:none; }
+      .eco-core { order:0; min-height:110px; align-self:auto; box-shadow:0 0 16px rgba(232,82,10,.28); }
       .eco-courier-side { order:1; } .eco-dry-side { order:2; } .eco-wet-side { order:3; } .eco-cloud-side { order:4; }
-      .eco-side { display:flex; flex-direction:column; gap:10px; padding:12px; }
-      .eco-card { order:-1; min-height:46px; }
-      .eco-chips { flex-direction:row; flex-wrap:wrap; justify-content:center; }
-      .eco-chip { flex:1 1 40%; min-height:34px; font-size:.7188rem; }
-      .eco-courier-chips .eco-chip, .eco-cloud-chips .eco-chip { flex:1 1 40%; }
+      .eco-side { flex-direction:column; align-items:stretch; justify-self:auto; width:auto; gap:8px; padding:10px; }
+      .eco-dry-card, .eco-wet-card { width:auto; flex-direction:row; gap:8px; padding:7px 12px; }
+      .eco-card { order:-1; min-height:40px; }
+      .eco-dry-chips, .eco-wet-chips { width:auto; flex:0 0 auto; flex-direction:row; flex-wrap:wrap; justify-content:center; }
+      .eco-chips { gap:5px; }
+      .eco-chip { flex:1 1 40%; min-height:28px; font-size:.7188rem; }
     }
