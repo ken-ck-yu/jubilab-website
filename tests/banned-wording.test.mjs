@@ -383,3 +383,26 @@ test("Biligene logo in the story section: owner's brand raster, optimised copy, 
   assert.equal((h.match(/biligene\.com/g) || []).length, 1, "one outbound link only");
   assert.ok(!/Taipei|Billy BioTech Ltd\. \(/.test(h), "footer stays short");
 });
+
+test("favicon set (T-051): orange svg with a white mark, ico with 16/32/48, 180px apple-touch icon, links in every page head, files not excluded from the site", () => {
+  const svg = rd("assets/favicon.svg");
+  assert.ok(svg.includes("#e8520a") && svg.includes('stroke="#fff"') && svg.includes('fill="#fff"') && !/0f766e/.test(svg), "orange tile, white mark, no old teal");
+  const ico = readFileSync(REPO + "favicon.ico");
+  assert.equal(ico.readUInt16LE(2), 1, "ICO type");
+  const n = ico.readUInt16LE(4);
+  assert.deepEqual([...Array(n).keys()].map((i) => ico[6 + i * 16]).sort((a, b) => a - b), [16, 32, 48]);
+  const png = readFileSync(REPO + "assets/apple-touch-icon.png");
+  assert.equal(png.subarray(1, 4).toString(), "PNG");
+  assert.equal(png.readUInt32BE(16), 180); assert.equal(png.readUInt32BE(20), 180);
+  assert.equal(png[25], 2, "RGB colour type: no alpha channel (no transparency)");
+  const ignore = rd(".assetsignore");
+  assert.ok(!/favicon|apple-touch/.test(ignore), "icons are served");
+  const pages = ["index.html", "404.html", "thanks/index.html", "privacy/index.html", "terms/index.html", "guides/index.html", "blog/index.html", "blog/where-did-my-intermediate-files-go/index.html", "guides/reference-genome-build-vcf-bam/index.html", ...CONTENT];
+  for (const f of new Set(pages)) {
+    const head = rd(f).match(/<head>[\s\S]*?<\/head>/)[0];
+    assert.match(head, /<link rel="icon" href="[^"]*assets\/favicon\.svg" type="image\/svg\+xml">/, f);
+    assert.ok(head.includes('<link rel="icon" href="/favicon.ico" sizes="48x48">'), f + " ico");
+    assert.ok(head.includes('<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">'), f + " apple");
+  }
+  assert.match(rd("index.html"), /<meta name="theme-color" content="#ffffff">/);
+});

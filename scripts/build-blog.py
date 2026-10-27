@@ -408,6 +408,8 @@ def head_common(title, desc, canonical, og_type, og_image, og_alt, css_prefix, l
 <meta name="twitter:image" content="{esc(og_image)}">
 <meta name="twitter:image:alt" content="{esc(og_alt)}">
 <link rel="icon" href="{css_prefix}assets/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon.ico" sizes="48x48">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
 <link rel="preload" href="{css_prefix}assets/fonts/hanken-grotesk-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="{css_prefix}assets/fonts/ibm-plex-mono-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
 <script type="application/ld+json">
