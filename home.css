@@ -1,6 +1,8 @@
 /* Jubilab home page: the owner's editorial redesign (2026-10-27), integrated with the real site.
    Inter (variable, latin subset, SIL OFL, see assets/fonts/OFL-Inter.txt) is self-hosted; nothing is requested from another origin. */
 @font-face { font-family: "Inter"; src: url("assets/fonts/inter-latin-wght-normal.woff2") format("woff2"); font-weight: 100 900; font-style: normal; font-display: swap; }
+@font-face { font-family: "Manrope"; src: url("assets/fonts/manrope-latin-wght-normal.woff2") format("woff2"); font-weight: 200 800; font-style: normal; font-display: swap; }
+@font-face { font-family: "Manrope Fallback"; src: local("Arial"); size-adjust: 104%; ascent-override: 102%; descent-override: 28%; line-gap-override: 0%; }
 @font-face { font-family: "Inter Fallback"; src: local("Arial"); size-adjust: 107.4%; ascent-override: 90.2%; descent-override: 22.5%; line-gap-override: 0%; }
 
 :root {
@@ -396,3 +398,30 @@ blockquote.story-quote { margin:0; }
     .teams-section .visual-band { margin-top:44px; }
     .panel-sub { margin:-4px 0 14px; color:var(--muted); font-size:.92rem; }
     .comparison .panel h3 { font-size:1.35rem; }
+
+    /* ---- Typography (owner pick, T-050): Manrope Medium for headings, Inter for body ---- */
+    :root { --head: Manrope, "Manrope Fallback", Inter, "Inter Fallback", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif; }
+    h1, h2 { font-family:var(--head); font-weight:500; }
+    h1 { letter-spacing:-.025em; line-height:1.1; }
+    h2 { letter-spacing:-.015em; line-height:1.18; }
+    h3, h4, .order-id, .metric-value, .story-quote { font-family:var(--head); }
+    h3, h4, .order-id { font-weight:600; letter-spacing:-.005em; }
+    .flow-panel h3, .comparison .panel h3, .labs-section .integration-card h3 { font-weight:600; letter-spacing:-.005em; }
+    .metric-value { font-weight:600; letter-spacing:-.03em; }
+    .story-section .story-quote { font-weight:500; letter-spacing:-.015em; }
+    .eyebrow, .small-label, .panel-label, .micro-label, .labs-section .integration-card .step { font-family:var(--head); font-weight:600; }
+    @media (max-width:600px) { h1 { letter-spacing:-.025em; } }
+
+    /* ---- illustrations (flat colour, assets/img/illus-*.svg) ---- */
+    .illus { display:block; width:100%; height:auto; border-radius:22px; }
+    .teams-section .illus-wide + .visual-band { margin-top:20px; }
+    img.mini-art { background:none; }
+    .head-split { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,440px); gap:44px; align-items:center; margin-bottom:42px; }
+    .head-split .section-head { margin-bottom:0; }
+    .story-grid .illus { margin-bottom:22px; }
+    .illus-plane { max-width:340px; margin-top:26px; }
+    @media (max-width:850px) { .head-split { grid-template-columns:1fr; gap:26px; margin-bottom:32px; } .head-split .illus { max-width:460px; } }
+    picture.illus-wide { display:block; margin-top:44px; }
+    .illus-wide img.illus { margin:0; }
+    .teams-section picture.illus-wide + .visual-band { margin-top:20px; }
+    @media (max-width:700px) { picture.illus-wide { max-width:480px; } }
