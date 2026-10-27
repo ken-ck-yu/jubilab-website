@@ -19,7 +19,7 @@ EXE = os.path.expanduser("~/.cache/ms-playwright/chromium_headless_shell-1248/ch
 WIDTHS = [320, 360, 390, 768, 1024, 1280, 1440, 1920]
 THEMES = ["light", "dark"]
 NAV = [("How it works", "#how"), ("For labs", "#labs"), ("For teams", "#teams"), ("Why now", "#why"), ("Early access", "#access")]
-SECTIONS = ["compare", "problem", "how", "labs", "teams", "why", "behind", "faq", "access"]
+SECTIONS = ["compare", "usecases", "problem", "how", "labs", "teams", "why", "behind", "faq", "access"]
 FORBIDDEN = ["revolutionis", "revolutioniz", "seamless", "unlock", "empower", "stripe for", "sample-to-result", "outsourced lab work",
              "with automation and scale", "provenance", "lineage", "nextflow", "snakemake", "testimonial", "trusted by", "guarantee"]
 R = []
@@ -151,7 +151,7 @@ def run():
                 rec(16, not ext, f"{t} requests outside the site before consent: {ext}")
                 if w == 1440 and th == "light":
                     rec(17, m["h1"]["bottom"] <= 900 and m["cta"] <= 900 and 40 <= m["h1"]["px"] <= 60, f"{t} h1 bottom {m['h1']['bottom']:.0f}, CTA {m['cta']:.0f}, h1 {m['h1']['px']:.0f}px")
-                    rec(18, m["words"] <= 2000, f"{t} {m['words']} words in main, page height {m['height']}")
+                    rec(18, m["words"] <= 2300, f"{t} {m['words']} words in main, page height {m['height']}")
                 ctx.close()
         for th in THEMES:
             ctx = mk(b, viewport={"width": 1280, "height": 900}); pg = ctx.new_page(); pg.goto(BASE); pg.wait_for_timeout(300)
