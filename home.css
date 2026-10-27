@@ -342,7 +342,6 @@ body:has(.cookie-notice:not([hidden])) { padding-bottom:150px; }
 .rule-hi { border-top-color:#f0d7c6; }
 .band-h { font-size:1.35rem; margin:8px 0; }
 .band-p { margin:0; font-size:.91rem; }
-.cta-p { margin:24px 0 0; }
 .dev-note { margin-top:28px; max-width:760px; }
 .story-note { margin-top:15px; font-size:.88rem; }
 blockquote.story-quote { margin:0; }
@@ -362,7 +361,6 @@ blockquote.story-quote { margin:0; }
     .flow-node { font-size:.76rem !important; }
     .labs-section .integration-card .step { font-size:.76rem; }
     .teams-section .callout { margin-bottom:30px; }
-    .teams-section .cta-p { display:flex; flex-wrap:wrap; gap:12px; margin:28px 0 0; }
     .teams-section .visual-band { margin-top:44px; }
     .panel-sub { margin:-4px 0 14px; color:var(--muted); font-size:.92rem; }
     .comparison .panel h3 { font-size:1.35rem; }
@@ -386,7 +384,6 @@ blockquote.story-quote { margin:0; }
     img.mini-art { background:none; }
     .head-split { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,440px); gap:44px; align-items:center; margin-bottom:42px; }
     .head-split .section-head { margin-bottom:0; }
-    .story-grid .illus { margin-bottom:22px; }
     @media (max-width:850px) { .head-split { grid-template-columns:1fr; gap:26px; margin-bottom:32px; } .head-split .illus { max-width:460px; } }
     picture.illus-wide { display:block; margin-top:44px; }
     .illus-wide img.illus { margin:0; }
@@ -434,3 +431,5 @@ blockquote.story-quote { margin:0; }
       .dash-t th, .dash-t td { padding-left:5px; padding-right:5px; }
       .dash-chip { padding:2px 9px; }
     }
+    .head-split:not(:has(.illus)) { grid-template-columns:1fr; margin-bottom:36px; }  /* text-only until a photo is chosen */
+    .teams-section .three-grid + picture.illus-wide { margin-top:48px; }

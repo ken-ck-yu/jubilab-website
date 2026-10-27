@@ -167,8 +167,8 @@ test("merged Why use Jubilab / For teams section: one h2, owner order, no separa
   assert.equal((h.match(/id="teams"/g) || []).length, 1);
   assert.match(s, /<span class="eyebrow">Why use Jubilab<\/span>\s*<h2 id="h-teams">Every external lab, one workflow\.<\/h2>/);
   assert.match(s, /Today, ordering sequencing from an external lab often means a new spreadsheet, email updates, and results that need manual reconciliation\. Jubilab, the sample operations layer, connects the order, status and result in one workflow, and you keep the tools you already use\./);
-  const order = ["class=\"comparison\"", "<strong>One order. One place to follow it. One clean result.</strong><br>One interface for people and software.", "class=\"three-grid\"", "Register for early access &rarr;", "One connected path"].map((x) => s.indexOf(x));
-  assert.ok(order.every((x) => x > 0) && order.every((x, i) => i === 0 || x > order[i - 1]), "order: panels, summary line, cards, buttons, path strip: " + order);
+  const order = ["class=\"comparison\"", "<strong>One order. One place to follow it. One clean result.</strong><br>One interface for people and software.", "class=\"three-grid\"", "One connected path"].map((x) => s.indexOf(x));
+  assert.ok(order.every((x) => x > 0) && order.every((x, i) => i === 0 || x > order[i - 1]), "order: panels, summary line, cards, banner, path strip: " + order);
   const cmp = s.match(/<div class="comparison">[\s\S]*?<\/ul>\s*<\/div>\s*<\/div>/)[0];
   assert.match(cmp, /<h3>Today<\/h3>\s*<p class="panel-sub">Joined by email and Excel<\/p>/);
   assert.match(cmp, /<h3>With Jubilab<\/h3>\s*<p class="panel-sub">One connected workflow<\/p>/);
@@ -177,7 +177,7 @@ test("merged Why use Jubilab / For teams section: one h2, owner order, no separa
   assert.deepEqual(lis(/<div class="panel highlight">[\s\S]*?<\/ul>/), ["One standard sample request", "Status updates from every lab in one place", "Results linked to your own sample names", "Ready for AI agents through API and MCP"]);
   assert.ok(!/For scientists and research teams|For laboratories|<h3>Laboratories/.test(s), "audience sub-groups removed");
   for (const t of ["One order structure", "Clearer status", "Results tied to your samples"]) assert.ok(s.includes(`<h3>${t}</h3>`), t);
-  assert.match(s, /<p class="cta-p"><a class="button" href="#access">Register for early access &rarr;<\/a><\/p>/);
+  assert.ok(!/<a class="button"/.test(s), "the merged section has no buttons");
   assert.ok(!/Explore the workflow/.test(h + rd("llms.txt")), "secondary button removed");
   assert.ok(!/One order format|one status feed|result schema/i.test(h));
 });
@@ -213,7 +213,7 @@ test("How it works: three steps, then the Today and With Jubilab diagrams as two
   assert.ok(!/not a marketplace|not an ELN|human clinical diagnostics|scope-note/i.test(h) && !/not a marketplace|not an ELN|human clinical diagnostics/i.test(rd("llms.txt")), "owner removed the limits line (T-050)");
 });
 
-test("CTA wording: Register for early access in the merged section; other buttons keep theirs", () => {
+test("CTA wording: no buttons in the merged section; header, hero and form buttons keep theirs", () => {
   const h = rd("index.html");
   assert.ok(!/Join the early-access programme/.test(h));
   assert.match(h, /Request early access <span aria-hidden="true">&rarr;<\/span>/);
@@ -329,7 +329,7 @@ test("typography: Manrope headings (owner pick), Inter body, both self-hosted; n
 test("illustrations: every <img> has width, height and alt; flat-colour svg files, small, no text, no external requests; below-the-fold ones are lazy", () => {
   const h = rd("index.html");
   const imgs = [...h.matchAll(/<img\b[^>]*>/g)].map((m) => m[0]);
-  assert.ok(imgs.length >= 7, "the illustrations");
+  assert.ok(imgs.length >= 5, "the illustrations");
   for (const t of imgs) {
     assert.match(t, /\swidth="\d+"/, t); assert.match(t, /\sheight="\d+"/, t); assert.match(t, /\salt="/, t);
     assert.ok(!/src="(?:https?:)?\/\//.test(t) && !/src="data:/.test(t), "no external or data-URI image: " + t);
@@ -337,7 +337,7 @@ test("illustrations: every <img> has width, height and alt; flat-colour svg file
   }
   for (const m of h.matchAll(/srcset="([^"]+)"/g)) assert.ok(!/^(https?:)?\/\//.test(m[1]));
   const files = readdirSync(REPO + "assets/img").filter((f) => f.startsWith("illus-") && f.endsWith(".svg"));
-  assert.ok(files.length >= 8 && !files.includes("illus-plane.svg"), files.join());
+  assert.ok(files.length >= 6 && !files.some((f) => /plane|agent-door|pets/.test(f)), files.join());
   for (const f of files) {
     const t = readFileSync(REPO + "assets/img/" + f, "utf8");
     assert.ok(t.length < 15000, f + " size");
