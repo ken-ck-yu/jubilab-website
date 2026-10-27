@@ -256,7 +256,7 @@ test("home page: no code blocks; API, MCP and webhooks appear only in the owner-
   assert.ok(!/<pre\b|<code\b/i.test(h));
   const vis = h.replace(/<script[\s\S]*?<\/script>/g, "").replace(/<form[\s\S]*?<\/form>/, "");
   const text = vis.replace(/<[^>]+>/g, " ");
-  for (const [re, max] of [[/\bMCP\b/g, 4], [/\bAPI\b/g, 4], [/webhooks?/gi, 1]]) assert.ok((text.match(re) || []).length <= max, String(re));
+  for (const [re, max] of [[/MCP/g, 3], [/API/g, 3], [/webhooks?/gi, 1]]) assert.ok((text.match(re) || []).length <= max, String(re));
   assert.ok(!/JSON|endpoints?|SFTP|SDK|\btokens?\b|create_order|get_status|fetch_result|REST/.test(text));
 });
 
@@ -464,4 +464,23 @@ test("moving arrows on the other diagrams: CSS only, enabled only under prefers-
   assert.ok((jn.match(/class="d d[123]"/g) || []).length >= 12, "travelling dots carry the chase classes");
   assert.match(blocks, /\.journey \.d \{ animation:jny-chase/);
   assert.ok(!existsSync(REPO + "assets/img/illus-journey.svg") && !existsSync(REPO + "assets/img/illus-journey-sm.svg"), "journey is inline so reduced-motion applies from the page");
+});
+
+test("hub image in the first section after the hero: neutral AI glyphs (no third-party logos), 140 KB cap, real pixel size, placed right of the heading", () => {
+  const h = rd("index.html");
+  const sec = h.match(/<section id="teams"[\s\S]*?<\/section>/)[0];
+  assert.match(sec, /<div class="head-split head-split-hub">\s*<div class="section-head">[\s\S]*?<\/div>\s*<img class="illus hub-img" src="assets\/img\/ai-lab-hub\.webp" alt="AI assistants, lab instruments and sample tubes connected to one central hub by glowing lines" width="1400" height="788" loading="lazy">\s*<\/div>/);
+  assert.ok(sec.indexOf("hub-img") < sec.indexOf('class="comparison"'), "hub image sits with the heading, above the panels");
+  const f = readFileSync(REPO + "assets/img/ai-lab-hub.webp");
+  assert.ok(f.length < 140000, "under 140 KB: " + f.length);
+  assert.equal(f.subarray(8, 12).toString(), "WEBP");
+  assert.equal(f.subarray(12, 16).toString(), "VP8 ");
+  assert.equal(f.readUInt16LE(26) & 0x3fff, 1400); assert.equal(f.readUInt16LE(28) & 0x3fff, 788);
+  assert.ok(!/openai|claude|anthropic/i.test(h.match(/<img[^>]*ai-lab-hub[^>]*>/)[0]), "no third-party names in the alt text");
+  // Manual check (T-051): the OpenAI and Claude logo tiles of the owner's source image were replaced with a neutral sparkle and a chat-bubble glyph; no third-party logo or the word Claude remains legible (before/after in .archive/hub-retouch-before-after.png).
+});
+
+test("AI & developers section: no 'built around API and MCP' line", () => {
+  const h = rd("index.html");
+  assert.ok(!/built around API and MCP|compatible clients/.test(h + rd("llms.txt")));
 });

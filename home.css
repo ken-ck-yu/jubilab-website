@@ -528,3 +528,6 @@ blockquote.story-quote { margin:0; }
       .story-divider { display:none; }
       .story-section .story-quote { font-size:1.125rem; }
     }
+    .head-split-hub { grid-template-columns:minmax(0,1fr) minmax(0,580px); align-items:center; }
+    .hub-img { background:#eef1f6; aspect-ratio:1400 / 788; object-fit:cover; }
+    @media (max-width:850px) { .head-split-hub { grid-template-columns:1fr; gap:26px; } .head-split-hub .hub-img { max-width:none; } }
