@@ -128,7 +128,7 @@ def run():
                 m = pg.evaluate(MEASURE); t = f"{w}/{th}"
                 rec(1, abs(m["sw"] - m["iw"]) <= 1 and m["overflowN"] == 0, f"{t} scrollWidth {m['sw']}/{m['iw']}, {m['overflowN']} elements outside viewport {m['overflow'][:2]}")
                 rec(2, m["pre"]["n"] == 0, f"{t} code blocks {m['pre']}")
-                rec(3, m["h1"]["n"] == 1 and m["h1"]["text"] == "One order, one status feed, one result." and m["sub"].startswith("Order sequencing from outside labs once") and not m["skip"] and not m["h2Outside"], f"{t} h1 {m['h1']['n']} skip {m['skip']}")
+                rec(3, m["h1"]["n"] == 1 and m["h1"]["text"] == "Streamline biological sample to data with AI enablement." and m["sub"].startswith("Order sequencing from outside labs once") and not m["skip"] and not m["h2Outside"], f"{t} h1 {m['h1']['n']} skip {m['skip']}")
                 rec(4, m["secIds"] == SECTIONS, f"{t} sections {m['secIds']}")
                 if w >= 900:
                     rec(5, [x[:2] for x in m["sub_nav"]] == [list(n) for n in NAV] and all(x[2] for x in m["sub_nav"]), f"{t} sticky nav {m['sub_nav']}")

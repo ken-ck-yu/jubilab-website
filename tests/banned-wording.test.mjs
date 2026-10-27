@@ -48,7 +48,7 @@ for (const f of CONTENT) {
     const t = rd(f);
     for (const re of [/data provenance and lineage for bioinformatics pipelines/i, /Be among the first labs shaping/, /synthetic demo data/i, /more science, fewer data/i, /How Jubilab helps/, /Available now<\/h3>/, /\.\.\/#(fits|product|next)\b/, /\/#(fits|product|next)\b/]) assert.ok(!re.test(t), String(re));
     assert.match(t, /href="[^"]*#how">How it works/);
-    assert.match(t, /One order, one status feed, one result\. We are accepting early adopters: request access and we invite small groups first\. The product is still being built and nothing is released yet\./);
+    assert.match(t, /Streamline biological sample to data with AI enablement\. We are accepting early adopters: request access and we invite small groups first\. The product is still being built and nothing is released yet\./);
     assert.match(t, /A product of Billy BioTech Ltd\. \(<span lang="zh-Hant" class="cjk">比利生物科技有限公司<\/span>\), Taipei/);
     assert.ok(!/in design/.test(t.replace(/<script[\s\S]*?<\/script>/g, "")));
   });
@@ -75,7 +75,7 @@ test("hero does not lead with researcher or academia, and carries the owner-appr
   const html = rd("index.html");
   const hero = html.match(/<section class="hero"[\s\S]*?<\/section>/)[0];
   assert.ok(!/researcher|academi/i.test(hero));
-  assert.ok(hero.includes("<h1 id=\"h1\">One order, one status feed, one result.</h1>"));
+  assert.ok(hero.includes("<h1 id=\"h1\">Streamline biological sample to data with AI enablement.</h1>"));
   // Owner-delegated headline (T-047 round 2); the owner can reverse it. Sub-line is one plain sentence pair that mentions AI assistants but does not lead with them.
   assert.ok(hero.includes("Order sequencing from outside labs once, see every step, and get results with your own sample names. For scientists and AI agents."));
   assert.ok(hero.includes("For teams that send samples to outside labs, and the labs that run them. UK genetics first."));
