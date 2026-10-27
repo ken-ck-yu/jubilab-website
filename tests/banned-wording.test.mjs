@@ -48,7 +48,7 @@ for (const f of CONTENT) {
     const t = rd(f);
     for (const re of [/data provenance and lineage for bioinformatics pipelines/i, /Be among the first labs shaping/, /synthetic demo data/i, /more science, fewer data/i, /How Jubilab helps/, /Available now<\/h3>/, /\.\.\/#(fits|product|next)\b/, /\/#(fits|product|next)\b/]) assert.ok(!re.test(t), String(re));
     assert.match(t, /href="[^"]*#how">How it works/);
-    assert.match(t, /Streamline biological sample to data with AI enablement\. We are accepting early adopters: request access and we invite small groups first\. The product is still being built and nothing is released yet\./);
+    assert.ok(!/accepting early adopters|Streamline biological/i.test(t.match(/<footer>[\s\S]*?<\/footer>/)[0]), "footer has no tagline or status sentence");
     assert.match(t, /A product of Billy BioTech Ltd\. \(<span lang="zh-Hant" class="cjk">比利生物科技有限公司<\/span>\), Taipei/);
     assert.ok(!/in design/.test(t.replace(/<script[\s\S]*?<\/script>/g, "")));
   });
@@ -94,8 +94,8 @@ test("no prices and no open questions on the home page", () => {
 
 test("home page promises nothing is released, is not defensive about it, and has no install command or endpoint", () => {
   const html = rd("index.html");
-  assert.match(html, /nothing is released yet/i);
-  assert.match(html, /We are accepting early adopters: request access and we invite small groups first/);
+  assert.match(html, /None of it is released yet/i);
+  assert.match(html, /We invite small groups first/);
   assert.ok(!/Early access is open/.test(html));
   assert.ok(!/npm install|pip install|docker run|curl |api\.jubilab|mcp\.jubilab/i.test(html), "no install command or endpoint");
   const vis = html.replace(/<script[\s\S]*?<\/script>/g, "");
@@ -103,6 +103,16 @@ test("home page promises nothing is released, is not defensive about it, and has
   assert.ok(!/illustrative|not a real order|not real orders/i.test(html.match(/<head>[\s\S]*?<\/head>/)[0]), "none in head meta or alt text");
   assert.ok(!/illustrative|not a real order|not real orders/i.test(rd("llms.txt")), "none in llms.txt");
   for (const f of ["404.html", "thanks/index.html", "privacy/index.html", "terms/index.html", "guides/index.html", "blog/index.html", ...CONTENT]) assert.ok(!/illustrative/i.test(rd(f).match(/<footer>[\s\S]*?<\/footer>/)[0]), f + " footer");
+});
+
+test("every footer is short: Billy BioTech line, no tagline, no status sentence, no illustrative, no headline", () => {
+  for (const f of ["index.html", "404.html", "thanks/index.html", "privacy/index.html", "terms/index.html", "guides/index.html", "blog/index.html", ...CONTENT]) {
+    const ft = rd(f).match(/<footer>[\s\S]*?<\/footer>/)[0];
+    assert.match(ft, /A product of Billy BioTech Ltd\. \(<span lang="zh-Hant" class="cjk">比利生物科技有限公司<\/span>\), Taipei/, f);
+    assert.ok(!/illustrative|accepting early adopters|streamline biological|nothing is released|still being built/i.test(ft), f + " footer");
+  }
+  const h = rd("index.html");
+  assert.match(h.replace(/<footer>[\s\S]*?<\/footer>/, ""), /None of it is released yet/, "the not-released honesty line is outside the footer");
 });
 
 test("every page with the site footer names the operator in the footer", () => {
