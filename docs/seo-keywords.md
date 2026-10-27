@@ -4,13 +4,13 @@ Replaces the 2026-10-18 list (data provenance, lineage, Nextflow, Snakemake; ret
 
 | Term | Why it matters | Where used |
 |---|---|---|
-| lab order, sequencing order | What the buyer does today | title, hero lede, FAQ 1, "Today" section |
-| order-to-result | Our category name | title, eyebrow, hero lede, llms.txt |
-| sample status, order status | The pain: no status | "Today" section, event model |
-| sequencing provider, sequencing service, core facility | Who takes the orders | "Today", "For labs", FAQ |
+| lab order, sequencing order | What the buyer does today | title, hero lede, FAQ 1, "What we found" section |
+| order-to-result | Our category name | title, llms.txt |
+| sample status, order status | The pain: no status | "What we found" section, "How it works" |
+| sequencing provider, sequencing service, core facility | Who takes the orders | "What we found", "For labs", FAQ |
 | Benchling, Labguru, Scispot, ELN, LIMS | Tools buyers combine with | "For teams", FAQ 5, form (names only; non-affiliation sentence next to them) |
-| MCP server, REST API, webhooks, AI agents | Builder searches | "For developers", FAQ 1, llms.txt (all marked planned) |
-| result manifest, order spec | Our own terms for the objects | "How it works", llms.txt |
-| biomarker assays, proteomics, metabolomics | Next scope | scope list, FAQ 6 |
+| AI assistants, AI agents | Builder and investor searches | hero sub-line, "Why now", "For teams" one-line developer note (T-047 removed MCP, REST API and webhooks from the page by owner decision) |
+| order, status, results | Plain names for the three things we standardise | "How it works", hero sub-line, llms.txt |
+| biomarker assays, proteomics, metabolomics | Next scope | llms.txt, FAQ 3 |
 
 Not used on purpose: marketplace (as what we are), "Stripe for X", sample-to-result on its own, outsourced lab work, anything about provenance or lineage as a headline.

@@ -50,7 +50,7 @@
       },
       "image": "https://jubilab.io/blog/why-did-my-task-run-again-nextflow-snakemake/og.png",
       "keywords": "nextflow, snakemake, bioinformatics",
-      "wordCount": 1189,
+      "wordCount": 1195,
       "timeRequired": "PT6M",
       "isPartOf": {
         "@type": "Blog",
@@ -140,7 +140,7 @@
         <li><a href="../../#how">How it works</a></li>
         <li><a href="../../#labs">For labs</a></li>
         <li><a href="../../#teams">For teams</a></li>
-        <li><a href="../../#dev">Developers</a></li>
+        <li><a href="../../#why">Why now</a></li>
         <li><a href="../../blog/" aria-current="page">Blog</a></li>
       </ul>
       <details class="menu">
@@ -149,7 +149,7 @@
           <li><a href="../../#how">How it works</a></li>
           <li><a href="../../#labs">For labs</a></li>
           <li><a href="../../#teams">For teams</a></li>
-          <li><a href="../../#dev">Developers</a></li>
+          <li><a href="../../#why">Why now</a></li>
           <li><a href="../../blog/" aria-current="page">Blog</a></li>
         </ul>
       </details>
@@ -218,7 +218,7 @@ snakemake -c1 -n count.txt</code></pre>
 <p>This is a checklist drawn from documentation, not a finding about how often each cause occurs. We have no data on that.</p>
 <h2 id="a-rerun-is-part-of-the-history">A rerun is part of the history</h2>
 <p>When a task reruns, there is a new execution, new outputs and, possibly, a different answer. If the story of a result says &quot;we ran it in March&quot;, but half of it was rerun in April, the story has changed in a way that the output files alone will not tell you. The Nextflow lineage documentation says that tasks that failed or were aborted are not recorded, and that when a task is retried the store describes the attempt that succeeded.<sup class="cite"><a href="#src-4" aria-label="Source 4">[4]</a></sup> That is a sensible design choice, and it also shows why a reader may want an additional record of what happened around it.</p>
-<p>An earlier Jubilab prototype recorded runs and could compare two runs to show which recorded parameters, versions or results differ. It did not explain why an engine decided to rerun a task. Jubilab&#x27;s earlier run-record prototype is not being offered. Jubilab is now building the order-to-result layer for lab work. We are recruiting early adopters (request access and we invite small groups first), but the order layer is still being built and nothing is released yet. Jubilab is not affiliated with or endorsed by Nextflow, Seqera or Snakemake. For the bigger picture of what to write down, see <a href="/guides/what-parameters-produced-this-result/">what parameters produced this result</a>.</p>
+<p>An earlier Jubilab prototype recorded runs and could compare two runs to show which recorded parameters, versions or results differ. It did not explain why an engine decided to rerun a task. Jubilab&#x27;s earlier run-record prototype is not being offered. Jubilab is now building a way to order lab work once and follow it to results. We are accepting early adopters by invitation (request access and we invite small groups first). The product is still being built and nothing is released yet. Jubilab is not affiliated with or endorsed by Nextflow, Seqera or Snakemake. For the bigger picture of what to write down, see <a href="/guides/what-parameters-produced-this-result/">what parameters produced this result</a>.</p>
 
 <section class="b-questions" aria-labelledby="questions-h">
 <h2 id="questions-h">Questions we are still asking</h2>
@@ -232,7 +232,7 @@ snakemake -c1 -n count.txt</code></pre>
 </section>
 <section class="helps" aria-labelledby="helps-h">
 <h2 id="helps-h">Where Jubilab is now</h2>
-<p>This post comes from our earlier work on a record of how results are made. Jubilab's earlier run-record prototype is not being offered. Jubilab is now building the order-to-result layer for lab work. We are recruiting early adopters (request access and we invite small groups first), but the order layer is still being built and nothing is released yet.</p>
+<p>This post comes from our earlier work on a record of how results are made. Jubilab's earlier run-record prototype is not being offered. Jubilab is now building a way to order lab work once and follow it to results. We are accepting early adopters by invitation (request access and we invite small groups first). The product is still being built and nothing is released yet.</p>
 <a class="btn" href="../../#access">Request early access</a>
 </section>
 <h2 id="sources">Sources</h2>
@@ -260,7 +260,7 @@ snakemake -c1 -n count.txt</code></pre>
   <div class="wrap">
     <div>
       <p class="foot-brand">Jubilab</p>
-      <p>The order-to-result layer for lab work. We are accepting early adopters: request access and we invite small groups first. The order layer is still being built and nothing is released yet. Examples on this site are illustrative drafts.</p>
+      <p>Order lab work once and follow it to results. We are accepting early adopters: request access and we invite small groups first. The product is still being built and nothing is released yet. Examples on this site are illustrative drafts.</p>
       <p class="foot-co">A product of Billy BioTech Ltd. (<span lang="zh-Hant" class="cjk">比利生物科技有限公司</span>), Taipei</p>
       <p>Contact: <a href="mailto:hello@jubilab.io">hello@jubilab.io</a></p>
     </div>

@@ -49,7 +49,7 @@ It would be unfair to treat the cloud as the enemy. Shared services are easier t
 
 ## Where Jubilab is now
 
-The points above about spool files, a local data directory and a single SQLite file describe the earlier prototype, not something you can use today. Jubilab's earlier run-record prototype is not being offered. Jubilab is now building the order-to-result layer for lab work. We are recruiting early adopters (request access and we invite small groups first), but the order layer is still being built and nothing is released yet. See our guide on [Nextflow provenance and lineage](/guides/nextflow-provenance-and-lineage-compared/) for how run records relate to each engine's own. Jubilab is not affiliated with or endorsed by Ink & Switch, SQLite, Nextflow or Snakemake.
+The points above about spool files, a local data directory and a single SQLite file describe the earlier prototype, not something you can use today. Jubilab's earlier run-record prototype is not being offered. Jubilab is now building a way to order lab work once and follow it to results. We are accepting early adopters by invitation (request access and we invite small groups first). The product is still being built and nothing is released yet. See our guide on [Nextflow provenance and lineage](/guides/nextflow-provenance-and-lineage-compared/) for how run records relate to each engine's own. Jubilab is not affiliated with or endorsed by Ink & Switch, SQLite, Nextflow or Snakemake.
 
 ## Questions we are still asking
 
