@@ -319,7 +319,6 @@ ol.timeline > li { margin:0; }
 .dg .ln { stroke:var(--ink); stroke-width:1.6; fill:none; }
 .dg .lo { stroke:#c2410c; stroke-width:2; fill:none; }
 .dg .mk { fill:var(--ink); } .dg .mko { fill:#c2410c; }
-.scope-note { margin:28px 0 0; max-width:760px; color:var(--muted); font-size:.92rem; }
 
 /* early-access form (real fields, Worker values) */
 .form-card { position:relative; }

@@ -337,7 +337,6 @@ footer p a { color: #ff8a4d; }
 /* order-to-result pivot: hero flow diagram, evidence list, objects, tiers, scope */
 .goal { margin: 0 0 12px; color: var(--ink); }
 .sides { margin: 20px 0 0; color: var(--ink); max-width: 62ch; }
-.cjk { white-space: nowrap; font-family: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", "Heiti TC", "Droid Sans Fallback", sans-serif; }
 .flow { background: var(--surface); padding: 12px 8px; }
 .flow svg { display: block; width: 100%; height: auto; margin: 0 auto; }
 .flow-wide { max-width: 1000px; }

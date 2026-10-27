@@ -53,7 +53,7 @@ for (const f of CONTENT) {
     for (const re of [/data provenance and lineage for bioinformatics pipelines/i, /Be among the first labs shaping/, /synthetic demo data/i, /more science, fewer data/i, /How Jubilab helps/, /Available now<\/h3>/, /\.\.\/#(fits|product|next)\b/, /\/#(fits|product|next)\b/]) assert.ok(!re.test(t), String(re));
     assert.match(t, /href="[^"]*#how">How it works/);
     assert.ok(!/accepting early adopters|Streamline biological/i.test(t.match(/<footer>[\s\S]*?<\/footer>/)[0]), "footer has no tagline or status sentence");
-    assert.match(t, /A product of Billy BioTech Ltd\. \(<span lang="zh-Hant" class="cjk">比利生物科技有限公司<\/span>\), Taipei/);
+    assert.match(t.match(/<footer>[\s\S]*?<\/footer>/)[0], /<p class="foot-co">A product of Billy BioTech Ltd\.<\/p>/);
     assert.ok(!/in design/.test(t.replace(/<script[\s\S]*?<\/script>/g, "")));
     assert.ok(!HEDGE.test(t.match(/<footer>[\s\S]*?<\/footer>/)[0]) && !HEDGE.test(t.match(/<head>[\s\S]*?<\/head>/)[0]), "no product-state hedge in head or footer");
   });
@@ -130,7 +130,8 @@ test("home page: no install command or endpoint, no Stripe, no customer or partn
 test("every footer is short: Billy BioTech line, contact, links; no tagline, no status sentence, no illustrative, no headline", () => {
   for (const f of ["index.html", "404.html", "thanks/index.html", "privacy/index.html", "terms/index.html", "guides/index.html", "blog/index.html", ...CONTENT]) {
     const ft = rd(f).match(/<footer[\s\S]*?<\/footer>/)[0];
-    assert.match(ft, /A product of Billy BioTech Ltd\. \(<span lang="zh-Hant" class="cjk">\u6bd4\u5229\u751f\u7269\u79d1\u6280\u6709\u9650\u516c\u53f8<\/span>\), Taipei/, f);
+    assert.match(ft, /<p class="foot-co">A product of Billy BioTech Ltd\.<\/p>/, f);
+    assert.ok(!/Taipei|\u6bd4\u5229|cjk|zh-Hant/.test(ft), f + ": no Chinese name or city in the footer");
     assert.match(ft, /Contact: <a href="mailto:hello@jubilab\.io">hello@jubilab\.io<\/a>/, f);
     assert.ok(!/illustrative|accepting early adopters|streamline biological|nothing is released|still being built/i.test(ft), f + " footer");
   }
@@ -204,7 +205,7 @@ test("How it works: three steps, then the Today and With Jubilab diagrams as two
   assert.ok(!/WHO ORDERS|WHO RUNS THE SAMPLES/i.test(h));
   const css = rd("home.css");
   assert.match(css, /@media \(min-width:1000px\)[\s\S]*?\.dg-wide \{ display:block; \}[\s\S]*?\.dg-tall \{ display:none; \}/, "wide from 1000px, stacked below");
-  assert.match(s, /not a marketplace and not an ELN\. It does not set prices, control instruments or handle human clinical diagnostics\./);
+  assert.ok(!/not a marketplace|not an ELN|human clinical diagnostics|scope-note/i.test(h) && !/not a marketplace|not an ELN|human clinical diagnostics/i.test(rd("llms.txt")), "owner removed the limits line (T-050)");
 });
 
 test("For teams: owner CTA wording; other buttons keep theirs", () => {

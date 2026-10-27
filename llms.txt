@@ -17,14 +17,6 @@
 - Zero custom-built solutions to maintain: one connected layer handles the different structures, formats and communication between dry lab requirements, couriers, wet lab status updates and raw sample data.
 - Ready to streamline dry lab to wet lab with AI: built for AI agent workflows that take a hypothesis all the way to wet lab sample processing.
 
-## What Jubilab does not do
-
-- It is not an ELN and does not set prices.
-- It does not control instruments.
-- It is not a marketplace and does not broker price.
-- It does not handle human clinical diagnostics.
-- Product names belong to their owners; Jubilab is not affiliated with them.
-
 ## Pages
 
 - [Jubilab home page](https://jubilab.io/): what Jubilab does, how it works, who it is for, and the early-access form
@@ -78,4 +70,4 @@
 
 hello@jubilab.io
 
-A product of Billy BioTech Ltd., Taipei.
+A product of Billy BioTech Ltd.
