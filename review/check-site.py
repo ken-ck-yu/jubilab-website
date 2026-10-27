@@ -19,7 +19,7 @@ EXE = os.path.expanduser("~/.cache/ms-playwright/chromium_headless_shell-1248/ch
 WIDTHS = [320, 360, 390, 768, 1024, 1280, 1440, 1920]
 THEMES = ["light", "dark"]  # the home page is light only; blog, guide and legal pages keep both
 NAV = [("How it works", "#how"), ("For teams", "#teams"), ("For labs", "#labs"), ("AI & developers", "#developers")]
-SECTIONS = ["why", "how", "teams", "labs", "developers", "access"]
+SECTIONS = ["teams", "how", "labs", "developers", "access"]
 FORBIDDEN = ["revolutionis", "revolutioniz", "unlock", "empower", "stripe for", "sample-to-result", "outsourced lab work",
              "with automation and scale", "provenance", "lineage", "nextflow", "snakemake", "testimonial", "trusted by", "guarantee", "stripe", "illustrative", "not a real order", "product concept", "in development", "being built", "nothing is released", "not yet released", "prototype"]
 R = []

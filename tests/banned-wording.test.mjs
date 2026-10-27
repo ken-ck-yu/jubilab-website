@@ -159,22 +159,26 @@ test("labs section: owner heading, three options in plain words, existing tools 
   assert.equal((h.match(/seamless/gi) || []).length, 1, "'seamless' only in the owner-approved labs heading");
 });
 
-test("section order and ids: hero, why, how, teams, labs, value, developers, story, access", () => {
+test("section order and ids: hero, teams (merged Why use Jubilab), how, labs, value, developers, story, access", () => {
   const h = rd("index.html");
   const secs = [...h.matchAll(/<section (?:id="([a-z]+)" )?class="([^"]*)"|<section id="([a-z]+)"/g)].map((m) => m[1] || m[3] || m[2]);
-  assert.deepEqual(secs, ["hero", "why", "how", "teams", "labs", "value-section", "developers", "story-section", "access"]);
+  assert.deepEqual(secs, ["hero", "teams", "how", "labs", "value-section", "developers", "story-section", "access"]);
 });
 
-test("Why use Jubilab: eyebrow, heading, owner tagline; comparison lists kept", () => {
+test("merged Why use Jubilab / For teams section: one h2, owner order, no separate For-teams or 'From lab samples to result' section", () => {
   const h = rd("index.html");
-  const s = h.match(/<section id="why"[\s\S]*?<\/section>/)[0];
-  assert.match(s, /<span class="eyebrow">Why use Jubilab<\/span>/);
-  assert.ok(!/The problem/.test(h));
-  assert.match(s, /<h2 id="h-why">From lab samples to result\.<\/h2>/);
-  assert.match(s, /<strong>One order\. One place to follow it\. One clean result\.<\/strong><br>One interface for people and software\./);
-  assert.ok(!/One order format|one status feed|result schema/i.test(h));
+  const s = h.match(/<section id="teams"[\s\S]*?<\/section>/)[0];
+  assert.ok(!/id="why"|The problem|From lab samples to result|<section id="teams"[\s\S]*<section id="teams"/.test(h));
+  assert.equal((h.match(/id="teams"/g) || []).length, 1);
+  assert.match(s, /<span class="eyebrow">Why use Jubilab<\/span>\s*<h2 id="h-teams">Every external lab, one workflow\.<\/h2>/);
+  assert.match(s, /Today, ordering sequencing from an external lab often means a new spreadsheet, email updates, and results that need manual reconciliation\. Jubilab connects the order, status and result in one workflow, and you keep the tools you already use\./);
+  const order = ["class=\"comparison\"", "<strong>One order. One place to follow it. One clean result.</strong><br>One interface for people and software.", "class=\"three-grid\"", "Register for early access &rarr;", "Explore the workflow &rarr;", "One connected path"].map((x) => s.indexOf(x));
+  assert.ok(order.every((x) => x > 0) && order.every((x, i) => i === 0 || x > order[i - 1]), "order: panels, summary line, cards, buttons, path strip: " + order);
   assert.match(s, /Today &middot; Joined by email and Excel/);
   assert.match(s, /With Jubilab &middot; One connected workflow/);
+  for (const t of ["For scientists and research teams", "For laboratories", "Scientists and AI agents", "Laboratories", "One order structure", "Clearer status", "Results tied to your samples"]) assert.ok(s.includes(`<h3>${t}</h3>`), t);
+  assert.match(s, /<a class="button" href="#access">Register for early access &rarr;<\/a> <a class="button secondary" href="#how">Explore the workflow &rarr;<\/a>/);
+  assert.ok(!/One order format|one status feed|result schema/i.test(h));
 });
 
 test("How it works: three steps, then the Today and With Jubilab diagrams as two panels; the 'every fact has a source' box is gone", () => {
@@ -208,10 +212,8 @@ test("How it works: three steps, then the Today and With Jubilab diagrams as two
   assert.ok(!/not a marketplace|not an ELN|human clinical diagnostics|scope-note/i.test(h) && !/not a marketplace|not an ELN|human clinical diagnostics/i.test(rd("llms.txt")), "owner removed the limits line (T-050)");
 });
 
-test("For teams: owner CTA wording; other buttons keep theirs", () => {
+test("CTA wording: Register for early access in the merged section; other buttons keep theirs", () => {
   const h = rd("index.html");
-  const s = h.match(/<section id="teams"[\s\S]*?<\/section>/)[0];
-  assert.match(s, /Register for early access &rarr;<\/a>/);
   assert.ok(!/Join the early-access programme/.test(h));
   assert.match(h, /Request early access <span aria-hidden="true">&rarr;<\/span>/);
 });
@@ -276,9 +278,8 @@ test("home page h2 headings are exactly this list; no roadmap, timeline or extra
   const h = rd("index.html").replace(/<script[\s\S]*?<\/script>/g, "");
   const h2 = [...h.matchAll(/<h2[^>]*>([\s\S]*?)<\/h2>/g)].map((m) => m[1].replace(/<[^>]+>/g, "").replace(/&rsquo;/g, "\u2019").replace(/&amp;/g, "&"));
   assert.deepEqual(h2, [
-    "From lab samples to result.",
-    "Order once. Follow every step.",
     "Every external lab, one workflow.",
+    "Order once. Follow every step.",
     "Seamless integration into your existing tools with AI enablement.",
     "Less time managing orders. More time doing science.",
     "Every AI agent stops at the lab door.",

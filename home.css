@@ -391,3 +391,6 @@ blockquote.story-quote { margin:0; }
     .micro-label { font-size:.76rem; }
     .flow-node { font-size:.76rem !important; }
     .labs-section .integration-card .step { font-size:.76rem; }
+    .teams-section .callout { margin-bottom:30px; }
+    .teams-section .cta-p { display:flex; flex-wrap:wrap; gap:12px; margin:28px 0 0; }
+    .teams-section .visual-band { margin-top:44px; }

@@ -8,6 +8,7 @@
 - Follow every step: see when an order is accepted, when samples arrive, whether they pass QC, when the run starts and when results are ready.
 - Get clean results back: a structured result manifest links output files to your own sample names and includes QC information; a failed sample is reported as failed, not as missing.
 - Today an order moves between two sides that are managed separately and joined only by email and Excel: the dry lab side (scientists, researchers and the people who consume results) and the wet lab side (lab staff and logistics). Jubilab connects them with one order, one place to follow it and one clean result.
+- For teams, every external lab in one workflow: one order structure instead of a different spreadsheet for every provider; clearer status as receipt, QC, run and delivery are reported, without repeatedly emailing a project manager; results tied to your own sample identifiers, with QC information and file checks. You keep the tools you already use.
 - For labs and core facilities, three ways to connect, and a lab can stop at any step: (1) existing order emails and courier updates, with facts read from email labelled as such; (2) a simple status page with four buttons (received, QC done, run started, results ready) and result upload; (3) lab software through webhooks, and run progress from instruments. Jubilab connects to your existing tools and does not replace them.
 - For AI agents and developers: structured orders, machine-readable status and structured results through API and MCP access for compatible clients.
 
@@ -21,7 +22,7 @@
 
 - [Jubilab home page](https://jubilab.io/): what Jubilab does, how it works, who it is for, and the early-access form
 - [How it works](https://jubilab.io/#how): order once, follow every step, get clean results back
-- [For teams](https://jubilab.io/#teams): one workflow across every external lab
+- [For teams](https://jubilab.io/#teams): why use Jubilab, and one workflow across every external lab
 - [For labs](https://jubilab.io/#labs): integration into your existing tools
 - [AI and developers](https://jubilab.io/#developers): structured orders, status and results for AI agents
 - [Request early access](https://jubilab.io/#access): the early-access form
