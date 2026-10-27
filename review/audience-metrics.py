@@ -1,6 +1,9 @@
 #!/usr/bin/env python3
 """Objective audience metrics for the home page (T-047).
 
+INFORMATIONAL since T-050 (2026-10-27): the owner's redesign deliberately uses API, MCP, webhook and ELN wording, so the reading-grade and
+jargon-density thresholds no longer apply and nothing here fails; the numbers are printed for comparison only.
+
   python3 review/audience-metrics.py [path/to/index.html]      (default: ./index.html)
   git show main:index.html > /tmp/old.html && python3 review/audience-metrics.py /tmp/old.html
 
@@ -113,9 +116,9 @@ def main():
     hw = stats(hero)[0]; ha = stats(hero_all)[0]
     hits = TERM_RE.findall(text.replace(" ", " "))
     per100 = 100 * len(hits) / max(1, wc)
-    res = [("words (main content)", wc, None), ("sentences", sc, None), ("first screen words (hero text)", hw, hw <= 70), ("hero total words (with journey strip)", ha, None),
-           ("Flesch-Kincaid grade (block-aware)", round(fk, 1), fk <= 9), ("Flesch-Kincaid grade (strict: .!? only)", round(fks, 1), fks <= 9), ("technical terms", len(hits), None), ("technical terms per 100 words", round(per100, 2), per100 <= 1.5),
-           ("code blocks (<pre>, <code>)", p.code, p.code == 0)]
+    res = [("words (main content)", wc, None), ("sentences", sc, None), ("first screen words (hero text)", hw, None), ("hero total words (with journey strip)", ha, None),
+           ("Flesch-Kincaid grade (block-aware)", round(fk, 1), None), ("Flesch-Kincaid grade (strict: .!? only)", round(fks, 1), None), ("technical terms", len(hits), None), ("technical terms per 100 words", round(per100, 2), None),
+           ("code blocks (<pre>, <code>)", p.code, None)]
     print(f"audience metrics for {path}")
     for n, v, ok in res: print(f"  {n:40s} {v!s:>8}  {'' if ok is None else ('PASS' if ok else 'FAIL')}")
     if hits: print("  term hits:", ", ".join(sorted({h.lower() for h in hits})), "->", {h.lower(): sum(1 for x in hits if x.lower() == h.lower()) for h in set(hits)})

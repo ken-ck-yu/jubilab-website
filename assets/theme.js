@@ -2,23 +2,20 @@
    Light is the default; dark is only used when the visitor chooses it with the header button. */
 (function () {
   // Early-access form. Without JS everything still works: the "If other" boxes are always visible and the
-  // server checks every answer. With JS the boxes appear only when Other is chosen.
+  // server checks every answer. With JS the boxes appear only when Other is chosen in the dropdown.
   var form = document.getElementById("early-access-form");
   if (form) {
     var others = form.querySelectorAll(".other[data-other-for]");
     var syncOther = function (box) {
-      var name = box.getAttribute("data-other-for");
-      var pick = form.querySelector('input[name="' + name + '"][value="other"]');
-      var on = !!(pick && pick.checked);
+      var sel = form.elements[box.getAttribute("data-other-for")];
+      var on = !!sel && sel.value === "other";
       box.hidden = !on;
       box.querySelector("input").required = on;
       if (!on) box.querySelector("input").value = "";
     };
     Array.prototype.forEach.call(others, function (box) {
       syncOther(box);
-      form.querySelectorAll('input[name="' + box.getAttribute("data-other-for") + '"]').forEach(function (i) {
-        i.addEventListener("change", function () { syncOther(box); });
-      });
+      form.elements[box.getAttribute("data-other-for")].addEventListener("change", function () { syncOther(box); });
     });
     // The server redirects to /?error=<what>#access when an answer is missing or invalid; say which one.
     var msg = document.getElementById("form-error");
