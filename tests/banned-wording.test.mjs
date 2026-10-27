@@ -141,7 +141,7 @@ test("brand is Biligene, never Bili Gene; the Biligene story stays", () => {
   for (const f of [...ALL, ...CONTENT]) assert.ok(!/Bili Gene/.test(rd(f)), f);
   const h = rd("index.html");
   assert.match(h, /We run Biligene, a pet genetics testing business/);
-  assert.match(h, /Our own sequencing workflows at Biligene come first/);
+  assert.ok(!/Our own sequencing workflows at Biligene come first|story-note/.test(h), "story note removed");
 });
 
 test("labs section: owner heading, three options in plain words, existing tools stay", () => {
@@ -295,7 +295,7 @@ test("home page h2 headings are exactly this list; no roadmap, timeline or extra
 
 test("self-hosted fonts and no third-party request in the home page's head or css", () => {
   const h = rd("index.html"), css = rd("home.css");
-  assert.ok(!/(?:src|href)="https?:\/\/(?!jubilab\.io)/.test(h.replace(/<link rel="canonical"[^>]*>/, "").replace(/<a class="biligene-logo" href="https:\/\/biligene\.com" rel="noopener">/, "")), "no external src or href (the Biligene logo link is the one owner-approved outbound link)");
+  assert.ok(!/(?:src|href)="https?:\/\/(?!jubilab\.io)/.test(h.replace(/<link rel="canonical"[^>]*>/, "")), "no external src or href");
   assert.ok(!/url\(\s*["']?https?:/.test(css) && !/@import/.test(css), "no external css url");
   assert.match(css, /font-family: "Inter"; src: url\("assets\/fonts\/inter-latin-wght-normal\.woff2"\)/);
   assert.ok(readFileSync(REPO + "assets/fonts/OFL-Inter.txt", "utf8").includes("SIL OPEN FONT LICENSE"));
@@ -372,15 +372,19 @@ test("Orders dashboard in the hero: one decorative HTML product picture with the
   assert.match(rd("home.css"), /\.dash-bar em \{ font:600/);
 });
 
-test("Biligene logo in the story section: owner's brand raster, optimised copy, linked to biligene.com, right column above the quote", () => {
+test("story section right column: lab photo, quote card, Biligene logo (plain image); no external links anywhere on the home page", () => {
   const h = rd("index.html");
   const sec = h.match(/<section class="story-section"[\s\S]*?<\/section>/)[0];
-  assert.match(sec, /<a class="biligene-logo" href="https:\/\/biligene\.com" rel="noopener"><img src="assets\/img\/biligene-logo\.webp" alt="Biligene" width="520" height="207" loading="lazy"><\/a>/);
-  assert.ok(sec.indexOf("biligene-logo") > sec.indexOf("</h2>") && sec.indexOf("biligene-logo") < sec.indexOf("story-quote"), "logo sits above the quote");
-  const f = readFileSync(REPO + "assets/img/biligene-logo.webp");
-  assert.ok(f.length < 30000, "logo under 30 KB: " + f.length);
-  assert.equal(f.subarray(0, 4).toString(), "RIFF");
-  assert.equal((h.match(/biligene\.com/g) || []).length, 1, "one outbound link only");
+  const p = sec.indexOf("genomics-lab.webp"), q = sec.indexOf("story-quote"), l = sec.indexOf("biligene-logo.webp");
+  assert.ok(p > sec.indexOf("</h2>") && p < q && q < l, "order: photo, quote, logo");
+  assert.match(sec, /<img class="story-photo" src="assets\/img\/genomics-lab\.webp" alt="A scientist pipetting samples at a bench in a modern genomics laboratory, with sequencing instruments behind" width="1400" height="896" loading="lazy">/);
+  assert.match(sec, /<img class="biligene-logo" src="assets\/img\/biligene-logo\.webp" alt="Biligene" width="520" height="207" loading="lazy">/);
+  assert.ok(!/<a[^>]*biligene/i.test(sec), "logo is not linked");
+  assert.ok(!/<a\b[^>]*href="(?:https?:)?\/\//i.test(h), "no external link on the home page");
+  assert.ok(!/biligene\.com/.test(h));
+  const photo = readFileSync(REPO + "assets/img/genomics-lab.webp"), logo = readFileSync(REPO + "assets/img/biligene-logo.webp");
+  assert.ok(photo.length < 150000, "photo under 150 KB: " + photo.length);
+  assert.ok(logo.length < 30000);
   assert.ok(!/Taipei|Billy BioTech Ltd\. \(/.test(h), "footer stays short");
 });
 
