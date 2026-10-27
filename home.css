@@ -443,34 +443,46 @@ blockquote.story-quote { margin:0; }
     .eco { margin:0 0 44px; padding:34px 30px; border-radius:26px; background:#fff; border:1px solid #e0e8f1; box-shadow:0 12px 38px rgba(15,28,58,.06); }
     .eco-stage { position:relative; height:580px; max-width:1120px; margin:0 auto; }
     .eco-side { position:absolute; border-radius:22px; background:#f3f5f9; border:1px solid #e3e8f1; }
-    .eco-dry-side { left:0; width:35%; top:160px; height:258px; background:#e9f1fa; border-color:#d6e3f2; }
-    .eco-wet-side { left:65%; width:35%; top:160px; height:258px; background:#fff0e8; border-color:#f3d9c8; }
-    .eco-courier-side { left:29%; width:42%; top:0; height:148px; }
-    .eco-cloud-side { left:29%; width:42%; top:430px; height:148px; }
-    .eco-chips { position:absolute; display:flex; gap:8px; }
-    .eco-dry-chips { left:6.3%; width:42.9%; top:14px; height:230px; flex-direction:column; }
-    .eco-wet-chips { left:50.9%; width:42.9%; top:14px; height:230px; flex-direction:column; }
-    .eco-courier-chips { left:4.8%; width:90.4%; top:14px; height:40px; justify-content:center; }
-    .eco-cloud-chips { left:4.8%; width:90.4%; top:90px; height:40px; justify-content:center; }
-    .eco-chip { flex:1 1 0; display:flex; align-items:center; justify-content:center; text-align:center; border:1px solid #d9e1ee; border-radius:10px; background:#fff; padding:4px 8px; font-size:.75rem; line-height:1.25; font-weight:600; color:#26334c; }
+    .eco-dry-side { left:0; width:35%; top:171px; height:236px; background:#e9f1fa; border-color:#d6e3f2; }
+    .eco-wet-side { left:65%; width:35%; top:171px; height:236px; background:#fff0e8; border-color:#f3d9c8; }
+    .eco-courier-side { left:29%; width:42%; top:0; height:136px; }
+    .eco-cloud-side { left:29%; width:42%; top:430px; height:136px; }
+    .eco-chips { position:absolute; display:flex; gap:7px; }
+    .eco-dry-chips { left:6.3%; width:42.9%; top:12px; height:212px; flex-direction:column; }
+    .eco-wet-chips { left:50.9%; width:42.9%; top:12px; height:212px; flex-direction:column; }
+    .eco-courier-chips { left:4.8%; width:90.4%; top:14px; height:34px; justify-content:center; }
+    .eco-cloud-chips { left:4.8%; width:90.4%; top:88px; height:34px; justify-content:center; }
+    .eco-chip { flex:1 1 0; display:flex; align-items:center; justify-content:center; text-align:center; border:1px solid #d9e1ee; border-radius:9px; background:#fff; padding:3px 7px; font-size:.6875rem; line-height:1.25; font-weight:600; color:#26334c; }
     .eco-courier-chips .eco-chip, .eco-cloud-chips .eco-chip { flex:0 1 auto; }
-    .eco-card { position:absolute; display:flex; align-items:center; justify-content:center; gap:8px; text-align:center; background:#fff; border:1px solid #d9e1ee; border-radius:14px; box-shadow:0 4px 12px rgba(15,28,58,.07); padding:6px 10px; }
-    .eco-card b { font:600 .9rem/1.2 var(--head); color:#101d3a; }
-    .eco-ico { flex:0 0 auto; width:24px; height:24px; fill:none; stroke:#101d3a; stroke-width:1.7; stroke-linecap:round; stroke-linejoin:round; }
+    .eco-card { position:absolute; display:flex; align-items:center; justify-content:center; gap:8px; text-align:center; background:#fff; border:1px solid #d9e1ee; border-radius:14px; box-shadow:0 4px 12px rgba(15,28,58,.07); padding:5px 10px; }
+    .eco-card b { font:600 .8125rem/1.2 var(--head); color:#101d3a; }
+    .eco-ico { flex:0 0 auto; width:20px; height:20px; fill:none; stroke:#101d3a; stroke-width:1.7; stroke-linecap:round; stroke-linejoin:round; }
     .eco-ico .o { stroke:#e8520a; }
-    .eco-dry-card { left:61.4%; width:32.3%; top:103px; height:52px; }
-    .eco-wet-card { left:6.3%; width:32.3%; top:103px; height:52px; }
-    .eco-courier-card { left:29.8%; width:40.4%; top:80px; height:48px; }
-    .eco-cloud-card { left:29.8%; width:40.4%; top:14px; height:48px; }
-    .eco-core { position:absolute; left:40%; width:20%; top:214px; height:150px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:7px; text-align:center; border:1.5px solid #e8520a; border-radius:20px; background:linear-gradient(160deg,#fff3ea,#ffe3d1); box-shadow:0 14px 34px rgba(232,82,10,.16); padding:12px; }
-    .eco-mark { width:36px; height:36px; }
-    .eco-core-title { font:600 1.02rem/1.25 var(--head); color:#101d3a; }
-    .eco-core-if { font-size:.78rem; font-weight:700; letter-spacing:.06em; color:#9a3412; background:#fff; border:1px solid #f3cdb6; border-radius:999px; padding:3px 12px; }
+    .eco-dry-card { left:61.4%; width:32.3%; top:97px; height:44px; }
+    .eco-wet-card { left:6.3%; width:32.3%; top:97px; height:44px; }
+    .eco-courier-card { left:29.8%; width:40.4%; top:72px; height:44px; }
+    .eco-cloud-card { left:29.8%; width:40.4%; top:14px; height:44px; }
+        .eco-core { position:absolute; left:42%; width:16%; top:239px; height:100px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:3px; text-align:center; border:1.5px solid #e8520a; border-radius:18px; background:linear-gradient(160deg,#fff3ea,#ffe3d1); box-shadow:0 12px 28px rgba(232,82,10,.15); padding:8px; }
+        .eco-mark { width:24px; height:24px; }
+    .eco-core-name { font:600 1.25rem/1.05 var(--head); letter-spacing:-.01em; color:#101d3a; }
+        .eco-core-title { font-size:.6875rem; line-height:1.2; font-weight:500; color:#55657e; }
+        .eco-core-if { margin-top:3px; font-size:.6875rem; line-height:1.2; font-weight:700; letter-spacing:.06em; color:#9a3412; background:#fff; border:1px solid #f3cdb6; border-radius:999px; padding:2px 10px; }
     .eco-links { position:absolute; inset:0; pointer-events:none; }
     .eco-wires { position:absolute; inset:0; width:100%; height:100%; overflow:visible; }
     .eco-wires path { fill:none; stroke-linecap:butt; vector-effect:non-scaling-stroke; stroke-width:1.5px; }
     .eco-wires .t { stroke:rgba(16,29,58,.35); }
     .eco-wires .c { stroke:#e8520a; }
+    .eco-wires .f1, .eco-wires .f2 { display:none; }
+    /* Moving connectors (CSS only): grey tool links flow slowly; on the orange core links small dots travel in both directions. Static under prefers-reduced-motion. */
+    @media (prefers-reduced-motion:no-preference) {
+      .eco-wires .t { stroke-dasharray:4 4; animation:eco-flow 3.6s linear infinite; }
+      .eco-wires .c { stroke:rgba(232,82,10,.4); }
+      .eco-wires .c.f1, .eco-wires .c.f2 { display:inline; stroke:#e8520a; stroke-width:3.5px; stroke-linecap:round; stroke-dasharray:.1 16; }
+      .eco-wires .c.f1 { animation:eco-flow 2.8s linear infinite; }
+      .eco-wires .c.f2 { animation:eco-flow-rev 2.8s linear infinite; animation-delay:-1.4s; }
+    }
+    @keyframes eco-flow { to { stroke-dashoffset:-16; } }
+    @keyframes eco-flow-rev { to { stroke-dashoffset:16; } }
     .eco-dot { position:absolute; width:7px; height:7px; border-radius:50%; background:rgba(16,29,58,.5); transform:translate(-50%,-50%); }
     .eco-ah { position:absolute; width:0; height:0; border:5px solid transparent; }
     .eco-ah-up { border-top:0; border-bottom:8px solid #e8520a; transform:translate(-50%,0); }
@@ -482,11 +494,11 @@ blockquote.story-quote { margin:0; }
       .eco-stage { height:auto; max-width:560px; display:flex; flex-direction:column; gap:12px; }
       .eco-links { display:none; }
       .eco-side, .eco-core, .eco-chips, .eco-card { position:static; width:auto; height:auto; left:auto; top:auto; }
-      .eco-core { order:0; min-height:150px; }
+      .eco-core { order:0; min-height:110px; }
       .eco-courier-side { order:1; } .eco-dry-side { order:2; } .eco-wet-side { order:3; } .eco-cloud-side { order:4; }
       .eco-side { display:flex; flex-direction:column; gap:10px; padding:12px; }
-      .eco-card { order:-1; min-height:48px; }
+      .eco-card { order:-1; min-height:46px; }
       .eco-chips { flex-direction:row; flex-wrap:wrap; justify-content:center; }
-      .eco-chip { flex:1 1 40%; min-height:36px; }
+      .eco-chip { flex:1 1 40%; min-height:34px; font-size:.7188rem; }
       .eco-courier-chips .eco-chip, .eco-cloud-chips .eco-chip { flex:1 1 40%; }
     }

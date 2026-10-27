@@ -408,7 +408,7 @@ test("favicon set (T-051): orange svg with a white mark, ico with 16/32/48, 180p
 });
 
 // Ecosystem diagram (owner, T-051). One constant for the core wording so it can be swapped in one place.
-const ECO_CORE_TITLE = "Sample operations layer";
+const ECO_CORE_TITLE = "Jubilab"; const ECO_CORE_SUB = "Sample operations layer";
 test("ecosystem diagram: once, inside the For labs section above the option cards; decorative figure; static svg wires; stacked on mobile; no hedge wording", () => {
   const h = rd("index.html");
   assert.equal((h.match(/class="eco"/g) || []).length, 1);
@@ -420,16 +420,20 @@ test("ecosystem diagram: once, inside the For labs section above the option card
   assert.match(f, /role="img" aria-label="Jubilab connects the dry lab, the wet lab, courier and logistics, and cloud and data infrastructure through one API and MCP layer"/);
   assert.match(f, /<div class="eco-stage" aria-hidden="true">/);
   assert.ok(!/<(a|button|input|select|textarea|script)\b|tabindex|https?:|src=/.test(f), "nothing focusable, no script, no external request");
-  assert.ok(f.includes(`<span class="eco-core-title">${ECO_CORE_TITLE}</span><span class="eco-core-if">API · MCP</span>`));
+  assert.ok(f.includes(`<span class="eco-core-name">${ECO_CORE_TITLE}</span><span class="eco-core-title">${ECO_CORE_SUB}</span><span class="eco-core-if">API · MCP</span>`));
   for (const t of ["Courier &amp; Logistics", "Dry Lab", "Wet Lab", "Cloud &amp; Data Infrastructure", "ELN / Research Management", "Sample &amp; Project Records", "LIMS", "Lab Instruments", "Shipment Tracking Services", "Cloud Storage", "Data Access"]) assert.ok(f.includes(t), t);
   assert.equal((f.match(/<path class="[tc]"/g) || []).length, 8, "static wires");
   assert.deepEqual([...f.match(/<div class="eco-chips eco-wet-chips">[\s\S]*?<\/div>/)[0].matchAll(/<span class="eco-chip">([^<]+)<\/span>/g)].map((m) => m[1]), ["LIMS", "Lab Instruments", "Emails, APIs &amp; Portals", "Services &amp; Pipelines", "AI Agents"]);
   assert.deepEqual([...f.match(/<div class="eco-chips eco-dry-chips">[\s\S]*?<\/div>/)[0].matchAll(/<span class="eco-chip">([^<]+)<\/span>/g)].map((m) => m[1]), ["ELN / Research Management", "AI Agents", "Analysis Tools", "Compute Infrastructure", "Sample &amp; Project Records"]);
   assert.ok(!/conceptual|potential connection|illustrative|not a claim/i.test(f + rd("home.css").match(/Ecosystem diagram[\s\S]*$/)[0]), "no hedge wording");
   const css = rd("home.css");
-  assert.match(css, /\.eco-chip \{[^}]*font-size:\.75rem/, "12px minimum");
+  assert.match(css, /\.eco-chip \{[^}]*font-size:\.6875rem/, "11px minimum inside the ecosystem diagram (owner override; every other text stays at 12px)");
+  assert.ok(!/eco[^{]*\{[^}]*font-size:\.(?:[0-5]\d*|6[0-7]\d*)rem/.test(css), "no eco text under 11px");
   assert.match(css, /@media \(max-width:900px\) \{\s*\.eco \{[\s\S]*?\.eco-core \{ order:0;[\s\S]*?\.eco-courier-side \{ order:1; \}/, "mobile stack, core first");
-  assert.ok(!/eco[^{]*\{[^}]*animation/.test(css), "static: no animation");
+  assert.match(css, /@media \(prefers-reduced-motion:no-preference\) \{[\s\S]*?\.eco-wires \.t \{[^}]*animation:eco-flow[\s\S]*?\.eco-wires \.c\.f1 \{ animation:eco-flow[\s\S]*?\.eco-wires \.c\.f2 \{ animation:eco-flow-rev/, "wires animate only when motion is allowed");
+  assert.match(css, /\.eco-wires \.f1, \.eco-wires \.f2 \{ display:none; \}/, "overlays hidden by default, so reduced motion shows static wires");
+  assert.ok(!/animation/.test(css.replace(/@media \(prefers-reduced-motion:no-preference\) \{[\s\S]*?\n    \}\n/, "").match(/Ecosystem diagram[\s\S]*$/)[0]), "no animation outside the motion media query");
+  assert.equal((f.match(/<path class="c f[12]"/g) || []).length, 8, "two travelling-dot overlays per core link");
   assert.ok(!/<script[^>]*>[^<]*eco/.test(h));
   assert.match(rd("llms.txt"), /Through API and MCP, Jubilab connects ELN and research management, LIMS, lab instruments, couriers and logistics, and cloud and data infrastructure\./);
   assert.ok(!/preview-b/.test(rd("sitemap.xml")));

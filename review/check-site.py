@@ -61,7 +61,7 @@ MEASURE = r"""
   for (const e of document.body.querySelectorAll('*')) {
     if (e.closest('svg') || !vis(e) || isHp(e)) continue;
     if (![...e.childNodes].some(n => n.nodeType === 3 && n.textContent.trim())) continue;
-    const f = px(e); if (f < 12) small.push(e.tagName + '.' + e.className + ' ' + f);
+    const f = px(e); if (f < (e.closest('.eco') ? 11 : 12)) small.push(e.tagName + '.' + e.className + ' ' + f);
   }
   out.small = small.slice(0, 5);
   const parse = c => { const m = c.match(/rgba?\(([^)]+)\)/); if (!m) return null; const p = m[1].split(/[ ,\/]+/).filter(Boolean).map(Number); return {r: p[0], g: p[1], b: p[2], a: p.length > 3 ? p[3] : 1}; };
