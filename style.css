@@ -454,3 +454,4 @@ svg .t-tool { font-family: var(--mono); font-size: 13.5px; fill: var(--ink); }
 #about, #scope, #faq { }
 #teams .span a, #labs .span a { color: var(--accent-ink); font-weight: 600; }
 .stats { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+.usecases { padding-top: 40px; } .usecases .cards { margin-top: 0; } .pains { margin-top: 24px; } .investors { margin-top: 12px; }

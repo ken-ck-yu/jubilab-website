@@ -136,7 +136,7 @@ test("audience: early adopters, UK startups and university groups, UCL and Cambr
 test("comparison diagram: right after the hero, both lanes, both variants, aria text, text alternative, caption", () => {
   const h = rd("index.html");
   const secs = [...h.matchAll(/<section id="([a-z]+)"|<section class="hero"/g)].map((m) => m[1] || "hero");
-  assert.deepEqual(secs.slice(0, 3), ["hero", "compare", "problem"]);
+  assert.deepEqual(secs.slice(0, 3), ["hero", "compare", "usecases"]);
   const sec = h.match(/<section id="compare"[\s\S]*?<\/section>/)[0];
   assert.match(sec, /joined only by email and Excel/);
   assert.match(sec, /Illustrative, not real orders\./);
@@ -221,7 +221,16 @@ test("plain-words commitments: fits with tools, data commitment, planned fee, no
   assert.match(h, /Works with the tools you already use:<\/b> Excel, email, your lab software \(LIMS\) and Benchling \(first, planned\)/);
   assert.match(h, /You do not need lab software to start/);
   assert.match(h, /we will not sell or share them/);
-  assert.match(h, /Planned: a fee for each team or lab, and no cut of what you spend\. Prices are not set\./);
+  assert.match(h, /How we plan to charge: a subscription for each team or lab, never a cut of what you spend with labs\. The price is still to be tested with early adopters\./);
+  assert.match(h, /We will not contact your suppliers without your say-so\. You can ask us to delete your data at any time\./);
+  assert.match(h, /What week one looks like, as we plan it:/);
+  assert.match(h, /If you send samples out[\s\S]*If you run a lab or core/);
+  assert.match(h, /Labs say yes because orders arrive tidier and nothing changes in how they work/);
+  assert.match(h, /In 2025 Benchling began direct ordering for a few suppliers and left sequencing and assays out/);
+  assert.match(h, /Prefer to talk first\? Email/);
+  assert.match(h.match(/<footer>[\s\S]*?<\/footer>/)[0], /mailto:hello@jubilab\.io">Investors and partners/);
+  assert.match(h, /Result links that expire/);
+  assert.match(h, /Sample names that do not match/);
   assert.match(h, /Genetics sequencing first, then any lab service\./);
   assert.match(h, /<b>Today:<\/b> a spreadsheet per provider and a trail of emails\. <b>With Jubilab:<\/b> one order, one place to follow it, one clean result\./);
 });
