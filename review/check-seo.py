@@ -362,20 +362,10 @@ def main():
                         urls.add(v.split("#")[0])
                 if node.get("@type") == "SoftwareApplication":
                     rec("FAIL", "no SoftwareApplication JSON-LD while the product is unreleased")
-        # FAQPage must match the visible FAQ text exactly (Google requires the marked-up text to be visible on the page)
+        # The Questions section (and its FAQPage JSON-LD) was removed in T-048: there must be no FAQPage and no FAQ markup left.
         _html = get(base + "/")[1]
-        _vis = {}
-        for m in re.finditer(r'<summary><h3>(.*?)</h3></summary><p>(.*?)</p>', _html.split('id="faq"')[-1].split('id="access"')[0], re.S):
-            _t = lambda x: " ".join(__import__("html").unescape(re.sub(r"<[^>]+>", "", x)).split())
-            _vis[_t(m.group(1))] = _t(m.group(2))
-        _ld = {}
-        for blob in home.ldjson:
-            for node in walk_ld(json.loads(blob)):
-                if node.get("@type") == "FAQPage":
-                    for q in node.get("mainEntity", []):
-                        _ld[" ".join(q["name"].split())] = " ".join(q["acceptedAnswer"]["text"].split())
-        rec("PASS" if _ld and _ld == _vis and 3 <= len(_ld) <= 7 else "FAIL", "FAQPage JSON-LD equals the visible questions and answers", f"{len(_ld)} in JSON-LD, {len(_vis)} visible")
-        for need in ("Organization", "WebSite", "FAQPage"):
+        rec("PASS" if "FAQPage" not in types and 'id="faq"' not in _html and "<summary><h3>" not in _html else "FAIL", "no FAQPage JSON-LD and no FAQ markup (section removed)", f"types {sorted(x for x in types if x)}")
+        for need in ("Organization", "WebSite"):
             rec("PASS" if need in types else "FAIL", f"JSON-LD has {need}")
         for u in sorted(urls):
             s2, _, _ = get(local(base, u))

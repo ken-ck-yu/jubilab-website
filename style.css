@@ -125,6 +125,7 @@ section { padding: 96px 0 0; }
 .hero-lede strong { color: var(--ink); font-weight: 600; }
 .cta-row { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 20px; }
 .trust { font-size: .875rem; line-height: 1.5; color: var(--muted); margin: 16px 0 0; max-width: 52ch; }
+.trust.trust2 { margin-top: 6px; }
 .hero-shot { margin: 28px 0 0; }
 .frame { border: 1px solid var(--frame-line); border-radius: 12px; background: var(--mat); overflow: hidden; box-shadow: 0 1px 2px rgba(23,32,28,.10), 0 12px 32px -8px rgba(23,32,28,.10); }
 .frame-bar { display: flex; align-items: center; gap: 6px; height: 32px; padding: 0 12px; background: var(--bar); border-bottom: 1px solid var(--border); }
@@ -291,7 +292,7 @@ body:has(.cookie-notice:not([hidden])) { padding-bottom: 150px; }
 .cp { margin: 0; font-size: .9375rem; color: var(--muted); flex: 1; }
 .tick { margin: 0; padding-left: 20px; font-size: .9375rem; color: var(--muted); }
 .tick li { margin: 4px 0; }
-#problem { padding-top: 72px; }
+#effort { padding-top: 72px; }
 .cards { margin-top: 40px; }
 
 /* integrations (dark band, text only: no logos, no images, no links on cards) */
@@ -331,24 +332,12 @@ footer p a { color: #ff8a4d; }
 @media (max-width: 899px) { .subnav { display: none; } }
 @media (max-width: 640px) { section.band-dark { margin-top: 56px; } .cards { gap: 16px; } }
 
-/* FAQ: native details elements. Closed answers are in the raw HTML and in the FAQPage JSON-LD, work without JavaScript, and keep the page inside its height budget. */
-.faq-list { list-style: none; margin: 32px 0 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 48px; align-items: start; border-top: 1px solid var(--ink); }
-.faq-list li { border-bottom: 1px solid var(--border); }
-.faq-list summary { cursor: pointer; display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 56px; padding: 8px 0; list-style: none; }
-.faq-list summary::-webkit-details-marker { display: none; }
-.faq-list summary::after { content: "+"; flex: none; font-size: 24px; line-height: 1; color: var(--accent-ink); }
-.faq-list details[open] summary::after { content: "\2212"; }
-.faq-list h3 { margin: 0; font-size: 1.05rem; }
-.faq-list p { margin: 0 0 18px; color: var(--muted); max-width: 62ch; }
-@media (max-width: 900px) { .faq-list { grid-template-columns: 1fr; } }
 
 
 /* order-to-result pivot: hero flow diagram, evidence list, objects, tiers, scope */
 .goal { margin: 0 0 12px; color: var(--ink); }
 .sides { margin: 20px 0 0; color: var(--ink); max-width: 62ch; }
 .cjk { white-space: nowrap; font-family: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", "Heiti TC", "Droid Sans Fallback", sans-serif; }
-.after-qs { margin: 28px 0 0; color: var(--ink); font-weight: 600; font-size: 1.125rem; max-width: 52ch; }
-.small-note { margin: 12px 0 0; font-size: .875rem; color: var(--muted); max-width: 62ch; }
 .flow { background: var(--surface); padding: 12px 8px; }
 .flow svg { display: block; width: 100%; height: auto; margin: 0 auto; }
 .flow-wide { max-width: 1000px; }
@@ -451,7 +440,6 @@ svg .t-tool { font-family: var(--mono); font-size: 13.5px; fill: var(--ink); }
 .steps { counter-reset: none; }
 .about-cards .cp { color: var(--ink); }
 #compare { padding-top: 72px; }
-#about, #scope, #faq { }
 #teams .span a, #labs .span a { color: var(--accent-ink); font-weight: 600; }
 .stats { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
-.usecases { padding-top: 40px; } .usecases .cards { margin-top: 0; } .pains { margin-top: 24px; } .investors { margin-top: 12px; }
+.usecases { padding-top: 40px; } .usecases .cards { margin-top: 0; } .investors { margin-top: 12px; }
