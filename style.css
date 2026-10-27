@@ -125,6 +125,7 @@ section { padding: 96px 0 0; }
 .hero-lede strong { color: var(--ink); font-weight: 600; }
 .cta-row { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 20px; }
 .trust { font-size: .875rem; line-height: 1.5; color: var(--muted); margin: 16px 0 0; max-width: 52ch; }
+.trust.trust2 { margin-top: 6px; }
 .hero-shot { margin: 28px 0 0; }
 .frame { border: 1px solid var(--frame-line); border-radius: 12px; background: var(--mat); overflow: hidden; box-shadow: 0 1px 2px rgba(23,32,28,.10), 0 12px 32px -8px rgba(23,32,28,.10); }
 .frame-bar { display: flex; align-items: center; gap: 6px; height: 32px; padding: 0 12px; background: var(--bar); border-bottom: 1px solid var(--border); }

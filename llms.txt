@@ -1,6 +1,6 @@
 # Jubilab
 
-> Jubilab is one order, one status feed and one result across every lab you use, so scientists and AI agents can order, track and read results across dry labs, wet labs and logistics. It is for research teams and startups that send samples to outside labs, and for the labs that receive them. Starting with genetics, UK first. We are accepting early adopters by invitation (request access and we invite small groups first), mainly UK biotech startups and university research groups, together with the wet labs that run their samples, starting with non-clinical genetics samples. Nothing is released yet. Genetics sequencing first, then any lab service.
+> Jubilab is one order, one status feed and one result: order sequencing from outside labs once, see every step, and get results with your own sample names, for scientists and AI agents. It is for research teams and startups that send samples to outside labs, and for the labs that receive them. Starting with genetics, UK first. We are accepting early adopters by invitation (request access and we invite small groups first), mainly UK biotech startups and university research groups, together with the wet labs that run their samples, starting with non-clinical genetics samples. Nothing is released yet. Genetics sequencing first, then any lab service.
 
 ## What we are building
 

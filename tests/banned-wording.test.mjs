@@ -48,7 +48,7 @@ for (const f of CONTENT) {
     const t = rd(f);
     for (const re of [/data provenance and lineage for bioinformatics pipelines/i, /Be among the first labs shaping/, /synthetic demo data/i, /more science, fewer data/i, /How Jubilab helps/, /Available now<\/h3>/, /\.\.\/#(fits|product|next)\b/, /\/#(fits|product|next)\b/]) assert.ok(!re.test(t), String(re));
     assert.match(t, /href="[^"]*#how">How it works/);
-    assert.match(t, /One order, one status feed, one result across every lab you use\. We are accepting early adopters: request access and we invite small groups first\. The product is still being built and nothing is released yet\./);
+    assert.match(t, /One order, one status feed, one result\. We are accepting early adopters: request access and we invite small groups first\. The product is still being built and nothing is released yet\./);
     assert.match(t, /A product of Billy BioTech Ltd\. \(<span lang="zh-Hant" class="cjk">比利生物科技有限公司<\/span>\), Taipei/);
     assert.ok(!/in design/.test(t.replace(/<script[\s\S]*?<\/script>/g, "")));
   });
@@ -75,10 +75,14 @@ test("hero does not lead with researcher or academia, and carries the owner-appr
   const html = rd("index.html");
   const hero = html.match(/<section class="hero"[\s\S]*?<\/section>/)[0];
   assert.ok(!/researcher|academi/i.test(hero));
-  assert.ok(hero.includes("<h1 id=\"h1\">One order, one status feed, one result. Across every lab you use.</h1>"));
+  assert.ok(hero.includes("<h1 id=\"h1\">One order, one status feed, one result.</h1>"));
   // Owner-delegated headline (T-047 round 2); the owner can reverse it. Sub-line is one plain sentence pair that mentions AI assistants but does not lead with them.
-  assert.ok(hero.includes("So scientists and AI agents can order, track and read results across dry labs, wet labs and logistics."));
-  assert.ok(hero.includes("For research teams and startups that send samples to outside labs, and the labs that receive them. Starting with genetics, UK first."));
+  assert.ok(hero.includes("Order sequencing from outside labs once, see every step, and get results with your own sample names. For scientists and AI agents."));
+  assert.ok(hero.includes("For teams that send samples to outside labs, and the labs that run them. UK genetics first."));
+  assert.ok(!/dry lab|wet lab|logistics/i.test(hero), "no dry/wet lab or logistics wording on the first screen (it stays in the diagram)");
+  assert.match(hero, /By Billy BioTech, the company behind Biligene\./);
+  assert.match(hero, /Investors\? <a href="mailto:hello@jubilab\.io">Email us<\/a>/);
+  assert.ok(!/<h2/.test(hero));
   assert.ok(!/schema|order layer|one shape|\bAPI\b|\bMCP\b/i.test(hero), "no schema words, API or MCP in the hero");
   assert.equal((hero.match(/class="btn[ "]/g) || []).length, 1, "one primary call to action in the hero");
 });
@@ -198,7 +202,7 @@ test("no separate what-we-do-not-do block, no roadmap or timeline block; the lim
   const acc = h.match(/<section id="access"[\s\S]*?<\/section>/)[0];
   assert.match(acc, /early adopters, mainly UK biotech startups and university research groups, together with the wet labs that run their samples/);
   assert.match(acc, /We invite small groups first/);
-  assert.match(acc, /Investors and partners, or prefer to talk first\? Email <a href="mailto:hello@jubilab\.io">/);
+  assert.match(acc, /Prefer to talk first\? Email <a href="mailto:hello@jubilab\.io">/);
   assert.equal((acc.match(/mailto:hello@jubilab\.io/g) || []).length, 1);
 });
 
@@ -211,7 +215,7 @@ test("plain-words commitments: fits with tools, data commitment, planned fee, no
   assert.match(h, /We plan to charge a subscription for each team or lab, not a cut of what you spend\. The price is still to be tested with early adopters\./);
   assert.match(h, /What week one looks like, as we plan it:/);
   assert.match(h, /If you send samples out[\s\S]*If you run a lab or core/);
-  assert.match(h, /We expect labs to say yes because orders arrive tidier and nothing changes in how they work/);
+  assert.ok(!/say yes/.test(h), "presumptuous line removed");
   assert.match(h, /In 2025 Benchling began direct ordering for a few suppliers and left sequencing and assays out/);
     assert.match(h.match(/<footer>[\s\S]*?<\/footer>/)[0], /mailto:hello@jubilab\.io">Investors and partners/);
   assert.match(h, /Genetics sequencing first, then any lab service\./);
