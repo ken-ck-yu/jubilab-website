@@ -64,7 +64,7 @@ A paragraph has to be short. The record behind it need not be. The guidelines ab
 
 ## Where Jubilab is now
 
-Imagine you open the run behind a figure and find the pipeline, its parameters and the tool versions listed, each marked with how it was learned. An earlier Jubilab prototype recorded runs this way, with an evidence status on each value; what a given run record held depended on what the tool exposed. Jubilab's earlier run-record prototype is not being offered. Jubilab is now building a way to order lab work once and follow it to results. We are accepting early adopters by invitation (request access and we invite small groups first). The product is still being built and nothing is released yet.
+Imagine you open the run behind a figure and find the pipeline, its parameters and the tool versions listed, each marked with how it was learned. An earlier Jubilab prototype recorded runs this way, with an evidence status on each value; what a given run record held depended on what the tool exposed. Jubilab is one place to order lab work and follow it to results. Register for early access: we invite small groups first.
 
 It does not write your methods paragraph, and we are not suggesting it should do so unreviewed. A record cannot recover the history of a run it never saw. See also our guide on [what parameters produced a result](/guides/what-parameters-produced-this-result/) and, for the reference build, [checking a VCF or BAM](/guides/reference-genome-build-vcf-bam/). Jubilab is not affiliated with or endorsed by Nextflow, nf-core, Snakemake or the authors cited here.
 

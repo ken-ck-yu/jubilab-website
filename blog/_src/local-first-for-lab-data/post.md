@@ -1,11 +1,11 @@
 ---
 title: Local-first for lab data: what stays on your machine
-description: What local-first software means for sequencing labs, which of its ideals fit a provenance record, where the cloud still helps, and what our prototype did.
+description: What local-first software means for sequencing labs, which of its ideals fit a provenance record, where the cloud still helps, and how our earlier work used it.
 slug: local-first-for-lab-data
 date: 2026-10-19
 updated: 2026-10-19
 tags: local-first, provenance, vision
-summary: Local-first ideas applied to lab records: what should stay on your own machine, where the cloud helps, and what we ship today.
+summary: Local-first ideas applied to lab records: what stays on your machine, where the cloud helps, and how our earlier work used them.
 image_alt: A laptop with a small house-shaped roof on its screen, and a thin cloud far away at the edge of the picture, joined to it by a dotted line.
 ---
 
@@ -49,7 +49,7 @@ It would be unfair to treat the cloud as the enemy. Shared services are easier t
 
 ## Where Jubilab is now
 
-The points above about spool files, a local data directory and a single SQLite file describe the earlier prototype, not something you can use today. Jubilab's earlier run-record prototype is not being offered. Jubilab is now building a way to order lab work once and follow it to results. We are accepting early adopters by invitation (request access and we invite small groups first). The product is still being built and nothing is released yet. See our guide on [Nextflow provenance and lineage](/guides/nextflow-provenance-and-lineage-compared/) for how run records relate to each engine's own. Jubilab is not affiliated with or endorsed by Ink & Switch, SQLite, Nextflow or Snakemake.
+The points above about spool files, a local data directory and a single SQLite file describe the earlier prototype, not something you can use today. Jubilab is one place to order lab work and follow it to results. Register for early access: we invite small groups first. See our guide on [Nextflow provenance and lineage](/guides/nextflow-provenance-and-lineage-compared/) for how run records relate to each engine's own. Jubilab is not affiliated with or endorsed by Ink & Switch, SQLite, Nextflow or Snakemake.
 
 ## Questions we are still asking
 

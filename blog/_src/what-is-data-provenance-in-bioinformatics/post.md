@@ -54,7 +54,7 @@ That last item is easy to forget. A record that silently skips what it did not s
 
 ## Where Jubilab is now
 
-Jubilab began as a record of how results are made across the tools a lab already uses. Jubilab's earlier run-record prototype is not being offered. Jubilab is now building a way to order lab work once and follow it to results. We are accepting early adopters by invitation (request access and we invite small groups first). The product is still being built and nothing is released yet.
+Jubilab began as a record of how results are made across the tools a lab already uses. Jubilab is one place to order lab work and follow it to results. Register for early access: we invite small groups first.
 
 Jubilab does not link samples to files or check for sample swaps or reference genome build mismatches, and a record cannot recover the history of a run that was never captured.
 

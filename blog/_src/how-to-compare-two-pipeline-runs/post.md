@@ -79,7 +79,7 @@ These are open questions for us, not claims about the tools. Both features are y
 
 ## Where Jubilab is now
 
-An earlier Jubilab prototype could compare two runs and show which recorded parameters, versions or results differ, with an evidence status on each fact, which is why a comparison could say "unknown" rather than "same". Jubilab's earlier run-record prototype is not being offered. Jubilab is now building a way to order lab work once and follow it to results. We are accepting early adopters by invitation (request access and we invite small groups first). The product is still being built and nothing is released yet. Jubilab does not replace Nextflow, its lineage feature or nf-diff, and it is not affiliated with or endorsed by Nextflow, Seqera or the plugin's author. For the wider picture see [what parameters produced this result](/guides/what-parameters-produced-this-result/) and [Nextflow provenance and lineage compared](/guides/nextflow-provenance-and-lineage-compared/).
+An earlier Jubilab prototype could compare two runs and show which recorded parameters, versions or results differ, with an evidence status on each fact, which is why a comparison could say "unknown" rather than "same". Jubilab is one place to order lab work and follow it to results. Register for early access: we invite small groups first. Jubilab does not replace Nextflow, its lineage feature or nf-diff, and it is not affiliated with or endorsed by Nextflow, Seqera or the plugin's author. For the wider picture see [what parameters produced this result](/guides/what-parameters-produced-this-result/) and [Nextflow provenance and lineage compared](/guides/nextflow-provenance-and-lineage-compared/).
 
 ## Questions we are still asking
 

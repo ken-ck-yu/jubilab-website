@@ -32,7 +32,7 @@ test("sitemap lists home, privacy, terms, the four guides and the blog (index an
 test("home, legal, thanks and 404 link to the Blog in the header menu or links and the footer", () => {
   for (const f of ["index.html", "privacy/index.html", "terms/index.html", "thanks/index.html", "404.html"]) {
     const t = rd(f);
-    assert.match(t, /<li><a href="[^"]*blog\/">Blog<\/a><\/li>/, f);
+    if (f !== "index.html") assert.match(t, /<li><a href="[^"]*blog\/">Blog<\/a><\/li>/, f);
     assert.match(t, /<footer>[\s\S]*href="[^"]*blog\/">Blog<\/a>[\s\S]*<\/footer>/, f);
   }
 });

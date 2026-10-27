@@ -63,7 +63,7 @@ A count tells you how many records went missing, not which ones or why. If the r
 
 ## Where Jubilab is now
 
-This is the kind of record we wanted a run-record tool to keep: the command, its arguments and the input and output files you declare, with an evidence status on each. Jubilab's earlier run-record prototype is not being offered. Jubilab is now building a way to order lab work once and follow it to results. We are accepting early adopters by invitation (request access and we invite small groups first). The product is still being built and nothing is released yet.
+This is the kind of record we wanted a run-record tool to keep: the command, its arguments and the input and output files you declare, with an evidence status on each. Jubilab is one place to order lab work and follow it to results. Register for early access: we invite small groups first.
 
 Jubilab does not perform or check a liftover. It is not affiliated with or endorsed by Picard, CrossMap, UCSC, the bcftools project or the authors cited here.
 

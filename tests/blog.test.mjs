@@ -114,7 +114,7 @@ for (const s of SLUGS) {
     assert.match(main, /\d+ min read/);
     assert.match(main, /<h2 id="questions-h">Questions we are still asking/);
     assert.match(main, /<h2 id="helps-h">Where Jubilab is now/);
-    assert.match(main, /not being offered/); assert.ok(!/Available now|How Jubilab helps/.test(main));
+    assert.ok(!/Available now|How Jubilab helps|not being offered|being built|released yet|prototype is/.test(main.match(/<section class="helps"[\s\S]*?<\/section>/)[0]), "neutral box: no product-state hedge");
     assert.equal((main.match(/class="btn"/g) || []).length, 1);
     const src = main.match(/<ol class="g-sources">([\s\S]*?)<\/ol>/)[1];
     const n = (src.match(/<li id="src-/g) || []).length;
@@ -122,20 +122,22 @@ for (const s of SLUGS) {
     assert.equal((src.match(/Accessed \d{1,2} [A-Z][a-z]+ \d{4}/g) || []).length, n);
     assert.equal((src.match(/rel="noopener"/g) || []).length, n);
     const t = txt(main);
-    assert.match(t, /building a way to order lab work once and follow it to results\. We are accepting early adopters by invitation[^.]*\. The product is still being built and nothing is released yet/);
+    assert.match(t, /Jubilab is one place to order lab work and follow it to results\. Register for early access: we invite small groups first\./);
     assert.match(t, /not affiliated with or endorsed by/);
     assert.ok(!/(?<!not )(detects?|flags?) sample swaps/i.test(t), "a post may say Jubilab does not detect sample swaps, never that it does");
   });
 }
 
-test("the footer and header nav of every page link to Blog; the home subnav strip has its four section links", () => {
+test("the footer and header nav of every page link to Blog; the other pages carry the new nav (How it works, For teams, For labs, AI & developers, Blog)", () => {
   for (const f of ["index.html", "privacy/index.html", "terms/index.html", "thanks/index.html", "404.html", "guides/index.html", ...readdirSync(REPO + "guides").filter((d) => existsSync(REPO + `guides/${d}/index.html`)).map((d) => `guides/${d}/index.html`)]) {
     const h = rd(f);
     assert.match(h, /<footer>[\s\S]*href="[^"]*blog\/">Blog<\/a>/, f);
+    if (f === "index.html") continue; // the home page header is the owner's four links plus the early-access button; Blog is in its footer
     assert.match(h, /<nav class="site-nav"[\s\S]*?href="[^"]*blog\/">Blog<\/a>[\s\S]*?<\/nav>/, f);
-    assert.equal((h.match(/<nav class="site-nav"[\s\S]*?<\/nav>/)[0].match(/>Blog<\/a>/g) || []).length, f === "index.html" ? 1 : 2, f + ": once in the wide-screen list (not on home), once in the menu");
+    assert.equal((h.match(/<nav class="site-nav"[\s\S]*?<\/nav>/)[0].match(/>Blog<\/a>/g) || []).length, 2, f + ": once in the wide-screen list, once in the menu");
+    assert.deepEqual([...h.match(/<ul class="links">[\s\S]*?<\/ul>/)[0].matchAll(/<a href="([^"]+)"[^>]*>([^<]+)<\/a>/g)].map((m) => m[2]), ["How it works", "For teams", "For labs", "AI & developers", "Blog"].map((x) => x.replace("&", "&amp;")), f + ": nav");
+    for (const m of h.match(/<nav class="site-nav"[\s\S]*?<\/nav>/)[0].matchAll(/href="((?:\.\.\/)*)#([a-z]+)"/g)) assert.ok(["how", "teams", "labs", "developers", "access"].includes(m[2]), f + " nav anchor " + m[2]);
   }
-  assert.equal((rd("index.html").match(/<nav class="subnav"[\s\S]*?<\/nav>/)[0].match(/<a /g) || []).length, 4);
 });
 
 test("sitemap and llms.txt list the blog index and each post (generated blocks in sync, one entry each)", () => {

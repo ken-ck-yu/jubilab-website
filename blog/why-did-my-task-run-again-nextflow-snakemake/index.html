@@ -50,7 +50,7 @@
       },
       "image": "https://jubilab.io/blog/why-did-my-task-run-again-nextflow-snakemake/og.png",
       "keywords": "nextflow, snakemake, bioinformatics",
-      "wordCount": 1195,
+      "wordCount": 1167,
       "timeRequired": "PT6M",
       "isPartOf": {
         "@type": "Blog",
@@ -138,16 +138,18 @@
     <nav class="site-nav" aria-label="Page sections">
       <ul class="links">
         <li><a href="../../#how">How it works</a></li>
+        <li><a href="../../#teams">For teams</a></li>
         <li><a href="../../#labs">For labs</a></li>
-        <li><a href="../../#why">Why now</a></li>
+        <li><a href="../../#developers">AI &amp; developers</a></li>
         <li><a href="../../blog/" aria-current="page">Blog</a></li>
       </ul>
       <details class="menu">
         <summary aria-label="Menu"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 7h16M4 12h16M4 17h16"/></svg></summary>
         <ul>
           <li><a href="../../#how">How it works</a></li>
+          <li><a href="../../#teams">For teams</a></li>
           <li><a href="../../#labs">For labs</a></li>
-          <li><a href="../../#why">Why now</a></li>
+          <li><a href="../../#developers">AI &amp; developers</a></li>
           <li><a href="../../blog/" aria-current="page">Blog</a></li>
         </ul>
       </details>
@@ -216,7 +218,7 @@ snakemake -c1 -n count.txt</code></pre>
 <p>This is a checklist drawn from documentation, not a finding about how often each cause occurs. We have no data on that.</p>
 <h2 id="a-rerun-is-part-of-the-history">A rerun is part of the history</h2>
 <p>When a task reruns, there is a new execution, new outputs and, possibly, a different answer. If the story of a result says &quot;we ran it in March&quot;, but half of it was rerun in April, the story has changed in a way that the output files alone will not tell you. The Nextflow lineage documentation says that tasks that failed or were aborted are not recorded, and that when a task is retried the store describes the attempt that succeeded.<sup class="cite"><a href="#src-4" aria-label="Source 4">[4]</a></sup> That is a sensible design choice, and it also shows why a reader may want an additional record of what happened around it.</p>
-<p>An earlier Jubilab prototype recorded runs and could compare two runs to show which recorded parameters, versions or results differ. It did not explain why an engine decided to rerun a task. Jubilab&#x27;s earlier run-record prototype is not being offered. Jubilab is now building a way to order lab work once and follow it to results. We are accepting early adopters by invitation (request access and we invite small groups first). The product is still being built and nothing is released yet. Jubilab is not affiliated with or endorsed by Nextflow, Seqera or Snakemake. For the bigger picture of what to write down, see <a href="/guides/what-parameters-produced-this-result/">what parameters produced this result</a>.</p>
+<p>An earlier Jubilab prototype recorded runs and could compare two runs to show which recorded parameters, versions or results differ. It did not explain why an engine decided to rerun a task. Jubilab is one place to order lab work and follow it to results. Register for early access: we invite small groups first. Jubilab is not affiliated with or endorsed by Nextflow, Seqera or Snakemake. For the bigger picture of what to write down, see <a href="/guides/what-parameters-produced-this-result/">what parameters produced this result</a>.</p>
 
 <section class="b-questions" aria-labelledby="questions-h">
 <h2 id="questions-h">Questions we are still asking</h2>
@@ -230,7 +232,7 @@ snakemake -c1 -n count.txt</code></pre>
 </section>
 <section class="helps" aria-labelledby="helps-h">
 <h2 id="helps-h">Where Jubilab is now</h2>
-<p>This post comes from our earlier work on a record of how results are made. Jubilab's earlier run-record prototype is not being offered. Jubilab is now building a way to order lab work once and follow it to results. We are accepting early adopters by invitation (request access and we invite small groups first). The product is still being built and nothing is released yet.</p>
+<p>This post comes from our earlier work on a record of how results are made. Jubilab is one place to order lab work and follow it to results. Register for early access: we invite small groups first.</p>
 <a class="btn" href="../../#access">Request early access</a>
 </section>
 <h2 id="sources">Sources</h2>

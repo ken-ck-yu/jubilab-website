@@ -16,7 +16,7 @@ ROOT = os.environ.get("JUBILAB_SITE_ROOT") or os.path.dirname(os.path.dirname(os
 ORIGIN = "https://jubilab.io"
 SRC = "blog/_src"
 DEFAULT_OG = ORIGIN + "/assets/og/jubilab-og.png"
-DEFAULT_OG_ALT = "Jubilab: power lab operations, from sample order to result. An order moves from sample submission through received, QC and run to delivered, with an agent reading each step. Marked: early access by invitation, nothing released yet."
+DEFAULT_OG_ALT = "Jubilab: streamline biological sample to data with AI enablement. An order moves from sample submission through received, QC and run to delivered. Early access by invitation."
 MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
 KEYS = ["title", "description", "slug", "date", "updated", "tags", "summary", "image_alt"]
 OPTIONAL = ["reading_time"]
@@ -434,16 +434,18 @@ def header(p):
     <nav class="site-nav" aria-label="Page sections">
       <ul class="links">
         <li><a href="{p}#how">How it works</a></li>
+        <li><a href="{p}#teams">For teams</a></li>
         <li><a href="{p}#labs">For labs</a></li>
-        <li><a href="{p}#why">Why now</a></li>
+        <li><a href="{p}#developers">AI &amp; developers</a></li>
         <li><a href="{p}blog/"{cur}>Blog</a></li>
       </ul>
       <details class="menu">
         <summary aria-label="Menu"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 7h16M4 12h16M4 17h16"/></svg></summary>
         <ul>
           <li><a href="{p}#how">How it works</a></li>
+          <li><a href="{p}#teams">For teams</a></li>
           <li><a href="{p}#labs">For labs</a></li>
-          <li><a href="{p}#why">Why now</a></li>
+          <li><a href="{p}#developers">AI &amp; developers</a></li>
           <li><a href="{p}blog/"{cur}>Blog</a></li>
         </ul>
       </details>
@@ -487,7 +489,7 @@ def footer(p):
 # Same wording as the three guides (tests/guides.test.mjs pins it there); keep in step when a release changes what ships.
 HELPS = """<section class="helps" aria-labelledby="helps-h">
 <h2 id="helps-h">Where Jubilab is now</h2>
-<p>This post comes from our earlier work on a record of how results are made. Jubilab's earlier run-record prototype is not being offered. Jubilab is now building a way to order lab work once and follow it to results. We are accepting early adopters by invitation (request access and we invite small groups first). The product is still being built and nothing is released yet.</p>
+<p>This post comes from our earlier work on a record of how results are made. Jubilab is one place to order lab work and follow it to results. Register for early access: we invite small groups first.</p>
 <a class="btn" href="../../#access">Request early access</a>
 </section>
 """
@@ -658,7 +660,7 @@ def render_index(posts):
         out.append("</ul>")
     else:
         out.append("<p>The first posts are on the way.</p>")
-    out.append("""<p class="g-review">These articles come from our earlier work on data provenance. Jubilab is now building a way to <a href="../">order lab work once and follow it to results</a>.</p>
+    out.append("""<p class="g-review">These articles come from our earlier work on data provenance. Jubilab is a way to <a href="../">order lab work once and follow it to results</a>.</p>
 <p class="g-review">Posts are written by the Jubilab team. Product names belong to their owners; Jubilab is not affiliated with or endorsed by them. If you spot a mistake, email <a href="mailto:hello@jubilab.io">hello@jubilab.io</a>.</p>
 </div>
 </div>
@@ -684,7 +686,7 @@ def sitemap_block(posts):
 
 def llms_block(posts):
     lines = [START, "## Blog", "",
-             f"- [Blog]({ORIGIN}/blog/): notes on data provenance, lineage and reproducibility in bioinformatics from our earlier work, each with sources and open questions. Jubilab is now building a way to order lab work once and follow it to results"]
+             f"- [Blog]({ORIGIN}/blog/): notes on data provenance, lineage and reproducibility in bioinformatics from our earlier work, each with sources and open questions. Jubilab is a way to order lab work once and follow it to results"]
     for p in sorted(posts, key=lambda p: p["slug"]):
         lines.append(f"- [{p['meta']['title']}]({ORIGIN}/blog/{p['slug']}/): {p['meta']['summary']}")
     return "\n".join(lines) + "\n\n" + END + "\n"
