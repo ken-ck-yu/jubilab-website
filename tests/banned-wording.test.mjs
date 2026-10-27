@@ -52,7 +52,7 @@ for (const f of CONTENT) {
     const t = rd(f);
     for (const re of [/data provenance and lineage for bioinformatics pipelines/i, /Be among the first labs shaping/, /synthetic demo data/i, /more science, fewer data/i, /How Jubilab helps/, /Available now<\/h3>/, /\.\.\/#(fits|product|next)\b/, /\/#(fits|product|next)\b/]) assert.ok(!re.test(t), String(re));
     assert.match(t, /href="[^"]*#how">How it works/);
-    assert.ok(!/accepting early adopters|Streamline biological/i.test(t.match(/<footer>[\s\S]*?<\/footer>/)[0]), "footer has no tagline or status sentence");
+    assert.ok(!/accepting early adopters|Streamline Biological/i.test(t.match(/<footer>[\s\S]*?<\/footer>/)[0]), "footer has no tagline or status sentence");
     assert.match(t.match(/<footer>[\s\S]*?<\/footer>/)[0], /<p class="foot-co">A product of Billy BioTech Ltd\.<\/p>/);
     assert.ok(!/in design/.test(t.replace(/<script[\s\S]*?<\/script>/g, "")));
     assert.ok(!HEDGE.test(t.match(/<footer>[\s\S]*?<\/footer>/)[0]) && !HEDGE.test(t.match(/<head>[\s\S]*?<\/head>/)[0]), "no product-state hedge in head or footer");
@@ -79,7 +79,7 @@ test("\"marketplace\" appears only to say what Jubilab is not, or in a factual d
 test("hero carries the owner's headline, lede and sub-line, one eyebrow, two calls to action and the Orders dashboard", () => {
   const html = rd("index.html");
   const hero = html.match(/<section class="hero"[\s\S]*?<\/section>/)[0];
-  assert.ok(hero.includes('<h1 id="h1">Streamline biological sample to data with AI enablement.</h1>'));
+  assert.ok(hero.includes('<h1 id="h1">Streamline Biological Sample to Data <span class="h1-tail">for AI enablement</span></h1>'));
   assert.ok(hero.includes("So scientists and AI agents can order, track and read results across dry labs, wet labs and logistics."));
   assert.ok(hero.includes("For biotech teams, research groups and the labs that run their samples."));
   assert.ok(!/Order sequencing from external labs|track each step, and get results linked/.test(html), "old hero paragraph removed");
@@ -141,7 +141,7 @@ test("brand is Biligene, never Bili Gene; the Biligene story stays", () => {
   for (const f of [...ALL, ...CONTENT]) assert.ok(!/Bili Gene/.test(rd(f)), f);
   const h = rd("index.html");
   assert.match(h, /We run Biligene, a pet genetics testing business/);
-  assert.match(h, /Our own sequencing workflows at Biligene come first/);
+  assert.ok(!/Our own sequencing workflows at Biligene come first|story-note/.test(h), "story note removed");
 });
 
 test("labs section: owner heading, three options in plain words, existing tools stay", () => {
@@ -155,10 +155,10 @@ test("labs section: owner heading, three options in plain words, existing tools 
   assert.equal((h.match(/seamless/gi) || []).length, 1, "'seamless' only in the owner-approved labs heading");
 });
 
-test("section order and ids: hero, teams (merged Why use Jubilab), how, labs, value, developers, story, access", () => {
+test("section order and ids: hero, how, labs, teams (merged Why use Jubilab), value, value, developers, story, access", () => {
   const h = rd("index.html");
   const secs = [...h.matchAll(/<section (?:id="([a-z]+)" )?class="([^"]*)"|<section id="([a-z]+)"/g)].map((m) => m[1] || m[3] || m[2]);
-  assert.deepEqual(secs, ["hero", "teams", "how", "labs", "value-section", "developers", "story-section", "access"]);
+  assert.deepEqual(secs, ["hero", "how", "labs", "teams", "value-section", "developers", "story-section", "access"]);
 });
 
 test("merged Why use Jubilab / For teams section: one h2, owner order, no separate For-teams or 'From lab samples to result' section", () => {
@@ -166,7 +166,7 @@ test("merged Why use Jubilab / For teams section: one h2, owner order, no separa
   const s = h.match(/<section id="teams"[\s\S]*?<\/section>/)[0];
   assert.ok(!/id="why"|The problem|From lab samples to result|<section id="teams"[\s\S]*<section id="teams"/.test(h));
   assert.equal((h.match(/id="teams"/g) || []).length, 1);
-  assert.match(s, /<span class="eyebrow">Why use Jubilab<\/span>\s*<h2 id="h-teams">Every external lab, one workflow\.<\/h2>/);
+  assert.match(s, /<span class="eyebrow">Why use Jubilab<\/span>\s*<h2 id="h-teams">Every lab, accessible to AI\.<\/h2>/);
   assert.match(s, /Today, ordering sequencing from an external lab often means a new spreadsheet, email updates, and results that need manual reconciliation\. Jubilab, the sample operations layer, connects the order, status and result in one workflow, and you keep the tools you already use\./);
   const order = ["class=\"comparison\"", "<strong>One order. One place to follow it. One clean result.</strong><br>One interface for people and software.", "class=\"three-grid\"", "One connected path"].map((x) => s.indexOf(x));
   assert.ok(order.every((x) => x > 0) && order.every((x, i) => i === 0 || x > order[i - 1]), "order: panels, summary line, cards, banner, path strip: " + order);
@@ -256,14 +256,14 @@ test("home page: no code blocks; API, MCP and webhooks appear only in the owner-
   assert.ok(!/<pre\b|<code\b/i.test(h));
   const vis = h.replace(/<script[\s\S]*?<\/script>/g, "").replace(/<form[\s\S]*?<\/form>/, "");
   const text = vis.replace(/<[^>]+>/g, " ");
-  for (const [re, max] of [[/\bMCP\b/g, 3], [/\bAPI\b/g, 3], [/webhooks?/gi, 1]]) assert.ok((text.match(re) || []).length <= max, String(re));
+  for (const [re, max] of [[/MCP/g, 3], [/API/g, 3], [/webhooks?/gi, 1]]) assert.ok((text.match(re) || []).length <= max, String(re));
   assert.ok(!/JSON|endpoints?|SFTP|SDK|\btokens?\b|create_order|get_status|fetch_result|REST/.test(text));
 });
 
 test("home nav: How it works, For teams, For labs, AI & developers and the Request early access button; every link has a target", () => {
   const h = rd("index.html");
   const nav = h.match(/<nav class="nav"[\s\S]*?<\/nav>/)[0];
-  assert.deepEqual([...nav.match(/<div class="navlinks">[\s\S]*?<\/div>/)[0].matchAll(/<a href="([^"]+)">([^<]+)<\/a>/g)].map((m) => m[1] + "|" + m[2]), ["#how|How it works", "#teams|For teams", "#labs|For labs", "#developers|AI &amp; developers"]);
+  assert.deepEqual([...nav.match(/<div class="navlinks">[\s\S]*?<\/div>/)[0].matchAll(/<a href="([^"]+)">([^<]+)<\/a>/g)].map((m) => m[1] + "|" + m[2]), ["#how|How it works", "#labs|For labs", "#teams|For teams", "#developers|AI &amp; developers"]);
   assert.match(nav, /<a class="button" href="#access">Request early access/);
   const ids = new Set([...h.matchAll(/\sid="([^"]+)"/g)].map((m) => m[1]));
   for (const m of h.matchAll(/href="#([^"]+)"/g)) assert.ok(ids.has(m[1]), "dangling anchor #" + m[1]);
@@ -280,9 +280,9 @@ test("home page h2 headings are exactly this list; no roadmap, timeline or extra
   const h = rd("index.html").replace(/<script[\s\S]*?<\/script>/g, "");
   const h2 = [...h.matchAll(/<h2[^>]*>([\s\S]*?)<\/h2>/g)].map((m) => m[1].replace(/<[^>]+>/g, "").replace(/&rsquo;/g, "\u2019").replace(/&amp;/g, "&"));
   assert.deepEqual(h2, [
-    "Every external lab, one workflow.",
     "Standardise the request. Follow the sample. Get the data.",
     "Seamless integration into your existing tools with AI enablement.",
+    "Every lab, accessible to AI.",
     "Less time managing orders. More time doing science.",
     "Every AI agent stops at the lab door.",
     "Built from a problem we know firsthand.",
@@ -295,7 +295,7 @@ test("home page h2 headings are exactly this list; no roadmap, timeline or extra
 
 test("self-hosted fonts and no third-party request in the home page's head or css", () => {
   const h = rd("index.html"), css = rd("home.css");
-  assert.ok(!/(?:src|href)="https?:\/\/(?!jubilab\.io)/.test(h.replace(/<link rel="canonical"[^>]*>/, "").replace(/<a class="biligene-logo" href="https:\/\/biligene\.com" rel="noopener">/, "")), "no external src or href (the Biligene logo link is the one owner-approved outbound link)");
+  assert.ok(!/(?:src|href)="https?:\/\/(?!jubilab\.io)/.test(h.replace(/<link rel="canonical"[^>]*>/, "")), "no external src or href");
   assert.ok(!/url\(\s*["']?https?:/.test(css) && !/@import/.test(css), "no external css url");
   assert.match(css, /font-family: "Inter"; src: url\("assets\/fonts\/inter-latin-wght-normal\.woff2"\)/);
   assert.ok(readFileSync(REPO + "assets/fonts/OFL-Inter.txt", "utf8").includes("SIL OPEN FONT LICENSE"));
@@ -338,7 +338,7 @@ test("illustrations: every <img> has width, height and alt; flat-colour svg file
   }
   for (const m of h.matchAll(/srcset="([^"]+)"/g)) assert.ok(!/^(https?:)?\/\//.test(m[1]));
   const files = readdirSync(REPO + "assets/img").filter((f) => f.startsWith("illus-") && f.endsWith(".svg"));
-  assert.ok(files.length >= 6 && !files.some((f) => /plane|agent-door|pets/.test(f)), files.join());
+  assert.ok(files.length >= 3 && !files.some((f) => /plane|agent-door|pets/.test(f)), files.join());
   for (const f of files) {
     const t = readFileSync(REPO + "assets/img/" + f, "utf8");
     assert.ok(t.length < 15000, f + " size");
@@ -372,14 +372,132 @@ test("Orders dashboard in the hero: one decorative HTML product picture with the
   assert.match(rd("home.css"), /\.dash-bar em \{ font:600/);
 });
 
-test("Biligene logo in the story section: owner's brand raster, optimised copy, linked to biligene.com, right column above the quote", () => {
-  const h = rd("index.html");
+test("story section: text and photo in row 1, then one quote card with the Biligene logo (plain image) before the quote; no external links anywhere on the home page", () => {
+  const h = rd("index.html"), css = rd("home.css");
   const sec = h.match(/<section class="story-section"[\s\S]*?<\/section>/)[0];
-  assert.match(sec, /<a class="biligene-logo" href="https:\/\/biligene\.com" rel="noopener"><img src="assets\/img\/biligene-logo\.webp" alt="Biligene" width="520" height="207" loading="lazy"><\/a>/);
-  assert.ok(sec.indexOf("biligene-logo") > sec.indexOf("</h2>") && sec.indexOf("biligene-logo") < sec.indexOf("story-quote"), "logo sits above the quote");
-  const f = readFileSync(REPO + "assets/img/biligene-logo.webp");
-  assert.ok(f.length < 30000, "logo under 30 KB: " + f.length);
-  assert.equal(f.subarray(0, 4).toString(), "RIFF");
-  assert.equal((h.match(/biligene\.com/g) || []).length, 1, "one outbound link only");
+  const t = sec.indexOf('class="story-text"'), p = sec.indexOf("genomics-lab.webp"), card = sec.indexOf('class="story-quote-card"'), l = sec.indexOf("biligene-logo.webp"), q = sec.indexOf('<blockquote class="story-quote"');
+  assert.ok(t > 0 && t < p && p < card && card < l && l < q, "order: text, photo, then the card with logo before the quote");
+  assert.ok(sec.indexOf("</div>\n    </div>\n    <div class=\"story-quote-card\"") > 0, "photo is in row 1, the card is its own row");
+  assert.match(sec, /<img class="story-photo" src="assets\/img\/genomics-lab\.webp" alt="A scientist pipetting samples at a bench in a modern genomics laboratory, with sequencing instruments behind" width="1400" height="896" loading="lazy">/);
+  assert.match(sec, /<img class="biligene-logo" src="assets\/img\/biligene-logo\.webp" alt="Biligene" width="520" height="207" loading="lazy">/);
+  assert.match(css, /\.story-section \.story-quote \{[^}]*font:500 clamp\(1\.125rem,1\.7vw,1\.5rem\)\/1\.35/, "quote at most 24px at 1440");
+  assert.match(css, /\.story-photo \{[^}]*object-fit:cover/);
+  assert.ok(!/story-note|Our own sequencing workflows/.test(h + css));
+  assert.ok(!/<a[^>]*biligene/i.test(sec), "logo is not linked");
+  assert.ok(!/<a\b[^>]*href="(?:https?:)?\/\//i.test(h), "no external link on the home page");
+  assert.ok(!/biligene\.com/.test(h));
+  const photo = readFileSync(REPO + "assets/img/genomics-lab.webp"), logo = readFileSync(REPO + "assets/img/biligene-logo.webp");
+  assert.ok(photo.length < 150000, "photo under 150 KB: " + photo.length);
+  assert.ok(logo.length < 30000);
   assert.ok(!/Taipei|Billy BioTech Ltd\. \(/.test(h), "footer stays short");
+});
+
+test("favicon set (T-051): orange svg with a white mark, ico with 16/32/48, 180px apple-touch icon, links in every page head, files not excluded from the site", () => {
+  const svg = rd("assets/favicon.svg");
+  assert.ok(svg.includes("#e8520a") && svg.includes('stroke="#fff"') && svg.includes('fill="#fff"') && !/0f766e/.test(svg), "orange tile, white mark, no old teal");
+  const ico = readFileSync(REPO + "favicon.ico");
+  assert.equal(ico.readUInt16LE(2), 1, "ICO type");
+  const n = ico.readUInt16LE(4);
+  assert.deepEqual([...Array(n).keys()].map((i) => ico[6 + i * 16]).sort((a, b) => a - b), [16, 32, 48]);
+  const png = readFileSync(REPO + "assets/apple-touch-icon.png");
+  assert.equal(png.subarray(1, 4).toString(), "PNG");
+  assert.equal(png.readUInt32BE(16), 180); assert.equal(png.readUInt32BE(20), 180);
+  assert.equal(png[25], 2, "RGB colour type: no alpha channel (no transparency)");
+  const ignore = rd(".assetsignore");
+  assert.ok(!/favicon|apple-touch/.test(ignore), "icons are served");
+  const pages = ["index.html", "404.html", "thanks/index.html", "privacy/index.html", "terms/index.html", "guides/index.html", "blog/index.html", "blog/where-did-my-intermediate-files-go/index.html", "guides/reference-genome-build-vcf-bam/index.html", ...CONTENT];
+  for (const f of new Set(pages)) {
+    const head = rd(f).match(/<head>[\s\S]*?<\/head>/)[0];
+    assert.match(head, /<link rel="icon" href="[^"]*assets\/favicon\.svg" type="image\/svg\+xml">/, f);
+    assert.ok(head.includes('<link rel="icon" href="/favicon.ico" sizes="48x48">'), f + " ico");
+    assert.ok(head.includes('<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">'), f + " apple");
+  }
+  assert.match(rd("index.html"), /<meta name="theme-color" content="#ffffff">/);
+});
+
+// Ecosystem diagram (owner, T-051). One constant for the core wording so it can be swapped in one place.
+const ECO_CORE_TITLE = "Jubilab"; const ECO_CORE_SUB = "Sample operations layer";
+test("ecosystem diagram: once, inside the For labs section above the option cards; dark stage; decorative figure; CSS-only glowing connectors with no arrowheads and no lines inside the panels; stacked on mobile; no hedge wording", () => {
+  const h = rd("index.html"), css = rd("home.css");
+  assert.equal((h.match(/class="eco"/g) || []).length, 1);
+  const labs = h.match(/<section id="labs"[\s\S]*?<\/section>/)[0];
+  assert.ok(labs.includes('<figure class="eco"'));
+  assert.ok(labs.indexOf("<h2") < labs.indexOf('class="eco"') && labs.indexOf('class="eco"') < labs.indexOf('class="integration"'), "under the heading and intro, above the options");
+  assert.ok(!/illus-bench|bench/i.test(labs) && !existsSync(REPO + "assets/img/illus-bench.svg"), "bench picture removed");
+  const f = labs.match(/<figure class="eco"[\s\S]*?<\/figure>/)[0];
+  assert.match(f, /role="img" aria-label="Jubilab connects the dry lab, the wet lab, courier and logistics, and cloud and data infrastructure through one API and MCP layer"/);
+  assert.match(f, /<div class="eco-stage" aria-hidden="true">/);
+  assert.ok(!/<(a|button|input|select|textarea|script|svg\sclass="eco-wires")\b|tabindex|https?:|src=|<path|<polygon|marker-|eco-ah/.test(f.replace(/<svg class="(?:eco-mark|eco-ico)"[\s\S]*?<\/svg>/g, "")), "nothing focusable, no script, no external request, no arrowheads");
+  assert.ok(f.includes(`<span class="eco-core-name">${ECO_CORE_TITLE}</span><span class="eco-core-title">${ECO_CORE_SUB}</span><span class="eco-core-if">API · MCP</span>`));
+  for (const t of ["Courier &amp; Logistics", "Dry Lab", "Wet Lab", "Cloud &amp; Data Infrastructure", "ELN / Research Management", "Sample &amp; Project Records", "LIMS", "Lab Instruments", "Shipment Tracking Services", "Cloud Storage", "Data Access"]) assert.ok(f.includes(t), t);
+  assert.deepEqual([...f.match(/<div class="eco-chips eco-wet-chips">[\s\S]*?<\/div>/)[0].matchAll(/<span class="eco-chip">([^<]+)<\/span>/g)].map((m) => m[1]), ["LIMS", "Lab Instruments", "Emails, APIs &amp; Portals", "Services &amp; Pipelines", "AI Agents"]);
+  assert.deepEqual([...f.match(/<div class="eco-chips eco-dry-chips">[\s\S]*?<\/div>/)[0].matchAll(/<span class="eco-chip">([^<]+)<\/span>/g)].map((m) => m[1]), ["ELN / Research Management", "AI Agents", "Analysis Tools", "Compute Infrastructure", "Sample &amp; Project Records"]);
+  assert.equal((f.match(/<span class="eco-link eco-link-[rldu]"><i><\/i><i><\/i><\/span>/g) || []).length, 4, "one connector per title card, to the centre only (nothing between a title card and its chips)");
+  assert.ok(!/eco-wires|eco-ah|\.eco-dot/.test(css), "no svg wires, arrowheads or inner grey links");
+  assert.match(css, /\.eco \{[^}]*background-color:#0b1730/, "dark stage");
+  assert.match(css, /\.eco-chip \{[^}]*background:#101e3c[^}]*font-size:\.6875rem[^}]*color:#d6def0/, "11px chips, light text on dark navy");
+  assert.ok(!/eco[^{]*\{[^}]*font-size:\.(?:[0-5]\d*|6[0-7]\d*)rem/.test(css), "no eco text under 11px (owner override for this diagram only)");
+  assert.match(css, /@media \(max-width:900px\) \{[\s\S]*?\.eco-core \{ order:0;[\s\S]*?\.eco-courier-side \{ order:1; \}/, "mobile stack, core first");
+  assert.match(css, /\.eco-link::before, \.eco-link::after \{[^}]*display:none/, "travelling dots hidden by default (static glowing lines under reduced motion)");
+  assert.match(css, /@media \(prefers-reduced-motion:no-preference\) \{\s*\.eco-link::before, \.eco-link::after \{ display:block; \}[\s\S]*?animation:eco-x 2\.8s/, "dots move only when motion is allowed");
+  assert.ok(!/conceptual|potential connection|illustrative|not a claim/i.test(f + css.match(/Ecosystem diagram[\s\S]*$/)[0]), "no hedge wording");
+  assert.match(rd("llms.txt"), /Through API and MCP, Jubilab connects ELN and research management, LIMS, lab instruments, couriers and logistics, and cloud and data infrastructure\./);
+  assert.ok(!/preview-b/.test(rd("sitemap.xml")));
+});
+
+test("moving arrows on the other diagrams: CSS only, enabled only under prefers-reduced-motion: no-preference, no scripts", () => {
+  const css = rd("home.css"), h = rd("index.html");
+  const blocks = [...css.matchAll(/@media \(prefers-reduced-motion:no-preference\) \{[\s\S]*?\n    \}\n/g)].map((m) => m[0]).join("\n");
+  assert.match(blocks, /\.dg \.ln \{ stroke-dasharray:[^}]*animation:dg-flow/);
+  assert.match(blocks, /\.dg \.lo\.f1 \{ animation:dg-flow/);
+  assert.match(blocks, /\.flow-arrow \{ animation:path-nudge/);
+  const rest = css.replace(/@media \(prefers-reduced-motion:no-preference\) \{[\s\S]*?\n    \}\n/g, "");
+  assert.ok(!/animation\s*:/.test(rest), "no animation outside the motion media query");
+  assert.match(css, /\.dg \.lo\.f1, \.dg \.lo\.f2 \{ display:none; \}/, "travelling-dot overlays hidden by default (static under reduced motion)");
+  const how = h.match(/<section id="how"[\s\S]*?<\/section>/)[0];
+  assert.equal((how.match(/<line class="lo f1"/g) || []).length, 8);
+  assert.ok(!/<script/.test(how) && !/<script/.test(h.match(/<div class="visual-band"[\s\S]*?<\/div>\s*<\/div>/)[0]));
+  const jn = h.match(/<figure class="journey"[\s\S]*?<\/figure>/)[0];
+  assert.match(jn, /role="img" aria-label="A sample's journey:/);
+  assert.equal((jn.match(/<svg class="jny-(wide|sm)" aria-hidden="true"/g) || []).length, 2, "wide and small inline svgs");
+  assert.ok(!/<script|<style|<image|href=/.test(jn));
+  assert.ok((jn.match(/class="d d[123]"/g) || []).length >= 12, "travelling dots carry the chase classes");
+  assert.match(blocks, /\.journey \.d \{ animation:jny-chase/);
+  assert.ok(!existsSync(REPO + "assets/img/illus-journey.svg") && !existsSync(REPO + "assets/img/illus-journey-sm.svg"), "journey is inline so reduced-motion applies from the page");
+});
+
+test("hub image in the first section after the hero: neutral AI glyphs (no third-party logos), 140 KB cap, real pixel size, placed right of the heading", () => {
+  const h = rd("index.html");
+  const sec = h.match(/<section id="teams"[\s\S]*?<\/section>/)[0];
+  assert.match(sec, /<div class="head-split head-split-hub">\s*<div class="section-head">[\s\S]*?<\/div>\s*<img class="illus hub-img" src="assets\/img\/ai-lab-hub\.webp" alt="AI assistants, lab instruments and sample tubes connected to one central hub by glowing lines" width="1400" height="788" loading="lazy">\s*<\/div>/);
+  assert.ok(sec.indexOf("hub-img") < sec.indexOf('class="comparison"'), "hub image sits with the heading, above the panels");
+  const f = readFileSync(REPO + "assets/img/ai-lab-hub.webp");
+  assert.ok(f.length < 140000, "under 140 KB: " + f.length);
+  assert.equal(f.subarray(8, 12).toString(), "WEBP");
+  assert.equal(f.subarray(12, 16).toString(), "VP8 ");
+  assert.equal(f.readUInt16LE(26) & 0x3fff, 1400); assert.equal(f.readUInt16LE(28) & 0x3fff, 788);
+  assert.ok(!/openai|claude|anthropic/i.test(h.match(/<img[^>]*ai-lab-hub[^>]*>/)[0]), "no third-party names in the alt text");
+  // Manual check (T-051): the OpenAI and Claude logo tiles of the owner's source image were replaced with a neutral sparkle and a chat-bubble glyph; no third-party logo or the word Claude remains legible (before/after in .archive/hub-retouch-before-after.png).
+});
+
+test("AI & developers section: no 'built around API and MCP' line", () => {
+  const h = rd("index.html");
+  assert.ok(!/built around API and MCP|compatible clients/.test(h + rd("llms.txt")));
+});
+
+test("one hub image (first section, descriptive alt); the value-tiles heading has the pipetting picture beside it with its own descriptive alt", () => {
+  const h = rd("index.html");
+  assert.equal((h.match(/ai-lab-hub\.webp/g) || []).length, 1);
+  assert.match(h, /<img class="illus hub-img" src="assets\/img\/ai-lab-hub\.webp" alt="AI assistants, lab instruments and sample tubes connected to one central hub by glowing lines"/);
+  const v = h.match(/<section class="value-section"[\s\S]*?<\/section>/)[0];
+  assert.match(v, /<div class="head-split head-split-hub head-split-value">\s*<div class="section-head">[\s\S]*?<\/div>\s*<img class="illus pip-img" src="assets\/img\/pipetting-lab\.webp" alt="A gloved hand pipetting into sample tubes on a sunlit lab bench, with a DNA helix model and a microscope behind" width="1400" height="788" loading="lazy">/);
+  assert.ok(v.indexOf("pip-img") < v.indexOf('class="metrics"'));
+  assert.ok(!/hub-img-crop/.test(h + rd("home.css")), "cropped-hub rules removed");
+  const f = readFileSync(REPO + "assets/img/pipetting-lab.webp");
+  assert.ok(f.length < 140000, "under 140 KB: " + f.length);
+  assert.equal(f.subarray(8, 12).toString(), "WEBP");
+  assert.match(rd("home.css"), /\.value-section \.head-split-value \.section-head \{ max-width:680px; \}/);
+  assert.ok(!/pip-img[^{]*\{[^}]*(object-fit|aspect-ratio)/.test(rd("home.css")), "natural 16:9 ratio, no cropping");
+  assert.match(rd("home.css"), /\.head-split-value \{ grid-template-columns:minmax\(0,1fr\) minmax\(0,460px\); \}/);
+  assert.ok(!/<a\b[^>]*>\s*<img[^>]*pip-img/.test(h), "not linked");
 });

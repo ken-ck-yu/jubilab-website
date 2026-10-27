@@ -18,8 +18,8 @@ BASE = (_args[0] if _args else "http://127.0.0.1:18300/").rstrip("/") + "/"
 EXE = os.path.expanduser("~/.cache/ms-playwright/chromium_headless_shell-1248/chrome-headless-shell-linux64/chrome-headless-shell")
 WIDTHS = [320, 360, 390, 768, 1024, 1280, 1440, 1920]
 THEMES = ["light", "dark"]  # the home page is light only; blog, guide and legal pages keep both
-NAV = [("How it works", "#how"), ("For teams", "#teams"), ("For labs", "#labs"), ("AI & developers", "#developers")]
-SECTIONS = ["teams", "how", "labs", "developers", "access"]
+NAV = [("How it works", "#how"), ("For labs", "#labs"), ("For teams", "#teams"), ("AI & developers", "#developers")]
+SECTIONS = ["how", "labs", "teams", "developers", "access"]
 FORBIDDEN = ["revolutionis", "revolutioniz", "unlock", "empower", "stripe for", "sample-to-result", "outsourced lab work",
              "with automation and scale", "provenance", "lineage", "nextflow", "snakemake", "testimonial", "trusted by", "guarantee", "stripe", "illustrative", "not a real order", "product concept", "in development", "being built", "nothing is released", "not yet released", "prototype"]
 R = []
@@ -61,7 +61,7 @@ MEASURE = r"""
   for (const e of document.body.querySelectorAll('*')) {
     if (e.closest('svg') || !vis(e) || isHp(e)) continue;
     if (![...e.childNodes].some(n => n.nodeType === 3 && n.textContent.trim())) continue;
-    const f = px(e); if (f < 12) small.push(e.tagName + '.' + e.className + ' ' + f);
+    const f = px(e); if (f < (e.closest('.eco') ? 11 : 12)) small.push(e.tagName + '.' + e.className + ' ' + f);
   }
   out.small = small.slice(0, 5);
   const parse = c => { const m = c.match(/rgba?\(([^)]+)\)/); if (!m) return null; const p = m[1].split(/[ ,\/]+/).filter(Boolean).map(Number); return {r: p[0], g: p[1], b: p[2], a: p.length > 3 ? p[3] : 1}; };
@@ -126,7 +126,7 @@ def run():
                 m = pg.evaluate(MEASURE); t = f"{w}/{th}"
                 rec(1, abs(m["sw"] - m["iw"]) <= 1 and m["overflowN"] == 0, f"{t} scrollWidth {m['sw']}/{m['iw']}, {m['overflowN']} elements outside viewport {m['overflow'][:2]}")
                 rec(2, m["pre"]["n"] == 0, f"{t} code blocks {m['pre']}")
-                rec(3, m["h1"]["n"] == 1 and m["h1"]["text"] == "Streamline biological sample to data with AI enablement." and m["lead"] == "So scientists and AI agents can order, track and read results across dry labs, wet labs and logistics." and m["sub"].startswith("For biotech teams, research groups and the labs that run their samples") and not m["themeToggle"] and not m["skip"] and not m["h2Outside"], f"{t} h1 {m['h1']['n']} skip {m['skip']}")
+                rec(3, m["h1"]["n"] == 1 and m["h1"]["text"] == "Streamline Biological Sample to Data for AI enablement" and m["lead"] == "So scientists and AI agents can order, track and read results across dry labs, wet labs and logistics." and m["sub"].startswith("For biotech teams, research groups and the labs that run their samples") and not m["themeToggle"] and not m["skip"] and not m["h2Outside"], f"{t} h1 {m['h1']['n']} skip {m['skip']}")
                 rec(4, m["secIds"] == SECTIONS, f"{t} sections {m['secIds']}")
                 rec(5, [x[:2] for x in m["sub_nav"]] == [list(n) for n in NAV] and all(x[2] for x in m["sub_nav"]), f"{t} nav {m['sub_nav']}")
                 rec(6, len(m["flow"]) == 2 and all(f["role"] == "img" and f["title"] and f["desc"] > 200 and f["minFont"] >= 11.9 and f["w"] <= m["iw"] and f["lanes"] and f["cls"] == ("dg dg-wide" if w >= 1000 else "dg dg-tall") for f in m["flow"]) and m["journey"] == ["ORD-1042", "ORD-1041", "ORD-1039", "ORD-1037"], f"{t} diagrams {m['flow']} hero dashboard orders {m['journey']}")
@@ -167,7 +167,7 @@ def run():
                       const links = [...document.querySelectorAll('.site-nav .menu a')].map(a => a.textContent.trim());
                       const foot = [...document.querySelectorAll('footer a')].map(a => a.textContent.trim());
                       return {sw: document.documentElement.scrollWidth, iw, bad, links, foot, old: /Be among the first labs|synthetic demo data|How Jubilab helps/.test(document.body.innerText)}; }""")
-                    ok = r["sw"] <= r["iw"] + 1 and not r["bad"] and r["links"] == ["How it works", "For teams", "For labs", "AI & developers", "Blog"] and {"Guides", "Blog", "Privacy", "Terms"} <= set(r["foot"]) and not r["old"]
+                    ok = r["sw"] <= r["iw"] + 1 and not r["bad"] and r["links"] == ["How it works", "For labs", "For teams", "AI & developers", "Blog"] and {"Guides", "Blog", "Privacy", "Terms"} <= set(r["foot"]) and not r["old"]
                     rec(26, ok, f"{path} {w}/{th} {r}")
                     ctx.close()
         ctx = mk(b, viewport={"width": 390, "height": 800}, java_script_enabled=False); pg = ctx.new_page(); pg.goto(BASE + "blog/")

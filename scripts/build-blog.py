@@ -16,7 +16,7 @@ ROOT = os.environ.get("JUBILAB_SITE_ROOT") or os.path.dirname(os.path.dirname(os
 ORIGIN = "https://jubilab.io"
 SRC = "blog/_src"
 DEFAULT_OG = ORIGIN + "/assets/og/jubilab-og.png"
-DEFAULT_OG_ALT = "Jubilab: streamline biological sample to data with AI enablement. An order moves from sample submission through received, QC and run to delivered. Early access by invitation."
+DEFAULT_OG_ALT = "Jubilab: Streamline Biological Sample to Data for AI enablement. An order moves from sample submission through received, QC and run to delivered. Early access by invitation."
 MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
 KEYS = ["title", "description", "slug", "date", "updated", "tags", "summary", "image_alt"]
 OPTIONAL = ["reading_time"]
@@ -408,6 +408,8 @@ def head_common(title, desc, canonical, og_type, og_image, og_alt, css_prefix, l
 <meta name="twitter:image" content="{esc(og_image)}">
 <meta name="twitter:image:alt" content="{esc(og_alt)}">
 <link rel="icon" href="{css_prefix}assets/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon.ico" sizes="48x48">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
 <link rel="preload" href="{css_prefix}assets/fonts/hanken-grotesk-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="{css_prefix}assets/fonts/ibm-plex-mono-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
 <script type="application/ld+json">
@@ -434,8 +436,8 @@ def header(p):
     <nav class="site-nav" aria-label="Page sections">
       <ul class="links">
         <li><a href="{p}#how">How it works</a></li>
-        <li><a href="{p}#teams">For teams</a></li>
         <li><a href="{p}#labs">For labs</a></li>
+        <li><a href="{p}#teams">For teams</a></li>
         <li><a href="{p}#developers">AI &amp; developers</a></li>
         <li><a href="{p}blog/"{cur}>Blog</a></li>
       </ul>
@@ -443,8 +445,8 @@ def header(p):
         <summary aria-label="Menu"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 7h16M4 12h16M4 17h16"/></svg></summary>
         <ul>
           <li><a href="{p}#how">How it works</a></li>
-          <li><a href="{p}#teams">For teams</a></li>
           <li><a href="{p}#labs">For labs</a></li>
+          <li><a href="{p}#teams">For teams</a></li>
           <li><a href="{p}#developers">AI &amp; developers</a></li>
           <li><a href="{p}blog/"{cur}>Blog</a></li>
         </ul>
