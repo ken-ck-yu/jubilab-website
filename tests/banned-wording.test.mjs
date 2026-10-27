@@ -422,12 +422,14 @@ test("ecosystem diagram: once, inside the For labs section above the option card
   assert.ok(!/<(a|button|input|select|textarea|script)\b|tabindex|https?:|src=/.test(f), "nothing focusable, no script, no external request");
   assert.ok(f.includes(`<span class="eco-core-title">${ECO_CORE_TITLE}</span><span class="eco-core-if">API · MCP</span>`));
   for (const t of ["Courier &amp; Logistics", "Dry Lab", "Wet Lab", "Cloud &amp; Data Infrastructure", "ELN / Research Management", "Sample &amp; Project Records", "LIMS", "Lab Instruments", "Shipment Tracking Services", "Cloud Storage", "Data Access"]) assert.ok(f.includes(t), t);
-  assert.equal((f.match(/<path class="w/g) || []).length, 8, "static wires");
+  assert.equal((f.match(/<path class="[tc]"/g) || []).length, 8, "static wires");
+  assert.deepEqual([...f.match(/<div class="eco-chips eco-wet-chips">[\s\S]*?<\/div>/)[0].matchAll(/<span class="eco-chip">([^<]+)<\/span>/g)].map((m) => m[1]), ["LIMS", "Lab Instruments", "Emails, APIs &amp; Portals", "Services &amp; Pipelines", "AI Agents"]);
+  assert.deepEqual([...f.match(/<div class="eco-chips eco-dry-chips">[\s\S]*?<\/div>/)[0].matchAll(/<span class="eco-chip">([^<]+)<\/span>/g)].map((m) => m[1]), ["ELN / Research Management", "AI Agents", "Analysis Tools", "Compute Infrastructure", "Sample &amp; Project Records"]);
   assert.ok(!/conceptual|potential connection|illustrative|not a claim/i.test(f + rd("home.css").match(/Ecosystem diagram[\s\S]*$/)[0]), "no hedge wording");
   const css = rd("home.css");
   assert.match(css, /\.eco-chip \{[^}]*font-size:\.75rem/, "12px minimum");
-  assert.match(css, /@media \(max-width:900px\) \{\s*\.eco \{[\s\S]*?\.eco-core \{ order:0;[\s\S]*?\.eco-courier \{ order:1; \}/, "mobile stack, core first");
-  assert.match(css, /@media \(prefers-reduced-motion:no-preference\) \{ \.eco-wires \.w \{ animation/);
+  assert.match(css, /@media \(max-width:900px\) \{\s*\.eco \{[\s\S]*?\.eco-core \{ order:0;[\s\S]*?\.eco-courier-side \{ order:1; \}/, "mobile stack, core first");
+  assert.ok(!/eco[^{]*\{[^}]*animation/.test(css), "static: no animation");
   assert.ok(!/<script[^>]*>[^<]*eco/.test(h));
   assert.match(rd("llms.txt"), /Through API and MCP, Jubilab connects ELN and research management, LIMS, lab instruments, couriers and logistics, and cloud and data infrastructure\./);
   assert.ok(!/preview-b/.test(rd("sitemap.xml")));
