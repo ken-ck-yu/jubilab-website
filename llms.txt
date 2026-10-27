@@ -21,7 +21,7 @@
 ## Pages
 
 - [Jubilab home page](https://jubilab.io/): what Jubilab does, how it works, who it is for, and the early-access form
-- [How it works](https://jubilab.io/#how): order once, follow every step, get clean results back
+- [How it works](https://jubilab.io/#how): standardise the request, follow the sample, get the data
 - [For teams](https://jubilab.io/#teams): why use Jubilab, and one workflow across every external lab
 - [For labs](https://jubilab.io/#labs): integration into your existing tools
 - [AI and developers](https://jubilab.io/#developers): structured orders, status and results for AI agents

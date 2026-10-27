@@ -81,7 +81,8 @@ test("hero carries the owner's headline, lede and sub-line, one eyebrow, two cal
   const hero = html.match(/<section class="hero"[\s\S]*?<\/section>/)[0];
   assert.ok(hero.includes('<h1 id="h1">Streamline biological sample to data with AI enablement.</h1>'));
   assert.ok(hero.includes("So scientists and AI agents can order, track and read results across dry labs, wet labs and logistics."));
-  assert.ok(hero.includes("Order sequencing from external labs, track each step, and get results linked to your own sample names. Built for biotech teams, research groups, and the laboratories that run their samples. Starting with non-clinical genetics sequencing."));
+  assert.ok(hero.includes("For biotech teams, research groups and the labs that run their samples. Starting with non-clinical genetics sequencing."));
+  assert.ok(!/Order sequencing from external labs|track each step, and get results linked/.test(html), "old hero paragraph removed");
   assert.ok(!/Power lab operations|One order format, one status feed|result schema/i.test(html));
   assert.ok(/Request early access/.test(hero) && /See how it works/.test(hero));
   assert.equal((html.match(/<h1\b/g) || []).length, 1);
@@ -280,7 +281,7 @@ test("home page h2 headings are exactly this list; no roadmap, timeline or extra
   const h2 = [...h.matchAll(/<h2[^>]*>([\s\S]*?)<\/h2>/g)].map((m) => m[1].replace(/<[^>]+>/g, "").replace(/&rsquo;/g, "\u2019").replace(/&amp;/g, "&"));
   assert.deepEqual(h2, [
     "Every external lab, one workflow.",
-    "Order once. Follow every step.",
+    "Standardise the request. Follow the sample. Get the data.",
     "Seamless integration into your existing tools with AI enablement.",
     "Less time managing orders. More time doing science.",
     "Every AI agent stops at the lab door.",

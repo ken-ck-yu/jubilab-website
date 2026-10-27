@@ -433,3 +433,4 @@ blockquote.story-quote { margin:0; }
     }
     .head-split:not(:has(.illus)) { grid-template-columns:1fr; margin-bottom:36px; }  /* text-only until a photo is chosen */
     .teams-section .three-grid + picture.illus-wide { margin-top:48px; }
+    h1, h2 { text-wrap:balance; }
