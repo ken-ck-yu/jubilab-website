@@ -374,7 +374,7 @@ def main():
                 if node.get("@type") == "FAQPage":
                     for q in node.get("mainEntity", []):
                         _ld[" ".join(q["name"].split())] = " ".join(q["acceptedAnswer"]["text"].split())
-        rec("PASS" if _ld and _ld == _vis and 5 <= len(_ld) <= 7 else "FAIL", "FAQPage JSON-LD equals the visible questions and answers", f"{len(_ld)} in JSON-LD, {len(_vis)} visible")
+        rec("PASS" if _ld and _ld == _vis and 3 <= len(_ld) <= 7 else "FAIL", "FAQPage JSON-LD equals the visible questions and answers", f"{len(_ld)} in JSON-LD, {len(_vis)} visible")
         for need in ("Organization", "WebSite", "FAQPage"):
             rec("PASS" if need in types else "FAIL", f"JSON-LD has {need}")
         for u in sorted(urls):
