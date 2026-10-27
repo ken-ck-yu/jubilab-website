@@ -1,6 +1,6 @@
 # Jubilab
 
-> Jubilab is the sample operations layer: one layer that connects the people, labs, couriers and AI agents that handle a sample, from order to data. It helps you streamline biological sample to data – for AI enablement: order sequencing from outside labs once, see every step, and get results with your own sample names, so scientists and AI agents can order, track and read results across dry labs, wet labs and logistics. It is for biotech teams, research groups and startups that send samples to outside labs, and for the labs that run their samples. We start with non-clinical genetics sequencing. Early access is by invitation: request access and we invite small groups first.
+> Jubilab is the sample operations layer: one layer that connects the people, labs, couriers and AI agents that handle a sample, from order to data. It helps you streamline biological sample to data for AI enablement: order sequencing from outside labs once, see every step, and get results with your own sample names, so scientists and AI agents can order, track and read results across dry labs, wet labs and logistics. It is for biotech teams, research groups and startups that send samples to outside labs, and for the labs that run their samples. We start with non-clinical genetics sequencing. Early access is by invitation: request access and we invite small groups first.
 
 ## What Jubilab does
 

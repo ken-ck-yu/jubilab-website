@@ -79,7 +79,7 @@ test("\"marketplace\" appears only to say what Jubilab is not, or in a factual d
 test("hero carries the owner's headline, lede and sub-line, one eyebrow, two calls to action and the Orders dashboard", () => {
   const html = rd("index.html");
   const hero = html.match(/<section class="hero"[\s\S]*?<\/section>/)[0];
-  assert.ok(hero.includes('<h1 id="h1">Streamline Biological Sample to Data <span class="h1-tail">– for AI enablement</span></h1>'));
+  assert.ok(hero.includes('<h1 id="h1">Streamline Biological Sample to Data <span class="h1-tail">for AI enablement</span></h1>'));
   assert.ok(hero.includes("So scientists and AI agents can order, track and read results across dry labs, wet labs and logistics."));
   assert.ok(hero.includes("For biotech teams, research groups and the labs that run their samples."));
   assert.ok(!/Order sequencing from external labs|track each step, and get results linked/.test(html), "old hero paragraph removed");
