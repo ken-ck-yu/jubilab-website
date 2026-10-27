@@ -351,3 +351,26 @@ test("illustrations: every <img> has width, height and alt; flat-colour svg file
     assert.ok(h.includes(f.replace(".svg", "") + ".svg") || h.includes(f), f + " is used on the home page");
   }
 });
+
+test("Orders dashboard: one decorative HTML product picture with the four orders; generic names; no caption; no external requests", () => {
+  const h = rd("index.html");
+  assert.equal((h.match(/class="dash"/g) || []).length, 1);
+  const f = h.match(/<figure class="dash"[\s\S]*?<\/figure>/)[0];
+  assert.match(f, /role="img" aria-label="Orders dashboard showing four orders from different labs and their current status"/);
+  assert.match(f, /<div class="dash-stage" aria-hidden="true">/);
+  assert.ok(!/<(a|button|input|select|textarea)\b|tabindex|<figcaption/.test(f), "nothing focusable and no caption");
+  assert.deepEqual([...f.matchAll(/<b>(ORD-\d+)<\/b><div class="dash-sm">([^<]+)<\/div><\/td><td>([^<]+)<\/td><td>([^<]+)<\/td><td><span class="dash-chip [^"]+">([^<]+)</g)].map((m) => m.slice(1).join("|")), [
+    "ORD-1042|24 samples|Whole-genome sequencing|Sequencing lab|Sequencing",
+    "ORD-1041|12 samples|Whole-genome sequencing|Genomics core|QC passed",
+    "ORD-1039|48 samples|Targeted sequencing|Sequencing lab|Delivered",
+    "ORD-1037|8 samples|Whole-genome sequencing|Nanopore lab|Sample received"]);
+  assert.match(f, /<div class="dash-h">All orders<\/div>[\s\S]*<span class="dash-btn">New order<\/span>/);
+  assert.match(f, /<th>Order<\/th><th>Service<\/th><th>Lab<\/th><th>Status<\/th>/);
+  assert.ok(!/illustrative|example|concept|mock|demo|prototype/i.test(f.replace(/aria-label="[^"]*"/, "")), "no caption words");
+  assert.ok(!/https?:|src=/.test(f));
+  // placed in the merged section, under the intro and above the Today / With Jubilab panels
+  const s = h.match(/<section id="teams"[\s\S]*?<\/section>/)[0];
+  assert.ok(s.indexOf("section-intro") < s.indexOf('class="dash"') && s.indexOf('class="dash"') < s.indexOf('class="comparison"'));
+  assert.match(rd("home.css"), /\.dash \{ margin:0 auto 40px; max-width:880px; \}/);
+  assert.match(rd("home.css"), /\.dash-bar em \{ font:600/);
+});

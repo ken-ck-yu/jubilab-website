@@ -425,3 +425,37 @@ blockquote.story-quote { margin:0; }
     .illus-wide img.illus { margin:0; }
     .teams-section picture.illus-wide + .visual-band { margin-top:20px; }
     @media (max-width:700px) { picture.illus-wide { max-width:480px; } }
+
+    /* ---- product visual: Orders dashboard (owner pick, T-050). A picture of the product built in HTML; aria-hidden, nothing focusable. ---- */
+    .dash { margin:0 auto 40px; max-width:880px; }
+    .dash-stage { padding:26px; border-radius:24px; background:linear-gradient(135deg,#fff6ee,#eef2ff); }
+    .dash-win { background:#fff; color:#0f1c3a; border:1px solid #dbe1ea; border-radius:14px; box-shadow:0 16px 34px rgba(15,28,58,.12); overflow:hidden; font-size:.82rem; line-height:1.4; }
+    .dash-bar { display:flex; align-items:center; gap:6px; padding:9px 14px; border-bottom:1px solid #e6ebf2; background:#fbfcfe; }
+    .dash-bar i { width:9px; height:9px; border-radius:50%; background:#dfe5ee; }
+    .dash-bar i:nth-child(1) { background:#f4b6a0; } .dash-bar i:nth-child(2) { background:#f6d9a0; } .dash-bar i:nth-child(3) { background:#c9dcc6; }
+    .dash-bar em { font:600 .78rem var(--head); font-style:normal; margin-left:8px; color:#3b4a66; }
+    .dash-body { padding:16px 18px 10px; }
+    .dash-row { display:flex; align-items:center; gap:10px; margin-bottom:10px; }
+    .dash-sp { flex:1; }
+    .dash-h { font:600 1.05rem var(--head); color:#0f1c3a; letter-spacing:-.005em; }
+    .dash-btn { display:inline-block; background:#c2410c; color:#fff; border-radius:999px; padding:6px 15px; font-weight:600; font-size:.78rem; }
+    .dash-t { width:100%; border-collapse:collapse; }
+    .dash-t th { font-size:.75rem; letter-spacing:.06em; text-transform:uppercase; color:#55657e; text-align:left; font-weight:600; padding:6px 8px; border-bottom:1px solid #e6ebf2; }
+    .dash-t td { padding:10px 8px; border-bottom:1px solid #eff2f7; vertical-align:middle; }
+    .dash-t tr:last-child td { border-bottom:0; }
+    .dash-sm { color:#55657e; font-size:.75rem; }
+    .dash-chip { display:inline-block; border-radius:999px; padding:2px 11px; font-size:.75rem; font-weight:600; white-space:nowrap; }
+    .c-ok { background:#ffeadb; color:#9a3412; } .c-run { background:#e4ebff; color:#2b4bb5; } .c-done { background:#dff3e8; color:#1a6b40; } .c-wait { background:#eef1f6; color:#4f5a6e; }
+    @media (max-width:640px) {
+      .dash-stage { padding:14px; border-radius:18px; }
+      .dash-body { padding:14px 14px 6px; }
+      .dash-t tr:first-child { display:none; }
+      .dash-t, .dash-t tbody { display:block; }
+      .dash-t tr { display:grid; grid-template-columns:1fr auto; gap:3px 10px; padding:10px 0; border-bottom:1px solid #eff2f7; }
+      .dash-t tr:last-child { border-bottom:0; }
+      .dash-t td { padding:0; border:0; }
+      .dash-t td:nth-child(1) { grid-column:1; grid-row:1; }
+      .dash-t td:nth-child(4) { grid-column:2; grid-row:1; align-self:center; }
+      .dash-t td:nth-child(2) { grid-column:1 / -1; grid-row:2; }
+      .dash-t td:nth-child(3) { grid-column:1 / -1; grid-row:3; color:#55657e; }
+    }
