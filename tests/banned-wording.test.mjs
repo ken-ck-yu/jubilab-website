@@ -52,7 +52,7 @@ for (const f of CONTENT) {
     const t = rd(f);
     for (const re of [/data provenance and lineage for bioinformatics pipelines/i, /Be among the first labs shaping/, /synthetic demo data/i, /more science, fewer data/i, /How Jubilab helps/, /Available now<\/h3>/, /\.\.\/#(fits|product|next)\b/, /\/#(fits|product|next)\b/]) assert.ok(!re.test(t), String(re));
     assert.match(t, /href="[^"]*#how">How it works/);
-    assert.ok(!/accepting early adopters|Streamline biological/i.test(t.match(/<footer>[\s\S]*?<\/footer>/)[0]), "footer has no tagline or status sentence");
+    assert.ok(!/accepting early adopters|Streamline Biological/i.test(t.match(/<footer>[\s\S]*?<\/footer>/)[0]), "footer has no tagline or status sentence");
     assert.match(t.match(/<footer>[\s\S]*?<\/footer>/)[0], /<p class="foot-co">A product of Billy BioTech Ltd\.<\/p>/);
     assert.ok(!/in design/.test(t.replace(/<script[\s\S]*?<\/script>/g, "")));
     assert.ok(!HEDGE.test(t.match(/<footer>[\s\S]*?<\/footer>/)[0]) && !HEDGE.test(t.match(/<head>[\s\S]*?<\/head>/)[0]), "no product-state hedge in head or footer");
@@ -79,7 +79,7 @@ test("\"marketplace\" appears only to say what Jubilab is not, or in a factual d
 test("hero carries the owner's headline, lede and sub-line, one eyebrow, two calls to action and the Orders dashboard", () => {
   const html = rd("index.html");
   const hero = html.match(/<section class="hero"[\s\S]*?<\/section>/)[0];
-  assert.ok(hero.includes('<h1 id="h1">Streamline biological sample to data with AI enablement.</h1>'));
+  assert.ok(hero.includes('<h1 id="h1">Streamline Biological Sample to Data <span class="h1-tail">– for AI enablement</span></h1>'));
   assert.ok(hero.includes("So scientists and AI agents can order, track and read results across dry labs, wet labs and logistics."));
   assert.ok(hero.includes("For biotech teams, research groups and the labs that run their samples."));
   assert.ok(!/Order sequencing from external labs|track each step, and get results linked/.test(html), "old hero paragraph removed");
