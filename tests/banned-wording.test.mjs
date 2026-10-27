@@ -166,7 +166,7 @@ test("merged Why use Jubilab / For teams section: one h2, owner order, no separa
   const s = h.match(/<section id="teams"[\s\S]*?<\/section>/)[0];
   assert.ok(!/id="why"|The problem|From lab samples to result|<section id="teams"[\s\S]*<section id="teams"/.test(h));
   assert.equal((h.match(/id="teams"/g) || []).length, 1);
-  assert.match(s, /<span class="eyebrow">Why use Jubilab<\/span>\s*<h2 id="h-teams">Every external lab, one workflow\.<\/h2>/);
+  assert.match(s, /<span class="eyebrow">Why use Jubilab<\/span>\s*<h2 id="h-teams">Every lab, accessible to AI\.<\/h2>/);
   assert.match(s, /Today, ordering sequencing from an external lab often means a new spreadsheet, email updates, and results that need manual reconciliation\. Jubilab, the sample operations layer, connects the order, status and result in one workflow, and you keep the tools you already use\./);
   const order = ["class=\"comparison\"", "<strong>One order. One place to follow it. One clean result.</strong><br>One interface for people and software.", "class=\"three-grid\"", "One connected path"].map((x) => s.indexOf(x));
   assert.ok(order.every((x) => x > 0) && order.every((x, i) => i === 0 || x > order[i - 1]), "order: panels, summary line, cards, banner, path strip: " + order);
@@ -280,7 +280,7 @@ test("home page h2 headings are exactly this list; no roadmap, timeline or extra
   const h = rd("index.html").replace(/<script[\s\S]*?<\/script>/g, "");
   const h2 = [...h.matchAll(/<h2[^>]*>([\s\S]*?)<\/h2>/g)].map((m) => m[1].replace(/<[^>]+>/g, "").replace(/&rsquo;/g, "\u2019").replace(/&amp;/g, "&"));
   assert.deepEqual(h2, [
-    "Every external lab, one workflow.",
+    "Every lab, accessible to AI.",
     "Standardise the request. Follow the sample. Get the data.",
     "Seamless integration into your existing tools with AI enablement.",
     "Less time managing orders. More time doing science.",
