@@ -319,3 +319,35 @@ test("product descriptor: eyebrow, merged intro, meta, llms.txt; never a named-c
   assert.ok(!/order-to-result layer/i.test(h));
   assert.ok(!/like stripe|basically like|the stripe of/i.test(h + l));
 });
+
+test("typography: Manrope headings (owner pick), Inter body, both self-hosted; no heavy heading weights", () => {
+  const css = rd("home.css");
+  assert.match(css, /font-family: "Manrope"; src: url\("assets\/fonts\/manrope-latin-wght-normal\.woff2"\)/);
+  assert.ok(readFileSync(REPO + "assets/fonts/OFL-Manrope.txt", "utf8").includes("SIL OPEN FONT LICENSE"));
+  assert.match(css, /h1, h2 \{ font-family:var\(--head\); font-weight:500; \}/);
+  assert.match(css, /h1 \{ letter-spacing:-\.025em; line-height:1\.1; \}/);
+  assert.match(css, /h2 \{ letter-spacing:-\.015em; line-height:1\.18; \}/);
+  assert.match(css, /h3, h4, \.order-id \{ font-weight:600;/);
+  assert.match(rd("index.html"), /rel="preload" href="assets\/fonts\/manrope-latin-wght-normal\.woff2"/);
+});
+
+test("illustrations: every <img> has width, height and alt; flat-colour svg files, small, no text, no external requests; below-the-fold ones are lazy", () => {
+  const h = rd("index.html");
+  const imgs = [...h.matchAll(/<img\b[^>]*>/g)].map((m) => m[0]);
+  assert.ok(imgs.length >= 9, "hero art plus the illustrations");
+  for (const t of imgs) {
+    assert.match(t, /\swidth="\d+"/, t); assert.match(t, /\sheight="\d+"/, t); assert.match(t, /\salt="/, t);
+    assert.ok(!/src="(?:https?:)?\/\//.test(t) && !/src="data:/.test(t), "no external or data-URI image: " + t);
+    if (!/hero-art/.test(t)) assert.match(t, /loading="lazy"/, t);
+  }
+  for (const m of h.matchAll(/srcset="([^"]+)"/g)) assert.ok(!/^(https?:)?\/\//.test(m[1]));
+  const files = readdirSync(REPO + "assets/img").filter((f) => f.startsWith("illus-") && f.endsWith(".svg"));
+  assert.ok(files.length >= 9, files.join());
+  for (const f of files) {
+    const t = readFileSync(REPO + "assets/img/" + f, "utf8");
+    assert.ok(t.length < 15000, f + " size");
+    assert.ok(!/<text|<image|<script|href=|font-family|https?:\/\//.test(t.replace('xmlns="http://www.w3.org/2000/svg"', "")), f + ": no text, scripts or external refs");
+    assert.match(t, /viewBox="0 0 \d+ \d+"/, f);
+    assert.ok(h.includes(f.replace(".svg", "") + ".svg") || h.includes(f), f + " is used on the home page");
+  }
+});

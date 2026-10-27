@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 130" width="320" height="130"><defs><clipPath id="c"><rect width="320" height="130" rx="18"/></clipPath></defs><g clip-path="url(#c)">
+<rect width="320" height="130" rx="18" fill="#fff6ee"/>
+<circle cx="70" cy="20" r="54" fill="#ffd9bd" opacity=".5"/>
+<rect x="70" y="14" width="112" height="104" rx="14" fill="#fff"/>
+<path d="M150 14h18a14 14 0 0 1 14 14v18z" fill="#cfdcf2"/>
+<rect x="88" y="34" width="52" height="9" rx="4.5" fill="#cfdcf2"/><rect x="88" y="54" width="76" height="8" rx="4" fill="#ffd9bd"/><rect x="88" y="72" width="64" height="8" rx="4" fill="#ffd9bd"/>
+<circle cx="164" cy="98" r="22" fill="#e8520a"/><path d="M154 98l8 8 14-16" fill="none" stroke="#fff" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="208" y="34" width="62" height="20" rx="10" fill="#cfdcf2"/><circle cx="220" cy="44" r="5" fill="#0f1c3a"/>
+<rect x="208" y="62" width="50" height="20" rx="10" fill="#ffd9bd"/><circle cx="220" cy="72" r="5" fill="#e8520a"/>
+<rect x="208" y="90" width="58" height="20" rx="10" fill="#cfdcf2"/><circle cx="220" cy="100" r="5" fill="#0f1c3a"/>
+</g></svg>

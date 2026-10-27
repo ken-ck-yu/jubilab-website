@@ -24,6 +24,7 @@
 <meta name="twitter:image:alt" content="Jubilab: streamline biological sample to data with AI enablement. An order moves from sample submission through received, QC and run to delivered. Early access by invitation.">
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 <link rel="preload" href="assets/fonts/inter-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/manrope-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="home.css">
 <script type="application/ld+json">
 {
@@ -157,6 +158,7 @@
       </article>
     </div>
     <p class="cta-p"><a class="button" href="#access">Register for early access &rarr;</a> <a class="button secondary" href="#how">Explore the workflow &rarr;</a></p>
+    <picture class="illus-wide"><source media="(max-width:700px)" srcset="assets/img/illus-journey-sm.svg" width="600" height="380"><img class="illus" src="assets/img/illus-journey.svg" alt="A sample's journey: tubes in a rack, a courier parcel, a sequencing instrument and a laptop showing a finished result with a tick." width="1200" height="260" loading="lazy"></picture>
     <div class="visual-band" role="group" aria-label="The order to result path">
       <div>
         <span class="micro-label">One connected path</span>
@@ -184,21 +186,21 @@
     <div class="three-grid">
       <article class="feature">
         <span class="feature-num">01</span>
-        <svg class="mini-art" viewBox="0 0 320 110" role="img" aria-label="A structured sample order"><rect x="80" y="14" width="160" height="82" rx="9" fill="#fff" stroke="#dce4f3"/><path d="M99 35h73M99 47h121M99 59h88" stroke="#9aa8c4" stroke-width="4" stroke-linecap="round"/><rect x="99" y="71" width="42" height="12" rx="4" fill="#ffedd5"/><rect x="147" y="71" width="35" height="12" rx="4" fill="#d6f8ee"/><circle cx="222" cy="25" r="13" fill="#ffedd5"/><path d="M216 25l4 4 8-9" fill="none" stroke="#c2410c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <img class="mini-art" src="assets/img/illus-order.svg" alt="" width="320" height="130" loading="lazy">
         <h3>Order once</h3>
         <p>Describe your samples and the sequencing service you need. Jubilab turns your request into a structured order that adapts to each supported provider.</p>
         <p><strong>One order, instead of starting from scratch with every lab.</strong></p>
       </article>
       <article class="feature">
         <span class="feature-num">02</span>
-        <svg class="mini-art" viewBox="0 0 320 110" role="img" aria-label="Tracked workflow stages"><path d="M42 54H278" stroke="#d7e0f1" stroke-width="3" stroke-linecap="round"/><g fill="#ffedd5" stroke="#fdba74"><circle cx="52" cy="54" r="17"/><circle cx="124" cy="54" r="17"/><circle cx="196" cy="54" r="17"/><circle cx="268" cy="54" r="17"/></g><g fill="none" stroke="#c2410c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M45 54l5 5 9-11M117 54l5 5 9-11M189 54l5 5 9-11"/><path d="M264 47v8l6 3"/></g><g fill="#64748b"><rect x="39" y="82" width="26" height="4" rx="2"/><rect x="111" y="82" width="26" height="4" rx="2"/><rect x="183" y="82" width="26" height="4" rx="2"/><rect x="255" y="82" width="26" height="4" rx="2"/></g></svg>
+        <img class="mini-art" src="assets/img/illus-track.svg" alt="" width="320" height="130" loading="lazy">
         <h3>Follow every step</h3>
         <p>See when an order is accepted, when samples arrive, whether they pass QC, when the run starts, and when results are ready, as updates are reported.</p>
         <p><strong>Less time spent asking for updates.</strong></p>
       </article>
       <article class="feature">
         <span class="feature-num">03</span>
-        <svg class="mini-art" viewBox="0 0 320 110" role="img" aria-label="A structured result manifest"><rect x="63" y="15" width="194" height="80" rx="9" fill="#fff" stroke="#dce4f3"/><rect x="79" y="29" width="162" height="13" rx="4" fill="#fff0e8"/><g stroke="#d7dfed" stroke-width="2"><path d="M80 53h62M154 53h39M205 53h34M80 66h49M141 66h55M208 66h31M80 79h75M166 79h73"/></g><circle cx="229" cy="35" r="5" fill="#c2410c"/></svg>
+        <img class="mini-art" src="assets/img/illus-result.svg" alt="" width="320" height="130" loading="lazy">
         <h3>Get clean results back</h3>
         <p>Receive a structured result manifest that links output files to your original sample names and includes QC information.</p>
         <p><strong>Failed samples are reported explicitly, not silently dropped.</strong></p>
@@ -225,10 +227,13 @@
 
 <section id="labs" class="labs-section" aria-labelledby="h-labs">
   <div class="wrap">
+    <div class="head-split">
     <div class="section-head">
       <span class="eyebrow">For labs and core facilities</span>
       <h2 id="h-labs">Seamless integration into your existing tools with AI enablement.</h2>
       <p class="section-intro">Jubilab connects existing lab workflows and does not replace them. Providers can start with a lightweight option and integrate more deeply when it makes sense.</p>
+    </div>
+    <img class="illus" src="assets/img/illus-bench.svg" alt="" width="560" height="320" loading="lazy">
     </div>
     <div class="integration">
       <article class="integration-card">
@@ -283,10 +288,13 @@
 
 <section id="developers" class="dark-section" aria-labelledby="h-dev">
   <div class="wrap">
+    <div class="head-split">
     <div class="section-head">
       <span class="eyebrow">AI &amp; developers</span>
       <h2 id="h-dev">Every AI agent stops at the lab door.</h2>
       <p class="section-intro">AI agents can help plan experiments, write analysis code, and interpret results. But external lab workflows often return to provider-specific forms, email, and manual follow-up. Jubilab provides a standard interface for that handoff.</p>
+    </div>
+    <img class="illus" src="assets/img/illus-agent-door.svg" alt="" width="560" height="320" loading="lazy">
     </div>
     <div class="three-grid">
       <article class="feature">
@@ -322,6 +330,7 @@
       <p>We built Jubilab to solve that operational problem for ourselves, starting with non-clinical genetics sequencing and working toward a consistent interface across laboratories.</p>
     </div>
     <div>
+      <img class="illus" src="assets/img/illus-pets.svg" alt="" width="560" height="300" loading="lazy">
       <blockquote class="story-quote">&ldquo;AI can help plan the experiment. Jubilab connects it to the lab that runs it.&rdquo;</blockquote>
       <p class="muted story-note">Our own sequencing workflows at Biligene come first, then early-adopter biotech teams and laboratories.</p>
     </div>
@@ -338,6 +347,7 @@
       <p>We start with non-clinical genetics sequencing and invite small groups first, so Jubilab is shaped by real orders and real laboratory workflows.</p>
       <p>Tell us how you order today. Every question is required except the last one, a short free-text answer. The answers help us choose who to invite first.</p>
       <p><strong>Prefer to talk first?</strong><br><a class="text-link" href="mailto:hello@jubilab.io">hello@jubilab.io</a></p>
+      <img class="illus illus-plane" src="assets/img/illus-plane.svg" alt="" width="400" height="240" loading="lazy">
     </div>
     <form class="form form-card" id="early-access-form" action="/api/early-access" method="post" aria-labelledby="h-access">
       <p class="form-error" id="form-error" role="alert" tabindex="-1" hidden>That email address does not look right. Please check it and send the form again.</p>
