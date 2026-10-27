@@ -434,3 +434,6 @@ blockquote.story-quote { margin:0; }
     .head-split:not(:has(.illus)) { grid-template-columns:1fr; margin-bottom:36px; }  /* text-only until a photo is chosen */
     .teams-section .three-grid + picture.illus-wide { margin-top:48px; }
     h1, h2 { text-wrap:balance; }
+    .biligene-logo { display:inline-block; margin:0 0 22px -10px; border-radius:8px; }
+    .biligene-logo img { display:block; width:240px; max-width:100%; height:auto; }
+    @media (max-width:600px) { .biligene-logo img { width:180px; } }

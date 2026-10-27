@@ -295,7 +295,7 @@ test("home page h2 headings are exactly this list; no roadmap, timeline or extra
 
 test("self-hosted fonts and no third-party request in the home page's head or css", () => {
   const h = rd("index.html"), css = rd("home.css");
-  assert.ok(!/(?:src|href)="https?:\/\/(?!jubilab\.io)/.test(h.replace(/<link rel="canonical"[^>]*>/, "")), "no external src or href");
+  assert.ok(!/(?:src|href)="https?:\/\/(?!jubilab\.io)/.test(h.replace(/<link rel="canonical"[^>]*>/, "").replace(/<a class="biligene-logo" href="https:\/\/biligene\.com" rel="noopener">/, "")), "no external src or href (the Biligene logo link is the one owner-approved outbound link)");
   assert.ok(!/url\(\s*["']?https?:/.test(css) && !/@import/.test(css), "no external css url");
   assert.match(css, /font-family: "Inter"; src: url\("assets\/fonts\/inter-latin-wght-normal\.woff2"\)/);
   assert.ok(readFileSync(REPO + "assets/fonts/OFL-Inter.txt", "utf8").includes("SIL OPEN FONT LICENSE"));
@@ -370,4 +370,16 @@ test("Orders dashboard in the hero: one decorative HTML product picture with the
   assert.ok(!h.match(/<section id="teams"[\s\S]*?<\/section>/)[0].includes("dash"));
   assert.match(rd("home.css"), /\.dash \{ margin:0 auto; max-width:620px; \}/);
   assert.match(rd("home.css"), /\.dash-bar em \{ font:600/);
+});
+
+test("Biligene logo in the story section: owner's brand raster, optimised copy, linked to biligene.com, right column above the quote", () => {
+  const h = rd("index.html");
+  const sec = h.match(/<section class="story-section"[\s\S]*?<\/section>/)[0];
+  assert.match(sec, /<a class="biligene-logo" href="https:\/\/biligene\.com" rel="noopener"><img src="assets\/img\/biligene-logo\.webp" alt="Biligene" width="520" height="207" loading="lazy"><\/a>/);
+  assert.ok(sec.indexOf("biligene-logo") > sec.indexOf("</h2>") && sec.indexOf("biligene-logo") < sec.indexOf("story-quote"), "logo sits above the quote");
+  const f = readFileSync(REPO + "assets/img/biligene-logo.webp");
+  assert.ok(f.length < 30000, "logo under 30 KB: " + f.length);
+  assert.equal(f.subarray(0, 4).toString(), "RIFF");
+  assert.equal((h.match(/biligene\.com/g) || []).length, 1, "one outbound link only");
+  assert.ok(!/Taipei|Billy BioTech Ltd\. \(/.test(h), "footer stays short");
 });
