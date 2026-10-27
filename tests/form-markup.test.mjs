@@ -54,9 +54,9 @@ test("privacy no longer describes the old local-first product", () => {
   for (const f of ["privacy/index.html", "terms/index.html"]) assert.match(rd2(f), /Last updated: 25 October 2026/);
 });
 
-test("the hero journey strip is labelled illustrative and the diagram has no caption", () => {
+test("neither the hero journey strip nor the diagram carries an illustrative caption", () => {
   const h = rd2("index.html");
-  assert.match(h.match(/<figure class="hero-shot journey-fig">[\s\S]*?<\/figure>/)[0], /Illustrative example, not a real order\./);
+  assert.ok(!/<figcaption>/.test(h.match(/<figure class="hero-shot journey-fig">[\s\S]*?<\/figure>/)[0]), "the hero strip has no caption");
   assert.ok(!/<figcaption>/.test(h.match(/<figure class="dg-fig">[\s\S]*?<\/figure>/)[0]), "the diagram has no caption");
 });
 

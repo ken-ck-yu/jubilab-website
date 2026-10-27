@@ -99,7 +99,10 @@ test("home page promises nothing is released, is not defensive about it, and has
   assert.ok(!/Early access is open/.test(html));
   assert.ok(!/npm install|pip install|docker run|curl |api\.jubilab|mcp\.jubilab/i.test(html), "no install command or endpoint");
   const vis = html.replace(/<script[\s\S]*?<\/script>/g, "");
-  assert.ok((vis.match(/[Ii]llustrative[^<]*[Nn]ot real order/g) || []).length >= 1, "the hero strip caption still says the example is illustrative");
+  assert.ok(!/illustrative|not a real order|not real orders|example, not/i.test(vis), "no illustrative or not-a-real-order disclaimers on the home page (owner rule)");
+  assert.ok(!/illustrative|not a real order|not real orders/i.test(html.match(/<head>[\s\S]*?<\/head>/)[0]), "none in head meta or alt text");
+  assert.ok(!/illustrative|not a real order|not real orders/i.test(rd("llms.txt")), "none in llms.txt");
+  for (const f of ["404.html", "thanks/index.html", "privacy/index.html", "terms/index.html", "guides/index.html", "blog/index.html", ...CONTENT]) assert.ok(!/illustrative/i.test(rd(f).match(/<footer>[\s\S]*?<\/footer>/)[0]), f + " footer");
 });
 
 test("every page with the site footer names the operator in the footer", () => {
@@ -170,7 +173,7 @@ test("hero journey strip has five plain steps and no event or function names", (
   const steps = [...strip.matchAll(/<li><b>([^<]+)<\/b><span>([^<]+)<\/span><\/li>/g)].map((m) => m[1]);
   assert.deepEqual(steps, ["Submit sample", "Received", "QC", "Run", "Delivered"]);
   assert.ok(!/\w+\.\w+|get_status|fetch_result|_/.test(strip.replace(/<[^>]+>/g, " ")), "no dotted event names or snake_case function names");
-  assert.match(hero, /Illustrative example, not a real order\./);
+  assert.ok(!/Illustrative|not a real order/i.test(hero));
   assert.ok(!/<svg/.test(hero));
 });
 
