@@ -94,6 +94,6 @@ test("sitemap.xml: lastmod of the home page and the other static pages is the da
   for (const [loc, f] of [["https://jubilab.io/", "index.html"], ["https://jubilab.io/guides/", "guides/index.html"], ["https://jubilab.io/privacy/", "privacy/index.html"]]) assert.equal(lm(loc), gitDate(f), loc);
   for (const slug of readdirSync(REPO + "blog/_src")) {
     const src = rd(`blog/_src/${slug}/post.md`);
-    assert.equal(lm(`https://jubilab.io/blog/${slug}/`), src.match(/^updated: (\\d{4}-\\d{2}-\\d{2})$/m)[1], slug);
+    assert.equal(lm(`https://jubilab.io/blog/${slug}/`), src.match(/^updated: (\d{4}-\d{2}-\d{2})$/m)[1], slug);
   }
 });
