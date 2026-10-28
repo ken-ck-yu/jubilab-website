@@ -113,7 +113,7 @@ test("sitemap lists the hub and each guide with a lastmod", () => {
 
 test("llms.txt has a Guides section linking the hub and each guide; robots.txt is unchanged in policy", () => {
   const t = rd("llms.txt");
-  assert.match(t, /^## Guides$/m);
+  assert.match(t, /^### Guides$/m);
   for (const { path } of PAGES) assert.ok(t.includes(`](https://jubilab.io${path})`), path);
   const r = rd("robots.txt");
   for (const b of ["GPTBot", "ClaudeBot", "Google-Extended", "CCBot"]) assert.match(r, new RegExp(`^User-agent:\\s*${b}\\s*$`, "m"));

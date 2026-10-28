@@ -687,7 +687,7 @@ def sitemap_block(posts):
 
 
 def llms_block(posts):
-    lines = [START, "## Blog", "",
+    lines = [START, "### Blog", "",
              f"- [Blog]({ORIGIN}/blog/): notes on data provenance, lineage and reproducibility in bioinformatics from our earlier work, each with sources and open questions. Jubilab is a way to order lab work once and follow it to results"]
     for p in sorted(posts, key=lambda p: p["slug"]):
         lines.append(f"- [{p['meta']['title']}]({ORIGIN}/blog/{p['slug']}/): {p['meta']['summary']}")

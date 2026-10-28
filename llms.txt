@@ -1,22 +1,21 @@
 # Jubilab
 
-> Jubilab is the sample operations layer: one layer that connects the people, labs, couriers and AI agents that handle a sample, from order to data. It helps you streamline biological sample to data for AI enablement: order sequencing from outside labs once, see every step, and get results with your own sample names, so scientists and AI agents can order, track and read results across dry labs, wet labs and logistics. It is for biotech teams, research groups and startups that send samples to outside labs, and for the labs that run their samples. We start with non-clinical genetics sequencing. Early access is by invitation: request access and we invite small groups first.
+> Jubilab is the sample operations layer: one layer that connects the people, labs, couriers and AI agents that handle a sample, from order to data. It is for biotech teams, research groups and startups that send samples to outside labs, and for the labs that run their samples, starting with non-clinical genetics sequencing. Early access is by invitation.
 
-## What Jubilab does
+## Who it is for
+
+- Biotech teams, research groups and startups that order sequencing and other lab work from outside labs.
+- Core facilities and labs that take those orders and want fewer incorrect order sheets and fewer status requests.
+- Scientists and AI agents that order, track and read results across dry labs, wet labs and logistics.
+
+## What it does
 
 - Order once: describe your samples and the sequencing service you need one time; Jubilab turns the request into a structured order that adapts to each supported provider.
 - Follow every step: see when an order is accepted, when samples arrive, whether they pass QC, when the run starts and when results are ready.
-- Get clean results back: a structured result manifest links output files to your own sample names and includes QC information; a failed sample is reported as failed, not as missing.
-- Today an order moves between two sides that are managed separately and joined only by email and Excel: the dry lab side (scientists, researchers and the people who consume results) and the wet lab side (lab staff and logistics). Jubilab connects them with one order, one place to follow it and one clean result.
-- For labs and core facilities, three ways to connect, and a lab can stop at any step: (1) existing order emails and courier updates, with facts read from email labelled as such; (2) a simple status page with four buttons (received, QC done, run started, results ready) and result upload; (3) lab software through webhooks, and run progress from instruments. Jubilab connects to your existing tools and does not replace them. Through API and MCP, Jubilab connects ELN and research management, LIMS, lab instruments, couriers and logistics, and cloud and data infrastructure.
-- For teams, every external lab in one workflow: one order structure instead of a different spreadsheet for every provider; clearer status as receipt, QC, run and delivery are reported, without repeatedly emailing a project manager; results tied to your own sample identifiers, with QC information and file checks. You keep the tools you already use.
-- For AI agents and developers: structured orders, machine-readable status and structured results through API and MCP.
-
-## The value for your team
-
-- Hours saved per week: email tracking, status updates, spreadsheets and not knowing where a sample is add up to hours of admin every week, and Jubilab takes that work off your team.
-- Zero custom-built solutions to maintain: one connected layer handles the different structures, formats and communication between dry lab requirements, couriers, wet lab status updates and raw sample data.
-- Ready to streamline dry lab to wet lab with AI: built for AI agent workflows that take a hypothesis all the way to wet lab sample processing.
+- Get clean results back: a result manifest links output files to your own sample names and includes QC information; a failed sample is reported as failed, not as missing.
+- Labs connect in the way that suits them: existing order emails and courier updates, a simple status page, or lab software through webhooks and run progress from instruments. Jubilab connects to existing tools and does not replace them.
+- For AI agents and developers: structured orders, machine-readable status and structured results through API and MCP, connecting ELN and research management, LIMS, lab instruments, couriers and logistics, and cloud and data infrastructure.
+- Jubilab reduces the repetitive work between sending a sample and using the result: email tracking, status updates and spreadsheets, and one connected layer in place of custom-built tools.
 
 ## Pages
 
@@ -27,7 +26,11 @@
 - [AI and developers](https://jubilab.io/#developers): structured orders, status and results for AI agents
 - [Request early access](https://jubilab.io/#access): the early-access form
 
-## Guides
+## Background
+
+Background articles from our earlier work on data provenance and reproducibility in bioinformatics. They are not about ordering lab work; Jubilab is now the sample operations layer described above.
+
+### Guides
 
 - [Guides](https://jubilab.io/guides/): practical how-tos for bioinformatics teams, written to be useful without Jubilab, each with tested commands, sources and a review date, from our earlier work on data provenance
 - [How to check which reference genome build a VCF or BAM used](https://jubilab.io/guides/reference-genome-build-vcf-bam/): read VCF and BAM headers with bcftools and samtools, compare contig lengths and test REF alleles
@@ -35,7 +38,7 @@
 - [Nextflow provenance and lineage: what each tool records](https://jubilab.io/guides/nextflow-provenance-and-lineage-compared/): what Nextflow's log, trace, report and experimental lineage feature record, compared with Snakemake
 
 <!-- blog:start -->
-## Blog
+### Blog
 
 - [Blog](https://jubilab.io/blog/): notes on data provenance, lineage and reproducibility in bioinformatics from our earlier work, each with sources and open questions. Jubilab is a way to order lab work once and follow it to results
 - [AI agents in the lab need a record, not a chat history](https://jubilab.io/blog/ai-agents-need-a-record-not-just-chat-history/): Agents can run analyses, but a chat transcript is not a record of how a result was made. Our view on what a record for lab agents holds.

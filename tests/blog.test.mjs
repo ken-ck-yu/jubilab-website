@@ -146,7 +146,7 @@ test("sitemap and llms.txt list the blog index and each post (generated blocks i
     assert.equal((sm.match(new RegExp(`<loc>https://jubilab\\.io${path.replace(/\//g, "\\/")}</loc>\\s*<lastmod>\\d{4}-\\d{2}-\\d{2}</lastmod>`, "g")) || []).length, 1, path);
     assert.ok(ll.includes(`](https://jubilab.io${path})`), path);
   }
-  assert.match(ll, /<!-- blog:start -->\n## Blog/);
+  assert.match(ll, /<!-- blog:start -->\n### Blog/);
   assert.equal((sm.match(/<loc>/g) || []).length, new Set([...sm.matchAll(/<loc>([^<]+)/g)].map((m) => m[1])).size, "no duplicate sitemap entries");
 });
 
