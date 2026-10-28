@@ -26,8 +26,8 @@ UA = "jubilab-smoke/1 (QA read-only)"
 BAD_BODY = b"email=not-an-email&role=platform-ops&org-type=biotech&providers=x&volume=lt-30&eln=none"
 SORRY = "We could not send your request. Please go back and try again, or email hello@jubilab.io."
 MSG_EMAIL = "That email address does not look right."
-SEC_HEADERS = ["x-content-type-options", "referrer-policy", "x-frame-options", "content-security-policy",
-               "strict-transport-security", "permissions-policy"]
+SEC_HEADERS = ["x-content-type-options", "referrer-policy", "x-frame-options", "permissions-policy"]  # from _headers (T-052)
+DEFERRED_HEADERS = ["content-security-policy", "strict-transport-security"]  # CSP deferred (analytics); HSTS is set in the Cloudflare dashboard
 rows = []
 
 
@@ -98,7 +98,11 @@ def main(argv):
         rec("security headers on /", "PASS", "all of " + ", ".join(SEC_HEADERS))
     else:
         rec("security headers on /", "FAIL" if "--strict-headers" in flags else "WARN",
-            "missing: " + ", ".join(missing) + " (the repo defines none; static host adds none)")
+            "missing: " + ", ".join(missing) + " (the repo's _headers file defines them; they appear after the next deploy)")
+    rec("HSTS and CSP on /", "INFO", "present: " + (", ".join(x for x in DEFERRED_HEADERS if x in h) or "none") + " (HSTS: owner sets it in the Cloudflare dashboard; CSP deferred)")
+    sf, fh, _ = fetch(base + "/assets/fonts/inter-latin-wght-normal.woff2")
+    fcc = fh.get("cache-control", "")
+    rec("fonts are cached for a week (from _headers)", "PASS" if "max-age=604800" in fcc else "WARN", f"cache-control: {fcc!r} (WARN until deploy)")
     cc = h.get("cache-control", "")
     rec("GET / (no query) keeps normal cache headers, not no-store", "PASS" if "no-store" not in cc.lower() else "FAIL", f"cache-control: {cc or '(none sent)'!r}")
     b = box(html)
