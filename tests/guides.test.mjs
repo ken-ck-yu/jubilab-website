@@ -81,7 +81,7 @@ for (const g of GUIDES) {
   test(`guide ${g}: intro, What gets lost, 'Where Jubilab is now' box, one CTA, review date, sources`, () => {
     assert.match(h, /class="g-lede"/);
     assert.match(h, /<h2 id="lost">What gets lost/);
-    assert.match(h, /<h2 id="helps-h">Where Jubilab is now/);
+    assert.match(h, /<p class="helps-t" id="helps-h">Where Jubilab is now/);
     assert.ok(!/Available now|How Jubilab helps|not being offered|being built|released yet/.test(h.match(/<section class="helps"[\s\S]*?<\/section>/)[0]));
     assert.equal((h.match(/class="btn"/g) || []).length, 1, "one early-access call to action");
     assert.match(h, /Last reviewed \d{1,2} [A-Z][a-z]+ \d{4}/);

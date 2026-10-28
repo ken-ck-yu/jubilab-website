@@ -490,8 +490,9 @@ def footer(p):
 
 # Same wording as the three guides (tests/guides.test.mjs pins it there); keep in step when a release changes what ships.
 HELPS = """<section class="helps" aria-labelledby="helps-h">
-<h2 id="helps-h">Where Jubilab is now</h2>
+<p class="helps-t" id="helps-h">Where Jubilab is now</p>
 <p>This post comes from our earlier work on a record of how results are made. Jubilab is one place to order lab work and follow it to results. Register for early access: we invite small groups first.</p>
+<p class="helps-about">About Jubilab: <a href="../../">Jubilab, the sample operations layer for ordering from outside labs</a>.</p>
 <a class="btn" href="../../#access">Request early access</a>
 </section>
 """
@@ -662,7 +663,8 @@ def render_index(posts):
         out.append("</ul>")
     else:
         out.append("<p>The first posts are on the way.</p>")
-    out.append("""<p class="g-review">These articles come from our earlier work on data provenance. Jubilab is a way to <a href="../">order lab work once and follow it to results</a>.</p>
+    out.append("""<p class="g-review">About Jubilab: <a href="../">Jubilab, the sample operations layer for ordering from outside labs</a>.</p>
+<p class="g-review">These articles come from our earlier work on data provenance. Jubilab is a way to <a href="../">order lab work once and follow it to results</a>.</p>
 <p class="g-review">Posts are written by the Jubilab team. Product names belong to their owners; Jubilab is not affiliated with or endorsed by them. If you spot a mistake, email <a href="mailto:hello@jubilab.io">hello@jubilab.io</a>.</p>
 </div>
 </div>

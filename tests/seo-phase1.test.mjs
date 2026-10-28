@@ -68,3 +68,20 @@ test("JSON-LD: Organization nodes on blog and guide pages carry the home page's 
     for (const o of orgs) assert.equal(o["@id"], "https://jubilab.io/#organization", f);
   }
 });
+
+test("blog and guides: 'Where Jubilab is now' is not a heading (no duplicate h2 across posts), every page has an About Jubilab link to the home page, no stale preview comment", () => {
+  const pages = ALLPAGES.filter((x) => /^(blog|guides)\//.test(x));
+  assert.ok(pages.length >= 26);
+  for (const f of pages) {
+    const h = rd(f);
+    // the boxed block is no longer a heading; at most one h2 of that text remains per page (a few post bodies carry their own section of that name: copy decision, not touched here)
+    assert.ok((h.match(/<h[1-6][^>]*>\s*Where Jubilab is now/g) || []).length <= 1, f);
+    if (/class="helps"/.test(h)) assert.match(h, /<p class="helps-t" id="helps-h">Where Jubilab is now<\/p>/, f);
+    assert.match(h, /About Jubilab: <a href="(?:\.\.\/)+">Jubilab, the sample operations layer for ordering from outside labs<\/a>\./, f);
+  }
+  for (const f of ["404.html", "thanks/index.html"]) assert.ok(!/PREVIEW: noindex/.test(rd(f)), f);
+  assert.match(rd("404.html"), /<meta name="robots" content="noindex">/, "the 404 stays noindex");
+  // generated posts use each post's own updated date for the sitemap
+  const gen = rd("scripts/build-blog.py");
+  assert.match(gen, /ents \+= \[\(f"\/blog\/\{p\['slug'\]\}\/", p\["meta"\]\["updated"\]\)/);
+});
