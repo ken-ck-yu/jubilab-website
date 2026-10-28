@@ -12,7 +12,7 @@ const ALL = [...MARKETING, "privacy/index.html", "terms/index.html"];
 // old-positioning words are allowed in their bodies; every other rule still applies to them.
 const walk = (d) => readdirSync(REPO + d, { withFileTypes: true }).flatMap((e) => e.isDirectory() && e.name !== "_src" ? walk(d + "/" + e.name) : e.name.endsWith(".html") ? [d + "/" + e.name] : []);
 const CONTENT = [...walk("blog"), ...walk("guides")].map((f) => f.replace(/^\.?\//, ""));
-const stripArchive = (f, t) => (f === "llms.txt" ? t.replace(/## Guides[\s\S]*?## Optional/, "## Optional") : t);
+const stripArchive = (f, t) => (f === "llms.txt" ? t.replace(/## Background[\s\S]*?## Optional/, "## Optional") : t);
 
 // Legal-review wording: stays out of marketing pages.
 const LEGAL = /audit trail|audit log|\baudit|regulated|regulatory|compliance|compliant|\bgxp\b|validated|\bfda\b|\bgdpr\b/i;
@@ -106,7 +106,7 @@ test("home page: no install command or endpoint, no Stripe, no customer or partn
   assert.ok(!/stripe/i.test(vis) && !/stripe/i.test(llms) && !/stripe/i.test(rd("home.css")), "no Stripe, anywhere (the brief bans 'Stripe for X')");
   assert.ok(!/available now|\bour customers?\b|trusted by|setting up with|testimonial|\bpilots?\b|Early access is open/i.test(vis), "no customer, pilot or availability claims");
   assert.ok(!/\bcustomers\b/i.test(vis.replace(/Keep your customers/g, "")), "customers appear only in the owner's labs line");
-  for (const [name, t] of [["index.html (visible and head)", vis], ["llms.txt (site part)", llms.replace(/## Guides[\s\S]*?## Optional/, "## Optional")]]) {
+  for (const [name, t] of [["index.html (visible and head)", vis], ["llms.txt (site part)", llms.replace(/## Background[\s\S]*?## Optional/, "## Optional")]]) {
     assert.ok(!HEDGE.test(t), `${name}: found "${t.match(HEDGE)?.[0]}"`);
     assert.ok(!/\baims? to\b|\bdesigned to\b|\bplans? to\b|\bour aim\b|\bshould\b|\bwill be\b|\bis being\b|\bnot yet\b/i.test(t.replace(/<(title|desc)[^>]*>[\s\S]*?<\/\1>/g, "")), `${name}: hedge verbs found: ${t.match(/\baims? to\b|\bdesigned to\b|\bplans? to\b|\bour aim\b|\bshould\b|\bwill be\b|\bis being\b|\bnot yet\b/i)?.[0]}`);
   }
@@ -441,7 +441,7 @@ test("ecosystem diagram: once, inside the For labs section above the option card
   assert.match(css, /\.eco-link::before, \.eco-link::after \{[^}]*display:none/, "travelling dots hidden by default (static glowing lines under reduced motion)");
   assert.match(css, /@media \(prefers-reduced-motion:no-preference\) \{\s*\.eco-link::before, \.eco-link::after \{ display:block; \}[\s\S]*?animation:eco-x 2\.8s/, "dots move only when motion is allowed");
   assert.ok(!/conceptual|potential connection|illustrative|not a claim/i.test(f + css.match(/Ecosystem diagram[\s\S]*$/)[0]), "no hedge wording");
-  assert.match(rd("llms.txt"), /Through API and MCP, Jubilab connects ELN and research management, LIMS, lab instruments, couriers and logistics, and cloud and data infrastructure\./);
+  assert.match(rd("llms.txt"), /through API and MCP, connecting ELN and research management, LIMS, lab instruments, couriers and logistics, and cloud and data infrastructure\./);
   assert.ok(!/preview-b/.test(rd("sitemap.xml")));
 });
 

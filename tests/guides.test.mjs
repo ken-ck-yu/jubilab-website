@@ -37,7 +37,7 @@ for (const { path, file, kind } of PAGES) {
     const types = ld.map((n) => n["@type"]);
     assert.deepEqual(types.sort(), ["BreadcrumbList", kind].sort());
     const a = ld.find((n) => n["@type"] === kind);
-    const org = { "@type": "Organization", name: "Jubilab", url: "https://jubilab.io/" };
+    const org = { "@type": "Organization", "@id": "https://jubilab.io/#organization", name: "Jubilab", url: "https://jubilab.io/" };
     assert.deepEqual(a.publisher, org);
     if (kind === "TechArticle") {
       assert.deepEqual(a.author, org, "author is the organization, never an invented person");
@@ -81,7 +81,7 @@ for (const g of GUIDES) {
   test(`guide ${g}: intro, What gets lost, 'Where Jubilab is now' box, one CTA, review date, sources`, () => {
     assert.match(h, /class="g-lede"/);
     assert.match(h, /<h2 id="lost">What gets lost/);
-    assert.match(h, /<h2 id="helps-h">Where Jubilab is now/);
+    assert.match(h, /<p class="helps-t" id="helps-h">Where Jubilab is now/);
     assert.ok(!/Available now|How Jubilab helps|not being offered|being built|released yet/.test(h.match(/<section class="helps"[\s\S]*?<\/section>/)[0]));
     assert.equal((h.match(/class="btn"/g) || []).length, 1, "one early-access call to action");
     assert.match(h, /Last reviewed \d{1,2} [A-Z][a-z]+ \d{4}/);
@@ -113,7 +113,7 @@ test("sitemap lists the hub and each guide with a lastmod", () => {
 
 test("llms.txt has a Guides section linking the hub and each guide; robots.txt is unchanged in policy", () => {
   const t = rd("llms.txt");
-  assert.match(t, /^## Guides$/m);
+  assert.match(t, /^### Guides$/m);
   for (const { path } of PAGES) assert.ok(t.includes(`](https://jubilab.io${path})`), path);
   const r = rd("robots.txt");
   for (const b of ["GPTBot", "ClaudeBot", "Google-Extended", "CCBot"]) assert.match(r, new RegExp(`^User-agent:\\s*${b}\\s*$`, "m"));

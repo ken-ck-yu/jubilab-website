@@ -64,7 +64,7 @@ for (const { path, file, kind, slug } of PAGES) {
     for (const [l, t] of hs) { assert.ok(t.length > 0); assert.ok(!prev || l <= prev + 1, `h${prev} -> h${l}`); prev = l; }
     assert.deepEqual(ld.map((n) => n["@type"]).sort(), ["BreadcrumbList", kind].sort());
     const a = ld.find((n) => n["@type"] === kind);
-    const org = { "@type": "Organization", name: "Jubilab", url: "https://jubilab.io/" };
+    const org = { "@type": "Organization", "@id": "https://jubilab.io/#organization", name: "Jubilab", url: "https://jubilab.io/" };
     assert.deepEqual(a.publisher, org);
     if (kind === "BlogPosting") {
       assert.deepEqual(a.author, org, "author is the organization, never an invented person");
@@ -113,7 +113,7 @@ for (const s of SLUGS) {
     assert.doesNotMatch(readFileSync(REPO + `blog/${s}/image.svg`, "utf8"), /<text|<script|<image|href=/i);
     assert.match(main, /\d+ min read/);
     assert.match(main, /<h2 id="questions-h">Questions we are still asking/);
-    assert.match(main, /<h2 id="helps-h">Where Jubilab is now/);
+    assert.match(main, /<p class="helps-t" id="helps-h">Where Jubilab is now/);
     assert.ok(!/Available now|How Jubilab helps|not being offered|being built|released yet|prototype is/.test(main.match(/<section class="helps"[\s\S]*?<\/section>/)[0]), "neutral box: no product-state hedge");
     assert.equal((main.match(/class="btn"/g) || []).length, 1);
     const src = main.match(/<ol class="g-sources">([\s\S]*?)<\/ol>/)[1];
@@ -146,7 +146,7 @@ test("sitemap and llms.txt list the blog index and each post (generated blocks i
     assert.equal((sm.match(new RegExp(`<loc>https://jubilab\\.io${path.replace(/\//g, "\\/")}</loc>\\s*<lastmod>\\d{4}-\\d{2}-\\d{2}</lastmod>`, "g")) || []).length, 1, path);
     assert.ok(ll.includes(`](https://jubilab.io${path})`), path);
   }
-  assert.match(ll, /<!-- blog:start -->\n## Blog/);
+  assert.match(ll, /<!-- blog:start -->\n### Blog/);
   assert.equal((sm.match(/<loc>/g) || []).length, new Set([...sm.matchAll(/<loc>([^<]+)/g)].map((m) => m[1])).size, "no duplicate sitemap entries");
 });
 

@@ -34,7 +34,8 @@ pre.code:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; 
 .g-note p:last-child { margin-bottom: 0; }
 .helps { margin: 56px 0 0; background: var(--band); color: #e4ebe7; border-radius: 12px; padding: 28px 28px 30px; --ink: #ffffff; --muted: #c3cdc8; --accent-ink: #ff8a4d; --border: #33433c; }
 .g-body .helps { max-width: 56rem; }
-.helps h2 { color: #fff; margin: 0 0 10px; font-size: 1.375rem; }
+.helps h2, .helps .helps-t { color: #fff; margin: 0 0 10px; font-size: 1.375rem; font-weight: 700; line-height: 1.2; }
+.helps .helps-about { margin: 12px 0 14px; }
 .helps p, .helps li { color: #dbe3df; }
 .helps h3 { color: #fff; font: 600 .8125rem/1.3 var(--mono); letter-spacing: .06em; text-transform: uppercase; margin: 20px 0 6px; }
 .helps h3.s { color: #5fcfbd; }
