@@ -89,7 +89,7 @@ test("blog and guides: 'Where Jubilab is now' is not a heading (no duplicate h2 
 test("sitemap.xml: lastmod of the home page and the other static pages is the date of the last commit touching that file (scripts/go-public.py), blog lastmod comes from each post's own updated date", async () => {
   const { execFileSync } = await import("node:child_process");
   const sm = rd("sitemap.xml");
-  const lm = (loc) => (sm.match(new RegExp(`<loc>${loc.replace(/[.\/]/g, "\\\\$&")}</loc>\\\\s*<lastmod>(\\\\d{4}-\\\\d{2}-\\\\d{2})</lastmod>`)) || [])[1];
+  const lm = (loc) => { const i = sm.indexOf(`<loc>${loc}</loc>`); return i < 0 ? undefined : (sm.slice(i).match(/<lastmod>(\d{4}-\d{2}-\d{2})<\/lastmod>/) || [])[1]; };
   const gitDate = (f) => execFileSync("git", ["-C", REPO, "log", "-1", "--format=%cs", "--", f]).toString().trim();
   for (const [loc, f] of [["https://jubilab.io/", "index.html"], ["https://jubilab.io/guides/", "guides/index.html"], ["https://jubilab.io/privacy/", "privacy/index.html"]]) assert.equal(lm(loc), gitDate(f), loc);
   for (const slug of readdirSync(REPO + "blog/_src")) {
