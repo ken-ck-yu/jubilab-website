@@ -270,7 +270,7 @@ def main():
             if main_t == "TechArticle":
                 ok = all(art.get(k) for k in ("headline", "datePublished", "dateModified", "author", "publisher", "description"))
                 rec("PASS" if ok else "FAIL", f"{g} Article has headline, dates, author, publisher, description")
-                rec("PASS" if art.get("author") == art.get("publisher") == {"@type": "Organization", "name": "Jubilab", "url": PUBLIC_ORIGIN + "/"} else "FAIL", f"{g} author and publisher are the Jubilab Organization only (no invented person)")
+                rec("PASS" if art.get("author") == art.get("publisher") == {"@type": "Organization", "@id": PUBLIC_ORIGIN + "/#organization", "name": "Jubilab", "url": PUBLIC_ORIGIN + "/"} else "FAIL", f"{g} author and publisher are the Jubilab Organization only (no invented person)")
                 rec("PASS" if art.get("datePublished") <= art.get("dateModified") else "FAIL", f"{g} dateModified is not before datePublished")
                 rec("PASS" if art.get("headline") == next((t for lvl, t in p.headings if lvl == 1), None) else "FAIL", f"{g} Article headline equals the visible h1")
                 rec("PASS" if art.get("description") == metac(p, "name", "description") else "FAIL", f"{g} Article description equals the meta description")
@@ -312,7 +312,7 @@ def main():
             types = [n["@type"] for n in nodes]
             main_t = "CollectionPage" if g == "/blog/" else "BlogPosting"
             rec("PASS" if main_t in types and "BreadcrumbList" in types else "FAIL", f"{g} JSON-LD has {main_t} and BreadcrumbList", str(types))
-            org = {"@type": "Organization", "name": "Jubilab", "url": PUBLIC_ORIGIN + "/"}
+            org = {"@type": "Organization", "@id": PUBLIC_ORIGIN + "/#organization", "name": "Jubilab", "url": PUBLIC_ORIGIN + "/"}
             art = next((n for n in nodes if n["@type"] == main_t), {})
             rec("PASS" if art.get("publisher") == org else "FAIL", f"{g} publisher is the Jubilab Organization")
             if main_t == "BlogPosting":
