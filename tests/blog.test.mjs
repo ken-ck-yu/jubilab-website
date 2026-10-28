@@ -64,7 +64,7 @@ for (const { path, file, kind, slug } of PAGES) {
     for (const [l, t] of hs) { assert.ok(t.length > 0); assert.ok(!prev || l <= prev + 1, `h${prev} -> h${l}`); prev = l; }
     assert.deepEqual(ld.map((n) => n["@type"]).sort(), ["BreadcrumbList", kind].sort());
     const a = ld.find((n) => n["@type"] === kind);
-    const org = { "@type": "Organization", name: "Jubilab", url: "https://jubilab.io/" };
+    const org = { "@type": "Organization", "@id": "https://jubilab.io/#organization", name: "Jubilab", url: "https://jubilab.io/" };
     assert.deepEqual(a.publisher, org);
     if (kind === "BlogPosting") {
       assert.deepEqual(a.author, org, "author is the organization, never an invented person");

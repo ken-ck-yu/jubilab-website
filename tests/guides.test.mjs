@@ -37,7 +37,7 @@ for (const { path, file, kind } of PAGES) {
     const types = ld.map((n) => n["@type"]);
     assert.deepEqual(types.sort(), ["BreadcrumbList", kind].sort());
     const a = ld.find((n) => n["@type"] === kind);
-    const org = { "@type": "Organization", name: "Jubilab", url: "https://jubilab.io/" };
+    const org = { "@type": "Organization", "@id": "https://jubilab.io/#organization", name: "Jubilab", url: "https://jubilab.io/" };
     assert.deepEqual(a.publisher, org);
     if (kind === "TechArticle") {
       assert.deepEqual(a.author, org, "author is the organization, never an invented person");

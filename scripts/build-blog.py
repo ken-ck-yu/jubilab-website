@@ -496,7 +496,7 @@ HELPS = """<section class="helps" aria-labelledby="helps-h">
 </section>
 """
 
-ORG = {"@type": "Organization", "name": "Jubilab", "url": ORIGIN + "/"}
+ORG = {"@type": "Organization", "@id": ORIGIN + "/#organization", "name": "Jubilab", "url": ORIGIN + "/"}  # same @id as the home page entity so the graph connects
 
 
 def crumbs_ld(items):
